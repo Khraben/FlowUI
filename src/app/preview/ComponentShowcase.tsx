@@ -13,28 +13,21 @@ const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({ demo }) => {
 
   return (
     <div className={SHOWCASE_STYLES.CONTAINER}>
-      <div className={SHOWCASE_STYLES.HEADER.BASE}>
-        <div className={SHOWCASE_STYLES.HEADER.WRAPPER}>
-          <div>
-            <h2 className={SHOWCASE_STYLES.HEADER.TITLE}>{name}</h2>
-            <p className={SHOWCASE_STYLES.HEADER.DESCRIPTION}>{description}</p>
+      <div className="px-6 py-3 border-b border-[#3C3F41]">
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex-1 min-w-0">
+            <h2 className="text-lg font-semibold text-[#A9B7C6] truncate">{name}</h2>
+            <p className="text-xs text-[#808080] mt-0.5 line-clamp-1">{description}</p>
           </div>
-          <span className={SHOWCASE_STYLES.HEADER.CATEGORY}>{category}</span>
+          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-[#3C3F41] text-[#A9B7C6] whitespace-nowrap">
+            {category}
+          </span>
         </div>
       </div>
 
       <div className={SHOWCASE_STYLES.PREVIEW.BASE}>
         <div className={SHOWCASE_STYLES.PREVIEW.STAGE}>
           <Component {...props} />
-        </div>
-      </div>
-
-      <div className={SHOWCASE_STYLES.FOOTER.BASE}>
-        <div className={SHOWCASE_STYLES.FOOTER.WRAPPER}>
-          <span>
-            {PREVIEW_TEXT.COMPONENT_ID_LABEL} {demo.id}
-          </span>
-          <button className={SHOWCASE_STYLES.FOOTER.BUTTON}>{PREVIEW_TEXT.VIEW_CODE_BUTTON}</button>
         </div>
       </div>
     </div>
