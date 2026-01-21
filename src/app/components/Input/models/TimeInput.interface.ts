@@ -1,8 +1,8 @@
 import React from 'react';
-import { InputSize } from '../types/Input.types';
+import { InputSize, TimeVariant } from '../types/Input.types';
 
 export interface TimeInputProps {
-  variant?: 'time';
+  variant?: TimeVariant;
   size?: InputSize;
   label?: string;
   value?: string;

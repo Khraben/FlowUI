@@ -9,8 +9,6 @@ import {
   INPUT_BORDER_STYLES,
   INPUT_SIZE_STYLES,
   INPUT_LABEL_BASE_STYLES,
-  INPUT_LABEL_ACTIVE_STYLES,
-  INPUT_LABEL_INACTIVE_STYLES,
   INPUT_ICON_BUTTON_BASE,
   INPUT_ICON_BUTTON_POSITIONS,
   INPUT_ICON_SIZES,
@@ -31,6 +29,7 @@ import {
   INPUT_FULL_WIDTH_CLASS,
   INPUT_NO_PADDING_CLASS,
   INPUT_CENTER_VERTICAL_CLASSES,
+  INPUT_BUTTON_TYPE,
 } from '@/constants';
 
 const generateTimeOptions = (startHour: number, endHour: number, interval: number) => {
@@ -78,11 +77,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
     const wrapperStyles = wrapperClassName || INPUT_WRAPPER_STYLES;
 
-    const labelStyles =
-      labelClassName ||
-      `${INPUT_LABEL_BASE_STYLES} ${
-        value ? INPUT_LABEL_ACTIVE_STYLES : INPUT_LABEL_INACTIVE_STYLES
-      }`;
+    const labelStyles = labelClassName || INPUT_LABEL_BASE_STYLES;
 
     const getInputType = () => {
       if (variant === INPUT_VARIANTS.PASSWORD && showPasswordToggle) {
@@ -128,7 +123,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           passwordIcon &&
           passwordIconHidden && (
             <button
-              type="button"
+              type={INPUT_BUTTON_TYPE}
               onClick={toggleShowPassword}
               className={`${INPUT_ICON_BUTTON_BASE} ${INPUT_ICON_BUTTON_POSITIONS.RIGHT} ${INPUT_ICON_SIZES[size]} ${INPUT_PASSWORD_BUTTON_SIZES[size]} ${INPUT_NO_PADDING_CLASS}`}
             >
@@ -141,7 +136,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             {value && onClear && clearIcon && (
               <button
                 onClick={onClear}
-                type="button"
+                type={INPUT_BUTTON_TYPE}
                 className={`${INPUT_ICON_BUTTON_BASE} ${INPUT_ICON_BUTTON_POSITIONS.CLEAR} ${INPUT_ICON_SIZES[size]} ${INPUT_CLEAR_BUTTON_STYLES}`}
               >
                 {clearIcon}
@@ -189,11 +184,7 @@ export const SelectInput = forwardRef<HTMLSelectElement, SelectInputProps>(
 
     const wrapperStyles = wrapperClassName || INPUT_WRAPPER_STYLES;
 
-    const labelStyles =
-      labelClassName ||
-      `${INPUT_LABEL_BASE_STYLES} ${
-        value ? INPUT_LABEL_ACTIVE_STYLES : INPUT_LABEL_INACTIVE_STYLES
-      }`;
+    const labelStyles = labelClassName || INPUT_LABEL_BASE_STYLES;
 
     return (
       <div
@@ -248,11 +239,7 @@ export const TimeInput = forwardRef<HTMLSelectElement, TimeInputProps>(
 
     const wrapperStyles = wrapperClassName || INPUT_WRAPPER_STYLES;
 
-    const labelStyles =
-      labelClassName ||
-      `${INPUT_LABEL_BASE_STYLES} ${
-        value ? INPUT_LABEL_ACTIVE_STYLES : INPUT_LABEL_INACTIVE_STYLES
-      }`;
+    const labelStyles = labelClassName || INPUT_LABEL_BASE_STYLES;
 
     return (
       <div

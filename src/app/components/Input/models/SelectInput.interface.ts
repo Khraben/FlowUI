@@ -1,11 +1,11 @@
 import React from 'react';
-import { InputSize } from '../types/Input.types';
+import { InputSize, SelectVariant } from '../types/Input.types';
 
 export interface SelectInputProps extends Omit<
   React.SelectHTMLAttributes<HTMLSelectElement>,
   'size'
 > {
-  variant?: 'select';
+  variant?: SelectVariant;
   size?: InputSize;
   label?: string;
   labelStyle?: React.CSSProperties;

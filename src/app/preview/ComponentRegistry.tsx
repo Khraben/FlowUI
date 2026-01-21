@@ -1,7 +1,19 @@
 import { ComponentDemo } from '@/types/component';
-import { Button } from '@/app/components';
+import { Button, Input, SelectInput, TimeInput } from '@/app/components';
 import { COMPONENT_CATEGORIES } from '@/constants';
-import { Check, X, Trash2, Search, Download, Upload, Plus, Minus } from 'lucide-react';
+import {
+  Check,
+  X,
+  Trash2,
+  Search,
+  Download,
+  Upload,
+  Plus,
+  Minus,
+  Eye,
+  EyeOff,
+  ChevronDown,
+} from 'lucide-react';
 import { useState } from 'react';
 
 const ClearButtonDemo = () => {
@@ -25,6 +37,36 @@ const ClearButtonDemo = () => {
         <Search size={16} />
       </button>
     </div>
+  );
+};
+
+const SearchInputDemo = () => {
+  const [searchValue, setSearchValue] = useState('');
+  return (
+    <Input
+      variant="search"
+      label="Search"
+      value={searchValue}
+      onChange={(e) => setSearchValue(e.target.value)}
+      onClear={() => setSearchValue('')}
+      searchIcon={<Search size={16} />}
+      clearIcon={<X size={14} />}
+      placeholder=" "
+    />
+  );
+};
+
+const TimeInputDemo = () => {
+  const [timeValue, setTimeValue] = useState('');
+  return (
+    <TimeInput
+      label="Select Time"
+      value={timeValue}
+      onChange={(e) => setTimeValue(e.target.value)}
+      startHour={9}
+      endHour={17}
+      interval={30}
+    />
   );
 };
 
@@ -194,6 +236,76 @@ export const componentRegistry: ComponentDemo[] = [
         <Button variant="danger" disabled>
           Danger
         </Button>
+      </div>
+    ),
+  },
+  {
+    id: 'input-text',
+    name: 'Text Input',
+    description: 'Standard text input with floating label',
+    category: COMPONENT_CATEGORIES.INPUTS,
+    component: () => <Input variant="text" label="Full Name" placeholder=" " />,
+  },
+  {
+    id: 'input-number',
+    name: 'Number Input',
+    description: 'Numeric input field with floating label',
+    category: COMPONENT_CATEGORIES.INPUTS,
+    component: () => <Input variant="number" label="Age" placeholder=" " />,
+  },
+  {
+    id: 'input-search',
+    name: 'Search Input',
+    description: 'Search input with icon and clear button',
+    category: COMPONENT_CATEGORIES.INPUTS,
+    component: SearchInputDemo,
+  },
+  {
+    id: 'input-password',
+    name: 'Password Input',
+    description: 'Password input with toggle visibility',
+    category: COMPONENT_CATEGORIES.INPUTS,
+    component: () => (
+      <Input
+        variant="password"
+        label="Password"
+        passwordIcon={<Eye size={16} />}
+        passwordIconHidden={<EyeOff size={16} />}
+        placeholder=" "
+      />
+    ),
+  },
+  {
+    id: 'input-select',
+    name: 'Select Input',
+    description: 'Dropdown select with floating label',
+    category: COMPONENT_CATEGORIES.INPUTS,
+    component: () => (
+      <SelectInput label="Country" selectIcon={<ChevronDown size={16} />} defaultValue="">
+        <option value="us">United States</option>
+        <option value="uk">United Kingdom</option>
+        <option value="ca">Canada</option>
+        <option value="au">Australia</option>
+      </SelectInput>
+    ),
+  },
+  {
+    id: 'input-time',
+    name: 'Time Input',
+    description: 'Time picker with customizable range',
+    category: COMPONENT_CATEGORIES.INPUTS,
+    component: TimeInputDemo,
+  },
+  {
+    id: 'input-sizes',
+    name: 'Input Sizes',
+    description: 'All available input sizes: small, medium, large',
+    category: COMPONENT_CATEGORIES.INPUTS,
+    component: () => (
+      <div className="flex flex-col gap-4 w-full">
+        <Input variant="text" size="sm" label="Small" placeholder=" " />
+        <Input variant="text" size="md" label="Medium" placeholder=" " />
+        <Input variant="text" size="lg" label="Large" placeholder=" " />
       </div>
     ),
   },

@@ -15,7 +15,7 @@ export const INPUT_SIZES = {
 } as const;
 
 export const INPUT_BASE_STYLES =
-  'w-full border-2 rounded-[1.5625rem] outline-none transition-all duration-300 bg-[#313335] text-[#A9B7C6] placeholder:text-[#808080]';
+  'peer w-full border-2 rounded-[1.5625rem] outline-none transition-all duration-300 bg-[#313335] text-[#A9B7C6] placeholder:text-transparent';
 
 export const INPUT_BORDER_STYLES =
   'border-[#4A5A6A] focus:border-[#00D4FF] focus:shadow-[0_0_0_0.1875rem_rgba(0,212,255,0.1)]';
@@ -29,11 +29,7 @@ export const INPUT_SIZE_STYLES = {
 };
 
 export const INPUT_LABEL_BASE_STYLES =
-  'absolute left-4 text-[#808080] transition-all duration-300 ease-in-out pointer-events-none';
-
-export const INPUT_LABEL_ACTIVE_STYLES = '-translate-y-5 text-xs text-[#00D4FF]';
-
-export const INPUT_LABEL_INACTIVE_STYLES = 'top-3';
+  'absolute left-4 top-3 text-base text-[#808080] transition-all duration-300 ease-in-out pointer-events-none peer-focus:-translate-y-7 peer-focus:text-xs peer-focus:text-[#00D4FF] peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-[#00D4FF]';
 
 export const INPUT_ICON_BUTTON_BASE =
   'absolute top-1/2 -translate-y-1/2 bg-transparent border-none cursor-pointer text-[#00D4FF] transition-colors duration-300 hover:text-[#00B8E6] flex items-center justify-center';

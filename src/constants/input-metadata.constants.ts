@@ -48,3 +48,5 @@ export const INPUT_FULL_WIDTH_CLASS = 'w-full';
 export const INPUT_NO_PADDING_CLASS = 'p-0';
 
 export const INPUT_CENTER_VERTICAL_CLASSES = 'top-1/2 -translate-y-1/2';
+
+export const INPUT_BUTTON_TYPE = 'button';
