@@ -2,6 +2,31 @@ import { ComponentDemo } from '@/types/component';
 import { Button } from '@/app/components';
 import { COMPONENT_CATEGORIES } from '@/constants';
 import { Check, X, Trash2, Search, Download, Upload, Plus, Minus } from 'lucide-react';
+import { useState } from 'react';
+
+const ClearButtonDemo = () => {
+  const [value, setValue] = useState('Sample text');
+
+  return (
+    <div className="relative w-full max-w-md">
+      <input
+        type="text"
+        className="w-full px-4 py-2 pr-24 border rounded-md bg-[#313335] border-[#4A5A6A] text-[#A9B7C6] focus:outline-none focus:border-[#00D4FF]"
+        placeholder="Search..."
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+      {value && (
+        <Button variant="clear" onClick={() => setValue('')}>
+          <X size={16} />
+        </Button>
+      )}
+      <button className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-[#4A9EFF]">
+        <Search size={16} />
+      </button>
+    </div>
+  );
+};
 
 export const componentRegistry: ComponentDemo[] = [
   {
@@ -94,22 +119,7 @@ export const componentRegistry: ComponentDemo[] = [
     name: 'Clear Button',
     description: 'Positioned clear button for input fields',
     category: COMPONENT_CATEGORIES.BUTTONS,
-    component: () => (
-      <div className="relative w-full max-w-md">
-        <input
-          type="text"
-          className="w-full px-4 py-2 pr-24 border rounded-md bg-[#313335] border-[#4A5A6A] text-[#A9B7C6]"
-          placeholder="Search..."
-          defaultValue="Sample text"
-        />
-        <Button variant="clear">
-          <X size={16} />
-        </Button>
-        <button className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-[#4A9EFF]">
-          <Search size={16} />
-        </button>
-      </div>
-    ),
+    component: ClearButtonDemo,
   },
   {
     id: 'button-icon',

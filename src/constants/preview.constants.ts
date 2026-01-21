@@ -1,5 +1,5 @@
 export const PREVIEW_CONFIG = {
-  COMPONENTS_PER_PAGE: 6 as number,
+  COMPONENTS_PER_PAGE: 9 as number,
   SCROLL_THRESHOLD: 300 as number,
   LOADING_DELAY: 500 as number,
 } as const;
@@ -36,9 +36,9 @@ export const SHOWCASE_STYLES = {
       'bg-[#2B2B2B] border border-[#323232] px-3 py-1 rounded-full text-sm font-medium text-[#FFC66D]',
   },
   PREVIEW: {
-    BASE: 'p-8 bg-[#2B2B2B]',
+    BASE: 'p-6 bg-[#2B2B2B]',
     STAGE:
-      'flex items-center justify-center min-h-[200px] bg-[#313335] rounded-lg border-2 border-dashed border-[#323232] p-6',
+      'flex items-center justify-center aspect-square bg-[#313335] rounded-lg border-2 border-dashed border-[#323232] p-6',
   },
   FOOTER: {
     BASE: 'px-6 py-4 bg-[#2B2B2B] border-t border-[#323232]',

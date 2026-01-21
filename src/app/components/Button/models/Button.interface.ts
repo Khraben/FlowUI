@@ -6,11 +6,11 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   variant?: ButtonVariant;
   size?: ButtonSize;
   icon?: React.ReactNode;
-  iconPosition?: typeof BUTTON_ICON_POSITIONS[keyof typeof BUTTON_ICON_POSITIONS];
+  iconPosition?: (typeof BUTTON_ICON_POSITIONS)[keyof typeof BUTTON_ICON_POSITIONS];
   isLoading?: boolean;
   loadingText?: string;
   fullWidth?: boolean;
-  rounded?: typeof BUTTON_ROUNDED_OPTIONS[keyof typeof BUTTON_ROUNDED_OPTIONS];
+  rounded?: (typeof BUTTON_ROUNDED_OPTIONS)[keyof typeof BUTTON_ROUNDED_OPTIONS];
   children?: React.ReactNode;
   baseClassName?: string;
   variantClassName?: string;
