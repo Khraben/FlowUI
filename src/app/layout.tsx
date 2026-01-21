@@ -1,5 +1,12 @@
 import type { Metadata } from 'next';
+import { JetBrains_Mono } from 'next/font/google';
 import '@/styles/globals.css';
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-jetbrains-mono',
+});
 
 export const metadata: Metadata = {
   title: 'FlowUI Component Library',
@@ -13,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <body className={`${jetbrainsMono.variable} antialiased`}>{children}</body>
     </html>
   );
 }

@@ -5,9 +5,9 @@ export interface ComponentDemo {
   name: string;
   description: string;
   category: ComponentCategory;
-  component: React.ComponentType<any>;
+  component: React.ComponentType<Record<string, unknown>>;
   code?: string;
-  props?: Record<string, any>;
+  props?: Record<string, unknown>;
 }
 
 export type { ComponentCategory };
