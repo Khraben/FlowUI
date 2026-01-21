@@ -24,8 +24,10 @@ import {
   TIME_INPUT_DISPLAY_NAME,
   INPUT_TIME_PERIODS,
   INPUT_TIME_DEFAULTS,
+  INPUT_TIME_FORMAT,
   INPUT_PLACEHOLDER_CHAR,
   INPUT_EMPTY_VALUE,
+  INPUT_AUTOCOMPLETE_VALUES,
   INPUT_FULL_WIDTH_CLASS,
   INPUT_NO_PADDING_CLASS,
   INPUT_CENTER_VERTICAL_CLASSES,
@@ -35,10 +37,18 @@ import {
 const generateTimeOptions = (startHour: number, endHour: number, interval: number) => {
   const times = [];
   for (let hour = startHour; hour <= endHour; hour++) {
-    for (let minute = 0; minute < 60; minute += interval) {
-      const period = hour < 12 ? INPUT_TIME_PERIODS.AM : INPUT_TIME_PERIODS.PM;
-      const displayHour = hour % 12 === 0 ? INPUT_TIME_DEFAULTS.DISPLAY_12H : hour % 12;
-      const time = `${displayHour}:${minute === 0 ? '00' : minute}${period}`;
+    for (
+      let minute = INPUT_TIME_FORMAT.ZERO_HOUR;
+      minute < INPUT_TIME_FORMAT.MINUTES_PER_HOUR;
+      minute += interval
+    ) {
+      const period =
+        hour < INPUT_TIME_FORMAT.NOON_HOUR ? INPUT_TIME_PERIODS.AM : INPUT_TIME_PERIODS.PM;
+      const displayHour =
+        hour % INPUT_TIME_FORMAT.NOON_HOUR === INPUT_TIME_FORMAT.ZERO_HOUR
+          ? INPUT_TIME_DEFAULTS.DISPLAY_12H
+          : hour % INPUT_TIME_FORMAT.NOON_HOUR;
+      const time = `${displayHour}${INPUT_TIME_FORMAT.TIME_SEPARATOR}${minute === INPUT_TIME_FORMAT.ZERO_HOUR ? INPUT_TIME_FORMAT.ZERO_MINUTE_PAD : minute}${period}`;
       times.push(time);
     }
   }
@@ -108,7 +118,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           type={getInputType()}
           placeholder={INPUT_PLACEHOLDER_CHAR}
           value={value}
-          autoComplete="off"
+          autoComplete={INPUT_AUTOCOMPLETE_VALUES.OFF}
           className={getInputStyles()}
           {...props}
         />

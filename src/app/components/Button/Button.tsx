@@ -21,6 +21,9 @@ import {
   BUTTON_SPINNER_PATH_D,
   BUTTON_OPACITY_VALUES,
   BUTTON_SVG_FILL,
+  BUTTON_EMPTY_VALUE,
+  BUTTON_WHITESPACE_REGEX,
+  BUTTON_SINGLE_SPACE,
 } from '@/constants';
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -34,7 +37,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       loadingText,
       fullWidth = false,
       rounded,
-      className = '',
+      className = BUTTON_EMPTY_VALUE,
       baseClassName,
       variantClassName,
       sizeClassName,
@@ -45,10 +48,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
-    const baseStyles = disableDefaultStyles ? '' : baseClassName || BUTTON_BASE_STYLES;
+    const baseStyles = disableDefaultStyles
+      ? BUTTON_EMPTY_VALUE
+      : baseClassName || BUTTON_BASE_STYLES;
 
     const variantStyles = disableDefaultStyles
-      ? ''
+      ? BUTTON_EMPTY_VALUE
       : variantClassName || BUTTON_VARIANT_STYLES[variant];
 
     const getSizeStyles = () => {
@@ -58,10 +63,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       return BUTTON_SIZE_STYLES.default[size];
     };
 
-    const sizeStyles = disableDefaultStyles ? '' : sizeClassName || getSizeStyles();
+    const sizeStyles = disableDefaultStyles ? BUTTON_EMPTY_VALUE : sizeClassName || getSizeStyles();
 
     const roundedStyles = disableDefaultStyles
-      ? ''
+      ? BUTTON_EMPTY_VALUE
       : rounded
         ? BUTTON_ROUNDED_MAP[rounded]
         : BUTTON_ROUNDED_DEFAULTS[variant];
@@ -71,9 +76,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       variant !== BUTTON_VARIANTS.CLEAR &&
       variant !== BUTTON_VARIANTS.ICON
         ? BUTTON_SPACING_STYLES
-        : '';
+        : BUTTON_EMPTY_VALUE;
 
-    const widthStyles = fullWidth ? BUTTON_FULL_WIDTH_STYLES : '';
+    const widthStyles = fullWidth ? BUTTON_FULL_WIDTH_STYLES : BUTTON_EMPTY_VALUE;
 
     return (
       <button
@@ -89,7 +94,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           ${className}
         `
           .trim()
-          .replace(/\s+/g, ' ')}
+          .replace(BUTTON_WHITESPACE_REGEX, BUTTON_SINGLE_SPACE)}
         {...props}
       >
         {isLoading ? (

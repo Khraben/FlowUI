@@ -37,6 +37,14 @@ export const INPUT_TIME_DEFAULTS = {
   DISPLAY_12H: 12,
 };
 
+export const INPUT_TIME_FORMAT = {
+  MINUTES_PER_HOUR: 60,
+  NOON_HOUR: 12,
+  ZERO_HOUR: 0,
+  ZERO_MINUTE_PAD: '00',
+  TIME_SEPARATOR: ':',
+};
+
 export const INPUT_PLACEHOLDER_CHAR = ' ';
 
 export const INPUT_EMPTY_VALUE = '';

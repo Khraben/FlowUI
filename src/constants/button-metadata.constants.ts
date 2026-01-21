@@ -41,3 +41,9 @@ export const BUTTON_ACCESSIBILITY = {
   },
   role: 'button',
 };
+
+export const BUTTON_EMPTY_VALUE = '';
+
+export const BUTTON_WHITESPACE_REGEX = /\s+/g;
+
+export const BUTTON_SINGLE_SPACE = ' ';
