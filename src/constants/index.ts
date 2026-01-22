@@ -1,15 +1,16 @@
-export { COMPONENT_CATEGORIES } from './categories.constants';
+// Common
+import { STRING, REGEX } from './common/strings.constants';
+import { SIZE } from './common/sizes.constants';
+import { POSITION } from './common/positions.constants';
+import { SVG } from './common/svg.constants';
+import { CSS_VAR } from './common/css-vars.constants';
+
+export { STRING, REGEX, SIZE, POSITION, SVG, CSS_VAR };
+
+// Button
+import { BUTTON_SPINNER } from './components/button/spinner.constants';
+export { BUTTON_VARIANT, BUTTON_ROUNDED } from './components/button/variants.constants';
 export {
-  PREVIEW_CONFIG,
-  PREVIEW_TEXT,
-  FILTER_CATEGORY,
-  SHOWCASE_STYLES,
-} from './preview.constants';
-export {
-  BUTTON_VARIANTS,
-  BUTTON_SIZES,
-  BUTTON_ICON_POSITIONS,
-  BUTTON_ROUNDED_OPTIONS,
   BUTTON_BASE_STYLES,
   BUTTON_VARIANT_STYLES,
   BUTTON_SIZE_STYLES,
@@ -20,17 +21,94 @@ export {
   BUTTON_LOADING_SPINNER_STYLES,
   BUTTON_ICON_SPACING,
   BUTTON_LOADING_TEXT_SPACING,
-} from './button.constants';
-export {
-  BUTTON_DISPLAY_NAME,
-  BUTTON_METADATA,
-  BUTTON_SVG_NAMESPACE,
-  BUTTON_SVG_VIEWBOX,
-  BUTTON_SPINNER_CIRCLE,
-  BUTTON_SPINNER_PATH_D,
-  BUTTON_OPACITY_VALUES,
-  BUTTON_SVG_FILL,
-  BUTTON_ACCESSIBILITY,
-} from './button-metadata.constants';
+} from './components/button/styles.constants';
+export { BUTTON_SPINNER } from './components/button/spinner.constants';
 
-export type { ComponentCategory } from './categories.constants';
+// Button aliases for backward compatibility
+export { BUTTON_VARIANT as BUTTON_VARIANTS } from './components/button/variants.constants';
+export { SIZE as BUTTON_SIZES } from './common/sizes.constants';
+export { POSITION as BUTTON_ICON_POSITIONS } from './common/positions.constants';
+export { BUTTON_ROUNDED as BUTTON_ROUNDED_OPTIONS } from './components/button/variants.constants';
+
+// Input
+import { INPUT_TIME, INPUT_AUTOCOMPLETE } from './components/input/metadata.constants';
+export { INPUT_VARIANT } from './components/input/variants.constants';
+export {
+  INPUT_BASE_STYLES,
+  INPUT_BORDER_STYLES,
+  INPUT_SIZE_STYLES,
+  INPUT_LABEL_BASE_STYLES,
+  INPUT_ICON_BUTTON_BASE,
+  INPUT_ICON_BUTTON_POSITIONS,
+  INPUT_ICON_SIZES,
+  INPUT_SELECT_PADDING,
+  INPUT_SEARCH_PADDING,
+  INPUT_ICON_STATIC_STYLES,
+  INPUT_CLEAR_BUTTON_STYLES,
+  INPUT_SELECT_APPEARANCE,
+  INPUT_WRAPPER_STYLES,
+  INPUT_PASSWORD_BUTTON_SIZES,
+} from './components/input/styles.constants';
+export {
+  INPUT_TIME,
+  INPUT_AUTOCOMPLETE,
+  INPUT_ICON_SIZES_PX,
+} from './components/input/metadata.constants';
+
+// Input aliases for backward compatibility
+export { INPUT_VARIANT as INPUT_VARIANTS } from './components/input/variants.constants';
+export { SIZE as INPUT_SIZES } from './common/sizes.constants';
+
+// Preview
+export { PREVIEW_COLORS } from './preview/colors.constants';
+export { PREVIEW_CONFIG, SHOWCASE_STYLES } from './preview/config.constants';
+
+// Categories
+export { COMPONENT_CATEGORIES } from './categories.constants';
+
+// Legacy constants (mapped to new structure)
+export const BUTTON_EMPTY_VALUE = STRING.EMPTY;
+export const BUTTON_WHITESPACE_REGEX = REGEX.WHITESPACE;
+export const BUTTON_SINGLE_SPACE = STRING.SINGLE_SPACE;
+export const BUTTON_SVG_NAMESPACE = SVG.NAMESPACE;
+export const BUTTON_SVG_VIEWBOX = SVG.VIEWBOX;
+export const BUTTON_SPINNER_CIRCLE = BUTTON_SPINNER.CIRCLE;
+export const BUTTON_SPINNER_PATH_D = BUTTON_SPINNER.PATH_D;
+export const BUTTON_OPACITY_VALUES = BUTTON_SPINNER.OPACITY;
+export const BUTTON_SVG_FILL = SVG.FILL;
+export const BUTTON_COLOR_METADATA = CSS_VAR.BUTTON;
+export const INPUT_PLACEHOLDER_CHAR = STRING.SPACE;
+export const INPUT_EMPTY_VALUE = STRING.EMPTY;
+export const INPUT_TIME_PERIODS = INPUT_TIME.PERIODS;
+export const INPUT_TIME_DEFAULTS = INPUT_TIME.DEFAULTS;
+export const INPUT_TIME_FORMAT = INPUT_TIME.FORMAT;
+export const INPUT_AUTOCOMPLETE_VALUES = INPUT_AUTOCOMPLETE;
+export const INPUT_DISPLAY_NAME = 'Input';
+export const SELECT_INPUT_DISPLAY_NAME = 'SelectInput';
+export const TIME_INPUT_DISPLAY_NAME = 'TimeInput';
+export const BUTTON_DISPLAY_NAME = 'Button';
+export const INPUT_FULL_WIDTH_CLASS = 'w-full';
+export const INPUT_NO_PADDING_CLASS = 'p-0';
+export const INPUT_CENTER_VERTICAL_CLASSES = 'flex items-center justify-center';
+export const INPUT_BUTTON_TYPE = 'button';
+
+// Preview texts (hardcoded as per user request - not reusable constants)
+export const PREVIEW_TEXT = {
+  TITLE: 'FlowUI Component Library',
+  SUBTITLE: 'Professional Tailwind & Next.js components',
+  TOTAL_LABEL: 'Total:',
+  COMPONENTS_LABEL: 'components',
+  LOADING_MESSAGE: 'Loading more components...',
+  ALL_LOADED_TITLE: "You've seen them all! 🎉",
+  ALL_LOADED_MESSAGE: (count: number, category: string) =>
+    `${count} component${count !== 1 ? 's' : ''} in ${category}`,
+  NO_COMPONENTS_TITLE: 'No components found',
+  NO_COMPONENTS_MESSAGE: 'Try selecting a different category',
+  FOOTER_TEXT: 'FlowUI Component Library - Built with Next.js, TypeScript & Tailwind CSS',
+  VIEW_CODE_BUTTON: 'View Code →',
+  COMPONENT_ID_LABEL: 'Component ID:',
+} as const;
+
+export const FILTER_CATEGORY = {
+  ALL: 'All',
+} as const;

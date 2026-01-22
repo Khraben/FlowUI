@@ -1,0 +1,29 @@
+import React from 'react';
+import { InputSize, SelectVariant } from '../types/Input.types';
+
+export interface SelectInputProps extends Omit<
+  React.SelectHTMLAttributes<HTMLSelectElement>,
+  'size'
+> {
+  variant?: SelectVariant;
+  size?: InputSize;
+  label?: string;
+  labelStyle?: React.CSSProperties;
+  children?: React.ReactNode;
+  selectIcon?: React.ReactNode;
+  fullWidth?: boolean;
+  baseClassName?: string;
+  labelClassName?: string;
+  wrapperClassName?: string;
+  disableDefaultStyles?: boolean;
+  bg?: string;
+  textColor?: string;
+  borderColor?: string;
+  focusBorderColor?: string;
+  focusShadow?: string;
+  labelColor?: string;
+  labelActiveColor?: string;
+  iconColor?: string;
+  iconHoverColor?: string;
+  placeholderColor?: string;
+}

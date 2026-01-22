@@ -1,30 +1,69 @@
 import { ComponentDemo } from '@/types/component';
-import { Button } from '@/app/components';
-import { COMPONENT_CATEGORIES } from '@/constants';
-import { Check, X, Trash2, Search, Download, Upload, Plus, Minus } from 'lucide-react';
+import { Button, Input, SelectInput, TimeInput } from '@/app/components';
+import { COMPONENT_CATEGORIES, PREVIEW_COLORS } from '@/constants';
+import {
+  Check,
+  X,
+  Trash2,
+  Search,
+  Download,
+  Upload,
+  Plus,
+  Minus,
+  Eye,
+  EyeOff,
+  ChevronDown,
+} from 'lucide-react';
 import { useState } from 'react';
 
-const ClearButtonDemo = () => {
-  const [value, setValue] = useState('Sample text');
-
+const SearchInputDemo = () => {
+  const [searchValue, setSearchValue] = useState('');
   return (
-    <div className="relative w-full max-w-md">
-      <input
-        type="text"
-        className="w-full px-4 py-2 pr-24 border rounded-md bg-[#313335] border-[#4A5A6A] text-[#A9B7C6] focus:outline-none focus:border-[#00D4FF]"
-        placeholder="Search..."
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      />
-      {value && (
-        <Button variant="clear" onClick={() => setValue('')}>
-          <X size={16} />
-        </Button>
-      )}
-      <button className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-[#4A9EFF]">
-        <Search size={16} />
-      </button>
-    </div>
+    <Input
+      variant="search"
+      label="Search"
+      value={searchValue}
+      onChange={(e) => setSearchValue(e.target.value)}
+      onClear={() => setSearchValue('')}
+      searchIcon={<Search size={16} />}
+      clearIcon={<X size={14} />}
+      placeholder=" "
+      bg={PREVIEW_COLORS.SURFACE_DARK}
+      textColor={PREVIEW_COLORS.TEXT_LIGHT}
+      borderColor={PREVIEW_COLORS.BORDER}
+      focusBorderColor={PREVIEW_COLORS.ACCENT}
+      focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
+      labelColor={PREVIEW_COLORS.DISABLED_TEXT}
+      labelActiveColor={PREVIEW_COLORS.ACCENT}
+      iconColor={PREVIEW_COLORS.ACCENT}
+      iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
+      placeholderColor={PREVIEW_COLORS.TRANSPARENT}
+    />
+  );
+};
+
+const TimeInputDemo = () => {
+  const [timeValue, setTimeValue] = useState('');
+  return (
+    <TimeInput
+      label="Select Time"
+      value={timeValue}
+      onChange={(e) => setTimeValue(e.target.value)}
+      startHour={9}
+      endHour={17}
+      interval={30}
+      selectIcon={<ChevronDown size={16} />}
+      bg={PREVIEW_COLORS.SURFACE_DARK}
+      textColor={PREVIEW_COLORS.TEXT_LIGHT}
+      borderColor={PREVIEW_COLORS.BORDER}
+      focusBorderColor={PREVIEW_COLORS.ACCENT}
+      focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
+      labelColor={PREVIEW_COLORS.DISABLED_TEXT}
+      labelActiveColor={PREVIEW_COLORS.ACCENT}
+      iconColor={PREVIEW_COLORS.ACCENT}
+      iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
+      placeholderColor={PREVIEW_COLORS.TRANSPARENT}
+    />
   );
 };
 
@@ -38,6 +77,12 @@ export const componentRegistry: ComponentDemo[] = [
     props: {
       variant: 'primary',
       children: 'Primary Action',
+      bg: PREVIEW_COLORS.PRIMARY,
+      textColor: PREVIEW_COLORS.WHITE,
+      hoverBg: PREVIEW_COLORS.PRIMARY_HOVER,
+      disabledBg: PREVIEW_COLORS.DISABLED_BG,
+      disabledTextColor: PREVIEW_COLORS.DISABLED_TEXT,
+      focusRing: PREVIEW_COLORS.PRIMARY,
     },
   },
   {
@@ -51,6 +96,12 @@ export const componentRegistry: ComponentDemo[] = [
       icon: <Download size={16} />,
       iconPosition: 'left',
       children: 'Download',
+      bg: PREVIEW_COLORS.PRIMARY,
+      textColor: PREVIEW_COLORS.WHITE,
+      hoverBg: PREVIEW_COLORS.PRIMARY_HOVER,
+      disabledBg: PREVIEW_COLORS.DISABLED_BG,
+      disabledTextColor: PREVIEW_COLORS.DISABLED_TEXT,
+      focusRing: PREVIEW_COLORS.PRIMARY,
     },
   },
   {
@@ -64,6 +115,12 @@ export const componentRegistry: ComponentDemo[] = [
       icon: <Upload size={16} />,
       iconPosition: 'right',
       children: 'Upload',
+      bg: PREVIEW_COLORS.PRIMARY,
+      textColor: PREVIEW_COLORS.WHITE,
+      hoverBg: PREVIEW_COLORS.PRIMARY_HOVER,
+      disabledBg: PREVIEW_COLORS.DISABLED_BG,
+      disabledTextColor: PREVIEW_COLORS.DISABLED_TEXT,
+      focusRing: PREVIEW_COLORS.PRIMARY,
     },
   },
   {
@@ -75,6 +132,15 @@ export const componentRegistry: ComponentDemo[] = [
     props: {
       variant: 'secondary',
       children: 'Secondary Action',
+      bg: PREVIEW_COLORS.TRANSPARENT,
+      textColor: PREVIEW_COLORS.ACCENT,
+      borderColor: PREVIEW_COLORS.ACCENT,
+      hoverBg: PREVIEW_COLORS.ACCENT,
+      hoverTextColor: PREVIEW_COLORS.BLACK,
+      disabledBg: PREVIEW_COLORS.TRANSPARENT,
+      disabledTextColor: PREVIEW_COLORS.DISABLED_TEXT,
+      disabledBorderColor: PREVIEW_COLORS.DISABLED_TEXT,
+      focusRing: PREVIEW_COLORS.ACCENT,
     },
   },
   {
@@ -88,6 +154,12 @@ export const componentRegistry: ComponentDemo[] = [
       icon: <Check size={16} />,
       iconPosition: 'left',
       children: 'Confirm',
+      bg: PREVIEW_COLORS.SUCCESS,
+      textColor: PREVIEW_COLORS.BLACK,
+      hoverBg: PREVIEW_COLORS.SUCCESS_HOVER,
+      disabledBg: PREVIEW_COLORS.DISABLED_BG,
+      disabledTextColor: PREVIEW_COLORS.DISABLED_TEXT,
+      focusRing: PREVIEW_COLORS.SUCCESS,
     },
   },
   {
@@ -101,6 +173,12 @@ export const componentRegistry: ComponentDemo[] = [
       icon: <Trash2 size={16} />,
       iconPosition: 'left',
       children: 'Delete',
+      bg: PREVIEW_COLORS.DANGER,
+      textColor: PREVIEW_COLORS.WHITE,
+      hoverBg: PREVIEW_COLORS.DANGER_HOVER,
+      disabledBg: PREVIEW_COLORS.DISABLED_BG,
+      disabledTextColor: PREVIEW_COLORS.DISABLED_TEXT,
+      focusRing: PREVIEW_COLORS.DANGER,
     },
   },
   {
@@ -112,14 +190,13 @@ export const componentRegistry: ComponentDemo[] = [
     props: {
       variant: 'close',
       children: <X size={20} />,
+      bg: PREVIEW_COLORS.WHITE_ALPHA_20,
+      textColor: PREVIEW_COLORS.WHITE,
+      hoverBg: PREVIEW_COLORS.WHITE_ALPHA_30,
+      disabledBg: PREVIEW_COLORS.DISABLED_BG,
+      disabledTextColor: PREVIEW_COLORS.DISABLED_TEXT,
+      focusRing: PREVIEW_COLORS.WHITE,
     },
-  },
-  {
-    id: 'button-clear',
-    name: 'Clear Button',
-    description: 'Positioned clear button for input fields',
-    category: COMPONENT_CATEGORIES.BUTTONS,
-    component: ClearButtonDemo,
   },
   {
     id: 'button-icon',
@@ -128,13 +205,49 @@ export const componentRegistry: ComponentDemo[] = [
     category: COMPONENT_CATEGORIES.BUTTONS,
     component: () => (
       <div className="flex gap-2">
-        <Button variant="icon" size="sm">
+        <Button
+          variant="icon"
+          size="sm"
+          bg={PREVIEW_COLORS.TRANSPARENT}
+          textColor={PREVIEW_COLORS.PRIMARY}
+          borderColor={PREVIEW_COLORS.PRIMARY}
+          hoverBg={PREVIEW_COLORS.PRIMARY}
+          hoverTextColor={PREVIEW_COLORS.WHITE}
+          disabledBg={PREVIEW_COLORS.TRANSPARENT}
+          disabledTextColor={PREVIEW_COLORS.DISABLED_TEXT}
+          disabledBorderColor={PREVIEW_COLORS.DISABLED_TEXT}
+          focusRing={PREVIEW_COLORS.PRIMARY}
+        >
           <Plus size={14} />
         </Button>
-        <Button variant="icon" size="md">
+        <Button
+          variant="icon"
+          size="md"
+          bg={PREVIEW_COLORS.TRANSPARENT}
+          textColor={PREVIEW_COLORS.PRIMARY}
+          borderColor={PREVIEW_COLORS.PRIMARY}
+          hoverBg={PREVIEW_COLORS.PRIMARY}
+          hoverTextColor={PREVIEW_COLORS.WHITE}
+          disabledBg={PREVIEW_COLORS.TRANSPARENT}
+          disabledTextColor={PREVIEW_COLORS.DISABLED_TEXT}
+          disabledBorderColor={PREVIEW_COLORS.DISABLED_TEXT}
+          focusRing={PREVIEW_COLORS.PRIMARY}
+        >
           <Search size={16} />
         </Button>
-        <Button variant="icon" size="lg">
+        <Button
+          variant="icon"
+          size="lg"
+          bg={PREVIEW_COLORS.TRANSPARENT}
+          textColor={PREVIEW_COLORS.PRIMARY}
+          borderColor={PREVIEW_COLORS.PRIMARY}
+          hoverBg={PREVIEW_COLORS.PRIMARY}
+          hoverTextColor={PREVIEW_COLORS.WHITE}
+          disabledBg={PREVIEW_COLORS.TRANSPARENT}
+          disabledTextColor={PREVIEW_COLORS.DISABLED_TEXT}
+          disabledBorderColor={PREVIEW_COLORS.DISABLED_TEXT}
+          focusRing={PREVIEW_COLORS.PRIMARY}
+        >
           <Minus size={18} />
         </Button>
       </div>
@@ -147,13 +260,40 @@ export const componentRegistry: ComponentDemo[] = [
     category: COMPONENT_CATEGORIES.BUTTONS,
     component: () => (
       <div className="flex items-center gap-3 flex-wrap">
-        <Button variant="primary" size="sm">
+        <Button
+          variant="primary"
+          size="sm"
+          bg={PREVIEW_COLORS.PRIMARY}
+          textColor={PREVIEW_COLORS.WHITE}
+          hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
+          disabledBg={PREVIEW_COLORS.DISABLED_BG}
+          disabledTextColor={PREVIEW_COLORS.DISABLED_TEXT}
+          focusRing={PREVIEW_COLORS.PRIMARY}
+        >
           Small
         </Button>
-        <Button variant="primary" size="md">
+        <Button
+          variant="primary"
+          size="md"
+          bg={PREVIEW_COLORS.PRIMARY}
+          textColor={PREVIEW_COLORS.WHITE}
+          hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
+          disabledBg={PREVIEW_COLORS.DISABLED_BG}
+          disabledTextColor={PREVIEW_COLORS.DISABLED_TEXT}
+          focusRing={PREVIEW_COLORS.PRIMARY}
+        >
           Medium
         </Button>
-        <Button variant="primary" size="lg">
+        <Button
+          variant="primary"
+          size="lg"
+          bg={PREVIEW_COLORS.PRIMARY}
+          textColor={PREVIEW_COLORS.WHITE}
+          hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
+          disabledBg={PREVIEW_COLORS.DISABLED_BG}
+          disabledTextColor={PREVIEW_COLORS.DISABLED_TEXT}
+          focusRing={PREVIEW_COLORS.PRIMARY}
+        >
           Large
         </Button>
       </div>
@@ -166,34 +306,201 @@ export const componentRegistry: ComponentDemo[] = [
     category: COMPONENT_CATEGORIES.BUTTONS,
     component: () => (
       <div className="flex gap-3">
-        <Button variant="primary" isLoading>
+        <Button
+          variant="primary"
+          isLoading
+          bg={PREVIEW_COLORS.PRIMARY}
+          textColor={PREVIEW_COLORS.WHITE}
+          hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
+          disabledBg={PREVIEW_COLORS.DISABLED_BG}
+          disabledTextColor={PREVIEW_COLORS.DISABLED_TEXT}
+          focusRing={PREVIEW_COLORS.PRIMARY}
+        >
           Loading...
         </Button>
-        <Button variant="success" isLoading>
+        <Button
+          variant="success"
+          isLoading
+          bg={PREVIEW_COLORS.SUCCESS}
+          textColor={PREVIEW_COLORS.BLACK}
+          hoverBg={PREVIEW_COLORS.SUCCESS_HOVER}
+          disabledBg={PREVIEW_COLORS.DISABLED_BG}
+          disabledTextColor={PREVIEW_COLORS.DISABLED_TEXT}
+          focusRing={PREVIEW_COLORS.SUCCESS}
+        >
           Processing
         </Button>
       </div>
     ),
   },
   {
-    id: 'button-disabled',
-    name: 'Disabled Buttons',
-    description: 'Disabled state for all button variants',
-    category: COMPONENT_CATEGORIES.BUTTONS,
+    id: 'input-text',
+    name: 'Text Input',
+    description: 'Standard text input with floating label',
+    category: COMPONENT_CATEGORIES.INPUTS,
     component: () => (
-      <div className="flex gap-3 flex-wrap">
-        <Button variant="primary" disabled>
-          Primary
-        </Button>
-        <Button variant="secondary" disabled>
-          Secondary
-        </Button>
-        <Button variant="success" disabled>
-          Success
-        </Button>
-        <Button variant="danger" disabled>
-          Danger
-        </Button>
+      <Input
+        variant="text"
+        label="Full Name"
+        placeholder=" "
+        bg={PREVIEW_COLORS.SURFACE_DARK}
+        textColor={PREVIEW_COLORS.TEXT_LIGHT}
+        borderColor={PREVIEW_COLORS.BORDER}
+        focusBorderColor={PREVIEW_COLORS.ACCENT}
+        focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
+        labelColor={PREVIEW_COLORS.DISABLED_TEXT}
+        labelActiveColor={PREVIEW_COLORS.ACCENT}
+        iconColor={PREVIEW_COLORS.ACCENT}
+        iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
+        placeholderColor={PREVIEW_COLORS.TRANSPARENT}
+      />
+    ),
+  },
+  {
+    id: 'input-number',
+    name: 'Number Input',
+    description: 'Numeric input field with floating label',
+    category: COMPONENT_CATEGORIES.INPUTS,
+    component: () => (
+      <Input
+        variant="number"
+        label="Age"
+        placeholder=" "
+        bg={PREVIEW_COLORS.SURFACE_DARK}
+        textColor={PREVIEW_COLORS.TEXT_LIGHT}
+        borderColor={PREVIEW_COLORS.BORDER}
+        focusBorderColor={PREVIEW_COLORS.ACCENT}
+        focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
+        labelColor={PREVIEW_COLORS.DISABLED_TEXT}
+        labelActiveColor={PREVIEW_COLORS.ACCENT}
+        iconColor={PREVIEW_COLORS.ACCENT}
+        iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
+        placeholderColor={PREVIEW_COLORS.TRANSPARENT}
+      />
+    ),
+  },
+  {
+    id: 'input-search',
+    name: 'Search Input',
+    description: 'Search input with icon and clear button',
+    category: COMPONENT_CATEGORIES.INPUTS,
+    component: SearchInputDemo,
+  },
+  {
+    id: 'input-password',
+    name: 'Password Input',
+    description: 'Password input with toggle visibility',
+    category: COMPONENT_CATEGORIES.INPUTS,
+    component: () => (
+      <Input
+        variant="password"
+        label="Password"
+        passwordIcon={<Eye size={16} />}
+        passwordIconHidden={<EyeOff size={16} />}
+        placeholder=" "
+        bg={PREVIEW_COLORS.SURFACE_DARK}
+        textColor={PREVIEW_COLORS.TEXT_LIGHT}
+        borderColor={PREVIEW_COLORS.BORDER}
+        focusBorderColor={PREVIEW_COLORS.ACCENT}
+        focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
+        labelColor={PREVIEW_COLORS.DISABLED_TEXT}
+        labelActiveColor={PREVIEW_COLORS.ACCENT}
+        iconColor={PREVIEW_COLORS.ACCENT}
+        iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
+        placeholderColor={PREVIEW_COLORS.TRANSPARENT}
+      />
+    ),
+  },
+  {
+    id: 'input-select',
+    name: 'Select Input',
+    description: 'Dropdown select with floating label',
+    category: COMPONENT_CATEGORIES.INPUTS,
+    component: () => (
+      <SelectInput
+        label="Country"
+        selectIcon={<ChevronDown size={16} />}
+        defaultValue=""
+        bg={PREVIEW_COLORS.SURFACE_DARK}
+        textColor={PREVIEW_COLORS.TEXT_LIGHT}
+        borderColor={PREVIEW_COLORS.BORDER}
+        focusBorderColor={PREVIEW_COLORS.ACCENT}
+        focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
+        labelColor={PREVIEW_COLORS.DISABLED_TEXT}
+        labelActiveColor={PREVIEW_COLORS.ACCENT}
+        iconColor={PREVIEW_COLORS.ACCENT}
+        iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
+        placeholderColor={PREVIEW_COLORS.TRANSPARENT}
+      >
+        <option value="us">United States</option>
+        <option value="uk">United Kingdom</option>
+        <option value="ca">Canada</option>
+        <option value="au">Australia</option>
+      </SelectInput>
+    ),
+  },
+  {
+    id: 'input-time',
+    name: 'Time Input',
+    description: 'Time picker with customizable range',
+    category: COMPONENT_CATEGORIES.INPUTS,
+    component: TimeInputDemo,
+  },
+  {
+    id: 'input-sizes',
+    name: 'Input Sizes',
+    description: 'All available input sizes: small, medium, large',
+    category: COMPONENT_CATEGORIES.INPUTS,
+    component: () => (
+      <div className="flex flex-col gap-4 w-full">
+        <Input
+          variant="text"
+          size="sm"
+          label="Small"
+          placeholder=" "
+          bg={PREVIEW_COLORS.SURFACE_DARK}
+          textColor={PREVIEW_COLORS.TEXT_LIGHT}
+          borderColor={PREVIEW_COLORS.BORDER}
+          focusBorderColor={PREVIEW_COLORS.ACCENT}
+          focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
+          labelColor={PREVIEW_COLORS.DISABLED_TEXT}
+          labelActiveColor={PREVIEW_COLORS.ACCENT}
+          iconColor={PREVIEW_COLORS.ACCENT}
+          iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
+          placeholderColor={PREVIEW_COLORS.TRANSPARENT}
+        />
+        <Input
+          variant="text"
+          size="md"
+          label="Medium"
+          placeholder=" "
+          bg={PREVIEW_COLORS.SURFACE_DARK}
+          textColor={PREVIEW_COLORS.TEXT_LIGHT}
+          borderColor={PREVIEW_COLORS.BORDER}
+          focusBorderColor={PREVIEW_COLORS.ACCENT}
+          focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
+          labelColor={PREVIEW_COLORS.DISABLED_TEXT}
+          labelActiveColor={PREVIEW_COLORS.ACCENT}
+          iconColor={PREVIEW_COLORS.ACCENT}
+          iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
+          placeholderColor={PREVIEW_COLORS.TRANSPARENT}
+        />
+        <Input
+          variant="text"
+          size="lg"
+          label="Large"
+          placeholder=" "
+          bg={PREVIEW_COLORS.SURFACE_DARK}
+          textColor={PREVIEW_COLORS.TEXT_LIGHT}
+          borderColor={PREVIEW_COLORS.BORDER}
+          focusBorderColor={PREVIEW_COLORS.ACCENT}
+          focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
+          labelColor={PREVIEW_COLORS.DISABLED_TEXT}
+          labelActiveColor={PREVIEW_COLORS.ACCENT}
+          iconColor={PREVIEW_COLORS.ACCENT}
+          iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
+          placeholderColor={PREVIEW_COLORS.TRANSPARENT}
+        />
       </div>
     ),
   },
