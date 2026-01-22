@@ -1,8 +1,8 @@
-import { STRING, REGEX } from './common/strings.constants';
-import { SIZE } from './common/sizes.constants';
-import { POSITION } from './common/positions.constants';
-import { SVG } from './common/svg.constants';
-import { CSS_VAR } from './common/css-vars.constants';
+import { STRING, REGEX } from './components/common.constants';
+import { SIZE } from './components/common.constants';
+import { POSITION } from './components/common.constants';
+import { SVG } from './components/common.constants';
+import { CSS_VAR } from './components/common.constants';
 
 export { STRING, REGEX, SIZE, POSITION, SVG, CSS_VAR };
 
@@ -23,8 +23,8 @@ export {
 export { BUTTON_SPINNER } from './components/button/spinner.constants';
 
 export { BUTTON_VARIANT as BUTTON_VARIANTS } from './components/button/variants.constants';
-export { SIZE as BUTTON_SIZES } from './common/sizes.constants';
-export { POSITION as BUTTON_ICON_POSITIONS } from './common/positions.constants';
+export { SIZE as BUTTON_SIZES } from './components/common.constants';
+export { POSITION as BUTTON_ICON_POSITIONS } from './components/common.constants';
 export { BUTTON_ROUNDED as BUTTON_ROUNDED_OPTIONS } from './components/button/variants.constants';
 
 import { INPUT_TIME, INPUT_AUTOCOMPLETE } from './components/input/metadata.constants';
@@ -52,7 +52,7 @@ export {
 } from './components/input/metadata.constants';
 
 export { INPUT_VARIANT as INPUT_VARIANTS } from './components/input/variants.constants';
-export { SIZE as INPUT_SIZES } from './common/sizes.constants';
+export { SIZE as INPUT_SIZES } from './components/common.constants';
 
 export {
   DATEPICKER_BASE_STYLES,
@@ -76,7 +76,7 @@ export {
   DATEPICKER_CALENDAR_Z_INDEX,
 } from './components/datepicker/calendar.constants';
 
-export { SIZE as DATEPICKER_SIZES } from './common/sizes.constants';
+export { SIZE as DATEPICKER_SIZES } from './components/common.constants';
 
 export { PREVIEW_COLORS } from './preview/colors.constants';
 export { PREVIEW_CONFIG, SHOWCASE_STYLES } from './preview/config.constants';

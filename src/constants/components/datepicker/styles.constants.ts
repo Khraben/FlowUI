@@ -1,4 +1,4 @@
-import { SIZE } from '../../common/sizes.constants';
+import { SIZE } from '../common.constants';
 
 export const DATEPICKER_BASE_STYLES =
   'w-full border-2 rounded-[1.5625rem] outline-none transition-all duration-300 bg-[#313335] text-[#A9B7C6] cursor-pointer box-border';
