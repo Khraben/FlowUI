@@ -43,6 +43,10 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
       onChange,
       locale,
       className = DATEPICKER_EMPTY_VALUE,
+      minDate,
+      maxDate,
+      startDate,
+      endDate,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       bg,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -85,11 +89,48 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
     const defaultCalendarIcon = <Calendar size={18} />;
     const defaultClearIcon = <X size={16} />;
 
-    const localeToUse = locale || enUS;
+    const localeToUse = (locale || enUS) as unknown;
 
     useEffect(() => {
-      registerLocale('datepicker-locale', localeToUse);
+      registerLocale('datepicker-locale', localeToUse as never);
     }, [localeToUse]);
+
+    // Create a type-safe wrapper for onChange that handles both single date and date range
+    const handleChange = (
+      date: Date | Date[] | null,
+      event?:
+        | React.SyntheticEvent<unknown>
+        | React.MouseEvent<HTMLElement>
+        | React.KeyboardEvent<HTMLElement>,
+    ) => {
+      if (!onChange) return;
+
+      // Handle range selection (Date[])
+      if (Array.isArray(date)) {
+        // For range selection, call onChange with the array
+        (
+          onChange as (
+            dates: Date[] | null,
+            event?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>,
+          ) => void
+        )(date, event as React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>);
+      } else {
+        // Handle single date selection
+        (onChange as (date: Date | null, event?: React.SyntheticEvent<unknown>) => void)(
+          date,
+          event as React.SyntheticEvent<unknown>,
+        );
+      }
+    };
+
+    // Filter out null values and create clean props for ReactDatePicker
+    const reactDatePickerProps = {
+      ...props,
+      ...(minDate !== null && minDate !== undefined && { minDate }),
+      ...(maxDate !== null && maxDate !== undefined && { maxDate }),
+      ...(startDate !== null && startDate !== undefined && { startDate }),
+      ...(endDate !== null && endDate !== undefined && { endDate }),
+    };
 
     return (
       <>
@@ -305,14 +346,14 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
 
         <div className={`${wrapperStyles} ${widthStyles} ${className}`}>
           <ReactDatePicker
-            {...(props as Partial<DatePickerProps>)}
             ref={ref}
             className={baseStyles}
             wrapperClassName="w-full"
             popperPlacement="bottom-start"
             locale="datepicker-locale"
             selected={selected}
-            onChange={onChange}
+            onChange={handleChange}
+            {...(reactDatePickerProps as Record<string, unknown>)}
             popperContainer={({ children }) => {
               if (typeof document !== 'undefined') {
                 return createPortal(children, document.body);

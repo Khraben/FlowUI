@@ -1,5 +1,4 @@
 import React from 'react';
-import { Locale } from 'date-fns';
 
 export type DatePickerSize = 'sm' | 'md' | 'lg';
 
@@ -12,9 +11,14 @@ export interface DatePickerProps {
   baseClassName?: string;
   wrapperClassName?: string;
   disableDefaultStyles?: boolean;
-  locale?: Locale;
+  locale?: unknown;
   selected?: Date | null;
-  onChange?: (date: Date | null, event?: React.SyntheticEvent<unknown> | undefined) => void;
+  onChange?:
+    | ((date: Date | null, event?: React.SyntheticEvent<unknown> | undefined) => void)
+    | ((
+        dates: Date[] | null,
+        event?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement> | undefined,
+      ) => void);
   placeholderText?: string;
   dateFormat?: string;
   disabled?: boolean;
