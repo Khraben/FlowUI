@@ -21,7 +21,6 @@ import {
   DATEPICKER_DISPLAY_NAME,
 } from '@/constants/components/datepicker/styles.constants';
 import {
-  DATEPICKER_CALENDAR_COLORS,
   DATEPICKER_CALENDAR_SIZES,
   DATEPICKER_CALENDAR_Z_INDEX,
 } from '@/constants/components/datepicker/calendar.constants';
@@ -63,14 +62,34 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
       iconHoverColor,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       placeholderColor,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      calendarBg,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
+      calendarBorderColor,
+       
       calendarHeaderBg,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       
+      calendarHeaderText,
+       
+      calendarDayText,
+       
+      calendarDayHoverBg,
+       
       calendarSelectedBg,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      calendarHoverBg,
+       
+      calendarSelectedText,
+       
+      calendarKeyboardBg,
+       
+      calendarDisabledText,
+       
+      calendarDisabledBg,
+       
+      calendarOutsideMonthText,
+       
+      calendarNavigationHover,
+       
+      calendarNavigationIcon,
+       
+      calendarMonthBg,
       ...props
     },
     ref,
@@ -95,7 +114,6 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
       registerLocale('datepicker-locale', localeToUse as never);
     }, [localeToUse]);
 
-    // Create a type-safe wrapper for onChange that handles both single date and date range
     const handleChange = (
       date: Date | Date[] | null,
       event?:
@@ -105,9 +123,7 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
     ) => {
       if (!onChange) return;
 
-      // Handle range selection (Date[])
       if (Array.isArray(date)) {
-        // For range selection, call onChange with the array
         (
           onChange as (
             dates: Date[] | null,
@@ -115,7 +131,6 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
           ) => void
         )(date, event as React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>);
       } else {
-        // Handle single date selection
         (onChange as (date: Date | null, event?: React.SyntheticEvent<unknown>) => void)(
           date,
           event as React.SyntheticEvent<unknown>,
@@ -123,13 +138,29 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
       }
     };
 
-    // Filter out null values and create clean props for ReactDatePicker
     const reactDatePickerProps = {
       ...props,
       ...(minDate !== null && minDate !== undefined && { minDate }),
       ...(maxDate !== null && maxDate !== undefined && { maxDate }),
       ...(startDate !== null && startDate !== undefined && { startDate }),
       ...(endDate !== null && endDate !== undefined && { endDate }),
+    };
+
+    const calendarColors = {
+      border: calendarBorderColor,
+      headerBg: calendarHeaderBg,
+      headerText: calendarHeaderText,
+      dayText: calendarDayText,
+      dayHoverBg: calendarDayHoverBg,
+      selectedBg: calendarSelectedBg,
+      selectedText: calendarSelectedText,
+      keyboardBg: calendarKeyboardBg,
+      disabledText: calendarDisabledText,
+      disabledBg: calendarDisabledBg,
+      outsideMonthText: calendarOutsideMonthText,
+      navigationHover: calendarNavigationHover,
+      navigationIcon: calendarNavigationIcon,
+      monthBg: calendarMonthBg,
     };
 
     return (
@@ -149,8 +180,7 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
           }
 
           .react-datepicker {
-            border: ${DATEPICKER_CALENDAR_SIZES.BORDER_WIDTH} solid
-              ${DATEPICKER_CALENDAR_COLORS.BORDER} !important;
+            border: ${DATEPICKER_CALENDAR_SIZES.BORDER_WIDTH} solid ${calendarColors.border} !important;
             border-radius: ${DATEPICKER_CALENDAR_SIZES.BORDER_RADIUS} !important;
             font-family: inherit !important;
             box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1) !important;
@@ -163,11 +193,11 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
           }
 
           .react-datepicker__header {
-            background-color: ${DATEPICKER_CALENDAR_COLORS.HEADER_BG} !important;
-            border-bottom: 0.0625rem solid ${DATEPICKER_CALENDAR_COLORS.HEADER_BG} !important;
+            background-color: ${calendarColors.headerBg} !important;
+            border-bottom: 0.0625rem solid ${calendarColors.headerBg} !important;
             border-top-left-radius: 0.5rem !important;
             border-top-right-radius: 0.5rem !important;
-            color: ${DATEPICKER_CALENDAR_COLORS.HEADER_TEXT} !important;
+            color: ${calendarColors.headerText} !important;
             padding-top: ${DATEPICKER_CALENDAR_SIZES.HEADER_PADDING_TOP} !important;
             padding-left: ${DATEPICKER_CALENDAR_SIZES.HEADER_PADDING_SIDE} !important;
             padding-right: ${DATEPICKER_CALENDAR_SIZES.HEADER_PADDING_SIDE} !important;
@@ -176,19 +206,19 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
           .react-datepicker__current-month,
           .react-datepicker-time__header,
           .react-datepicker-year-header {
-            color: ${DATEPICKER_CALENDAR_COLORS.HEADER_TEXT} !important;
+            color: ${calendarColors.headerText} !important;
             font-weight: bold !important;
             font-size: 1rem !important;
             padding-bottom: ${DATEPICKER_CALENDAR_SIZES.HEADER_PADDING_TOP} !important;
           }
 
           .react-datepicker__day-names {
-            background-color: ${DATEPICKER_CALENDAR_COLORS.HEADER_BG} !important;
+            background-color: ${calendarColors.headerBg} !important;
             padding-bottom: ${DATEPICKER_CALENDAR_SIZES.HEADER_PADDING_TOP} !important;
           }
 
           .react-datepicker__day-name {
-            color: ${DATEPICKER_CALENDAR_COLORS.HEADER_TEXT} !important;
+            color: ${calendarColors.headerText} !important;
             display: inline-block !important;
             width: ${DATEPICKER_CALENDAR_SIZES.DAY_SIZE} !important;
             line-height: ${DATEPICKER_CALENDAR_SIZES.DAY_SIZE} !important;
@@ -201,7 +231,7 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
 
           .react-datepicker__month {
             margin: ${DATEPICKER_CALENDAR_SIZES.MONTH_MARGIN} !important;
-            background-color: ${DATEPICKER_CALENDAR_COLORS.MONTH_BG} !important;
+            background-color: ${calendarColors.monthBg} !important;
           }
 
           .react-datepicker__week {
@@ -213,7 +243,7 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
           .react-datepicker__month-text,
           .react-datepicker__quarter-text,
           .react-datepicker__year-text {
-            color: ${DATEPICKER_CALENDAR_COLORS.DAY_TEXT} !important;
+            color: ${calendarColors.dayText} !important;
             display: inline-block !important;
             width: ${DATEPICKER_CALENDAR_SIZES.DAY_SIZE} !important;
             line-height: ${DATEPICKER_CALENDAR_SIZES.DAY_SIZE} !important;
@@ -227,7 +257,7 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
           .react-datepicker__month-text:hover,
           .react-datepicker__quarter-text:hover,
           .react-datepicker__year-text:hover {
-            background-color: ${DATEPICKER_CALENDAR_COLORS.DAY_HOVER_BG} !important;
+            background-color: ${calendarColors.dayHoverBg} !important;
             border-radius: 0.25rem !important;
           }
 
@@ -237,8 +267,8 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
           .react-datepicker__month-text--selected,
           .react-datepicker__quarter-text--selected,
           .react-datepicker__year-text--selected {
-            background-color: ${DATEPICKER_CALENDAR_COLORS.DAY_SELECTED_BG} !important;
-            color: ${DATEPICKER_CALENDAR_COLORS.DAY_SELECTED_TEXT} !important;
+            background-color: ${calendarColors.selectedBg} !important;
+            color: ${calendarColors.selectedText} !important;
             border-radius: 0.25rem !important;
             font-weight: bold !important;
           }
@@ -247,8 +277,8 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
           .react-datepicker__month-text--keyboard-selected,
           .react-datepicker__quarter-text--keyboard-selected,
           .react-datepicker__year-text--keyboard-selected {
-            background-color: ${DATEPICKER_CALENDAR_COLORS.DAY_KEYBOARD_BG} !important;
-            color: ${DATEPICKER_CALENDAR_COLORS.DAY_SELECTED_TEXT} !important;
+            background-color: ${calendarColors.keyboardBg} !important;
+            color: ${calendarColors.selectedText} !important;
             border-radius: 0.25rem !important;
           }
 
@@ -269,11 +299,11 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
           }
 
           .react-datepicker__navigation:hover {
-            background-color: ${DATEPICKER_CALENDAR_COLORS.NAVIGATION_HOVER} !important;
+            background-color: ${calendarColors.navigationHover} !important;
           }
 
           .react-datepicker__navigation-icon::before {
-            border-color: ${DATEPICKER_CALENDAR_COLORS.NAVIGATION_ICON} !important;
+            border-color: ${calendarColors.navigationIcon} !important;
             border-width: ${DATEPICKER_CALENDAR_SIZES.BORDER_WIDTH}
               ${DATEPICKER_CALENDAR_SIZES.BORDER_WIDTH} 0 0 !important;
             height: ${DATEPICKER_CALENDAR_SIZES.ICON_SIZE} !important;
@@ -293,20 +323,20 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
           .react-datepicker__month-text--disabled,
           .react-datepicker__quarter-text--disabled,
           .react-datepicker__year-text--disabled {
-            color: ${DATEPICKER_CALENDAR_COLORS.DAY_DISABLED_TEXT} !important;
+            color: ${calendarColors.disabledText} !important;
             cursor: not-allowed !important;
-            background-color: ${DATEPICKER_CALENDAR_COLORS.DAY_DISABLED_BG} !important;
+            background-color: ${calendarColors.disabledBg} !important;
           }
 
           .react-datepicker__day--disabled:hover,
           .react-datepicker__month-text--disabled:hover,
           .react-datepicker__quarter-text--disabled:hover,
           .react-datepicker__year-text--disabled:hover {
-            background-color: ${DATEPICKER_CALENDAR_COLORS.DAY_DISABLED_BG} !important;
+            background-color: ${calendarColors.disabledBg} !important;
           }
 
           .react-datepicker__day--outside-month {
-            color: ${DATEPICKER_CALENDAR_COLORS.DAY_OUTSIDE_MONTH} !important;
+            color: ${calendarColors.outsideMonthText} !important;
           }
 
           .react-datepicker-popper {

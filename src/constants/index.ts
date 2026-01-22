@@ -1,4 +1,3 @@
-// Common
 import { STRING, REGEX } from './common/strings.constants';
 import { SIZE } from './common/sizes.constants';
 import { POSITION } from './common/positions.constants';
@@ -7,7 +6,6 @@ import { CSS_VAR } from './common/css-vars.constants';
 
 export { STRING, REGEX, SIZE, POSITION, SVG, CSS_VAR };
 
-// Button
 import { BUTTON_SPINNER } from './components/button/spinner.constants';
 export { BUTTON_VARIANT, BUTTON_ROUNDED } from './components/button/variants.constants';
 export {
@@ -24,13 +22,11 @@ export {
 } from './components/button/styles.constants';
 export { BUTTON_SPINNER } from './components/button/spinner.constants';
 
-// Button aliases for backward compatibility
 export { BUTTON_VARIANT as BUTTON_VARIANTS } from './components/button/variants.constants';
 export { SIZE as BUTTON_SIZES } from './common/sizes.constants';
 export { POSITION as BUTTON_ICON_POSITIONS } from './common/positions.constants';
 export { BUTTON_ROUNDED as BUTTON_ROUNDED_OPTIONS } from './components/button/variants.constants';
 
-// Input
 import { INPUT_TIME, INPUT_AUTOCOMPLETE } from './components/input/metadata.constants';
 export { INPUT_VARIANT } from './components/input/variants.constants';
 export {
@@ -55,11 +51,9 @@ export {
   INPUT_ICON_SIZES_PX,
 } from './components/input/metadata.constants';
 
-// Input aliases for backward compatibility
 export { INPUT_VARIANT as INPUT_VARIANTS } from './components/input/variants.constants';
 export { SIZE as INPUT_SIZES } from './common/sizes.constants';
 
-// DatePicker
 export {
   DATEPICKER_BASE_STYLES,
   DATEPICKER_BORDER_STYLES,
@@ -78,22 +72,17 @@ export {
   DATEPICKER_DISPLAY_NAME,
 } from './components/datepicker/styles.constants';
 export {
-  DATEPICKER_CALENDAR_COLORS,
   DATEPICKER_CALENDAR_SIZES,
   DATEPICKER_CALENDAR_Z_INDEX,
 } from './components/datepicker/calendar.constants';
 
-// DatePicker aliases for backward compatibility
 export { SIZE as DATEPICKER_SIZES } from './common/sizes.constants';
 
-// Preview
 export { PREVIEW_COLORS } from './preview/colors.constants';
 export { PREVIEW_CONFIG, SHOWCASE_STYLES } from './preview/config.constants';
 
-// Categories
 export { COMPONENT_CATEGORIES } from './categories.constants';
 
-// Legacy constants (mapped to new structure)
 export const BUTTON_EMPTY_VALUE = STRING.EMPTY;
 export const BUTTON_WHITESPACE_REGEX = REGEX.WHITESPACE;
 export const BUTTON_SINGLE_SPACE = STRING.SINGLE_SPACE;
@@ -119,7 +108,6 @@ export const INPUT_NO_PADDING_CLASS = 'p-0';
 export const INPUT_CENTER_VERTICAL_CLASSES = 'flex items-center justify-center';
 export const INPUT_BUTTON_TYPE = 'button';
 
-// Preview texts (hardcoded as per user request - not reusable constants)
 export const PREVIEW_TEXT = {
   TITLE: 'FlowUI Component Library',
   SUBTITLE: 'Professional Tailwind & Next.js components',

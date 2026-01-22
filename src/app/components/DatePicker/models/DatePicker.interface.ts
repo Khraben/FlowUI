@@ -61,8 +61,18 @@ export interface DatePickerProps {
   iconColor?: string;
   iconHoverColor?: string;
   placeholderColor?: string;
-  calendarBg?: string;
+  calendarBorderColor?: string;
   calendarHeaderBg?: string;
+  calendarHeaderText?: string;
+  calendarDayText?: string;
+  calendarDayHoverBg?: string;
   calendarSelectedBg?: string;
-  calendarHoverBg?: string;
+  calendarSelectedText?: string;
+  calendarKeyboardBg?: string;
+  calendarDisabledText?: string;
+  calendarDisabledBg?: string;
+  calendarOutsideMonthText?: string;
+  calendarNavigationHover?: string;
+  calendarNavigationIcon?: string;
+  calendarMonthBg?: string;
 }

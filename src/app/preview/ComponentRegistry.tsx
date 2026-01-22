@@ -528,10 +528,14 @@ export const componentRegistry: ComponentDemo[] = [
           iconColor={PREVIEW_COLORS.ACCENT}
           iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
           placeholderColor={PREVIEW_COLORS.DISABLED_TEXT}
-          calendarBg={PREVIEW_COLORS.SURFACE_DARK}
+          calendarBorderColor={PREVIEW_COLORS.ACCENT}
           calendarHeaderBg={PREVIEW_COLORS.ACCENT}
+          calendarHeaderText={PREVIEW_COLORS.WHITE}
+          calendarDayText={PREVIEW_COLORS.TEXT_LIGHT}
+          calendarDayHoverBg={PREVIEW_COLORS.FOCUS_SHADOW}
           calendarSelectedBg={PREVIEW_COLORS.ACCENT}
-          calendarHoverBg={PREVIEW_COLORS.FOCUS_SHADOW}
+          calendarSelectedText={PREVIEW_COLORS.WHITE}
+          calendarMonthBg={PREVIEW_COLORS.SURFACE_DARK}
         />
       );
     },
@@ -561,10 +565,14 @@ export const componentRegistry: ComponentDemo[] = [
           iconColor={PREVIEW_COLORS.ACCENT}
           iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
           placeholderColor={PREVIEW_COLORS.DISABLED_TEXT}
-          calendarBg={PREVIEW_COLORS.SURFACE_DARK}
+          calendarBorderColor={PREVIEW_COLORS.PRIMARY}
           calendarHeaderBg={PREVIEW_COLORS.PRIMARY}
+          calendarHeaderText={PREVIEW_COLORS.WHITE}
+          calendarDayText={PREVIEW_COLORS.TEXT_LIGHT}
+          calendarDayHoverBg={PREVIEW_COLORS.FOCUS_SHADOW}
           calendarSelectedBg={PREVIEW_COLORS.ACCENT}
-          calendarHoverBg={PREVIEW_COLORS.FOCUS_SHADOW}
+          calendarSelectedText={PREVIEW_COLORS.WHITE}
+          calendarMonthBg={PREVIEW_COLORS.SURFACE_DARK}
         />
       );
     },
