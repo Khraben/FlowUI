@@ -1,0 +1,17 @@
+.next/
+.git/
+.github/
+node_modules/
+src/
+public/
+docs/
+.eslintrc.json
+.prettierrc
+.gitignore
+*.config.ts
+*.config.mjs
+*.config.js
+tsconfig*.json
+*.md
+!README.md
+!LICENSE

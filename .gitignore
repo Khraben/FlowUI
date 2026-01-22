@@ -140,3 +140,8 @@ vite.config.ts.timestamp-*
 
 # Remote Config
 remote_config.json
+# Library build output
+dist/
+
+# NPM auth token
+.npmrc

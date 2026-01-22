@@ -1,23 +1,81 @@
 {
-  "name": "flow-ui",
+  "name": "@khraben/flowui",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "description": "Modern React component library with TypeScript and Tailwind CSS",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./components": {
+      "import": "./dist/components/index.mjs",
+      "require": "./dist/components/index.js",
+      "types": "./dist/components/index.d.ts"
+    },
+    "./constants": {
+      "import": "./dist/constants/index.mjs",
+      "require": "./dist/constants/index.js",
+      "types": "./dist/constants/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Khraben/FlowUI.git"
+  },
+  "keywords": [
+    "react",
+    "components",
+    "typescript",
+    "tailwindcss",
+    "ui-library",
+    "design-system"
+  ],
+  "author": "Khraben",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Khraben/FlowUI/issues"
+  },
+  "homepage": "https://github.com/Khraben/FlowUI#readme",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:lib": "tsup",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "prepublishOnly": "npm run build:lib"
   },
   "dependencies": {
+    "date-fns": "^4.1.0",
     "lucide-react": "^0.562.0",
     "next": "16.1.4",
     "react": "19.2.3",
+    "react-datepicker": "^9.1.0",
     "react-dom": "19.2.3"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0",
+    "tailwindcss": "^4.0.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
+    "@types/react-datepicker": "^6.2.0",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.4",
@@ -25,6 +83,7 @@
     "eslint-plugin-prettier": "^5.5.5",
     "prettier": "^3.8.1",
     "tailwindcss": "^4",
+    "tsup": "^8.3.5",
     "typescript": "^5"
   }
 }

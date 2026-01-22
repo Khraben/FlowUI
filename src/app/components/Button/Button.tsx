@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { ButtonProps } from './models/Button.interface';
 import {
   BUTTON_VARIANTS,
@@ -14,14 +14,15 @@ import {
   BUTTON_LOADING_SPINNER_STYLES,
   BUTTON_ICON_SPACING,
   BUTTON_LOADING_TEXT_SPACING,
+  BUTTON_SPINNER,
+  BUTTON_EMPTY_VALUE,
+  BUTTON_WHITESPACE_REGEX,
+  BUTTON_SINGLE_SPACE,
+  BUTTON_COLOR_METADATA,
   BUTTON_DISPLAY_NAME,
-  BUTTON_SVG_NAMESPACE,
-  BUTTON_SVG_VIEWBOX,
-  BUTTON_SPINNER_CIRCLE,
-  BUTTON_SPINNER_PATH_D,
-  BUTTON_OPACITY_VALUES,
-  BUTTON_SVG_FILL,
-} from '@/constants';
+  STRING,
+  SVG,
+} from '@/app/constants';
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -34,21 +35,33 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       loadingText,
       fullWidth = false,
       rounded,
-      className = '',
+      className = BUTTON_EMPTY_VALUE,
       baseClassName,
       variantClassName,
       sizeClassName,
       disableDefaultStyles = false,
       children,
       disabled,
+      bg,
+      textColor,
+      borderColor,
+      hoverBg,
+      hoverTextColor,
+      disabledBg,
+      disabledTextColor,
+      disabledBorderColor,
+      focusRing,
+      style,
       ...props
     },
     ref,
   ) => {
-    const baseStyles = disableDefaultStyles ? '' : baseClassName || BUTTON_BASE_STYLES;
+    const baseStyles = disableDefaultStyles
+      ? BUTTON_EMPTY_VALUE
+      : baseClassName || BUTTON_BASE_STYLES;
 
     const variantStyles = disableDefaultStyles
-      ? ''
+      ? BUTTON_EMPTY_VALUE
       : variantClassName || BUTTON_VARIANT_STYLES[variant];
 
     const getSizeStyles = () => {
@@ -58,10 +71,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       return BUTTON_SIZE_STYLES.default[size];
     };
 
-    const sizeStyles = disableDefaultStyles ? '' : sizeClassName || getSizeStyles();
+    const sizeStyles = disableDefaultStyles ? BUTTON_EMPTY_VALUE : sizeClassName || getSizeStyles();
 
     const roundedStyles = disableDefaultStyles
-      ? ''
+      ? BUTTON_EMPTY_VALUE
       : rounded
         ? BUTTON_ROUNDED_MAP[rounded]
         : BUTTON_ROUNDED_DEFAULTS[variant];
@@ -71,14 +84,49 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       variant !== BUTTON_VARIANTS.CLEAR &&
       variant !== BUTTON_VARIANTS.ICON
         ? BUTTON_SPACING_STYLES
-        : '';
+        : BUTTON_EMPTY_VALUE;
 
-    const widthStyles = fullWidth ? BUTTON_FULL_WIDTH_STYLES : '';
+    const widthStyles = fullWidth ? BUTTON_FULL_WIDTH_STYLES : BUTTON_EMPTY_VALUE;
+
+    const inlineStyles = useMemo(() => {
+      if (!bg && !textColor) return style;
+
+      return {
+        ...style,
+        [BUTTON_COLOR_METADATA.BG]: bg,
+        [BUTTON_COLOR_METADATA.TEXT]: textColor,
+        [BUTTON_COLOR_METADATA.BORDER]: borderColor || STRING.TRANSPARENT,
+        [BUTTON_COLOR_METADATA.HOVER_BG]: hoverBg,
+        [BUTTON_COLOR_METADATA.HOVER_TEXT]: hoverTextColor || textColor,
+        [BUTTON_COLOR_METADATA.DISABLED_BG]: disabledBg,
+        [BUTTON_COLOR_METADATA.DISABLED_TEXT]: disabledTextColor,
+        [BUTTON_COLOR_METADATA.DISABLED_BORDER]: disabledBorderColor || STRING.TRANSPARENT,
+        [BUTTON_COLOR_METADATA.FOCUS_RING]: focusRing,
+        backgroundColor: disabled ? disabledBg : bg,
+        color: disabled ? disabledTextColor : textColor,
+        borderColor: disabled
+          ? disabledBorderColor || STRING.TRANSPARENT
+          : borderColor || STRING.TRANSPARENT,
+      } as React.CSSProperties;
+    }, [
+      bg,
+      textColor,
+      borderColor,
+      hoverBg,
+      hoverTextColor,
+      disabledBg,
+      disabledTextColor,
+      disabledBorderColor,
+      focusRing,
+      disabled,
+      style,
+    ]);
 
     return (
       <button
         ref={ref}
         disabled={disabled || isLoading}
+        style={inlineStyles}
         className={`
           ${baseStyles}
           ${variantStyles}
@@ -89,30 +137,30 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           ${className}
         `
           .trim()
-          .replace(/\s+/g, ' ')}
+          .replace(BUTTON_WHITESPACE_REGEX, BUTTON_SINGLE_SPACE)}
         {...props}
       >
         {isLoading ? (
           <>
             <svg
               className={BUTTON_LOADING_SPINNER_STYLES}
-              xmlns={BUTTON_SVG_NAMESPACE}
-              fill={BUTTON_SVG_FILL.none}
-              viewBox={BUTTON_SVG_VIEWBOX}
+              xmlns={SVG.NAMESPACE}
+              fill={SVG.FILL.NONE}
+              viewBox={SVG.VIEWBOX}
             >
               <circle
-                className={BUTTON_OPACITY_VALUES.circle}
-                cx={BUTTON_SPINNER_CIRCLE.cx}
-                cy={BUTTON_SPINNER_CIRCLE.cy}
-                r={BUTTON_SPINNER_CIRCLE.r}
-                stroke={BUTTON_SVG_FILL.current}
-                strokeWidth={BUTTON_SPINNER_CIRCLE.strokeWidth}
-              ></circle>
+                className={BUTTON_SPINNER.OPACITY.CIRCLE}
+                cx={BUTTON_SPINNER.CIRCLE.CX}
+                cy={BUTTON_SPINNER.CIRCLE.CY}
+                r={BUTTON_SPINNER.CIRCLE.R}
+                stroke={SVG.FILL.CURRENT}
+                strokeWidth={BUTTON_SPINNER.CIRCLE.STROKE_WIDTH}
+              />
               <path
-                className={BUTTON_OPACITY_VALUES.path}
-                fill={BUTTON_SVG_FILL.current}
-                d={BUTTON_SPINNER_PATH_D}
-              ></path>
+                className={BUTTON_SPINNER.OPACITY.PATH}
+                fill={SVG.FILL.CURRENT}
+                d={BUTTON_SPINNER.PATH_D}
+              />
             </svg>
             {loadingText && <span className={BUTTON_LOADING_TEXT_SPACING}>{loadingText}</span>}
           </>
