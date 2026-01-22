@@ -50,46 +50,46 @@ export default function HomePage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
-  useEffect(() => {
+  const handleCategoryChange = (category: ComponentCategory | typeof FILTER_CATEGORY.ALL) => {
+    setSelectedCategory(category);
     setDisplayedComponents(PREVIEW_CONFIG.COMPONENTS_PER_PAGE);
-  }, [selectedCategory]);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#2B2B2B] via-[#313335] to-[#2B2B2B]">
-      <header className="sticky top-0 z-50 bg-[#3C3F41]/95 backdrop-blur-md border-b border-[#323232] shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col items-center text-center gap-4">
-            <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-[#6897BB] to-[#287BDE] bg-clip-text text-transparent">
-                {PREVIEW_TEXT.TITLE}
-              </h1>
-              <p className="text-[#A9B7C6] mt-1">{PREVIEW_TEXT.SUBTITLE}</p>
-            </div>
-            <div className="flex items-center gap-2 text-sm">
-              <span className="text-[#808080]">{PREVIEW_TEXT.TOTAL_LABEL}</span>
-              <span className="font-bold text-[#6897BB]">{filteredComponents.length}</span>
-              <span className="text-[#808080]">{PREVIEW_TEXT.COMPONENTS_LABEL}</span>
+      <div className="sticky top-0 z-50">
+        <header className="bg-[#3C3F41]/95 backdrop-blur-md shadow-lg">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div className="flex flex-col items-center text-center gap-4">
+              <div>
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-[#6897BB] to-[#287BDE] bg-clip-text text-transparent">
+                  {PREVIEW_TEXT.TITLE}
+                </h1>
+                <p className="text-[#A9B7C6] mt-1">{PREVIEW_TEXT.SUBTITLE}</p>
+              </div>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      <div className="bg-[#3C3F41]/95 backdrop-blur-md border-b border-[#323232] shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex flex-wrap gap-2 justify-center">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2 rounded-full font-medium transition-all duration-200 ${
-                  selectedCategory === category
-                    ? 'bg-gradient-to-r from-[#287BDE] to-[#6897BB] text-white shadow-lg border border-[#323232]'
-                    : 'bg-[#2B2B2B] text-[#A9B7C6] hover:bg-[#3C3F41] border border-[#323232]'
-                }`}
-              >
-                {category}
-              </button>
-            ))}
+        <div className="h-px bg-gradient-to-r from-[#3C3F41] via-[#6897BB] to-[#3C3F41]"></div>
+
+        <div className="bg-[#3C3F41]/95 backdrop-blur-md border-b border-[#323232] shadow-lg">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="flex flex-wrap gap-2 justify-center">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => handleCategoryChange(category)}
+                  className={`px-4 py-2 rounded-full font-medium transition-all duration-200 ${
+                    selectedCategory === category
+                      ? 'bg-gradient-to-r from-[#287BDE] to-[#6897BB] text-white shadow-lg border border-[#323232]'
+                      : 'bg-[#2B2B2B] text-[#A9B7C6] hover:bg-[#3C3F41] border border-[#323232]'
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -106,34 +106,6 @@ export default function HomePage() {
             <div className="flex flex-col items-center gap-4">
               <div className="w-12 h-12 border-4 border-[#3C3F41] border-t-[#6897BB] rounded-full animate-spin"></div>
               <p className="text-[#A9B7C6] font-medium">{PREVIEW_TEXT.LOADING_MESSAGE}</p>
-            </div>
-          </div>
-        )}
-
-        {!hasMore && componentsToShow.length > 0 && (
-          <div className="flex justify-center items-center py-12">
-            <div className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-[#287BDE] to-[#6897BB] rounded-full flex items-center justify-center border border-[#323232]">
-                <svg
-                  className="w-8 h-8 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-[#A9B7C6] mb-2">
-                {PREVIEW_TEXT.ALL_LOADED_TITLE}
-              </h3>
-              <p className="text-[#808080]">
-                {PREVIEW_TEXT.ALL_LOADED_MESSAGE(filteredComponents.length, selectedCategory)}
-              </p>
             </div>
           </div>
         )}
