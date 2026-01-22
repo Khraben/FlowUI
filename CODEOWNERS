@@ -1,0 +1,25 @@
+# GitHub CODEOWNERS file
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Global owner for everything in the repo
+* @Khraben
+
+# Component files
+/src/app/components/ @Khraben
+
+# Constants and configuration
+/src/app/constants/ @Khraben
+
+# Build and configuration files
+*.config.ts @Khraben
+*.config.mjs @Khraben
+*.config.js @Khraben
+package.json @Khraben
+tsconfig.json @Khraben
+
+# Documentation
+*.md @Khraben
+/docs/ @Khraben
+
+# GitHub workflows and actions
+/.github/ @Khraben

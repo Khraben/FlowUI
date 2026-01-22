@@ -9,4 +9,3 @@ export {
   INPUT_SIZES,
   DATEPICKER_SIZES,
 } from './app/constants';
-
