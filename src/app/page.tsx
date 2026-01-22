@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import ComponentShowcase from './preview/ComponentShowcase';
 import { componentRegistry } from './preview/ComponentRegistry';
 import { ComponentCategory } from '@/types/component';
-import { PREVIEW_CONFIG, PREVIEW_TEXT, FILTER_CATEGORY } from '@/constants';
+import { PREVIEW_CONFIG, PREVIEW_TEXT, FILTER_CATEGORY } from '@/app/constants';
 
 export default function HomePage() {
   const [displayedComponents, setDisplayedComponents] = useState<number>(

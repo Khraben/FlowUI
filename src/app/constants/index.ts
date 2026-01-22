@@ -82,6 +82,7 @@ export { PREVIEW_COLORS } from './preview/colors.constants';
 export { PREVIEW_CONFIG, SHOWCASE_STYLES } from './preview/config.constants';
 
 export { COMPONENT_CATEGORIES } from './categories.constants';
+export type { ComponentCategory } from './categories.constants';
 
 export const BUTTON_EMPTY_VALUE = STRING.EMPTY;
 export const BUTTON_WHITESPACE_REGEX = REGEX.WHITESPACE;

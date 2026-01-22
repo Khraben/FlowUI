@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { ComponentDemo } from '@/types/component';
-import { SHOWCASE_STYLES } from '@/constants';
+import { SHOWCASE_STYLES } from '@/app/constants';
 
 interface ComponentShowcaseProps {
   demo: ComponentDemo;

@@ -1,6 +1,6 @@
 import { ComponentDemo } from '@/types/component';
 import { Button, Input, SelectInput, TimeInput, DatePicker } from '@/app/components';
-import { COMPONENT_CATEGORIES, PREVIEW_COLORS } from '@/constants';
+import { COMPONENT_CATEGORIES, PREVIEW_COLORS } from '@/app/constants';
 import {
   Check,
   X,

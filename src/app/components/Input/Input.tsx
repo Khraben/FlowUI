@@ -30,7 +30,7 @@ import {
   INPUT_FULL_WIDTH_CLASS,
   INPUT_NO_PADDING_CLASS,
   INPUT_BUTTON_TYPE,
-} from '@/constants';
+} from '@/app/constants';
 
 const generateTimeOptions = (startHour: number, endHour: number, interval: number) => {
   const times = [];
