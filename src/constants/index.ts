@@ -59,6 +59,31 @@ export {
 export { INPUT_VARIANT as INPUT_VARIANTS } from './components/input/variants.constants';
 export { SIZE as INPUT_SIZES } from './common/sizes.constants';
 
+// DatePicker
+export {
+  DATEPICKER_BASE_STYLES,
+  DATEPICKER_BORDER_STYLES,
+  DATEPICKER_SIZE_STYLES,
+  DATEPICKER_PLACEHOLDER_STYLES,
+  DATEPICKER_ICON_BUTTON_BASE,
+  DATEPICKER_ICON_POSITIONS,
+  DATEPICKER_CLEAR_BUTTON_BASE,
+  DATEPICKER_CLEAR_POSITIONS,
+  DATEPICKER_ICON_SIZES,
+  DATEPICKER_WRAPPER_STYLES,
+  DATEPICKER_FULL_WIDTH_CLASS,
+  DATEPICKER_EMPTY_VALUE,
+  DATEPICKER_DISPLAY_NAME,
+} from './components/datepicker/styles.constants';
+export {
+  DATEPICKER_CALENDAR_COLORS,
+  DATEPICKER_CALENDAR_SIZES,
+  DATEPICKER_CALENDAR_Z_INDEX,
+} from './components/datepicker/calendar.constants';
+
+// DatePicker aliases for backward compatibility
+export { SIZE as DATEPICKER_SIZES } from './common/sizes.constants';
+
 // Preview
 export { PREVIEW_COLORS } from './preview/colors.constants';
 export { PREVIEW_CONFIG, SHOWCASE_STYLES } from './preview/config.constants';

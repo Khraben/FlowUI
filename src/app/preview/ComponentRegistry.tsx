@@ -1,6 +1,7 @@
 import { ComponentDemo } from '@/types/component';
-import { Button, Input, SelectInput, TimeInput } from '@/app/components';
+import { Button, Input, SelectInput, TimeInput, DatePicker } from '@/app/components';
 import { COMPONENT_CATEGORIES, PREVIEW_COLORS } from '@/constants';
+import { es } from 'date-fns/locale';
 import {
   Check,
   X,
@@ -13,6 +14,7 @@ import {
   Eye,
   EyeOff,
   ChevronDown,
+  Calendar,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -503,5 +505,93 @@ export const componentRegistry: ComponentDemo[] = [
         />
       </div>
     ),
+  },
+  {
+    id: 'datepicker-basic',
+    name: 'Date Picker',
+    description: 'Interactive calendar date picker with clear button',
+    category: COMPONENT_CATEGORIES.INPUTS,
+    component: () => {
+      const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+      return (
+        <DatePicker
+          selected={selectedDate}
+          onChange={(date: Date | null) => setSelectedDate(date)}
+          onClear={() => setSelectedDate(null)}
+          placeholderText="Select a date"
+          calendarIcon={<Calendar size={18} />}
+          clearIcon={<X size={16} />}
+          bg={PREVIEW_COLORS.SURFACE_DARK}
+          textColor={PREVIEW_COLORS.TEXT_LIGHT}
+          borderColor={PREVIEW_COLORS.BORDER}
+          focusBorderColor={PREVIEW_COLORS.ACCENT}
+          focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
+          iconColor={PREVIEW_COLORS.ACCENT}
+          iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
+          placeholderColor={PREVIEW_COLORS.DISABLED_TEXT}
+          calendarBg={PREVIEW_COLORS.SURFACE_DARK}
+          calendarHeaderBg={PREVIEW_COLORS.ACCENT}
+          calendarSelectedBg={PREVIEW_COLORS.ACCENT}
+          calendarHoverBg={PREVIEW_COLORS.FOCUS_SHADOW}
+        />
+      );
+    },
+  },
+  {
+    id: 'datepicker-small',
+    name: 'Small Date Picker (Spanish)',
+    description: 'Compact date picker with Spanish locale',
+    category: COMPONENT_CATEGORIES.INPUTS,
+    component: () => {
+      const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+      return (
+        <DatePicker
+          size="sm"
+          selected={selectedDate}
+          onChange={(date: Date | null) => setSelectedDate(date)}
+          onClear={() => setSelectedDate(null)}
+          placeholderText="Seleccionar fecha"
+          locale={es}
+          calendarIcon={<Calendar size={14} />}
+          clearIcon={<X size={12} />}
+          bg={PREVIEW_COLORS.SURFACE_DARK}
+          textColor={PREVIEW_COLORS.TEXT_LIGHT}
+          borderColor={PREVIEW_COLORS.BORDER}
+          focusBorderColor={PREVIEW_COLORS.ACCENT}
+          focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
+          iconColor={PREVIEW_COLORS.ACCENT}
+          iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
+          placeholderColor={PREVIEW_COLORS.DISABLED_TEXT}
+        />
+      );
+    },
+  },
+  {
+    id: 'datepicker-large',
+    name: 'Large Date Picker',
+    description: 'Larger size date picker for prominent placement',
+    category: COMPONENT_CATEGORIES.INPUTS,
+    component: () => {
+      const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+      return (
+        <DatePicker
+          size="lg"
+          selected={selectedDate}
+          onChange={(date: Date | null) => setSelectedDate(date)}
+          onClear={() => setSelectedDate(null)}
+          placeholderText="Select a date"
+          calendarIcon={<Calendar size={20} />}
+          clearIcon={<X size={18} />}
+          bg={PREVIEW_COLORS.SURFACE_DARK}
+          textColor={PREVIEW_COLORS.TEXT_LIGHT}
+          borderColor={PREVIEW_COLORS.BORDER}
+          focusBorderColor={PREVIEW_COLORS.ACCENT}
+          focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
+          iconColor={PREVIEW_COLORS.ACCENT}
+          iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
+          placeholderColor={PREVIEW_COLORS.DISABLED_TEXT}
+        />
+      );
+    },
   },
 ];
