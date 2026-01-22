@@ -10,10 +10,21 @@ export interface TimeInputProps {
   startHour?: number;
   endHour?: number;
   interval?: number;
+  selectIcon?: React.ReactNode;
   fullWidth?: boolean;
   baseClassName?: string;
   labelClassName?: string;
   wrapperClassName?: string;
   disableDefaultStyles?: boolean;
   className?: string;
+  bg?: string;
+  textColor?: string;
+  borderColor?: string;
+  focusBorderColor?: string;
+  focusShadow?: string;
+  labelColor?: string;
+  labelActiveColor?: string;
+  iconColor?: string;
+  iconHoverColor?: string;
+  placeholderColor?: string;
 }

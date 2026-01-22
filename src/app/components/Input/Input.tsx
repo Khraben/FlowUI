@@ -14,7 +14,6 @@ import {
   INPUT_ICON_SIZES,
   INPUT_SELECT_PADDING,
   INPUT_SEARCH_PADDING,
-  INPUT_ICON_STATIC_STYLES,
   INPUT_CLEAR_BUTTON_STYLES,
   INPUT_SELECT_APPEARANCE,
   INPUT_WRAPPER_STYLES,
@@ -30,7 +29,6 @@ import {
   INPUT_AUTOCOMPLETE_VALUES,
   INPUT_FULL_WIDTH_CLASS,
   INPUT_NO_PADDING_CLASS,
-  INPUT_CENTER_VERTICAL_CLASSES,
   INPUT_BUTTON_TYPE,
 } from '@/constants';
 
@@ -75,6 +73,26 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       wrapperClassName,
       disableDefaultStyles = false,
       value,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      bg,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      textColor,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      borderColor,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      focusBorderColor,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      focusShadow,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      labelColor,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      labelActiveColor,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      iconColor,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      iconHoverColor,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      placeholderColor,
       ...props
     },
     ref,
@@ -154,7 +172,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             )}
             {searchIcon && (
               <div
-                className={`${INPUT_ICON_STATIC_STYLES} ${INPUT_ICON_BUTTON_POSITIONS.RIGHT} ${INPUT_CENTER_VERTICAL_CLASSES}`}
+                className={`${INPUT_ICON_BUTTON_BASE} ${INPUT_ICON_BUTTON_POSITIONS.RIGHT} ${INPUT_ICON_SIZES[size]} ${INPUT_NO_PADDING_CLASS} pointer-events-none`}
               >
                 {searchIcon}
               </div>
@@ -183,6 +201,26 @@ export const SelectInput = forwardRef<HTMLSelectElement, SelectInputProps>(
       wrapperClassName,
       disableDefaultStyles = false,
       value,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      bg,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      textColor,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      borderColor,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      focusBorderColor,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      focusShadow,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      labelColor,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      labelActiveColor,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      iconColor,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      iconHoverColor,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      placeholderColor,
       ...props
     },
     ref,
@@ -211,7 +249,7 @@ export const SelectInput = forwardRef<HTMLSelectElement, SelectInputProps>(
         )}
         {selectIcon && (
           <div
-            className={`${INPUT_ICON_STATIC_STYLES} ${INPUT_ICON_BUTTON_POSITIONS.RIGHT} ${INPUT_CENTER_VERTICAL_CLASSES}`}
+            className={`${INPUT_ICON_BUTTON_BASE} ${INPUT_ICON_BUTTON_POSITIONS.RIGHT} ${INPUT_ICON_SIZES[size]} ${INPUT_NO_PADDING_CLASS} pointer-events-none`}
           >
             {selectIcon}
           </div>
@@ -233,6 +271,7 @@ export const TimeInput = forwardRef<HTMLSelectElement, TimeInputProps>(
       startHour = INPUT_TIME_DEFAULTS.START_HOUR,
       endHour = INPUT_TIME_DEFAULTS.END_HOUR,
       interval = INPUT_TIME_DEFAULTS.INTERVAL,
+      selectIcon,
       fullWidth = true,
       className = INPUT_EMPTY_VALUE,
       baseClassName,
@@ -242,29 +281,27 @@ export const TimeInput = forwardRef<HTMLSelectElement, TimeInputProps>(
     },
     ref,
   ) => {
-    const baseStyles = disableDefaultStyles
-      ? INPUT_EMPTY_VALUE
-      : baseClassName ||
-        `${INPUT_BASE_STYLES} ${INPUT_BORDER_STYLES} ${INPUT_SIZE_STYLES[size]} ${INPUT_SELECT_PADDING} ${INPUT_SELECT_APPEARANCE}`;
-
-    const wrapperStyles = wrapperClassName || INPUT_WRAPPER_STYLES;
-
-    const labelStyles = labelClassName || INPUT_LABEL_BASE_STYLES;
-
     return (
-      <div
-        className={`${wrapperStyles} ${fullWidth ? INPUT_FULL_WIDTH_CLASS : INPUT_EMPTY_VALUE} ${className}`}
+      <SelectInput
+        ref={ref}
+        size={size}
+        label={label}
+        value={value}
+        onChange={onChange}
+        selectIcon={selectIcon}
+        fullWidth={fullWidth}
+        className={className}
+        baseClassName={baseClassName}
+        labelClassName={labelClassName}
+        wrapperClassName={wrapperClassName}
+        disableDefaultStyles={disableDefaultStyles}
       >
-        <select ref={ref} value={value} onChange={onChange} className={baseStyles}>
-          <option value={INPUT_EMPTY_VALUE} disabled hidden></option>
-          {generateTimeOptions(startHour, endHour, interval).map((time, index) => (
-            <option key={index} value={time}>
-              {time}
-            </option>
-          ))}
-        </select>
-        {label && <label className={labelStyles}>{label}</label>}
-      </div>
+        {generateTimeOptions(startHour, endHour, interval).map((time, index) => (
+          <option key={index} value={time}>
+            {time}
+          </option>
+        ))}
+      </SelectInput>
     );
   },
 );

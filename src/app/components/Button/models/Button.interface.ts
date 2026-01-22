@@ -16,4 +16,13 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   variantClassName?: string;
   sizeClassName?: string;
   disableDefaultStyles?: boolean;
+  bg?: string;
+  textColor?: string;
+  borderColor?: string;
+  hoverBg?: string;
+  hoverTextColor?: string;
+  disabledBg?: string;
+  disabledTextColor?: string;
+  disabledBorderColor?: string;
+  focusRing?: string;
 }

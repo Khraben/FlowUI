@@ -16,4 +16,14 @@ export interface SelectInputProps extends Omit<
   labelClassName?: string;
   wrapperClassName?: string;
   disableDefaultStyles?: boolean;
+  bg?: string;
+  textColor?: string;
+  borderColor?: string;
+  focusBorderColor?: string;
+  focusShadow?: string;
+  labelColor?: string;
+  labelActiveColor?: string;
+  iconColor?: string;
+  iconHoverColor?: string;
+  placeholderColor?: string;
 }
