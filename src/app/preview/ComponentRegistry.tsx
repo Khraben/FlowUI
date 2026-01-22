@@ -1,5 +1,5 @@
 import { ComponentDemo } from '@/types/component';
-import { Button, Input, SelectInput, TimeInput } from '@/app/components';
+import { Button, Input, SelectInput, TimeInput, DatePicker } from '@/app/components';
 import { COMPONENT_CATEGORIES, PREVIEW_COLORS } from '@/constants';
 import {
   Check,
@@ -13,6 +13,7 @@ import {
   Eye,
   EyeOff,
   ChevronDown,
+  Calendar,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -503,5 +504,77 @@ export const componentRegistry: ComponentDemo[] = [
         />
       </div>
     ),
+  },
+  {
+    id: 'datepicker-basic',
+    name: 'Date Picker',
+    description: 'Interactive calendar date picker with clear button',
+    category: COMPONENT_CATEGORIES.INPUTS,
+    component: function DatePickerBasic() {
+      const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+      return (
+        <DatePicker
+          selected={selectedDate}
+          onChange={(date: Date | null) => setSelectedDate(date)}
+          onClear={() => setSelectedDate(null)}
+          placeholderText="Select a date"
+          calendarIcon={<Calendar size={18} />}
+          clearIcon={<X size={16} />}
+          bg={PREVIEW_COLORS.SURFACE_DARK}
+          textColor={PREVIEW_COLORS.TEXT_LIGHT}
+          borderColor={PREVIEW_COLORS.BORDER}
+          focusBorderColor={PREVIEW_COLORS.ACCENT}
+          focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
+          iconColor={PREVIEW_COLORS.ACCENT}
+          iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
+          placeholderColor={PREVIEW_COLORS.DISABLED_TEXT}
+          calendarBorderColor={PREVIEW_COLORS.ACCENT}
+          calendarHeaderBg={PREVIEW_COLORS.ACCENT}
+          calendarHeaderText={PREVIEW_COLORS.WHITE}
+          calendarDayText={PREVIEW_COLORS.TEXT_LIGHT}
+          calendarDayHoverBg={PREVIEW_COLORS.FOCUS_SHADOW}
+          calendarSelectedBg={PREVIEW_COLORS.ACCENT}
+          calendarSelectedText={PREVIEW_COLORS.WHITE}
+          calendarMonthBg={PREVIEW_COLORS.SURFACE_DARK}
+        />
+      );
+    },
+  },
+  {
+    id: 'datepicker-month-year',
+    name: 'Month & Year Picker',
+    description: 'Date picker showing only month and year selection',
+    category: COMPONENT_CATEGORIES.INPUTS,
+    component: function DatePickerMonthYear() {
+      const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+      return (
+        <DatePicker
+          selected={selectedDate}
+          onChange={(date: Date | null) => setSelectedDate(date)}
+          onClear={() => setSelectedDate(null)}
+          placeholderText="Select month/year"
+          dateFormat="MM/yyyy"
+          showMonthYearPicker
+          calendarIcon={<Calendar size={16} />}
+          clearIcon={<X size={14} />}
+          bg={PREVIEW_COLORS.SURFACE_DARK}
+          textColor={PREVIEW_COLORS.TEXT_LIGHT}
+          borderColor={PREVIEW_COLORS.BORDER}
+          focusBorderColor={PREVIEW_COLORS.ACCENT}
+          focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
+          iconColor={PREVIEW_COLORS.ACCENT}
+          iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
+          placeholderColor={PREVIEW_COLORS.DISABLED_TEXT}
+          calendarBorderColor={PREVIEW_COLORS.PRIMARY}
+          calendarHeaderBg={PREVIEW_COLORS.PRIMARY}
+          calendarHeaderText={PREVIEW_COLORS.WHITE}
+          calendarDayText={PREVIEW_COLORS.TEXT_LIGHT}
+          calendarDayHoverBg={PREVIEW_COLORS.FOCUS_SHADOW}
+          calendarSelectedBg={PREVIEW_COLORS.ACCENT}
+          calendarSelectedText={PREVIEW_COLORS.WHITE}
+          calendarMonthBg={PREVIEW_COLORS.SURFACE_DARK}
+        />
+      );
+    },
   },
 ];

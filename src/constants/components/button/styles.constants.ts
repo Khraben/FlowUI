@@ -1,6 +1,6 @@
 import { BUTTON_VARIANT, BUTTON_ROUNDED } from './variants.constants';
-import { SIZE } from '../../common/sizes.constants';
-import { POSITION } from '../../common/positions.constants';
+import { SIZE } from '../common.constants';
+import { POSITION } from '../common.constants';
 
 export const BUTTON_BASE_STYLES =
   'inline-flex items-center justify-center font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed border-2';
