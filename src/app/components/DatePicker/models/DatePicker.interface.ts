@@ -14,7 +14,7 @@ export interface DatePickerProps {
   disableDefaultStyles?: boolean;
   locale?: Locale;
   selected?: Date | null;
-  onChange?: (date: Date | null, event?: React.SyntheticEvent<any> | undefined) => void;
+  onChange?: (date: Date | null, event?: React.SyntheticEvent<unknown> | undefined) => void;
   placeholderText?: string;
   dateFormat?: string;
   disabled?: boolean;
@@ -27,6 +27,7 @@ export interface DatePickerProps {
   highlightDates?: Date[];
   showMonthDropdown?: boolean;
   showYearDropdown?: boolean;
+  showMonthYearPicker?: boolean;
   dropdownMode?: 'scroll' | 'select';
   showTimeSelect?: boolean;
   timeFormat?: string;

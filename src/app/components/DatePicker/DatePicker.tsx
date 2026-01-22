@@ -7,7 +7,7 @@ import { DatePickerProps } from './models/DatePicker.interface';
 import {
   DATEPICKER_BASE_STYLES,
   DATEPICKER_BORDER_STYLES,
-  DATEPICKER_SIZE_STYLES,
+  DATEPICKER_SIZE_STYLES_WITH_CLEAR,
   DATEPICKER_PLACEHOLDER_STYLES,
   DATEPICKER_ICON_BUTTON_BASE,
   DATEPICKER_ICON_POSITIONS,
@@ -15,6 +15,7 @@ import {
   DATEPICKER_CLEAR_POSITIONS,
   DATEPICKER_ICON_SIZES,
   DATEPICKER_WRAPPER_STYLES,
+  DATEPICKER_WIDTH_STYLES,
   DATEPICKER_FULL_WIDTH_CLASS,
   DATEPICKER_EMPTY_VALUE,
   DATEPICKER_DISPLAY_NAME,
@@ -34,7 +35,7 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
       onClear,
       calendarIcon,
       clearIcon,
-      fullWidth = true,
+      fullWidth = false,
       baseClassName,
       wrapperClassName,
       disableDefaultStyles = false,
@@ -73,9 +74,13 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
     const baseStyles = disableDefaultStyles
       ? DATEPICKER_EMPTY_VALUE
       : baseClassName ||
-        `${DATEPICKER_BASE_STYLES} ${DATEPICKER_BORDER_STYLES} ${DATEPICKER_SIZE_STYLES[size as 'sm' | 'md' | 'lg']} ${DATEPICKER_PLACEHOLDER_STYLES}`;
+        `${DATEPICKER_BASE_STYLES} ${DATEPICKER_BORDER_STYLES} ${DATEPICKER_SIZE_STYLES_WITH_CLEAR[size as 'sm' | 'md' | 'lg']} ${DATEPICKER_PLACEHOLDER_STYLES}`;
 
     const wrapperStyles = wrapperClassName || DATEPICKER_WRAPPER_STYLES;
+
+    const widthStyles = fullWidth
+      ? DATEPICKER_FULL_WIDTH_CLASS
+      : DATEPICKER_WIDTH_STYLES[size as 'sm' | 'md' | 'lg'];
 
     const defaultCalendarIcon = <Calendar size={18} />;
     const defaultClearIcon = <X size={16} />;
@@ -103,7 +108,8 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
           }
 
           .react-datepicker {
-            border: ${DATEPICKER_CALENDAR_SIZES.BORDER_WIDTH} solid ${DATEPICKER_CALENDAR_COLORS.BORDER} !important;
+            border: ${DATEPICKER_CALENDAR_SIZES.BORDER_WIDTH} solid
+              ${DATEPICKER_CALENDAR_COLORS.BORDER} !important;
             border-radius: ${DATEPICKER_CALENDAR_SIZES.BORDER_RADIUS} !important;
             font-family: inherit !important;
             box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1) !important;
@@ -227,7 +233,8 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
 
           .react-datepicker__navigation-icon::before {
             border-color: ${DATEPICKER_CALENDAR_COLORS.NAVIGATION_ICON} !important;
-            border-width: ${DATEPICKER_CALENDAR_SIZES.BORDER_WIDTH} ${DATEPICKER_CALENDAR_SIZES.BORDER_WIDTH} 0 0 !important;
+            border-width: ${DATEPICKER_CALENDAR_SIZES.BORDER_WIDTH}
+              ${DATEPICKER_CALENDAR_SIZES.BORDER_WIDTH} 0 0 !important;
             height: ${DATEPICKER_CALENDAR_SIZES.ICON_SIZE} !important;
             width: ${DATEPICKER_CALENDAR_SIZES.ICON_SIZE} !important;
             top: ${DATEPICKER_CALENDAR_SIZES.ICON_TOP} !important;
@@ -296,13 +303,12 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
           }
         `}</style>
 
-        <div
-          className={`${wrapperStyles} ${fullWidth ? DATEPICKER_FULL_WIDTH_CLASS : DATEPICKER_EMPTY_VALUE} ${className}`}
-        >
+        <div className={`${wrapperStyles} ${widthStyles} ${className}`}>
           <ReactDatePicker
-            {...(props as any)}
+            {...(props as Partial<DatePickerProps>)}
             ref={ref}
             className={baseStyles}
+            wrapperClassName="w-full"
             popperPlacement="bottom-start"
             locale="datepicker-locale"
             selected={selected}
@@ -323,7 +329,9 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
               {clearIcon || defaultClearIcon}
             </button>
           )}
-          <div className={`${DATEPICKER_ICON_BUTTON_BASE} ${DATEPICKER_ICON_POSITIONS[size as 'sm' | 'md' | 'lg']} ${DATEPICKER_ICON_SIZES[size as 'sm' | 'md' | 'lg']}`}>
+          <div
+            className={`${DATEPICKER_ICON_BUTTON_BASE} ${DATEPICKER_ICON_POSITIONS[size as 'sm' | 'md' | 'lg']} ${DATEPICKER_ICON_SIZES[size as 'sm' | 'md' | 'lg']} pointer-events-none`}
+          >
             {calendarIcon || defaultCalendarIcon}
           </div>
         </div>
