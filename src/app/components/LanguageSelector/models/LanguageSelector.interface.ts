@@ -1,6 +1,3 @@
-import React from 'react';
-import { LanguageOption } from '../types/LanguageSelector.types';
-
 export interface LanguageSelectorProps {
   selectedLanguage?: string;
   onLanguageChange?: (languageKey: string) => void;

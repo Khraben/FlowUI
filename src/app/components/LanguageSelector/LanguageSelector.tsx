@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import { LanguageSelectorProps } from './models/LanguageSelector.interface';
 import {
   LANGUAGE_SELECTOR_BUTTON_SIZES,
@@ -150,9 +151,11 @@ export const LanguageSelector = React.forwardRef<HTMLButtonElement, LanguageSele
           aria-label="Select language"
           title={getLanguageName(currentLanguage)}
         >
-          <img
-            src={currentLanguage?.flag}
+          <Image
+            src={currentLanguage?.flag || '/flags/EN.svg'}
             alt={getLanguageName(currentLanguage)}
+            width={64}
+            height={64}
             className={`w-full h-full object-cover ${LANGUAGE_SELECTOR_FLAG_SCALE}`}
           />
         </button>
@@ -177,9 +180,11 @@ export const LanguageSelector = React.forwardRef<HTMLButtonElement, LanguageSele
                   <div
                     className={`${flagSizeClass} ${LANGUAGE_SELECTOR_FLAG_CONTAINER} ${flagBorder}`}
                   >
-                    <img
+                    <Image
                       src={lang.flag}
                       alt={getLanguageName(lang)}
+                      width={64}
+                      height={64}
                       className={`w-full h-full object-cover ${LANGUAGE_SELECTOR_FLAG_SCALE}`}
                     />
                   </div>
