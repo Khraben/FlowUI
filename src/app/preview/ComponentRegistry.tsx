@@ -9,6 +9,7 @@ import {
   ActionIcon,
   Table,
 } from '@/app/components';
+import type { TableColumn } from '@/app/components/Table';
 import { COMPONENT_CATEGORIES, PREVIEW_COLORS } from '@/app/constants';
 import {
   Check,
@@ -280,29 +281,29 @@ export const componentRegistry: ComponentDemo[] = [
           <ActionIcon
             icon={Heart}
             title="Like"
-            color="text-red-600"
-            hoverColor="hover:text-red-700"
+            color={PREVIEW_COLORS.DANGER}
+            hoverColor={PREVIEW_COLORS.DANGER_HOVER}
             hoverBg="hover:bg-red-600/10"
           />
           <ActionIcon
             icon={Star}
             title="Favorite"
-            color="text-yellow-600"
-            hoverColor="hover:text-yellow-700"
+            color={PREVIEW_COLORS.ACCENT}
+            hoverColor={PREVIEW_COLORS.ACCENT_HOVER}
             hoverBg="hover:bg-yellow-600/10"
           />
           <ActionIcon
             icon={Share2}
             title="Share"
-            color="text-blue-600"
-            hoverColor="hover:text-blue-700"
+            color={PREVIEW_COLORS.PRIMARY}
+            hoverColor={PREVIEW_COLORS.PRIMARY_HOVER}
             hoverBg="hover:bg-blue-600/10"
           />
           <ActionIcon
             icon={Bookmark}
             title="Bookmark"
-            color="text-purple-600"
-            hoverColor="hover:text-purple-700"
+            color={PREVIEW_COLORS.ACCENT}
+            hoverColor={PREVIEW_COLORS.ACCENT_HOVER}
             hoverBg="hover:bg-purple-600/10"
           />
         </div>
@@ -319,7 +320,7 @@ export const componentRegistry: ComponentDemo[] = [
         <div className="flex gap-4 items-center">
           <ActionIcon icon={Edit} title="Edit Small" size="sm" />
           <ActionIcon icon={Copy} title="Copy Medium" size="md" />
-          <ActionIcon icon={Trash2} title="Delete Large" size="lg" color="text-red-600" />
+          <ActionIcon icon={Trash2} title="Delete Large" size="lg" color={PREVIEW_COLORS.DANGER} />
         </div>
       );
     },
@@ -758,14 +759,15 @@ export const componentRegistry: ComponentDemo[] = [
                 className="absolute inset-0 rounded-full border-3"
                 style={{
                   borderColor: 'transparent',
-                  borderTopColor: '#3B82F6',
-                  borderRightColor: '#3B82F6',
+                  borderTopColor: PREVIEW_COLORS.PRIMARY,
+                  borderRightColor: PREVIEW_COLORS.PRIMARY,
                   animation: 'spin-modern 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite',
                 }}
               />
               <div
-                className="absolute inset-0 rounded-full border-2 border-blue-200"
+                className="absolute inset-0 rounded-full border-2"
                 style={{
+                  borderColor: PREVIEW_COLORS.ACCENT_ALPHA_10,
                   animation: 'pulse-ring 1.5s ease-in-out infinite',
                 }}
               />
@@ -795,7 +797,7 @@ export const componentRegistry: ComponentDemo[] = [
                 key={i}
                 className="w-3 h-3 rounded-full"
                 style={{
-                  backgroundColor: '#00E676',
+                  backgroundColor: PREVIEW_COLORS.SUCCESS,
                   animation: `bounce-dot 0.6s ease-in-out ${i * 0.15}s infinite`,
                 }}
               />
@@ -833,12 +835,15 @@ export const componentRegistry: ComponentDemo[] = [
                 left: 50%;
                 transform: translate(-50%, -50%);
                 border-radius: 50%;
-                border: 2px solid #FF5252;
+                border: 2px solid ${PREVIEW_COLORS.DANGER};
                 animation: pulse-outer 1.5s ease-out infinite;
               }
             `}</style>
             <div className="relative" style={{ width: '4rem', height: '4rem' }}>
-              <div className="pulse-core w-12 h-12" style={{ backgroundColor: '#FF5252' }} />
+              <div
+                className="pulse-core w-12 h-12"
+                style={{ backgroundColor: PREVIEW_COLORS.DANGER }}
+              />
               <div className="pulse-ring w-12 h-12" style={{ width: '100%', height: '100%' }} />
             </div>
           </div>
@@ -884,19 +889,20 @@ export const componentRegistry: ComponentDemo[] = [
                 className="absolute inset-0 rounded-full border-3"
                 style={{
                   borderColor: 'transparent',
-                  borderTopColor: '#3B82F6',
-                  borderRightColor: '#3B82F6',
+                  borderTopColor: PREVIEW_COLORS.PRIMARY,
+                  borderRightColor: PREVIEW_COLORS.PRIMARY,
                   animation: 'spin-modern 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite',
                 }}
               />
               <div
-                className="absolute inset-0 rounded-full border-2 border-blue-200"
+                className="absolute inset-0 rounded-full border-2"
                 style={{
+                  borderColor: PREVIEW_COLORS.ACCENT_ALPHA_10,
                   animation: 'pulse-ring 1.5s ease-in-out infinite',
                 }}
               />
             </div>
-            <p className="text-base text-gray-700 font-medium animate-pulse">Loading data...</p>
+            <p className="text-base text-gray-500 font-medium animate-pulse">Loading data...</p>
           </div>
           {/* Dots */}
           <div className="flex flex-col items-center gap-4">
@@ -906,21 +912,24 @@ export const componentRegistry: ComponentDemo[] = [
                   key={i}
                   className="w-3 h-3 rounded-full"
                   style={{
-                    backgroundColor: '#00E676',
+                    backgroundColor: PREVIEW_COLORS.SUCCESS,
                     animation: `bounce-dot 0.6s ease-in-out ${i * 0.15}s infinite`,
                   }}
                 />
               ))}
             </div>
-            <p className="text-base text-gray-700 font-medium animate-pulse">Processing...</p>
+            <p className="text-base text-gray-500 font-medium animate-pulse">Processing...</p>
           </div>
           {/* Pulse */}
           <div className="flex flex-col items-center gap-4">
             <div className="relative" style={{ width: '4rem', height: '4rem' }}>
-              <div className="pulse-core w-12 h-12" style={{ backgroundColor: '#FF5252' }} />
+              <div
+                className="pulse-core w-12 h-12"
+                style={{ backgroundColor: PREVIEW_COLORS.DANGER }}
+              />
               <div className="pulse-ring w-12 h-12" style={{ width: '100%', height: '100%' }} />
             </div>
-            <p className="text-base text-gray-700 font-medium animate-pulse">Please wait...</p>
+            <p className="text-base text-gray-500 font-medium animate-pulse">Please wait...</p>
           </div>
         </div>
       );
@@ -951,14 +960,15 @@ export const componentRegistry: ComponentDemo[] = [
               className="absolute inset-0 rounded-full border-3"
               style={{
                 borderColor: 'transparent',
-                borderTopColor: '#3B82F6',
-                borderRightColor: '#3B82F6',
+                borderTopColor: PREVIEW_COLORS.PRIMARY,
+                borderRightColor: PREVIEW_COLORS.PRIMARY,
                 animation: 'spin-modern 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite',
               }}
             />
             <div
-              className="absolute inset-0 rounded-full border-2 border-blue-200"
+              className="absolute inset-0 rounded-full border-2"
               style={{
+                borderColor: PREVIEW_COLORS.ACCENT_ALPHA_10,
                 animation: 'pulse-ring 1.5s ease-in-out infinite',
               }}
             />
@@ -969,14 +979,15 @@ export const componentRegistry: ComponentDemo[] = [
               className="absolute inset-0 rounded-full border-3"
               style={{
                 borderColor: 'transparent',
-                borderTopColor: '#3B82F6',
-                borderRightColor: '#3B82F6',
+                borderTopColor: PREVIEW_COLORS.PRIMARY,
+                borderRightColor: PREVIEW_COLORS.PRIMARY,
                 animation: 'spin-modern 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite',
               }}
             />
             <div
-              className="absolute inset-0 rounded-full border-2 border-blue-200"
+              className="absolute inset-0 rounded-full border-2"
               style={{
+                borderColor: PREVIEW_COLORS.ACCENT_ALPHA_10,
                 animation: 'pulse-ring 1.5s ease-in-out infinite',
               }}
             />
@@ -987,14 +998,15 @@ export const componentRegistry: ComponentDemo[] = [
               className="absolute inset-0 rounded-full border-3"
               style={{
                 borderColor: 'transparent',
-                borderTopColor: '#3B82F6',
-                borderRightColor: '#3B82F6',
+                borderTopColor: PREVIEW_COLORS.PRIMARY,
+                borderRightColor: PREVIEW_COLORS.PRIMARY,
                 animation: 'spin-modern 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite',
               }}
             />
             <div
-              className="absolute inset-0 rounded-full border-2 border-blue-200"
+              className="absolute inset-0 rounded-full border-2"
               style={{
+                borderColor: PREVIEW_COLORS.ACCENT_ALPHA_10,
                 animation: 'pulse-ring 1.5s ease-in-out infinite',
               }}
             />
@@ -1018,7 +1030,22 @@ export const componentRegistry: ComponentDemo[] = [
         { id: 1, name: 'John Doe', role: 'Admin' },
         { id: 2, name: 'Jane Smith', role: 'User' },
       ];
-      return <Table columns={columns} data={data} showActions={false} />;
+      return (
+        <Table
+          columns={columns}
+          data={data}
+          showActions={false}
+          headerBgFrom={PREVIEW_COLORS.PRIMARY}
+          headerBgTo={PREVIEW_COLORS.PRIMARY_HOVER}
+          headerTextColor={PREVIEW_COLORS.WHITE}
+          headerBorderColor={PREVIEW_COLORS.BORDER}
+          rowBg={PREVIEW_COLORS.SURFACE_DARK}
+          rowEvenBg="#3A3F42"
+          rowHoverBg="#424749"
+          cellTextColor={PREVIEW_COLORS.TEXT_LIGHT}
+          cellBorderColor={PREVIEW_COLORS.BORDER}
+        />
+      );
     },
   },
   {
@@ -1067,6 +1094,15 @@ export const componentRegistry: ComponentDemo[] = [
           sortDirection={sortDirection}
           onSort={handleSort}
           showActions={false}
+          headerBgFrom={PREVIEW_COLORS.PRIMARY}
+          headerBgTo={PREVIEW_COLORS.PRIMARY_HOVER}
+          headerTextColor={PREVIEW_COLORS.WHITE}
+          headerBorderColor={PREVIEW_COLORS.BORDER}
+          rowBg={PREVIEW_COLORS.SURFACE_DARK}
+          rowEvenBg="#3A3F42"
+          rowHoverBg="#424749"
+          cellTextColor={PREVIEW_COLORS.TEXT_LIGHT}
+          cellBorderColor={PREVIEW_COLORS.BORDER}
         />
       );
     },
@@ -1095,6 +1131,18 @@ export const componentRegistry: ComponentDemo[] = [
           onInfo={() => {}}
           onEdit={() => {}}
           onDelete={() => {}}
+          headerBgFrom={PREVIEW_COLORS.PRIMARY}
+          headerBgTo={PREVIEW_COLORS.PRIMARY_HOVER}
+          headerTextColor={PREVIEW_COLORS.WHITE}
+          headerBorderColor={PREVIEW_COLORS.BORDER}
+          rowBg={PREVIEW_COLORS.SURFACE_DARK}
+          rowEvenBg="#3A3F42"
+          rowHoverBg="#424749"
+          cellTextColor={PREVIEW_COLORS.TEXT_LIGHT}
+          cellBorderColor={PREVIEW_COLORS.BORDER}
+          actionColor={PREVIEW_COLORS.PRIMARY}
+          actionHoverColor={PREVIEW_COLORS.PRIMARY_HOVER}
+          actionDeleteHoverColor={PREVIEW_COLORS.DANGER_HOVER}
         />
       );
     },
@@ -1105,20 +1153,23 @@ export const componentRegistry: ComponentDemo[] = [
     description: 'Table with custom cell rendering and badges',
     category: COMPONENT_CATEGORIES.OTHER,
     component: function TableCustomRenderDemo() {
-      const columns = [
+      const columns: TableColumn[] = [
         { key: 'name', label: 'Name' },
         {
           key: 'status',
           label: 'Status',
-          render: (value: string) => (
-            <span
-              className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                value === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-              }`}
-            >
-              {value}
-            </span>
-          ),
+          render: (value: unknown) => {
+            const status = String(value);
+            return (
+              <span
+                className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                  status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                }`}
+              >
+                {status}
+              </span>
+            );
+          },
         },
       ];
 
@@ -1127,7 +1178,22 @@ export const componentRegistry: ComponentDemo[] = [
         { id: 2, name: 'Tom Holland', status: 'Inactive' },
       ];
 
-      return <Table columns={columns} data={data} showActions={false} />;
+      return (
+        <Table
+          columns={columns}
+          data={data}
+          showActions={false}
+          headerBgFrom={PREVIEW_COLORS.PRIMARY}
+          headerBgTo={PREVIEW_COLORS.PRIMARY_HOVER}
+          headerTextColor={PREVIEW_COLORS.WHITE}
+          headerBorderColor={PREVIEW_COLORS.BORDER}
+          rowBg={PREVIEW_COLORS.SURFACE_DARK}
+          rowEvenBg="#3A3F42"
+          rowHoverBg="#424749"
+          cellTextColor={PREVIEW_COLORS.TEXT_LIGHT}
+          cellBorderColor={PREVIEW_COLORS.BORDER}
+        />
+      );
     },
   },
   {
@@ -1148,6 +1214,13 @@ export const componentRegistry: ComponentDemo[] = [
           data={[]}
           noDataMessage="No records found. Add some data to get started!"
           showActions={false}
+          headerBgFrom={PREVIEW_COLORS.PRIMARY}
+          headerBgTo={PREVIEW_COLORS.PRIMARY_HOVER}
+          headerTextColor={PREVIEW_COLORS.WHITE}
+          headerBorderColor={PREVIEW_COLORS.BORDER}
+          noDataBg={PREVIEW_COLORS.SURFACE_DARK}
+          noDataTextColor={PREVIEW_COLORS.TEXT_LIGHT}
+          noDataBorderColor={PREVIEW_COLORS.BORDER}
         />
       );
     },
