@@ -654,26 +654,21 @@ export const componentRegistry: ComponentDemo[] = [
     component: function LanguageSelectorDefault() {
       const [language, setLanguage] = useState('en');
       return (
-        <div className="flex flex-col gap-2">
-          <div className="text-sm text-gray-400">
-            Selected: {language.toUpperCase()} - Try switching to see translated names
-          </div>
-          <LanguageSelector
-            selectedLanguage={language}
-            onLanguageChange={setLanguage}
-            availableLanguages={['en', 'es', 'pt', 'fr', 'it', 'ru', 'ja', 'de', 'zh']}
-            size="md"
-            buttonBorder="border-2 border-primary-600"
-            buttonHoverBorder="hover:border-primary-700"
-            dropdownBg="bg-gray-900"
-            dropdownBorder="border border-gray-700"
-            itemHoverBg="hover:bg-gray-800"
-            activeItemBg="bg-primary-900"
-            activeItemText="text-primary-400"
-            itemText="text-gray-300"
-            checkIconColor="text-primary-400"
-          />
-        </div>
+        <LanguageSelector
+          selectedLanguage={language}
+          onLanguageChange={setLanguage}
+          availableLanguages={['en', 'es', 'pt', 'fr', 'it', 'ru', 'ja', 'de', 'zh']}
+          size="md"
+          buttonBorder="border-2 border-primary-600"
+          buttonHoverBorder="hover:border-primary-700"
+          dropdownBg="bg-gray-900"
+          dropdownBorder="border border-gray-700"
+          itemHoverBg="hover:bg-gray-800"
+          activeItemBg="bg-primary-900"
+          activeItemText="text-primary-400"
+          itemText="text-gray-300"
+          checkIconColor="text-primary-400"
+        />
       );
     },
   },
@@ -687,57 +682,52 @@ export const componentRegistry: ComponentDemo[] = [
       const [languageMd, setLanguageMd] = useState('es');
       const [languageLg, setLanguageLg] = useState('fr');
       return (
-        <div className="flex flex-col gap-4">
-          <div className="text-sm text-gray-400">
-            Different sizes showing English, Spanish, and French only
-          </div>
-          <div className="flex items-center gap-4">
-            <LanguageSelector
-              selectedLanguage={languageSm}
-              onLanguageChange={setLanguageSm}
-              availableLanguages={['en', 'es', 'fr']}
-              size="sm"
-              buttonBorder="border-2 border-primary-600"
-              buttonHoverBorder="hover:border-primary-700"
-              dropdownBg="bg-gray-900"
-              dropdownBorder="border border-gray-700"
-              itemHoverBg="hover:bg-gray-800"
-              activeItemBg="bg-primary-900"
-              activeItemText="text-primary-400"
-              itemText="text-gray-300"
-              checkIconColor="text-primary-400"
-            />
-            <LanguageSelector
-              selectedLanguage={languageMd}
-              onLanguageChange={setLanguageMd}
-              availableLanguages={['en', 'es', 'fr']}
-              size="md"
-              buttonBorder="border-2 border-primary-600"
-              buttonHoverBorder="hover:border-primary-700"
-              dropdownBg="bg-gray-900"
-              dropdownBorder="border border-gray-700"
-              itemHoverBg="hover:bg-gray-800"
-              activeItemBg="bg-primary-900"
-              activeItemText="text-primary-400"
-              itemText="text-gray-300"
-              checkIconColor="text-primary-400"
-            />
-            <LanguageSelector
-              selectedLanguage={languageLg}
-              onLanguageChange={setLanguageLg}
-              availableLanguages={['en', 'es', 'fr']}
-              size="lg"
-              buttonBorder="border-2 border-primary-600"
-              buttonHoverBorder="hover:border-primary-700"
-              dropdownBg="bg-gray-900"
-              dropdownBorder="border border-gray-700"
-              itemHoverBg="hover:bg-gray-800"
-              activeItemBg="bg-primary-900"
-              activeItemText="text-primary-400"
-              itemText="text-gray-300"
-              checkIconColor="text-primary-400"
-            />
-          </div>
+        <div className="flex items-center gap-4">
+          <LanguageSelector
+            selectedLanguage={languageSm}
+            onLanguageChange={setLanguageSm}
+            availableLanguages={['en', 'es', 'fr']}
+            size="sm"
+            buttonBorder="border-2 border-primary-600"
+            buttonHoverBorder="hover:border-primary-700"
+            dropdownBg="bg-gray-900"
+            dropdownBorder="border border-gray-700"
+            itemHoverBg="hover:bg-gray-800"
+            activeItemBg="bg-primary-900"
+            activeItemText="text-primary-400"
+            itemText="text-gray-300"
+            checkIconColor="text-primary-400"
+          />
+          <LanguageSelector
+            selectedLanguage={languageMd}
+            onLanguageChange={setLanguageMd}
+            availableLanguages={['en', 'es', 'fr']}
+            size="md"
+            buttonBorder="border-2 border-primary-600"
+            buttonHoverBorder="hover:border-primary-700"
+            dropdownBg="bg-gray-900"
+            dropdownBorder="border border-gray-700"
+            itemHoverBg="hover:bg-gray-800"
+            activeItemBg="bg-primary-900"
+            activeItemText="text-primary-400"
+            itemText="text-gray-300"
+            checkIconColor="text-primary-400"
+          />
+          <LanguageSelector
+            selectedLanguage={languageLg}
+            onLanguageChange={setLanguageLg}
+            availableLanguages={['en', 'es', 'fr']}
+            size="lg"
+            buttonBorder="border-2 border-primary-600"
+            buttonHoverBorder="hover:border-primary-700"
+            dropdownBg="bg-gray-900"
+            dropdownBorder="border border-gray-700"
+            itemHoverBg="hover:bg-gray-800"
+            activeItemBg="bg-primary-900"
+            activeItemText="text-primary-400"
+            itemText="text-gray-300"
+            checkIconColor="text-primary-400"
+          />
         </div>
       );
     },
