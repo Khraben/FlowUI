@@ -7,6 +7,7 @@ export const COMPONENT_CATEGORIES = {
   MODALS: 'Modals',
   LAYOUTS: 'Layouts',
   TYPOGRAPHY: 'Typography',
+  LOADERS: 'Loaders',
   OTHER: 'Other',
 } as const;
 

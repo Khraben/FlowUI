@@ -1,4 +1,5 @@
-export const LOADING_OVERLAY_BASE = 'fixed top-0 left-0 w-screen h-screen flex justify-center items-center z-[1005] backdrop-blur-sm';
+export const LOADING_OVERLAY_BASE =
+  'fixed top-0 left-0 w-screen h-screen flex justify-center items-center z-[1005] backdrop-blur-sm';
 export const LOADING_OVERLAY_DEFAULT_BG = 'bg-black/30';
 
 export const LOADING_SIZES = {

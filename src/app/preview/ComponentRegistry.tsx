@@ -735,9 +735,9 @@ export const componentRegistry: ComponentDemo[] = [
   },
   {
     id: 'loading-spinner',
-    name: 'Loading Spinner',
+    name: 'Spinner',
     description: 'Modern CSS-only spinner with gradient ring effect',
-    category: COMPONENT_CATEGORIES.OTHER,
+    category: COMPONENT_CATEGORIES.LOADERS,
     component: function LoadingSpinnerDemo() {
       const [show, setShow] = useState(false);
       return (
@@ -751,17 +751,17 @@ export const componentRegistry: ComponentDemo[] = [
           >
             {show ? 'Hide' : 'Show'} Spinner
           </Button>
-          {show && <Loading variant="spinner" size="md" text="Loading..." />}
+          {show && <Loading variant="spinner" size="md" />}
         </div>
       );
     },
   },
   {
-    id: 'loading-dots',
-    name: 'Loading Dots',
-    description: 'Animated bouncing dots with staggered timing',
-    category: COMPONENT_CATEGORIES.OTHER,
-    component: function LoadingDotsDemo() {
+    id: 'loading-spinner-text',
+    name: 'Dots',
+    description: 'Bouncing dots loader',
+    category: COMPONENT_CATEGORIES.LOADERS,
+    component: function LoadingSpinnerTextDemo() {
       const [show, setShow] = useState(false);
       return (
         <div className="flex flex-col gap-4">
@@ -774,16 +774,16 @@ export const componentRegistry: ComponentDemo[] = [
           >
             {show ? 'Hide' : 'Show'} Dots
           </Button>
-          {show && <Loading variant="dots" size="md" text="Processing..." spinnerColor="#00E676" />}
+          {show && <Loading variant="dots" size="md" spinnerColor="#00E676" />}
         </div>
       );
     },
   },
   {
     id: 'loading-pulse',
-    name: 'Loading Pulse',
+    name: 'Pulse',
     description: 'Pulsing ring effect with expanding animation',
-    category: COMPONENT_CATEGORIES.OTHER,
+    category: COMPONENT_CATEGORIES.LOADERS,
     component: function LoadingPulseDemo() {
       const [show, setShow] = useState(false);
       return (
@@ -797,16 +797,65 @@ export const componentRegistry: ComponentDemo[] = [
           >
             {show ? 'Hide' : 'Show'} Pulse
           </Button>
-          {show && <Loading variant="pulse" size="md" text="Please wait..." spinnerColor="#FF5252" />}
+          {show && <Loading variant="pulse" size="md" spinnerColor="#FF5252" />}
+        </div>
+      );
+    },
+  },
+  {
+    id: 'loading-with-text',
+    name: 'Loaders with Text',
+    description: 'All variants with different loading messages',
+    category: COMPONENT_CATEGORIES.LOADERS,
+    component: function LoadingWithTextDemo() {
+      const [showSpinner, setShowSpinner] = useState(false);
+      const [showDots, setShowDots] = useState(false);
+      const [showPulse, setShowPulse] = useState(false);
+      return (
+        <div className="flex gap-4">
+          <Button
+            variant="primary"
+            onClick={() => setShowSpinner(!showSpinner)}
+            bg={PREVIEW_COLORS.PRIMARY}
+            textColor={PREVIEW_COLORS.TEXT_LIGHT}
+            hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
+          >
+            Spinner
+          </Button>
+          <Button
+            variant="primary"
+            onClick={() => setShowDots(!showDots)}
+            bg={PREVIEW_COLORS.SUCCESS}
+            textColor={PREVIEW_COLORS.TEXT_LIGHT}
+            hoverBg="#00CC66"
+          >
+            Dots
+          </Button>
+          <Button
+            variant="primary"
+            onClick={() => setShowPulse(!showPulse)}
+            bg={PREVIEW_COLORS.DANGER}
+            textColor={PREVIEW_COLORS.TEXT_LIGHT}
+            hoverBg="#E53935"
+          >
+            Pulse
+          </Button>
+          {showSpinner && <Loading variant="spinner" size="md" text="Loading data..." />}
+          {showDots && (
+            <Loading variant="dots" size="md" text="Processing..." spinnerColor="#00E676" />
+          )}
+          {showPulse && (
+            <Loading variant="pulse" size="md" text="Please wait..." spinnerColor="#FF5252" />
+          )}
         </div>
       );
     },
   },
   {
     id: 'loading-sizes',
-    name: 'Loading Sizes',
+    name: 'Loader Sizes',
     description: 'All size variants: sm, md, lg',
-    category: COMPONENT_CATEGORIES.OTHER,
+    category: COMPONENT_CATEGORIES.LOADERS,
     component: function LoadingSizesDemo() {
       const [showSm, setShowSm] = useState(false);
       const [showMd, setShowMd] = useState(false);
@@ -843,9 +892,9 @@ export const componentRegistry: ComponentDemo[] = [
           >
             Large
           </Button>
-          {showSm && <Loading variant="spinner" size="sm" showOverlay={false} />}
-          {showMd && <Loading variant="spinner" size="md" showOverlay={false} />}
-          {showLg && <Loading variant="spinner" size="lg" showOverlay={false} />}
+          {showSm && <Loading variant="spinner" size="sm" />}
+          {showMd && <Loading variant="spinner" size="md" />}
+          {showLg && <Loading variant="spinner" size="lg" />}
         </div>
       );
     },

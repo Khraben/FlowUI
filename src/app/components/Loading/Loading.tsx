@@ -88,9 +88,18 @@ export const Loading: React.FC<LoadingProps> = ({
         .dot-2 { animation: bounce-dot 1.4s infinite ease-in-out 0.2s; }
         .dot-3 { animation: bounce-dot 1.4s infinite ease-in-out 0.4s; }
       `}</style>
-      <div className={`${dotSizeClass} rounded-full dot-1`} style={{ backgroundColor: spinnerColor }} />
-      <div className={`${dotSizeClass} rounded-full dot-2`} style={{ backgroundColor: spinnerColor }} />
-      <div className={`${dotSizeClass} rounded-full dot-3`} style={{ backgroundColor: spinnerColor }} />
+      <div
+        className={`${dotSizeClass} rounded-full dot-1`}
+        style={{ backgroundColor: spinnerColor }}
+      />
+      <div
+        className={`${dotSizeClass} rounded-full dot-2`}
+        style={{ backgroundColor: spinnerColor }}
+      />
+      <div
+        className={`${dotSizeClass} rounded-full dot-3`}
+        style={{ backgroundColor: spinnerColor }}
+      />
     </div>
   );
 
