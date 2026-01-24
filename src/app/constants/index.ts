@@ -170,3 +170,6 @@ export const PREVIEW_TEXT = {
 export const FILTER_CATEGORY = {
   ALL: 'All',
 } as const;
+
+export * from './categories.constants';
+export * from './components/table/styles.constants';
