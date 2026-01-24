@@ -3,3 +3,4 @@ export { default as Input, SelectInput, TimeInput } from './Input/Input';
 export { DatePicker } from './DatePicker/DatePicker';
 export { LanguageSelector } from './LanguageSelector/LanguageSelector';
 export { ActionIcon } from './ActionIcon/ActionIcon';
+export { Loading } from './Loading/Loading';

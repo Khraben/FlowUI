@@ -100,6 +100,44 @@ Botón de icono con efectos hover y animaciones suaves.
 - `disabled` - Estado deshabilitado
 - `className` - Clases CSS adicionales
 
+### Loading
+
+Componente de carga moderno con animaciones CSS puras. Incluye 3 variantes: spinner, dots y pulse.
+
+```tsx
+<Loading
+  variant="spinner"
+  size="md"
+  text="Loading..."
+  spinnerColor="#3B82F6"
+  overlayColor="bg-black/30"
+  showOverlay={true}
+/>
+```
+
+**Variantes:**
+
+1. **Spinner**: Anillo giratorio con efecto de gradiente y anillo pulsante
+2. **Dots**: Tres puntos con animación de rebote escalonada
+3. **Pulse**: Efecto de pulso con anillo expansivo
+
+**Props:**
+
+- `variant` - Tipo de loader: `'spinner' | 'dots' | 'pulse'` (default: `'spinner'`)
+- `size` - Tamaño: `'sm' | 'md' | 'lg'` (default: `'md'`)
+- `text` - Texto opcional debajo del loader
+- `spinnerColor` - Color del loader (default: `'#3B82F6'`)
+- `overlayColor` - Color del overlay (default: `'bg-black/30'`)
+- `showOverlay` - Mostrar overlay de fondo (default: `true`)
+
+**Características:**
+
+- ✅ 100% CSS puro, sin íconos externos
+- ✅ Portal rendering (se monta en document.body)
+- ✅ Backdrop blur para efecto moderno
+- ✅ Animaciones suaves con cubic-bezier
+- ✅ Responsive y accesible
+
 ### LanguageSelector
 
 Selector de idioma con dropdown y soporte para 9 idiomas. Los nombres se traducen automáticamente según el idioma seleccionado.

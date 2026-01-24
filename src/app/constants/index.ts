@@ -79,6 +79,13 @@ export {
 export { SIZE as DATEPICKER_SIZES } from './components/common.constants';
 
 export {
+  LOADING_SIZES,
+  LOADING_DEFAULT_SPINNER_COLOR,
+  LOADING_DEFAULT_SIZE,
+  LOADING_DEFAULT_VARIANT,
+} from './components/loading/styles.constants';
+
+export {
   ACTION_ICON_SIZES,
   ACTION_ICON_ICON_SIZES,
   ACTION_ICON_DEFAULT_COLOR,
