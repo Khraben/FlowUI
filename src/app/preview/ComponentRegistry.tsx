@@ -7,6 +7,7 @@ import {
   DatePicker,
   LanguageSelector,
   ActionIcon,
+  Loading,
 } from '@/app/components';
 import { COMPONENT_CATEGORIES, PREVIEW_COLORS } from '@/app/constants';
 import {
@@ -728,6 +729,123 @@ export const componentRegistry: ComponentDemo[] = [
             itemText="text-gray-300"
             checkIconColor="text-primary-400"
           />
+        </div>
+      );
+    },
+  },
+  {
+    id: 'loading-spinner',
+    name: 'Loading Spinner',
+    description: 'Modern CSS-only spinner with gradient ring effect',
+    category: COMPONENT_CATEGORIES.OTHER,
+    component: function LoadingSpinnerDemo() {
+      const [show, setShow] = useState(false);
+      return (
+        <div className="flex flex-col gap-4">
+          <Button
+            variant="primary"
+            onClick={() => setShow(!show)}
+            bg={PREVIEW_COLORS.PRIMARY}
+            textColor={PREVIEW_COLORS.TEXT_LIGHT}
+            hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
+          >
+            {show ? 'Hide' : 'Show'} Spinner
+          </Button>
+          {show && <Loading variant="spinner" size="md" text="Loading..." />}
+        </div>
+      );
+    },
+  },
+  {
+    id: 'loading-dots',
+    name: 'Loading Dots',
+    description: 'Animated bouncing dots with staggered timing',
+    category: COMPONENT_CATEGORIES.OTHER,
+    component: function LoadingDotsDemo() {
+      const [show, setShow] = useState(false);
+      return (
+        <div className="flex flex-col gap-4">
+          <Button
+            variant="primary"
+            onClick={() => setShow(!show)}
+            bg={PREVIEW_COLORS.SUCCESS}
+            textColor={PREVIEW_COLORS.TEXT_LIGHT}
+            hoverBg="#00CC66"
+          >
+            {show ? 'Hide' : 'Show'} Dots
+          </Button>
+          {show && <Loading variant="dots" size="md" text="Processing..." spinnerColor="#00E676" />}
+        </div>
+      );
+    },
+  },
+  {
+    id: 'loading-pulse',
+    name: 'Loading Pulse',
+    description: 'Pulsing ring effect with expanding animation',
+    category: COMPONENT_CATEGORIES.OTHER,
+    component: function LoadingPulseDemo() {
+      const [show, setShow] = useState(false);
+      return (
+        <div className="flex flex-col gap-4">
+          <Button
+            variant="primary"
+            onClick={() => setShow(!show)}
+            bg={PREVIEW_COLORS.DANGER}
+            textColor={PREVIEW_COLORS.TEXT_LIGHT}
+            hoverBg="#E53935"
+          >
+            {show ? 'Hide' : 'Show'} Pulse
+          </Button>
+          {show && <Loading variant="pulse" size="md" text="Please wait..." spinnerColor="#FF5252" />}
+        </div>
+      );
+    },
+  },
+  {
+    id: 'loading-sizes',
+    name: 'Loading Sizes',
+    description: 'All size variants: sm, md, lg',
+    category: COMPONENT_CATEGORIES.OTHER,
+    component: function LoadingSizesDemo() {
+      const [showSm, setShowSm] = useState(false);
+      const [showMd, setShowMd] = useState(false);
+      const [showLg, setShowLg] = useState(false);
+      return (
+        <div className="flex gap-4">
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => setShowSm(!showSm)}
+            bg={PREVIEW_COLORS.PRIMARY}
+            textColor={PREVIEW_COLORS.TEXT_LIGHT}
+            hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
+          >
+            Small
+          </Button>
+          <Button
+            variant="primary"
+            size="md"
+            onClick={() => setShowMd(!showMd)}
+            bg={PREVIEW_COLORS.PRIMARY}
+            textColor={PREVIEW_COLORS.TEXT_LIGHT}
+            hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
+          >
+            Medium
+          </Button>
+          <Button
+            variant="primary"
+            size="lg"
+            onClick={() => setShowLg(!showLg)}
+            bg={PREVIEW_COLORS.PRIMARY}
+            textColor={PREVIEW_COLORS.TEXT_LIGHT}
+            hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
+          >
+            Large
+          </Button>
+          {showSm && <Loading variant="spinner" size="sm" showOverlay={false} />}
+          {showMd && <Loading variant="spinner" size="md" showOverlay={false} />}
+          {showLg && <Loading variant="spinner" size="lg" showOverlay={false} />}
         </div>
       );
     },
