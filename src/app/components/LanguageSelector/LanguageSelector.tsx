@@ -22,13 +22,11 @@ import {
   LANGUAGE_SELECTOR_ACTIVE_TEXT,
   LANGUAGE_SELECTOR_CHECK_ICON,
   LANGUAGE_SELECTOR_DROPDOWN_OFFSET,
-} from '@/app/constants/components/languageselector/styles.constants';
-import {
   ALL_LANGUAGES,
   DEFAULT_AVAILABLE_LANGUAGES,
   DEFAULT_SELECTED_LANGUAGE,
   LANGUAGE_SELECTOR_DISPLAY_NAME,
-} from '@/app/constants/components/languageselector/languages.constants';
+} from '@/app/constants';
 
 export const LanguageSelector = React.forwardRef<HTMLButtonElement, LanguageSelectorProps>(
   (

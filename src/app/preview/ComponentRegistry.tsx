@@ -7,7 +7,7 @@ import {
   DatePicker,
   LanguageSelector,
 } from '@/app/components';
-import { COMPONENT_CATEGORIES, PREVIEW_COLORS } from '@/constants';
+import { COMPONENT_CATEGORIES, PREVIEW_COLORS } from '@/app/constants';
 import {
   Check,
   X,

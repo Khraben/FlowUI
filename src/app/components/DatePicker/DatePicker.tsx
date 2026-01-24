@@ -19,12 +19,12 @@ import {
   DATEPICKER_FULL_WIDTH_CLASS,
   DATEPICKER_EMPTY_VALUE,
   DATEPICKER_DISPLAY_NAME,
-} from '@/constants/components/datepicker/styles.constants';
+} from '@/app/constants/components/datepicker/styles.constants';
 import {
   DATEPICKER_CALENDAR_SIZES,
   DATEPICKER_CALENDAR_Z_INDEX,
-} from '@/constants/components/datepicker/calendar.constants';
-import { SIZE } from '@/constants';
+} from '@/app/constants/components/datepicker/calendar.constants';
+import { SIZE } from '@/app/constants';
 import 'react-datepicker/dist/react-datepicker.css';
 
 export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
