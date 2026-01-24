@@ -72,6 +72,34 @@ Librería privada de componentes React con Next.js, TypeScript y Tailwind CSS.
 - `iconHoverColor` - Icon hover color
 - `placeholderColor` - Placeholder color
 
+### ActionIcon
+
+Botón de icono con efectos hover y animaciones suaves.
+
+```tsx
+<ActionIcon
+  icon={Heart}
+  onClick={() => console.log('clicked')}
+  title="Like"
+  size="md"
+  color="text-red-600"
+  hoverColor="hover:text-red-700"
+  hoverBg="hover:bg-red-600/10"
+/>
+```
+
+**Props:**
+
+- `icon` - Componente de icono (ej: de lucide-react)
+- `onClick` - Función callback al hacer click
+- `title` - Tooltip text
+- `size` - Tamaño: `'sm' | 'md' | 'lg'` (default: `'md'`)
+- `color` - Color del icono (default: `'text-primary-600'`)
+- `hoverColor` - Color en hover (default: `'hover:text-primary-700'`)
+- `hoverBg` - Background en hover (default: `'hover:bg-primary-600/10'`)
+- `disabled` - Estado deshabilitado
+- `className` - Clases CSS adicionales
+
 ### LanguageSelector
 
 Selector de idioma con dropdown y soporte para 9 idiomas. Los nombres se traducen automáticamente según el idioma seleccionado.
