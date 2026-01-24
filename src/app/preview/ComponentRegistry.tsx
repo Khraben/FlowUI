@@ -7,7 +7,6 @@ import {
   DatePicker,
   LanguageSelector,
   ActionIcon,
-  Loading,
 } from '@/app/components';
 import { COMPONENT_CATEGORIES, PREVIEW_COLORS } from '@/app/constants';
 import {
@@ -739,19 +738,38 @@ export const componentRegistry: ComponentDemo[] = [
     description: 'Modern CSS-only spinner with gradient ring effect',
     category: COMPONENT_CATEGORIES.LOADERS,
     component: function LoadingSpinnerDemo() {
-      const [show, setShow] = useState(false);
       return (
-        <div className="flex flex-col gap-4">
-          <Button
-            variant="primary"
-            onClick={() => setShow(!show)}
-            bg={PREVIEW_COLORS.PRIMARY}
-            textColor={PREVIEW_COLORS.TEXT_LIGHT}
-            hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
-          >
-            {show ? 'Hide' : 'Show'} Spinner
-          </Button>
-          {show && <Loading variant="spinner" size="md" />}
+        <div className="flex justify-center items-center">
+          <div className="flex items-center justify-center">
+            <style>{`
+              @keyframes spin-modern {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+              }
+              @keyframes pulse-ring {
+                0% { transform: scale(0.8); opacity: 0.8; }
+                50% { transform: scale(1); opacity: 0.4; }
+                100% { transform: scale(0.8); opacity: 0.8; }
+              }
+            `}</style>
+            <div className="relative w-12 h-12">
+              <div
+                className="absolute inset-0 rounded-full border-3"
+                style={{
+                  borderColor: 'transparent',
+                  borderTopColor: '#3B82F6',
+                  borderRightColor: '#3B82F6',
+                  animation: 'spin-modern 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+                }}
+              />
+              <div
+                className="absolute inset-0 rounded-full border-2 border-blue-200"
+                style={{
+                  animation: 'pulse-ring 1.5s ease-in-out infinite',
+                }}
+              />
+            </div>
+          </div>
         </div>
       );
     },
@@ -762,19 +780,26 @@ export const componentRegistry: ComponentDemo[] = [
     description: 'Bouncing dots loader',
     category: COMPONENT_CATEGORIES.LOADERS,
     component: function LoadingSpinnerTextDemo() {
-      const [show, setShow] = useState(false);
       return (
-        <div className="flex flex-col gap-4">
-          <Button
-            variant="primary"
-            onClick={() => setShow(!show)}
-            bg={PREVIEW_COLORS.SUCCESS}
-            textColor={PREVIEW_COLORS.TEXT_LIGHT}
-            hoverBg="#00CC66"
-          >
-            {show ? 'Hide' : 'Show'} Dots
-          </Button>
-          {show && <Loading variant="dots" size="md" spinnerColor="#00E676" />}
+        <div className="flex justify-center items-center">
+          <div className="flex items-center justify-center gap-2">
+            <style>{`
+              @keyframes bounce-dot {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-8px); }
+              }
+            `}</style>
+            {[0, 1, 2].map((i) => (
+              <div
+                key={i}
+                className="w-3 h-3 rounded-full"
+                style={{
+                  backgroundColor: '#00E676',
+                  animation: `bounce-dot 0.6s ease-in-out ${i * 0.15}s infinite`,
+                }}
+              />
+            ))}
+          </div>
         </div>
       );
     },
@@ -785,19 +810,37 @@ export const componentRegistry: ComponentDemo[] = [
     description: 'Pulsing ring effect with expanding animation',
     category: COMPONENT_CATEGORIES.LOADERS,
     component: function LoadingPulseDemo() {
-      const [show, setShow] = useState(false);
       return (
-        <div className="flex flex-col gap-4">
-          <Button
-            variant="primary"
-            onClick={() => setShow(!show)}
-            bg={PREVIEW_COLORS.DANGER}
-            textColor={PREVIEW_COLORS.TEXT_LIGHT}
-            hoverBg="#E53935"
-          >
-            {show ? 'Hide' : 'Show'} Pulse
-          </Button>
-          {show && <Loading variant="pulse" size="md" spinnerColor="#FF5252" />}
+        <div className="flex justify-center items-center">
+          <div className="relative">
+            <style>{`
+              @keyframes pulse-scale {
+                0%, 100% { transform: scale(0.8); opacity: 1; }
+                50% { transform: scale(1.2); opacity: 0.6; }
+              }
+              @keyframes pulse-outer {
+                0% { transform: scale(0.8); opacity: 0.8; }
+                100% { transform: scale(1.5); opacity: 0; }
+              }
+              .pulse-core {
+                border-radius: 50%;
+                animation: pulse-scale 1.5s ease-in-out infinite;
+              }
+              .pulse-ring {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                border-radius: 50%;
+                border: 2px solid #FF5252;
+                animation: pulse-outer 1.5s ease-out infinite;
+              }
+            `}</style>
+            <div className="relative" style={{ width: '4rem', height: '4rem' }}>
+              <div className="pulse-core w-12 h-12" style={{ backgroundColor: '#FF5252' }} />
+              <div className="pulse-ring w-12 h-12" style={{ width: '100%', height: '100%' }} />
+            </div>
+          </div>
         </div>
       );
     },
@@ -808,45 +851,76 @@ export const componentRegistry: ComponentDemo[] = [
     description: 'All variants with different loading messages',
     category: COMPONENT_CATEGORIES.LOADERS,
     component: function LoadingWithTextDemo() {
-      const [showSpinner, setShowSpinner] = useState(false);
-      const [showDots, setShowDots] = useState(false);
-      const [showPulse, setShowPulse] = useState(false);
       return (
-        <div className="flex gap-4">
-          <Button
-            variant="primary"
-            onClick={() => setShowSpinner(!showSpinner)}
-            bg={PREVIEW_COLORS.PRIMARY}
-            textColor={PREVIEW_COLORS.TEXT_LIGHT}
-            hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
-          >
-            Spinner
-          </Button>
-          <Button
-            variant="primary"
-            onClick={() => setShowDots(!showDots)}
-            bg={PREVIEW_COLORS.SUCCESS}
-            textColor={PREVIEW_COLORS.TEXT_LIGHT}
-            hoverBg="#00CC66"
-          >
-            Dots
-          </Button>
-          <Button
-            variant="primary"
-            onClick={() => setShowPulse(!showPulse)}
-            bg={PREVIEW_COLORS.DANGER}
-            textColor={PREVIEW_COLORS.TEXT_LIGHT}
-            hoverBg="#E53935"
-          >
-            Pulse
-          </Button>
-          {showSpinner && <Loading variant="spinner" size="md" text="Loading data..." />}
-          {showDots && (
-            <Loading variant="dots" size="md" text="Processing..." spinnerColor="#00E676" />
-          )}
-          {showPulse && (
-            <Loading variant="pulse" size="md" text="Please wait..." spinnerColor="#FF5252" />
-          )}
+        <div className="flex gap-8 justify-center items-center">
+          <style>{`
+            @keyframes spin-modern {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+            @keyframes pulse-ring {
+              0% { transform: scale(0.8); opacity: 0.8; }
+              50% { transform: scale(1); opacity: 0.4; }
+              100% { transform: scale(0.8); opacity: 0.8; }
+            }
+            @keyframes bounce-dot {
+              0%, 100% { transform: translateY(0); }
+              50% { transform: translateY(-8px); }
+            }
+            @keyframes pulse-scale {
+              0%, 100% { transform: scale(0.8); opacity: 1; }
+              50% { transform: scale(1.1); opacity: 0.7; }
+            }
+            @keyframes pulse-outer {
+              0% { transform: scale(1); opacity: 0.5; }
+              100% { transform: scale(1.5); opacity: 0; }
+            }
+          `}</style>
+          {/* Spinner */}
+          <div className="flex flex-col items-center gap-4">
+            <div className="relative w-12 h-12">
+              <div
+                className="absolute inset-0 rounded-full border-3"
+                style={{
+                  borderColor: 'transparent',
+                  borderTopColor: '#3B82F6',
+                  borderRightColor: '#3B82F6',
+                  animation: 'spin-modern 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+                }}
+              />
+              <div
+                className="absolute inset-0 rounded-full border-2 border-blue-200"
+                style={{
+                  animation: 'pulse-ring 1.5s ease-in-out infinite',
+                }}
+              />
+            </div>
+            <p className="text-base text-gray-700 font-medium animate-pulse">Loading data...</p>
+          </div>
+          {/* Dots */}
+          <div className="flex flex-col items-center gap-4">
+            <div className="flex gap-2">
+              {[0, 1, 2].map((i) => (
+                <div
+                  key={i}
+                  className="w-3 h-3 rounded-full"
+                  style={{
+                    backgroundColor: '#00E676',
+                    animation: `bounce-dot 0.6s ease-in-out ${i * 0.15}s infinite`,
+                  }}
+                />
+              ))}
+            </div>
+            <p className="text-base text-gray-700 font-medium animate-pulse">Processing...</p>
+          </div>
+          {/* Pulse */}
+          <div className="flex flex-col items-center gap-4">
+            <div className="relative" style={{ width: '4rem', height: '4rem' }}>
+              <div className="pulse-core w-12 h-12" style={{ backgroundColor: '#FF5252' }} />
+              <div className="pulse-ring w-12 h-12" style={{ width: '100%', height: '100%' }} />
+            </div>
+            <p className="text-base text-gray-700 font-medium animate-pulse">Please wait...</p>
+          </div>
         </div>
       );
     },
@@ -857,44 +931,73 @@ export const componentRegistry: ComponentDemo[] = [
     description: 'All size variants: sm, md, lg',
     category: COMPONENT_CATEGORIES.LOADERS,
     component: function LoadingSizesDemo() {
-      const [showSm, setShowSm] = useState(false);
-      const [showMd, setShowMd] = useState(false);
-      const [showLg, setShowLg] = useState(false);
       return (
-        <div className="flex gap-4">
-          <Button
-            variant="primary"
-            size="sm"
-            onClick={() => setShowSm(!showSm)}
-            bg={PREVIEW_COLORS.PRIMARY}
-            textColor={PREVIEW_COLORS.TEXT_LIGHT}
-            hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
-          >
-            Small
-          </Button>
-          <Button
-            variant="primary"
-            size="md"
-            onClick={() => setShowMd(!showMd)}
-            bg={PREVIEW_COLORS.PRIMARY}
-            textColor={PREVIEW_COLORS.TEXT_LIGHT}
-            hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
-          >
-            Medium
-          </Button>
-          <Button
-            variant="primary"
-            size="lg"
-            onClick={() => setShowLg(!showLg)}
-            bg={PREVIEW_COLORS.PRIMARY}
-            textColor={PREVIEW_COLORS.TEXT_LIGHT}
-            hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
-          >
-            Large
-          </Button>
-          {showSm && <Loading variant="spinner" size="sm" />}
-          {showMd && <Loading variant="spinner" size="md" />}
-          {showLg && <Loading variant="spinner" size="lg" />}
+        <div className="flex gap-8 justify-center items-center">
+          <style>{`
+            @keyframes spin-modern {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+            @keyframes pulse-ring {
+              0% { transform: scale(0.8); opacity: 0.8; }
+              50% { transform: scale(1); opacity: 0.4; }
+              100% { transform: scale(0.8); opacity: 0.8; }
+            }
+          `}</style>
+          {/* Small */}
+          <div className="relative w-8 h-8">
+            <div
+              className="absolute inset-0 rounded-full border-3"
+              style={{
+                borderColor: 'transparent',
+                borderTopColor: '#3B82F6',
+                borderRightColor: '#3B82F6',
+                animation: 'spin-modern 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+              }}
+            />
+            <div
+              className="absolute inset-0 rounded-full border-2 border-blue-200"
+              style={{
+                animation: 'pulse-ring 1.5s ease-in-out infinite',
+              }}
+            />
+          </div>
+          {/* Medium */}
+          <div className="relative w-12 h-12">
+            <div
+              className="absolute inset-0 rounded-full border-3"
+              style={{
+                borderColor: 'transparent',
+                borderTopColor: '#3B82F6',
+                borderRightColor: '#3B82F6',
+                animation: 'spin-modern 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+              }}
+            />
+            <div
+              className="absolute inset-0 rounded-full border-2 border-blue-200"
+              style={{
+                animation: 'pulse-ring 1.5s ease-in-out infinite',
+              }}
+            />
+          </div>
+          {/* Large */}
+          <div className="relative w-16 h-16">
+            <div
+              className="absolute inset-0 rounded-full border-3"
+              style={{
+                borderColor: 'transparent',
+                borderTopColor: '#3B82F6',
+                borderRightColor: '#3B82F6',
+                animation: 'spin-modern 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+              }}
+            />
+            <div
+              className="absolute inset-0 rounded-full border-2 border-blue-200"
+              style={{
+                animation: 'pulse-ring 1.5s ease-in-out infinite',
+              }}
+            />
+          </div>
         </div>
       );
     },
