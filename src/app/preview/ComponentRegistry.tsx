@@ -6,6 +6,7 @@ import {
   TimeInput,
   DatePicker,
   LanguageSelector,
+  ActionIcon,
 } from '@/app/components';
 import { COMPONENT_CATEGORIES, PREVIEW_COLORS } from '@/app/constants';
 import {
@@ -21,6 +22,12 @@ import {
   EyeOff,
   ChevronDown,
   Calendar,
+  Heart,
+  Star,
+  Share2,
+  Bookmark,
+  Edit,
+  Copy,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -260,6 +267,61 @@ export const componentRegistry: ComponentDemo[] = [
         </Button>
       </div>
     ),
+  },
+  {
+    id: 'action-icon-default',
+    name: 'Action Icon',
+    description: 'Icon button with hover effects and animations',
+    category: COMPONENT_CATEGORIES.BUTTONS,
+    component: function ActionIconDefault() {
+      return (
+        <div className="flex gap-4 items-center">
+          <ActionIcon
+            icon={Heart}
+            title="Like"
+            color="text-red-600"
+            hoverColor="hover:text-red-700"
+            hoverBg="hover:bg-red-600/10"
+          />
+          <ActionIcon
+            icon={Star}
+            title="Favorite"
+            color="text-yellow-600"
+            hoverColor="hover:text-yellow-700"
+            hoverBg="hover:bg-yellow-600/10"
+          />
+          <ActionIcon
+            icon={Share2}
+            title="Share"
+            color="text-blue-600"
+            hoverColor="hover:text-blue-700"
+            hoverBg="hover:bg-blue-600/10"
+          />
+          <ActionIcon
+            icon={Bookmark}
+            title="Bookmark"
+            color="text-purple-600"
+            hoverColor="hover:text-purple-700"
+            hoverBg="hover:bg-purple-600/10"
+          />
+        </div>
+      );
+    },
+  },
+  {
+    id: 'action-icon-sizes',
+    name: 'Action Icon Sizes',
+    description: 'Different sizes: sm, md, lg',
+    category: COMPONENT_CATEGORIES.BUTTONS,
+    component: function ActionIconSizes() {
+      return (
+        <div className="flex gap-4 items-center">
+          <ActionIcon icon={Edit} title="Edit Small" size="sm" />
+          <ActionIcon icon={Copy} title="Copy Medium" size="md" />
+          <ActionIcon icon={Trash2} title="Delete Large" size="lg" color="text-red-600" />
+        </div>
+      );
+    },
   },
   {
     id: 'button-sizes',
@@ -592,26 +654,21 @@ export const componentRegistry: ComponentDemo[] = [
     component: function LanguageSelectorDefault() {
       const [language, setLanguage] = useState('en');
       return (
-        <div className="flex flex-col gap-2">
-          <div className="text-sm text-gray-400">
-            Selected: {language.toUpperCase()} - Try switching to see translated names
-          </div>
-          <LanguageSelector
-            selectedLanguage={language}
-            onLanguageChange={setLanguage}
-            availableLanguages={['en', 'es', 'pt', 'fr', 'it', 'ru', 'ja', 'de', 'zh']}
-            size="md"
-            buttonBorder="border-2 border-primary-600"
-            buttonHoverBorder="hover:border-primary-700"
-            dropdownBg="bg-gray-900"
-            dropdownBorder="border border-gray-700"
-            itemHoverBg="hover:bg-gray-800"
-            activeItemBg="bg-primary-900"
-            activeItemText="text-primary-400"
-            itemText="text-gray-300"
-            checkIconColor="text-primary-400"
-          />
-        </div>
+        <LanguageSelector
+          selectedLanguage={language}
+          onLanguageChange={setLanguage}
+          availableLanguages={['en', 'es', 'pt', 'fr', 'it', 'ru', 'ja', 'de', 'zh']}
+          size="md"
+          buttonBorder="border-2 border-primary-600"
+          buttonHoverBorder="hover:border-primary-700"
+          dropdownBg="bg-gray-900"
+          dropdownBorder="border border-gray-700"
+          itemHoverBg="hover:bg-gray-800"
+          activeItemBg="bg-primary-900"
+          activeItemText="text-primary-400"
+          itemText="text-gray-300"
+          checkIconColor="text-primary-400"
+        />
       );
     },
   },
@@ -625,57 +682,52 @@ export const componentRegistry: ComponentDemo[] = [
       const [languageMd, setLanguageMd] = useState('es');
       const [languageLg, setLanguageLg] = useState('fr');
       return (
-        <div className="flex flex-col gap-4">
-          <div className="text-sm text-gray-400">
-            Different sizes showing English, Spanish, and French only
-          </div>
-          <div className="flex items-center gap-4">
-            <LanguageSelector
-              selectedLanguage={languageSm}
-              onLanguageChange={setLanguageSm}
-              availableLanguages={['en', 'es', 'fr']}
-              size="sm"
-              buttonBorder="border-2 border-primary-600"
-              buttonHoverBorder="hover:border-primary-700"
-              dropdownBg="bg-gray-900"
-              dropdownBorder="border border-gray-700"
-              itemHoverBg="hover:bg-gray-800"
-              activeItemBg="bg-primary-900"
-              activeItemText="text-primary-400"
-              itemText="text-gray-300"
-              checkIconColor="text-primary-400"
-            />
-            <LanguageSelector
-              selectedLanguage={languageMd}
-              onLanguageChange={setLanguageMd}
-              availableLanguages={['en', 'es', 'fr']}
-              size="md"
-              buttonBorder="border-2 border-primary-600"
-              buttonHoverBorder="hover:border-primary-700"
-              dropdownBg="bg-gray-900"
-              dropdownBorder="border border-gray-700"
-              itemHoverBg="hover:bg-gray-800"
-              activeItemBg="bg-primary-900"
-              activeItemText="text-primary-400"
-              itemText="text-gray-300"
-              checkIconColor="text-primary-400"
-            />
-            <LanguageSelector
-              selectedLanguage={languageLg}
-              onLanguageChange={setLanguageLg}
-              availableLanguages={['en', 'es', 'fr']}
-              size="lg"
-              buttonBorder="border-2 border-primary-600"
-              buttonHoverBorder="hover:border-primary-700"
-              dropdownBg="bg-gray-900"
-              dropdownBorder="border border-gray-700"
-              itemHoverBg="hover:bg-gray-800"
-              activeItemBg="bg-primary-900"
-              activeItemText="text-primary-400"
-              itemText="text-gray-300"
-              checkIconColor="text-primary-400"
-            />
-          </div>
+        <div className="flex items-center gap-4">
+          <LanguageSelector
+            selectedLanguage={languageSm}
+            onLanguageChange={setLanguageSm}
+            availableLanguages={['en', 'es', 'fr']}
+            size="sm"
+            buttonBorder="border-2 border-primary-600"
+            buttonHoverBorder="hover:border-primary-700"
+            dropdownBg="bg-gray-900"
+            dropdownBorder="border border-gray-700"
+            itemHoverBg="hover:bg-gray-800"
+            activeItemBg="bg-primary-900"
+            activeItemText="text-primary-400"
+            itemText="text-gray-300"
+            checkIconColor="text-primary-400"
+          />
+          <LanguageSelector
+            selectedLanguage={languageMd}
+            onLanguageChange={setLanguageMd}
+            availableLanguages={['en', 'es', 'fr']}
+            size="md"
+            buttonBorder="border-2 border-primary-600"
+            buttonHoverBorder="hover:border-primary-700"
+            dropdownBg="bg-gray-900"
+            dropdownBorder="border border-gray-700"
+            itemHoverBg="hover:bg-gray-800"
+            activeItemBg="bg-primary-900"
+            activeItemText="text-primary-400"
+            itemText="text-gray-300"
+            checkIconColor="text-primary-400"
+          />
+          <LanguageSelector
+            selectedLanguage={languageLg}
+            onLanguageChange={setLanguageLg}
+            availableLanguages={['en', 'es', 'fr']}
+            size="lg"
+            buttonBorder="border-2 border-primary-600"
+            buttonHoverBorder="hover:border-primary-700"
+            dropdownBg="bg-gray-900"
+            dropdownBorder="border border-gray-700"
+            itemHoverBg="hover:bg-gray-800"
+            activeItemBg="bg-primary-900"
+            activeItemText="text-primary-400"
+            itemText="text-gray-300"
+            checkIconColor="text-primary-400"
+          />
         </div>
       );
     },

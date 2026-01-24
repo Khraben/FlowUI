@@ -79,6 +79,14 @@ export {
 export { SIZE as DATEPICKER_SIZES } from './components/common.constants';
 
 export {
+  ACTION_ICON_SIZES,
+  ACTION_ICON_ICON_SIZES,
+  ACTION_ICON_DEFAULT_COLOR,
+  ACTION_ICON_DEFAULT_HOVER_COLOR,
+  ACTION_ICON_DEFAULT_HOVER_BG,
+} from './components/actionicon/styles.constants';
+
+export {
   ALL_LANGUAGES,
   DEFAULT_LANGUAGES,
   DEFAULT_AVAILABLE_LANGUAGES,
