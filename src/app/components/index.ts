@@ -4,3 +4,4 @@ export { DatePicker } from './DatePicker/DatePicker';
 export { LanguageSelector } from './LanguageSelector/LanguageSelector';
 export { ActionIcon } from './ActionIcon/ActionIcon';
 export { Loading } from './Loading/Loading';
+export { Table } from './Table/Table';

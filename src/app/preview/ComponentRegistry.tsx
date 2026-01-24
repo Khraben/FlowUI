@@ -7,6 +7,7 @@ import {
   DatePicker,
   LanguageSelector,
   ActionIcon,
+  Table,
 } from '@/app/components';
 import { COMPONENT_CATEGORIES, PREVIEW_COLORS } from '@/app/constants';
 import {
@@ -999,6 +1000,155 @@ export const componentRegistry: ComponentDemo[] = [
             />
           </div>
         </div>
+      );
+    },
+  },
+  {
+    id: 'table-basic',
+    name: 'Basic Table',
+    description: 'Simple data table with columns and rows',
+    category: COMPONENT_CATEGORIES.OTHER,
+    component: function TableBasicDemo() {
+      const columns = [
+        { key: 'id', label: 'ID' },
+        { key: 'name', label: 'Name' },
+        { key: 'role', label: 'Role' },
+      ];
+      const data = [
+        { id: 1, name: 'John Doe', role: 'Admin' },
+        { id: 2, name: 'Jane Smith', role: 'User' },
+      ];
+      return <Table columns={columns} data={data} showActions={false} />;
+    },
+  },
+  {
+    id: 'table-sortable',
+    name: 'Sortable Table',
+    description: 'Table with sortable columns',
+    category: COMPONENT_CATEGORIES.OTHER,
+    component: function TableSortableDemo() {
+      const [sortField, setSortField] = useState<string>('name');
+      const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+
+      const columns = [
+        { key: 'id', label: 'ID', sortable: true },
+        { key: 'name', label: 'Name', sortable: true },
+        { key: 'status', label: 'Status' },
+      ];
+
+      const data = [
+        { id: 1, name: 'Alice Brown', status: 'Active' },
+        { id: 2, name: 'Bob Wilson', status: 'Inactive' },
+      ];
+
+      const handleSort = (field: string) => {
+        if (sortField === field) {
+          setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+        } else {
+          setSortField(field);
+          setSortDirection('asc');
+        }
+      };
+
+      const sortedData = [...data].sort((a, b) => {
+        const aValue = a[sortField as keyof typeof a];
+        const bValue = b[sortField as keyof typeof b];
+        if (sortDirection === 'asc') {
+          return aValue > bValue ? 1 : -1;
+        }
+        return aValue < bValue ? 1 : -1;
+      });
+
+      return (
+        <Table
+          columns={columns}
+          data={sortedData}
+          sortField={sortField}
+          sortDirection={sortDirection}
+          onSort={handleSort}
+          showActions={false}
+        />
+      );
+    },
+  },
+  {
+    id: 'table-actions',
+    name: 'Table with Actions',
+    description: 'Table with action buttons (info, edit, delete)',
+    category: COMPONENT_CATEGORIES.OTHER,
+    component: function TableActionsDemo() {
+      const data = [
+        { id: 1, product: 'Laptop', price: '$999' },
+        { id: 2, product: 'Mouse', price: '$29' },
+      ];
+
+      const columns = [
+        { key: 'id', label: 'ID' },
+        { key: 'product', label: 'Product' },
+        { key: 'price', label: 'Price' },
+      ];
+
+      return (
+        <Table
+          columns={columns}
+          data={data}
+          onInfo={() => {}}
+          onEdit={() => {}}
+          onDelete={() => {}}
+        />
+      );
+    },
+  },
+  {
+    id: 'table-custom-render',
+    name: 'Custom Cell Rendering',
+    description: 'Table with custom cell rendering and badges',
+    category: COMPONENT_CATEGORIES.OTHER,
+    component: function TableCustomRenderDemo() {
+      const columns = [
+        { key: 'name', label: 'Name' },
+        {
+          key: 'status',
+          label: 'Status',
+          render: (value: string) => (
+            <span
+              className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                value === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+              }`}
+            >
+              {value}
+            </span>
+          ),
+        },
+      ];
+
+      const data = [
+        { id: 1, name: 'Emma Watson', status: 'Active' },
+        { id: 2, name: 'Tom Holland', status: 'Inactive' },
+      ];
+
+      return <Table columns={columns} data={data} showActions={false} />;
+    },
+  },
+  {
+    id: 'table-empty',
+    name: 'Empty Table',
+    description: 'Table with no data shows custom message',
+    category: COMPONENT_CATEGORIES.OTHER,
+    component: function TableEmptyDemo() {
+      const columns = [
+        { key: 'id', label: 'ID' },
+        { key: 'name', label: 'Name' },
+        { key: 'description', label: 'Description' },
+      ];
+
+      return (
+        <Table
+          columns={columns}
+          data={[]}
+          noDataMessage="No records found. Add some data to get started!"
+          showActions={false}
+        />
       );
     },
   },
