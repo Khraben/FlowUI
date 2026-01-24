@@ -173,3 +173,4 @@ export const FILTER_CATEGORY = {
 
 export * from './categories.constants';
 export * from './components/table/styles.constants';
+export * from './components/modal/styles.constants';

@@ -8,6 +8,7 @@ import {
   LanguageSelector,
   ActionIcon,
   Table,
+  BaseModal,
 } from '@/app/components';
 import type { TableColumn } from '@/app/components/Table';
 import { COMPONENT_CATEGORIES, PREVIEW_COLORS } from '@/app/constants';
@@ -30,6 +31,10 @@ import {
   Bookmark,
   Edit,
   Copy,
+  Settings,
+  Users,
+  ShoppingCart,
+  TrendingUp,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -1222,6 +1227,246 @@ export const componentRegistry: ComponentDemo[] = [
           noDataTextColor={PREVIEW_COLORS.TEXT_LIGHT}
           noDataBorderColor={PREVIEW_COLORS.BORDER}
         />
+      );
+    },
+  },
+  {
+    id: 'modal-basic',
+    name: 'Basic Modal',
+    description: 'Simple modal with title and content',
+    category: COMPONENT_CATEGORIES.MODALS,
+    component: function BasicModalDemo() {
+      const [isOpen, setIsOpen] = useState(false);
+      return (
+        <>
+          <Button
+            variant="primary"
+            onClick={() => setIsOpen(true)}
+            bg={PREVIEW_COLORS.PRIMARY}
+            textColor={PREVIEW_COLORS.WHITE}
+            hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
+          >
+            Open Modal
+          </Button>
+          <BaseModal
+            isOpen={isOpen}
+            onClose={() => setIsOpen(false)}
+            title="Welcome"
+            icon={Settings}
+            headerBgFrom={PREVIEW_COLORS.PRIMARY}
+            headerBgTo={PREVIEW_COLORS.PRIMARY_HOVER}
+          >
+            <div>
+              <p className="text-gray-700 mb-4">
+                This is a basic modal with customizable content. You can add any React components
+                here.
+              </p>
+              <p className="text-gray-600 text-sm">
+                Click the X button or outside the modal to close it.
+              </p>
+            </div>
+          </BaseModal>
+        </>
+      );
+    },
+  },
+  {
+    id: 'modal-stats',
+    name: 'Modal with Stats',
+    description: 'Modal displaying statistics in the header',
+    category: COMPONENT_CATEGORIES.MODALS,
+    component: function StatsModalDemo() {
+      const [isOpen, setIsOpen] = useState(false);
+      return (
+        <>
+          <Button
+            variant="primary"
+            onClick={() => setIsOpen(true)}
+            bg={PREVIEW_COLORS.PRIMARY}
+            textColor={PREVIEW_COLORS.WHITE}
+            hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
+          >
+            View Stats
+          </Button>
+          <BaseModal
+            isOpen={isOpen}
+            onClose={() => setIsOpen(false)}
+            title="Dashboard"
+            icon={TrendingUp}
+            headerBgFrom={PREVIEW_COLORS.PRIMARY}
+            headerBgTo={PREVIEW_COLORS.PRIMARY_HOVER}
+            stats={[
+              { icon: Users, number: '1,234', label: 'Users', color: PREVIEW_COLORS.PRIMARY },
+              { icon: ShoppingCart, number: '567', label: 'Orders', color: PREVIEW_COLORS.SUCCESS },
+              { icon: TrendingUp, number: '+12%', label: 'Growth', color: PREVIEW_COLORS.ACCENT },
+            ]}
+          >
+            <div>
+              <p className="text-gray-700 mb-4">
+                This modal includes a stats section showing key metrics at a glance.
+              </p>
+              <div className="space-y-2">
+                <div className="flex justify-between p-3 bg-gray-50 rounded">
+                  <span className="text-gray-600">Total Revenue</span>
+                  <span className="font-bold text-gray-900">$45,678</span>
+                </div>
+                <div className="flex justify-between p-3 bg-gray-50 rounded">
+                  <span className="text-gray-600">Conversion Rate</span>
+                  <span className="font-bold text-gray-900">3.2%</span>
+                </div>
+              </div>
+            </div>
+          </BaseModal>
+        </>
+      );
+    },
+  },
+  {
+    id: 'modal-unsaved',
+    name: 'Unsaved Changes Modal',
+    description: 'Modal with confirmation dialog for unsaved changes',
+    category: COMPONENT_CATEGORIES.MODALS,
+    component: function UnsavedModalDemo() {
+      const [isOpen, setIsOpen] = useState(false);
+      const [hasChanges, setHasChanges] = useState(false);
+      return (
+        <>
+          <Button
+            variant="primary"
+            onClick={() => setIsOpen(true)}
+            bg={PREVIEW_COLORS.PRIMARY}
+            textColor={PREVIEW_COLORS.WHITE}
+            hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
+          >
+            Edit Form
+          </Button>
+          <BaseModal
+            isOpen={isOpen}
+            onClose={() => setIsOpen(false)}
+            title="Edit Profile"
+            icon={Edit}
+            hasUnsavedChanges={hasChanges}
+            headerBgFrom={PREVIEW_COLORS.PRIMARY}
+            headerBgTo={PREVIEW_COLORS.PRIMARY_HOVER}
+          >
+            <div>
+              <p className="text-gray-700 mb-4">
+                Make changes below. Try closing the modal after typing to see the confirmation
+                dialog.
+              </p>
+              <Input
+                label="Name"
+                placeholder="Enter your name"
+                onChange={() => setHasChanges(true)}
+                bg={PREVIEW_COLORS.SURFACE_DARK}
+                textColor={PREVIEW_COLORS.TEXT_LIGHT}
+                borderColor={PREVIEW_COLORS.BORDER}
+                focusBorderColor={PREVIEW_COLORS.ACCENT}
+              />
+              <div className="mt-4">
+                <Input
+                  label="Email"
+                  placeholder="Enter your email"
+                  onChange={() => setHasChanges(true)}
+                  bg={PREVIEW_COLORS.SURFACE_DARK}
+                  textColor={PREVIEW_COLORS.TEXT_LIGHT}
+                  borderColor={PREVIEW_COLORS.BORDER}
+                  focusBorderColor={PREVIEW_COLORS.ACCENT}
+                />
+              </div>
+            </div>
+          </BaseModal>
+        </>
+      );
+    },
+  },
+  {
+    id: 'modal-custom-colors',
+    name: 'Custom Colors Modal',
+    description: 'Modal with custom color scheme',
+    category: COMPONENT_CATEGORIES.MODALS,
+    component: function CustomColorsModalDemo() {
+      const [isOpen, setIsOpen] = useState(false);
+      return (
+        <>
+          <Button
+            variant="primary"
+            onClick={() => setIsOpen(true)}
+            bg={PREVIEW_COLORS.SUCCESS}
+            textColor={PREVIEW_COLORS.WHITE}
+            hoverBg={PREVIEW_COLORS.SUCCESS_HOVER}
+          >
+            Success Theme
+          </Button>
+          <BaseModal
+            isOpen={isOpen}
+            onClose={() => setIsOpen(false)}
+            title="Success!"
+            icon={Check}
+            headerBgFrom={PREVIEW_COLORS.SUCCESS}
+            headerBgTo={PREVIEW_COLORS.SUCCESS_HOVER}
+            scrollbarThumbColor={PREVIEW_COLORS.SUCCESS}
+          >
+            <div>
+              <p className="text-gray-700 mb-4">
+                This modal uses a custom green color scheme for a success theme.
+              </p>
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                <p className="text-green-800 font-semibold">✓ Operation completed successfully</p>
+                <p className="text-green-600 text-sm mt-2">
+                  Your changes have been saved and synced across all devices.
+                </p>
+              </div>
+            </div>
+          </BaseModal>
+        </>
+      );
+    },
+  },
+  {
+    id: 'modal-large',
+    name: 'Large Modal',
+    description: 'Modal with custom width and scrollable content',
+    category: COMPONENT_CATEGORIES.MODALS,
+    component: function LargeModalDemo() {
+      const [isOpen, setIsOpen] = useState(false);
+      return (
+        <>
+          <Button
+            variant="primary"
+            onClick={() => setIsOpen(true)}
+            bg={PREVIEW_COLORS.PRIMARY}
+            textColor={PREVIEW_COLORS.WHITE}
+            hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
+          >
+            Large Content
+          </Button>
+          <BaseModal
+            isOpen={isOpen}
+            onClose={() => setIsOpen(false)}
+            title="Terms and Conditions"
+            maxWidth="70rem"
+            headerBgFrom={PREVIEW_COLORS.PRIMARY}
+            headerBgTo={PREVIEW_COLORS.PRIMARY_HOVER}
+          >
+            <div className="space-y-4">
+              <p className="text-gray-700">
+                This is a larger modal with scrollable content. The maxWidth prop controls the modal
+                width.
+              </p>
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((section) => (
+                <div key={section} className="border-b border-gray-200 pb-4">
+                  <h3 className="font-bold text-gray-900 mb-2">Section {section}</h3>
+                  <p className="text-gray-600 text-sm">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                    nostrud exercitation ullamco laboris.
+                  </p>
+                </div>
+              ))}
+            </div>
+          </BaseModal>
+        </>
       );
     },
   },
