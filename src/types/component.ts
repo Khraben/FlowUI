@@ -1,4 +1,4 @@
-import { ComponentCategory } from '@/constants';
+import { ComponentCategory } from '@/app/constants/categories.constants';
 
 export interface ComponentDemo {
   id: string;

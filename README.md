@@ -72,6 +72,65 @@ Librería privada de componentes React con Next.js, TypeScript y Tailwind CSS.
 - `iconHoverColor` - Icon hover color
 - `placeholderColor` - Placeholder color
 
+### LanguageSelector
+
+Selector de idioma con dropdown y soporte para 9 idiomas. Los nombres se traducen automáticamente según el idioma seleccionado.
+
+```tsx
+<LanguageSelector
+  selectedLanguage="en"
+  onLanguageChange={(langCode) => console.log(langCode)}
+  availableLanguages={['en', 'es', 'fr', 'de']}
+  size="md"
+  buttonBorder="border-2 border-primary-600"
+  buttonHoverBorder="hover:border-primary-700"
+  dropdownBg="bg-gray-900"
+  dropdownBorder="border border-gray-700"
+  itemHoverBg="hover:bg-gray-800"
+  activeItemBg="bg-primary-900"
+  activeItemText="text-primary-400"
+  itemText="text-gray-300"
+  checkIconColor="text-primary-400"
+/>
+```
+
+**Idiomas Disponibles:**
+
+- `en` - English / Inglés / Anglais / etc.
+- `es` - Spanish / Español / Espagnol / etc.
+- `pt` - Portuguese / Português / Portugais / etc.
+- `fr` - French / Français / Francese / etc.
+- `it` - Italian / Italiano / Italien / etc.
+- `ru` - Russian / Русский / Russe / etc.
+- `ja` - Japanese / 日本語 / Japonais / etc.
+- `de` - German / Deutsch / Allemand / etc.
+- `zh` - Chinese (Simplified) / 简体中文 / Chinois / etc.
+
+**Props:**
+
+- `selectedLanguage` - Código del idioma seleccionado (default: `'en'`)
+- `onLanguageChange` - Callback cuando cambia el idioma
+- `availableLanguages` - Array de códigos a mostrar (default: `['en', 'es']`)
+- `size` - Tamaño: `'sm' | 'md' | 'lg'` (default: `'md'`)
+- `buttonBorder` - Border del botón
+- `buttonHoverBorder` - Border en hover
+- `dropdownBg` - Background del dropdown
+- `dropdownBorder` - Border del dropdown
+- `itemHoverBg` - Background en hover de items
+- `activeItemBg` - Background del item activo
+- `activeItemText` - Color de texto del item activo
+- `itemText` - Color de texto de items
+- `checkIconColor` - Color del check icon
+- `flagBorder` - Border de las banderas
+
+**Traducciones Automáticas:**
+
+Los nombres de idiomas se muestran en el idioma seleccionado. Por ejemplo:
+
+- Si `selectedLanguage="en"`: Spanish, French, German
+- Si `selectedLanguage="es"`: Español, Francés, Alemán
+- Si `selectedLanguage="fr"`: Espagnol, Français, Allemand
+
 ## 🎨 Paleta Preview
 
 Los colores en `/src/constants/preview-colors.constants.ts` son **solo para demos**:

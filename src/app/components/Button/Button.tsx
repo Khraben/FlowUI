@@ -22,7 +22,7 @@ import {
   BUTTON_DISPLAY_NAME,
   STRING,
   SVG,
-} from '@/constants';
+} from '@/app/constants';
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (

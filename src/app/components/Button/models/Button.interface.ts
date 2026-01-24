@@ -1,6 +1,6 @@
 import React from 'react';
 import { ButtonVariant, ButtonSize } from '../types/Button.types';
-import { BUTTON_ICON_POSITIONS, BUTTON_ROUNDED_OPTIONS } from '@/constants';
+import { BUTTON_ICON_POSITIONS, BUTTON_ROUNDED_OPTIONS } from '@/app/constants';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
