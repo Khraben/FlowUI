@@ -9,6 +9,7 @@ import {
   ActionIcon,
   Table,
   BaseModal,
+  ConfirmationModal,
 } from '@/app/components';
 import type { TableColumn } from '@/app/components/Table';
 import { COMPONENT_CATEGORIES, PREVIEW_COLORS } from '@/app/constants';
@@ -1466,6 +1467,51 @@ export const componentRegistry: ComponentDemo[] = [
               ))}
             </div>
           </BaseModal>
+        </>
+      );
+    },
+  },
+  {
+    id: 'modal-confirmation',
+    name: 'Confirmation Modal',
+    description: 'Modal for confirming actions with loading state',
+    category: COMPONENT_CATEGORIES.MODALS,
+    component: function ConfirmationModalDemo() {
+      const [isOpen, setIsOpen] = useState(false);
+      return (
+        <>
+          <Button
+            variant="primary"
+            onClick={() => setIsOpen(true)}
+            bg={PREVIEW_COLORS.PRIMARY}
+            textColor={PREVIEW_COLORS.WHITE}
+            hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
+          >
+            Confirm Action
+          </Button>
+          <ConfirmationModal
+            isOpen={isOpen}
+            onClose={() => setIsOpen(false)}
+            onConfirm={async () => {
+              await new Promise((r) => setTimeout(r, 1500));
+            }}
+            message="Are you sure you want to proceed with this action?"
+            confirmText="Confirm"
+            cancelText="Cancel"
+            loadingContent={
+              <div className="flex flex-col items-center gap-4">
+                <div
+                  className="w-12 h-12 rounded-full animate-spin"
+                  style={{
+                    border: `3px solid ${PREVIEW_COLORS.ACCENT_ALPHA_10}`,
+                    borderTopColor: PREVIEW_COLORS.PRIMARY,
+                    borderRightColor: PREVIEW_COLORS.PRIMARY,
+                  }}
+                />
+                <p className="text-gray-600">Processing your request...</p>
+              </div>
+            }
+          />
         </>
       );
     },

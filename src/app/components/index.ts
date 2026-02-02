@@ -11,3 +11,5 @@ export type {
   BaseModalStat,
   BaseModalTexts,
 } from './BaseModal/models/BaseModal.interface';
+export { default as ConfirmationModal } from './ConfirmationModal/ConfirmationModal';
+export type { ConfirmationModalProps } from './ConfirmationModal/ConfirmationModal';
