@@ -5,3 +5,11 @@ export { LanguageSelector } from './LanguageSelector/LanguageSelector';
 export { ActionIcon } from './ActionIcon/ActionIcon';
 export { Loading } from './Loading/Loading';
 export { Table } from './Table/Table';
+export { BaseModal } from './BaseModal/BaseModal';
+export type {
+  BaseModalProps,
+  BaseModalStat,
+  BaseModalTexts,
+} from './BaseModal/models/BaseModal.interface';
+export { default as ConfirmationModal } from './ConfirmationModal/ConfirmationModal';
+export type { ConfirmationModalProps } from './ConfirmationModal/ConfirmationModal';
