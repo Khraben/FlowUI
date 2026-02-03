@@ -174,4 +174,4 @@ export const FILTER_CATEGORY = {
 export * from './categories.constants';
 export * from './components/table/styles.constants';
 export * from './components/modal/styles.constants';
-export { STATIC_COLORS } from '../../constants/staticColors.constants';
+export { STATIC_COLORS } from './staticColors.constants';
