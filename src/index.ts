@@ -39,4 +39,4 @@ export {
 } from '@/app/constants';
 
 // Static colors for non-customizable system colors
-export { STATIC_COLORS } from '@/constants/staticColors.constants';
+export { STATIC_COLORS } from '@/app/constants/';

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { ActionIconProps } from './models/ActionIcon.interface';
-import { STATIC_COLORS } from '@/constants/staticColors.constants';
+import { STATIC_COLORS } from '@/app/constants/';
 import {
   ACTION_ICON_BASE,
   ACTION_ICON_SIZES,
