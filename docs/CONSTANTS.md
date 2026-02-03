@@ -1,155 +1,203 @@
-# Sistema de Constantes FlowUI
+# FlowUI Constants System
 
-Este documento describe el sistema de constantes centralizado de FlowUI para evitar strings hardcoded.
+This document describes FlowUI's centralized constants system for components and colors.
 
-## 📁 Estructura de Constantes
+## 📁 Project Structure
 
 ```
-src/constants/
-├── index.ts           # Exporta todas las constantes
-├── variants.ts        # Variantes de componentes
-├── styles.ts          # Estilos de componentes
-├── categories.ts      # Categorías de componentes
-└── preview.ts         # Configuración de la página preview
+src/
+├── constants/
+│   └── staticColors.constants.ts    # System-level colors (27 colors)
+├── app/
+│   └── constants/
+│       ├── index.ts                 # Exports all component constants
+│       ├── categories.constants.ts  # Component categories for preview
+│       ├── components/              # Component-specific constants
+│       │   ├── button/
+│       │   ├── input/
+│       │   ├── loading/
+│       │   ├── table/
+│       │   └── ...
+│       └── preview/
+│           └── colors.constants.ts  # Preview color palette (6 colors)
 ```
 
-## 🎨 Variantes de Componentes
+## 🎨 Exported Constants
 
-### Button Variants
+### Components
+
+All components are exported from the main entry point:
 
 ```typescript
-import { BUTTON_VARIANTS, BUTTON_SIZES } from '@/constants';
-
-<Button variant={BUTTON_VARIANTS.PRIMARY} size={BUTTON_SIZES.MD}>
-  Click me
-</Button>
+import { 
+  Button, 
+  Input, 
+  DatePicker, 
+  LanguageSelector, 
+  ActionIcon, 
+  Loading, 
+  Table, 
+  BaseModal, 
+  ConfirmationModal 
+} from '@khraben/flowui';
 ```
 
-**Variantes disponibles:**
-
-- `BUTTON_VARIANTS.PRIMARY` - Botón principal
-- `BUTTON_VARIANTS.SECONDARY` - Botón secundario
-- `BUTTON_VARIANTS.OUTLINE` - Botón con borde
-- `BUTTON_VARIANTS.GHOST` - Botón sin fondo
-
-**Tamaños disponibles:**
-
-- `BUTTON_SIZES.SM` - Pequeño
-- `BUTTON_SIZES.MD` - Mediano
-- `BUTTON_SIZES.LG` - Grande
-
-### Card Variants
+### Component Enums
 
 ```typescript
-import { CARD_VARIANTS } from '@/constants';
+import { 
+  BUTTON_VARIANT, 
+  BUTTON_ROUNDED, 
+  SIZE, 
+  POSITION, 
+  INPUT_VARIANT 
+} from '@khraben/flowui';
 
-<Card variant={CARD_VARIANTS.ELEVATED}>
-  Content
-</Card>
+<Button variant={BUTTON_VARIANT.PRIMARY} size={SIZE.MD} />
+<Input variant={INPUT_VARIANT.TEXT} size={SIZE.LG} />
 ```
 
-**Variantes disponibles:**
-
-- `CARD_VARIANTS.DEFAULT` - Card básico
-- `CARD_VARIANTS.BORDERED` - Con borde
-- `CARD_VARIANTS.ELEVATED` - Con sombra elevada
-
-## 🎨 Estilos
-
-Los estilos de Tailwind están centralizados en `styles.ts`:
+### Language Constants
 
 ```typescript
-import { BUTTON_STYLES, CARD_STYLES, SHOWCASE_STYLES } from '@/constants';
+import { 
+  ALL_LANGUAGES, 
+  DEFAULT_LANGUAGES, 
+  DEFAULT_AVAILABLE_LANGUAGES, 
+  DEFAULT_SELECTED_LANGUAGE,
+  LANGUAGE_SELECTOR_BUTTON_SIZES,
+  LANGUAGE_SELECTOR_FLAG_SIZES
+} from '@khraben/flowui';
 
-<button className={BUTTON_STYLES.BASE}>
-  {/* ... */}
-</button>
+<LanguageSelector 
+  selectedLanguage={DEFAULT_SELECTED_LANGUAGE}
+  availableLanguages={DEFAULT_AVAILABLE_LANGUAGES}
+  size={LANGUAGE_SELECTOR_BUTTON_SIZES.md}
+/>
 ```
 
-## 📦 Categorías
+### Static Colors
+
+System-level colors for disabled states, overlays, and UI elements:
 
 ```typescript
-import { COMPONENT_CATEGORIES } from '@/constants';
+import { STATIC_COLORS } from '@khraben/flowui';
 
-const demo: ComponentDemo = {
-  category: COMPONENT_CATEGORIES.BUTTONS,
-  // ...
-};
+<div style={{ backgroundColor: STATIC_COLORS.DISABLED_BG }}>
+  <span style={{ color: STATIC_COLORS.LIGHT_TEXT }}>Disabled</span>
+</div>
 ```
 
-**Categorías disponibles:**
+**Available static colors (27 total):**
 
-- `BUTTONS` - Botones
-- `INPUTS` - Inputs
-- `CARDS` - Tarjetas
-- `NAVIGATION` - Navegación
-- `FORMS` - Formularios
-- `MODALS` - Modales
-- `LAYOUTS` - Layouts
-- `TYPOGRAPHY` - Tipografía
-- `OTHER` - Otros
+**Disabled States:**
+- `DISABLED_BG` - #9CA3AF
+- `DISABLED_TEXT` - #D1D5DB
 
-## ⚙️ Configuración de Preview
+**Overlays:**
+- `OVERLAY_DARK` - rgba(0, 0, 0, 0.5)
+- `OVERLAY_DARKER` - rgba(0, 0, 0, 0.7)
+
+**Grayscale:**
+- `GRAY_50` through `GRAY_900`
+- `WHITE` - #FFFFFF
+- `WHITE_ALPHA_20`, `WHITE_ALPHA_30`
+
+**Status Colors:**
+- `RED_500`, `RED_600`, `RED_HOVER`
+
+**Surfaces:**
+- `DARK_SURFACE`, `DARK_SURFACE_LIGHT`, `DARK_SURFACE_LIGHTER`
+
+**Text & Borders:**
+- `LIGHT_TEXT`, `DARK_TEXT`, `BORDER_GRAY`, `LABEL_GRAY`, `LABEL_LIGHT_GRAY`
+
+**Utility:**
+- `TRANSPARENT`
+
+## 💡 Best Practices
+
+### ✅ Do
+
+Use exported constants for consistency:
 
 ```typescript
-import { PREVIEW_CONFIG, PREVIEW_TEXT } from '@/constants';
+import { BUTTON_VARIANT, SIZE, STATIC_COLORS } from '@khraben/flowui';
 
-PREVIEW_CONFIG.COMPONENTS_PER_PAGE;
-PREVIEW_CONFIG.SCROLL_THRESHOLD;
-PREVIEW_CONFIG.LOADING_DELAY;
-
-PREVIEW_TEXT.TITLE;
-PREVIEW_TEXT.SUBTITLE;
-PREVIEW_TEXT.LOADING_MESSAGE;
+<Button 
+  variant={BUTTON_VARIANT.PRIMARY} 
+  size={SIZE.MD}
+  bg="#1E90FF"
+  textColor={STATIC_COLORS.WHITE}
+  disabledBg={STATIC_COLORS.DISABLED_BG}
+/>
 ```
 
-## 💡 Mejores Prácticas
+### ❌ Avoid
 
-### ✅ Hacer
+Hardcoded strings and magic values:
 
 ```typescript
-import { BUTTON_VARIANTS, COMPONENT_CATEGORIES } from '@/constants';
-
-variant={BUTTON_VARIANTS.PRIMARY}
-category: COMPONENT_CATEGORIES.BUTTONS
+<Button 
+  variant="primary" 
+  size="md"
+  bg="#1E90FF"
+  textColor="#FFFFFF"
+  disabledBg="#9CA3AF"
+/>
 ```
 
-### ❌ Evitar
+## 🎨 Color System Philosophy
+
+FlowUI uses a **two-tier color system**:
+
+### 1. Component Colors (Props)
+All visual colors are **passed as props** for maximum flexibility:
 
 ```typescript
-variant = 'primary';
-category: 'Buttons';
-
-import { BUTTON_VARIANTS } from '@/constants/variants';
+<Button 
+  bg="#1E90FF"              // Primary color
+  textColor="#FFFFFF"        // Text color
+  hoverBg="#187BCD"          // Hover state
+  disabledBg="#5A5A5A"       // Disabled state
+/>
 ```
 
-## 🔧 Agregar Nuevas Constantes
-
-1. **Identificar el archivo correcto:**
-   - Variantes de componentes → `variants.ts`
-   - Estilos → `styles.ts`
-   - Categorías → `categories.ts`
-   - Textos de UI → `preview.ts` (o crear uno nuevo)
-
-2. **Agregar la constante:**
+### 2. System Colors (STATIC_COLORS)
+Non-customizable system colors for consistent UI states:
 
 ```typescript
-export const MY_COMPONENT_VARIANTS = {
-  VARIANT_1: 'variant-1',
-  VARIANT_2: 'variant-2',
-} as const;
+import { STATIC_COLORS } from '@khraben/flowui';
 
-export type MyComponentVariant = (typeof MY_COMPONENT_VARIANTS)[keyof typeof MY_COMPONENT_VARIANTS];
+const disabledColor = STATIC_COLORS.DISABLED_BG;
+const overlayColor = STATIC_COLORS.OVERLAY_DARK;
+const borderColor = STATIC_COLORS.BORDER_GRAY;
 ```
 
-3. **Exportar desde index.ts** si es necesario
+## 🔧 TypeScript Support
 
-4. **Actualizar este documento** con la nueva constante
+All exports include full TypeScript definitions:
 
-## 📖 Beneficios
+```typescript
+import type { 
+  ButtonProps, 
+  InputProps, 
+  DatePickerProps,
+  LanguageSelectorProps,
+  ActionIconProps,
+  LoadingProps,
+  TableProps,
+  TableColumn,
+  BaseModalProps,
+  ConfirmationModalProps
+} from '@khraben/flowui';
+```
 
-- ✅ **Type Safety**: TypeScript valida los valores
-- ✅ **Refactoring**: Cambios centralizados
-- ✅ **Autocompletado**: IntelliSense en el IDE
-- ✅ **Consistencia**: Mismo valor en toda la app
-- ✅ **Mantenibilidad**: Fácil de encontrar y actualizar
+## 📖 Benefits
+
+- ✅ **Type Safety** - TypeScript validates all values
+- ✅ **100% Customizable** - All visual colors via props
+- ✅ **Consistent System Colors** - Unified disabled states and overlays
+- ✅ **Autocomplete** - Full IntelliSense support
+- ✅ **Tree Shakable** - Only import what you use
+- ✅ **Zero Hardcoded Colors** - Maximum flexibility
