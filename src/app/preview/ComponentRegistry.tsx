@@ -12,7 +12,7 @@ import {
   ConfirmationModal,
 } from '@/app/components';
 import type { TableColumn } from '@/app/components/Table';
-import { COMPONENT_CATEGORIES, PREVIEW_COLORS } from '@/app/constants';
+import { COMPONENT_CATEGORIES, PREVIEW_COLORS, STATIC_COLORS } from '@/app/constants';
 import {
   Check,
   X,
@@ -52,15 +52,15 @@ const SearchInputDemo = () => {
       clearIcon={<X size={14} />}
       placeholder=" "
       bg={PREVIEW_COLORS.SURFACE_DARK}
-      textColor={PREVIEW_COLORS.TEXT_LIGHT}
-      borderColor={PREVIEW_COLORS.BORDER}
+      textColor={STATIC_COLORS.LIGHT_TEXT}
+      borderColor={STATIC_COLORS.BORDER_GRAY}
       focusBorderColor={PREVIEW_COLORS.ACCENT}
-      focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
-      labelColor={PREVIEW_COLORS.DISABLED_TEXT}
+      focusShadow={STATIC_COLORS.TRANSPARENT}
+      labelColor={STATIC_COLORS.DISABLED_TEXT}
       labelActiveColor={PREVIEW_COLORS.ACCENT}
       iconColor={PREVIEW_COLORS.ACCENT}
-      iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
-      placeholderColor={PREVIEW_COLORS.TRANSPARENT}
+      iconHoverColor={PREVIEW_COLORS.ACCENT}
+      placeholderColor={STATIC_COLORS.TRANSPARENT}
     />
   );
 };
@@ -77,15 +77,15 @@ const TimeInputDemo = () => {
       interval={30}
       selectIcon={<ChevronDown size={16} />}
       bg={PREVIEW_COLORS.SURFACE_DARK}
-      textColor={PREVIEW_COLORS.TEXT_LIGHT}
-      borderColor={PREVIEW_COLORS.BORDER}
+      textColor={STATIC_COLORS.LIGHT_TEXT}
+      borderColor={STATIC_COLORS.BORDER_GRAY}
       focusBorderColor={PREVIEW_COLORS.ACCENT}
-      focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
-      labelColor={PREVIEW_COLORS.DISABLED_TEXT}
+      focusShadow={STATIC_COLORS.TRANSPARENT}
+      labelColor={STATIC_COLORS.DISABLED_TEXT}
       labelActiveColor={PREVIEW_COLORS.ACCENT}
       iconColor={PREVIEW_COLORS.ACCENT}
-      iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
-      placeholderColor={PREVIEW_COLORS.TRANSPARENT}
+      iconHoverColor={PREVIEW_COLORS.ACCENT}
+      placeholderColor={STATIC_COLORS.TRANSPARENT}
     />
   );
 };
@@ -102,9 +102,9 @@ export const componentRegistry: ComponentDemo[] = [
       children: 'Primary Action',
       bg: PREVIEW_COLORS.PRIMARY,
       textColor: PREVIEW_COLORS.WHITE,
-      hoverBg: PREVIEW_COLORS.PRIMARY_HOVER,
-      disabledBg: PREVIEW_COLORS.DISABLED_BG,
-      disabledTextColor: PREVIEW_COLORS.DISABLED_TEXT,
+      hoverBg: PREVIEW_COLORS.ACCENT,
+      disabledBg: STATIC_COLORS.DISABLED_BG,
+      disabledTextColor: STATIC_COLORS.DISABLED_TEXT,
       focusRing: PREVIEW_COLORS.PRIMARY,
     },
   },
@@ -121,9 +121,9 @@ export const componentRegistry: ComponentDemo[] = [
       children: 'Download',
       bg: PREVIEW_COLORS.PRIMARY,
       textColor: PREVIEW_COLORS.WHITE,
-      hoverBg: PREVIEW_COLORS.PRIMARY_HOVER,
-      disabledBg: PREVIEW_COLORS.DISABLED_BG,
-      disabledTextColor: PREVIEW_COLORS.DISABLED_TEXT,
+      hoverBg: PREVIEW_COLORS.ACCENT,
+      disabledBg: STATIC_COLORS.DISABLED_BG,
+      disabledTextColor: STATIC_COLORS.DISABLED_TEXT,
       focusRing: PREVIEW_COLORS.PRIMARY,
     },
   },
@@ -140,9 +140,9 @@ export const componentRegistry: ComponentDemo[] = [
       children: 'Upload',
       bg: PREVIEW_COLORS.PRIMARY,
       textColor: PREVIEW_COLORS.WHITE,
-      hoverBg: PREVIEW_COLORS.PRIMARY_HOVER,
-      disabledBg: PREVIEW_COLORS.DISABLED_BG,
-      disabledTextColor: PREVIEW_COLORS.DISABLED_TEXT,
+      hoverBg: PREVIEW_COLORS.ACCENT,
+      disabledBg: STATIC_COLORS.DISABLED_BG,
+      disabledTextColor: STATIC_COLORS.DISABLED_TEXT,
       focusRing: PREVIEW_COLORS.PRIMARY,
     },
   },
@@ -155,14 +155,14 @@ export const componentRegistry: ComponentDemo[] = [
     props: {
       variant: 'secondary',
       children: 'Secondary Action',
-      bg: PREVIEW_COLORS.TRANSPARENT,
+      bg: STATIC_COLORS.TRANSPARENT,
       textColor: PREVIEW_COLORS.ACCENT,
       borderColor: PREVIEW_COLORS.ACCENT,
       hoverBg: PREVIEW_COLORS.ACCENT,
-      hoverTextColor: PREVIEW_COLORS.BLACK,
-      disabledBg: PREVIEW_COLORS.TRANSPARENT,
-      disabledTextColor: PREVIEW_COLORS.DISABLED_TEXT,
-      disabledBorderColor: PREVIEW_COLORS.DISABLED_TEXT,
+      hoverTextColor: PREVIEW_COLORS.SURFACE_DARK,
+      disabledBg: STATIC_COLORS.TRANSPARENT,
+      disabledTextColor: STATIC_COLORS.DISABLED_TEXT,
+      disabledBorderColor: STATIC_COLORS.DISABLED_TEXT,
       focusRing: PREVIEW_COLORS.ACCENT,
     },
   },
@@ -178,10 +178,10 @@ export const componentRegistry: ComponentDemo[] = [
       iconPosition: 'left',
       children: 'Confirm',
       bg: PREVIEW_COLORS.SUCCESS,
-      textColor: PREVIEW_COLORS.BLACK,
-      hoverBg: PREVIEW_COLORS.SUCCESS_HOVER,
-      disabledBg: PREVIEW_COLORS.DISABLED_BG,
-      disabledTextColor: PREVIEW_COLORS.DISABLED_TEXT,
+      textColor: PREVIEW_COLORS.SURFACE_DARK,
+      hoverBg: PREVIEW_COLORS.SUCCESS,
+      disabledBg: STATIC_COLORS.DISABLED_BG,
+      disabledTextColor: STATIC_COLORS.DISABLED_TEXT,
       focusRing: PREVIEW_COLORS.SUCCESS,
     },
   },
@@ -198,9 +198,9 @@ export const componentRegistry: ComponentDemo[] = [
       children: 'Delete',
       bg: PREVIEW_COLORS.DANGER,
       textColor: PREVIEW_COLORS.WHITE,
-      hoverBg: PREVIEW_COLORS.DANGER_HOVER,
-      disabledBg: PREVIEW_COLORS.DISABLED_BG,
-      disabledTextColor: PREVIEW_COLORS.DISABLED_TEXT,
+      hoverBg: PREVIEW_COLORS.DANGER,
+      disabledBg: STATIC_COLORS.DISABLED_BG,
+      disabledTextColor: STATIC_COLORS.DISABLED_TEXT,
       focusRing: PREVIEW_COLORS.DANGER,
     },
   },
@@ -213,12 +213,12 @@ export const componentRegistry: ComponentDemo[] = [
     props: {
       variant: 'close',
       children: <X size={20} />,
-      bg: PREVIEW_COLORS.WHITE_ALPHA_20,
+      bg: PREVIEW_COLORS.SURFACE_DARK,
       textColor: PREVIEW_COLORS.WHITE,
-      hoverBg: PREVIEW_COLORS.WHITE_ALPHA_30,
-      disabledBg: PREVIEW_COLORS.DISABLED_BG,
-      disabledTextColor: PREVIEW_COLORS.DISABLED_TEXT,
-      focusRing: PREVIEW_COLORS.WHITE,
+      hoverBg: PREVIEW_COLORS.PRIMARY,
+      disabledBg: STATIC_COLORS.DISABLED_BG,
+      disabledTextColor: STATIC_COLORS.DISABLED_TEXT,
+      focusRing: PREVIEW_COLORS.ACCENT,
     },
   },
   {
@@ -231,45 +231,45 @@ export const componentRegistry: ComponentDemo[] = [
         <Button
           variant="icon"
           size="sm"
-          bg={PREVIEW_COLORS.TRANSPARENT}
-          textColor={PREVIEW_COLORS.PRIMARY}
-          borderColor={PREVIEW_COLORS.PRIMARY}
+          bg={PREVIEW_COLORS.SURFACE_DARK}
+          textColor={PREVIEW_COLORS.ACCENT}
+          borderColor={PREVIEW_COLORS.ACCENT}
           hoverBg={PREVIEW_COLORS.PRIMARY}
           hoverTextColor={PREVIEW_COLORS.WHITE}
-          disabledBg={PREVIEW_COLORS.TRANSPARENT}
-          disabledTextColor={PREVIEW_COLORS.DISABLED_TEXT}
-          disabledBorderColor={PREVIEW_COLORS.DISABLED_TEXT}
-          focusRing={PREVIEW_COLORS.PRIMARY}
+          disabledBg={PREVIEW_COLORS.SURFACE_DARK}
+          disabledTextColor={STATIC_COLORS.DISABLED_TEXT}
+          disabledBorderColor={STATIC_COLORS.DISABLED_TEXT}
+          focusRing={PREVIEW_COLORS.ACCENT}
         >
           <Plus size={14} />
         </Button>
         <Button
           variant="icon"
           size="md"
-          bg={PREVIEW_COLORS.TRANSPARENT}
-          textColor={PREVIEW_COLORS.PRIMARY}
-          borderColor={PREVIEW_COLORS.PRIMARY}
+          bg={PREVIEW_COLORS.SURFACE_DARK}
+          textColor={PREVIEW_COLORS.ACCENT}
+          borderColor={PREVIEW_COLORS.ACCENT}
           hoverBg={PREVIEW_COLORS.PRIMARY}
           hoverTextColor={PREVIEW_COLORS.WHITE}
-          disabledBg={PREVIEW_COLORS.TRANSPARENT}
-          disabledTextColor={PREVIEW_COLORS.DISABLED_TEXT}
-          disabledBorderColor={PREVIEW_COLORS.DISABLED_TEXT}
-          focusRing={PREVIEW_COLORS.PRIMARY}
+          disabledBg={PREVIEW_COLORS.SURFACE_DARK}
+          disabledTextColor={STATIC_COLORS.DISABLED_TEXT}
+          disabledBorderColor={STATIC_COLORS.DISABLED_TEXT}
+          focusRing={PREVIEW_COLORS.ACCENT}
         >
           <Search size={16} />
         </Button>
         <Button
           variant="icon"
           size="lg"
-          bg={PREVIEW_COLORS.TRANSPARENT}
-          textColor={PREVIEW_COLORS.PRIMARY}
-          borderColor={PREVIEW_COLORS.PRIMARY}
+          bg={PREVIEW_COLORS.SURFACE_DARK}
+          textColor={PREVIEW_COLORS.ACCENT}
+          borderColor={PREVIEW_COLORS.ACCENT}
           hoverBg={PREVIEW_COLORS.PRIMARY}
           hoverTextColor={PREVIEW_COLORS.WHITE}
-          disabledBg={PREVIEW_COLORS.TRANSPARENT}
-          disabledTextColor={PREVIEW_COLORS.DISABLED_TEXT}
-          disabledBorderColor={PREVIEW_COLORS.DISABLED_TEXT}
-          focusRing={PREVIEW_COLORS.PRIMARY}
+          disabledBg={PREVIEW_COLORS.SURFACE_DARK}
+          disabledTextColor={STATIC_COLORS.DISABLED_TEXT}
+          disabledBorderColor={STATIC_COLORS.DISABLED_TEXT}
+          focusRing={PREVIEW_COLORS.ACCENT}
         >
           <Minus size={18} />
         </Button>
@@ -288,28 +288,28 @@ export const componentRegistry: ComponentDemo[] = [
             icon={Heart}
             title="Like"
             color={PREVIEW_COLORS.DANGER}
-            hoverColor={PREVIEW_COLORS.DANGER_HOVER}
+            hoverColor={PREVIEW_COLORS.DANGER}
             hoverBg="hover:bg-red-600/10"
           />
           <ActionIcon
             icon={Star}
             title="Favorite"
             color={PREVIEW_COLORS.ACCENT}
-            hoverColor={PREVIEW_COLORS.ACCENT_HOVER}
+            hoverColor={PREVIEW_COLORS.ACCENT}
             hoverBg="hover:bg-yellow-600/10"
           />
           <ActionIcon
             icon={Share2}
             title="Share"
             color={PREVIEW_COLORS.PRIMARY}
-            hoverColor={PREVIEW_COLORS.PRIMARY_HOVER}
+            hoverColor={PREVIEW_COLORS.ACCENT}
             hoverBg="hover:bg-blue-600/10"
           />
           <ActionIcon
             icon={Bookmark}
             title="Bookmark"
             color={PREVIEW_COLORS.ACCENT}
-            hoverColor={PREVIEW_COLORS.ACCENT_HOVER}
+            hoverColor={PREVIEW_COLORS.ACCENT}
             hoverBg="hover:bg-purple-600/10"
           />
         </div>
@@ -343,9 +343,9 @@ export const componentRegistry: ComponentDemo[] = [
           size="sm"
           bg={PREVIEW_COLORS.PRIMARY}
           textColor={PREVIEW_COLORS.WHITE}
-          hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
-          disabledBg={PREVIEW_COLORS.DISABLED_BG}
-          disabledTextColor={PREVIEW_COLORS.DISABLED_TEXT}
+          hoverBg={PREVIEW_COLORS.ACCENT}
+          disabledBg={STATIC_COLORS.DISABLED_BG}
+          disabledTextColor={STATIC_COLORS.DISABLED_TEXT}
           focusRing={PREVIEW_COLORS.PRIMARY}
         >
           Small
@@ -355,9 +355,9 @@ export const componentRegistry: ComponentDemo[] = [
           size="md"
           bg={PREVIEW_COLORS.PRIMARY}
           textColor={PREVIEW_COLORS.WHITE}
-          hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
-          disabledBg={PREVIEW_COLORS.DISABLED_BG}
-          disabledTextColor={PREVIEW_COLORS.DISABLED_TEXT}
+          hoverBg={PREVIEW_COLORS.ACCENT}
+          disabledBg={STATIC_COLORS.DISABLED_BG}
+          disabledTextColor={STATIC_COLORS.DISABLED_TEXT}
           focusRing={PREVIEW_COLORS.PRIMARY}
         >
           Medium
@@ -367,9 +367,9 @@ export const componentRegistry: ComponentDemo[] = [
           size="lg"
           bg={PREVIEW_COLORS.PRIMARY}
           textColor={PREVIEW_COLORS.WHITE}
-          hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
-          disabledBg={PREVIEW_COLORS.DISABLED_BG}
-          disabledTextColor={PREVIEW_COLORS.DISABLED_TEXT}
+          hoverBg={PREVIEW_COLORS.ACCENT}
+          disabledBg={STATIC_COLORS.DISABLED_BG}
+          disabledTextColor={STATIC_COLORS.DISABLED_TEXT}
           focusRing={PREVIEW_COLORS.PRIMARY}
         >
           Large
@@ -389,9 +389,9 @@ export const componentRegistry: ComponentDemo[] = [
           isLoading
           bg={PREVIEW_COLORS.PRIMARY}
           textColor={PREVIEW_COLORS.WHITE}
-          hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
-          disabledBg={PREVIEW_COLORS.DISABLED_BG}
-          disabledTextColor={PREVIEW_COLORS.DISABLED_TEXT}
+          hoverBg={PREVIEW_COLORS.ACCENT}
+          disabledBg={STATIC_COLORS.DISABLED_BG}
+          disabledTextColor={STATIC_COLORS.DISABLED_TEXT}
           focusRing={PREVIEW_COLORS.PRIMARY}
         >
           Loading...
@@ -400,10 +400,10 @@ export const componentRegistry: ComponentDemo[] = [
           variant="success"
           isLoading
           bg={PREVIEW_COLORS.SUCCESS}
-          textColor={PREVIEW_COLORS.BLACK}
-          hoverBg={PREVIEW_COLORS.SUCCESS_HOVER}
-          disabledBg={PREVIEW_COLORS.DISABLED_BG}
-          disabledTextColor={PREVIEW_COLORS.DISABLED_TEXT}
+          textColor={PREVIEW_COLORS.SURFACE_DARK}
+          hoverBg={PREVIEW_COLORS.SUCCESS}
+          disabledBg={STATIC_COLORS.DISABLED_BG}
+          disabledTextColor={STATIC_COLORS.DISABLED_TEXT}
           focusRing={PREVIEW_COLORS.SUCCESS}
         >
           Processing
@@ -422,15 +422,15 @@ export const componentRegistry: ComponentDemo[] = [
         label="Full Name"
         placeholder=" "
         bg={PREVIEW_COLORS.SURFACE_DARK}
-        textColor={PREVIEW_COLORS.TEXT_LIGHT}
-        borderColor={PREVIEW_COLORS.BORDER}
+        textColor={STATIC_COLORS.LIGHT_TEXT}
+        borderColor={STATIC_COLORS.BORDER_GRAY}
         focusBorderColor={PREVIEW_COLORS.ACCENT}
-        focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
-        labelColor={PREVIEW_COLORS.DISABLED_TEXT}
+        focusShadow={STATIC_COLORS.TRANSPARENT}
+        labelColor={STATIC_COLORS.DISABLED_TEXT}
         labelActiveColor={PREVIEW_COLORS.ACCENT}
         iconColor={PREVIEW_COLORS.ACCENT}
-        iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
-        placeholderColor={PREVIEW_COLORS.TRANSPARENT}
+        iconHoverColor={PREVIEW_COLORS.ACCENT}
+        placeholderColor={STATIC_COLORS.TRANSPARENT}
       />
     ),
   },
@@ -445,15 +445,15 @@ export const componentRegistry: ComponentDemo[] = [
         label="Age"
         placeholder=" "
         bg={PREVIEW_COLORS.SURFACE_DARK}
-        textColor={PREVIEW_COLORS.TEXT_LIGHT}
-        borderColor={PREVIEW_COLORS.BORDER}
+        textColor={STATIC_COLORS.LIGHT_TEXT}
+        borderColor={STATIC_COLORS.BORDER_GRAY}
         focusBorderColor={PREVIEW_COLORS.ACCENT}
-        focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
-        labelColor={PREVIEW_COLORS.DISABLED_TEXT}
+        focusShadow={STATIC_COLORS.TRANSPARENT}
+        labelColor={STATIC_COLORS.DISABLED_TEXT}
         labelActiveColor={PREVIEW_COLORS.ACCENT}
         iconColor={PREVIEW_COLORS.ACCENT}
-        iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
-        placeholderColor={PREVIEW_COLORS.TRANSPARENT}
+        iconHoverColor={PREVIEW_COLORS.ACCENT}
+        placeholderColor={STATIC_COLORS.TRANSPARENT}
       />
     ),
   },
@@ -477,15 +477,15 @@ export const componentRegistry: ComponentDemo[] = [
         passwordIconHidden={<EyeOff size={16} />}
         placeholder=" "
         bg={PREVIEW_COLORS.SURFACE_DARK}
-        textColor={PREVIEW_COLORS.TEXT_LIGHT}
-        borderColor={PREVIEW_COLORS.BORDER}
+        textColor={STATIC_COLORS.LIGHT_TEXT}
+        borderColor={STATIC_COLORS.BORDER_GRAY}
         focusBorderColor={PREVIEW_COLORS.ACCENT}
-        focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
-        labelColor={PREVIEW_COLORS.DISABLED_TEXT}
+        focusShadow={STATIC_COLORS.TRANSPARENT}
+        labelColor={STATIC_COLORS.DISABLED_TEXT}
         labelActiveColor={PREVIEW_COLORS.ACCENT}
         iconColor={PREVIEW_COLORS.ACCENT}
-        iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
-        placeholderColor={PREVIEW_COLORS.TRANSPARENT}
+        iconHoverColor={PREVIEW_COLORS.ACCENT}
+        placeholderColor={STATIC_COLORS.TRANSPARENT}
       />
     ),
   },
@@ -500,15 +500,15 @@ export const componentRegistry: ComponentDemo[] = [
         selectIcon={<ChevronDown size={16} />}
         defaultValue=""
         bg={PREVIEW_COLORS.SURFACE_DARK}
-        textColor={PREVIEW_COLORS.TEXT_LIGHT}
-        borderColor={PREVIEW_COLORS.BORDER}
+        textColor={STATIC_COLORS.LIGHT_TEXT}
+        borderColor={STATIC_COLORS.BORDER_GRAY}
         focusBorderColor={PREVIEW_COLORS.ACCENT}
-        focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
-        labelColor={PREVIEW_COLORS.DISABLED_TEXT}
+        focusShadow={STATIC_COLORS.TRANSPARENT}
+        labelColor={STATIC_COLORS.DISABLED_TEXT}
         labelActiveColor={PREVIEW_COLORS.ACCENT}
         iconColor={PREVIEW_COLORS.ACCENT}
-        iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
-        placeholderColor={PREVIEW_COLORS.TRANSPARENT}
+        iconHoverColor={PREVIEW_COLORS.ACCENT}
+        placeholderColor={STATIC_COLORS.TRANSPARENT}
       >
         <option value="us">United States</option>
         <option value="uk">United Kingdom</option>
@@ -537,15 +537,15 @@ export const componentRegistry: ComponentDemo[] = [
           label="Small"
           placeholder=" "
           bg={PREVIEW_COLORS.SURFACE_DARK}
-          textColor={PREVIEW_COLORS.TEXT_LIGHT}
-          borderColor={PREVIEW_COLORS.BORDER}
+          textColor={STATIC_COLORS.LIGHT_TEXT}
+          borderColor={STATIC_COLORS.BORDER_GRAY}
           focusBorderColor={PREVIEW_COLORS.ACCENT}
-          focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
-          labelColor={PREVIEW_COLORS.DISABLED_TEXT}
+          focusShadow={STATIC_COLORS.TRANSPARENT}
+          labelColor={STATIC_COLORS.DISABLED_TEXT}
           labelActiveColor={PREVIEW_COLORS.ACCENT}
           iconColor={PREVIEW_COLORS.ACCENT}
-          iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
-          placeholderColor={PREVIEW_COLORS.TRANSPARENT}
+          iconHoverColor={PREVIEW_COLORS.ACCENT}
+          placeholderColor={STATIC_COLORS.TRANSPARENT}
         />
         <Input
           variant="text"
@@ -553,15 +553,15 @@ export const componentRegistry: ComponentDemo[] = [
           label="Medium"
           placeholder=" "
           bg={PREVIEW_COLORS.SURFACE_DARK}
-          textColor={PREVIEW_COLORS.TEXT_LIGHT}
-          borderColor={PREVIEW_COLORS.BORDER}
+          textColor={STATIC_COLORS.LIGHT_TEXT}
+          borderColor={STATIC_COLORS.BORDER_GRAY}
           focusBorderColor={PREVIEW_COLORS.ACCENT}
-          focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
-          labelColor={PREVIEW_COLORS.DISABLED_TEXT}
+          focusShadow={STATIC_COLORS.TRANSPARENT}
+          labelColor={STATIC_COLORS.DISABLED_TEXT}
           labelActiveColor={PREVIEW_COLORS.ACCENT}
           iconColor={PREVIEW_COLORS.ACCENT}
-          iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
-          placeholderColor={PREVIEW_COLORS.TRANSPARENT}
+          iconHoverColor={PREVIEW_COLORS.ACCENT}
+          placeholderColor={STATIC_COLORS.TRANSPARENT}
         />
         <Input
           variant="text"
@@ -569,15 +569,15 @@ export const componentRegistry: ComponentDemo[] = [
           label="Large"
           placeholder=" "
           bg={PREVIEW_COLORS.SURFACE_DARK}
-          textColor={PREVIEW_COLORS.TEXT_LIGHT}
-          borderColor={PREVIEW_COLORS.BORDER}
+          textColor={STATIC_COLORS.LIGHT_TEXT}
+          borderColor={STATIC_COLORS.BORDER_GRAY}
           focusBorderColor={PREVIEW_COLORS.ACCENT}
-          focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
-          labelColor={PREVIEW_COLORS.DISABLED_TEXT}
+          focusShadow={STATIC_COLORS.TRANSPARENT}
+          labelColor={STATIC_COLORS.DISABLED_TEXT}
           labelActiveColor={PREVIEW_COLORS.ACCENT}
           iconColor={PREVIEW_COLORS.ACCENT}
-          iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
-          placeholderColor={PREVIEW_COLORS.TRANSPARENT}
+          iconHoverColor={PREVIEW_COLORS.ACCENT}
+          placeholderColor={STATIC_COLORS.TRANSPARENT}
         />
       </div>
     ),
@@ -598,18 +598,18 @@ export const componentRegistry: ComponentDemo[] = [
           calendarIcon={<Calendar size={18} />}
           clearIcon={<X size={16} />}
           bg={PREVIEW_COLORS.SURFACE_DARK}
-          textColor={PREVIEW_COLORS.TEXT_LIGHT}
-          borderColor={PREVIEW_COLORS.BORDER}
+          textColor={STATIC_COLORS.LIGHT_TEXT}
+          borderColor={STATIC_COLORS.BORDER_GRAY}
           focusBorderColor={PREVIEW_COLORS.ACCENT}
-          focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
+          focusShadow={STATIC_COLORS.TRANSPARENT}
           iconColor={PREVIEW_COLORS.ACCENT}
-          iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
-          placeholderColor={PREVIEW_COLORS.DISABLED_TEXT}
+          iconHoverColor={PREVIEW_COLORS.ACCENT}
+          placeholderColor={STATIC_COLORS.DISABLED_TEXT}
           calendarBorderColor={PREVIEW_COLORS.ACCENT}
           calendarHeaderBg={PREVIEW_COLORS.ACCENT}
           calendarHeaderText={PREVIEW_COLORS.WHITE}
-          calendarDayText={PREVIEW_COLORS.TEXT_LIGHT}
-          calendarDayHoverBg={PREVIEW_COLORS.FOCUS_SHADOW}
+          calendarDayText={STATIC_COLORS.LIGHT_TEXT}
+          calendarDayHoverBg={STATIC_COLORS.TRANSPARENT}
           calendarSelectedBg={PREVIEW_COLORS.ACCENT}
           calendarSelectedText={PREVIEW_COLORS.WHITE}
           calendarMonthBg={PREVIEW_COLORS.SURFACE_DARK}
@@ -635,18 +635,18 @@ export const componentRegistry: ComponentDemo[] = [
           calendarIcon={<Calendar size={16} />}
           clearIcon={<X size={14} />}
           bg={PREVIEW_COLORS.SURFACE_DARK}
-          textColor={PREVIEW_COLORS.TEXT_LIGHT}
-          borderColor={PREVIEW_COLORS.BORDER}
+          textColor={STATIC_COLORS.LIGHT_TEXT}
+          borderColor={STATIC_COLORS.BORDER_GRAY}
           focusBorderColor={PREVIEW_COLORS.ACCENT}
-          focusShadow={PREVIEW_COLORS.FOCUS_SHADOW}
+          focusShadow={STATIC_COLORS.TRANSPARENT}
           iconColor={PREVIEW_COLORS.ACCENT}
-          iconHoverColor={PREVIEW_COLORS.ACCENT_HOVER}
-          placeholderColor={PREVIEW_COLORS.DISABLED_TEXT}
+          iconHoverColor={PREVIEW_COLORS.ACCENT}
+          placeholderColor={STATIC_COLORS.DISABLED_TEXT}
           calendarBorderColor={PREVIEW_COLORS.PRIMARY}
           calendarHeaderBg={PREVIEW_COLORS.PRIMARY}
           calendarHeaderText={PREVIEW_COLORS.WHITE}
-          calendarDayText={PREVIEW_COLORS.TEXT_LIGHT}
-          calendarDayHoverBg={PREVIEW_COLORS.FOCUS_SHADOW}
+          calendarDayText={STATIC_COLORS.LIGHT_TEXT}
+          calendarDayHoverBg={STATIC_COLORS.TRANSPARENT}
           calendarSelectedBg={PREVIEW_COLORS.ACCENT}
           calendarSelectedText={PREVIEW_COLORS.WHITE}
           calendarMonthBg={PREVIEW_COLORS.SURFACE_DARK}
@@ -773,7 +773,7 @@ export const componentRegistry: ComponentDemo[] = [
               <div
                 className="absolute inset-0 rounded-full border-2"
                 style={{
-                  borderColor: PREVIEW_COLORS.ACCENT_ALPHA_10,
+                  borderColor: STATIC_COLORS.TRANSPARENT,
                   animation: 'pulse-ring 1.5s ease-in-out infinite',
                 }}
               />
@@ -903,7 +903,7 @@ export const componentRegistry: ComponentDemo[] = [
               <div
                 className="absolute inset-0 rounded-full border-2"
                 style={{
-                  borderColor: PREVIEW_COLORS.ACCENT_ALPHA_10,
+                  borderColor: STATIC_COLORS.TRANSPARENT,
                   animation: 'pulse-ring 1.5s ease-in-out infinite',
                 }}
               />
@@ -974,7 +974,7 @@ export const componentRegistry: ComponentDemo[] = [
             <div
               className="absolute inset-0 rounded-full border-2"
               style={{
-                borderColor: PREVIEW_COLORS.ACCENT_ALPHA_10,
+                borderColor: STATIC_COLORS.TRANSPARENT,
                 animation: 'pulse-ring 1.5s ease-in-out infinite',
               }}
             />
@@ -993,7 +993,7 @@ export const componentRegistry: ComponentDemo[] = [
             <div
               className="absolute inset-0 rounded-full border-2"
               style={{
-                borderColor: PREVIEW_COLORS.ACCENT_ALPHA_10,
+                borderColor: STATIC_COLORS.TRANSPARENT,
                 animation: 'pulse-ring 1.5s ease-in-out infinite',
               }}
             />
@@ -1012,7 +1012,7 @@ export const componentRegistry: ComponentDemo[] = [
             <div
               className="absolute inset-0 rounded-full border-2"
               style={{
-                borderColor: PREVIEW_COLORS.ACCENT_ALPHA_10,
+                borderColor: STATIC_COLORS.TRANSPARENT,
                 animation: 'pulse-ring 1.5s ease-in-out infinite',
               }}
             />
@@ -1042,14 +1042,14 @@ export const componentRegistry: ComponentDemo[] = [
           data={data}
           showActions={false}
           headerBgFrom={PREVIEW_COLORS.PRIMARY}
-          headerBgTo={PREVIEW_COLORS.PRIMARY_HOVER}
+          headerBgTo={PREVIEW_COLORS.ACCENT}
           headerTextColor={PREVIEW_COLORS.WHITE}
-          headerBorderColor={PREVIEW_COLORS.BORDER}
+          headerBorderColor={STATIC_COLORS.BORDER_GRAY}
           rowBg={PREVIEW_COLORS.SURFACE_DARK}
           rowEvenBg="#3A3F42"
           rowHoverBg="#424749"
-          cellTextColor={PREVIEW_COLORS.TEXT_LIGHT}
-          cellBorderColor={PREVIEW_COLORS.BORDER}
+          cellTextColor={STATIC_COLORS.LIGHT_TEXT}
+          cellBorderColor={STATIC_COLORS.BORDER_GRAY}
         />
       );
     },
@@ -1101,14 +1101,14 @@ export const componentRegistry: ComponentDemo[] = [
           onSort={handleSort}
           showActions={false}
           headerBgFrom={PREVIEW_COLORS.PRIMARY}
-          headerBgTo={PREVIEW_COLORS.PRIMARY_HOVER}
+          headerBgTo={PREVIEW_COLORS.ACCENT}
           headerTextColor={PREVIEW_COLORS.WHITE}
-          headerBorderColor={PREVIEW_COLORS.BORDER}
+          headerBorderColor={STATIC_COLORS.BORDER_GRAY}
           rowBg={PREVIEW_COLORS.SURFACE_DARK}
           rowEvenBg="#3A3F42"
           rowHoverBg="#424749"
-          cellTextColor={PREVIEW_COLORS.TEXT_LIGHT}
-          cellBorderColor={PREVIEW_COLORS.BORDER}
+          cellTextColor={STATIC_COLORS.LIGHT_TEXT}
+          cellBorderColor={STATIC_COLORS.BORDER_GRAY}
         />
       );
     },
@@ -1138,17 +1138,17 @@ export const componentRegistry: ComponentDemo[] = [
           onEdit={() => {}}
           onDelete={() => {}}
           headerBgFrom={PREVIEW_COLORS.PRIMARY}
-          headerBgTo={PREVIEW_COLORS.PRIMARY_HOVER}
+          headerBgTo={PREVIEW_COLORS.ACCENT}
           headerTextColor={PREVIEW_COLORS.WHITE}
-          headerBorderColor={PREVIEW_COLORS.BORDER}
+          headerBorderColor={STATIC_COLORS.BORDER_GRAY}
           rowBg={PREVIEW_COLORS.SURFACE_DARK}
           rowEvenBg="#3A3F42"
           rowHoverBg="#424749"
-          cellTextColor={PREVIEW_COLORS.TEXT_LIGHT}
-          cellBorderColor={PREVIEW_COLORS.BORDER}
+          cellTextColor={STATIC_COLORS.LIGHT_TEXT}
+          cellBorderColor={STATIC_COLORS.BORDER_GRAY}
           actionColor={PREVIEW_COLORS.PRIMARY}
-          actionHoverColor={PREVIEW_COLORS.PRIMARY_HOVER}
-          actionDeleteHoverColor={PREVIEW_COLORS.DANGER_HOVER}
+          actionHoverColor={PREVIEW_COLORS.ACCENT}
+          actionDeleteHoverColor={PREVIEW_COLORS.DANGER}
         />
       );
     },
@@ -1190,14 +1190,14 @@ export const componentRegistry: ComponentDemo[] = [
           data={data}
           showActions={false}
           headerBgFrom={PREVIEW_COLORS.PRIMARY}
-          headerBgTo={PREVIEW_COLORS.PRIMARY_HOVER}
+          headerBgTo={PREVIEW_COLORS.ACCENT}
           headerTextColor={PREVIEW_COLORS.WHITE}
-          headerBorderColor={PREVIEW_COLORS.BORDER}
+          headerBorderColor={STATIC_COLORS.BORDER_GRAY}
           rowBg={PREVIEW_COLORS.SURFACE_DARK}
           rowEvenBg="#3A3F42"
           rowHoverBg="#424749"
-          cellTextColor={PREVIEW_COLORS.TEXT_LIGHT}
-          cellBorderColor={PREVIEW_COLORS.BORDER}
+          cellTextColor={STATIC_COLORS.LIGHT_TEXT}
+          cellBorderColor={STATIC_COLORS.BORDER_GRAY}
         />
       );
     },
@@ -1221,12 +1221,12 @@ export const componentRegistry: ComponentDemo[] = [
           noDataMessage="No records found. Add some data to get started!"
           showActions={false}
           headerBgFrom={PREVIEW_COLORS.PRIMARY}
-          headerBgTo={PREVIEW_COLORS.PRIMARY_HOVER}
+          headerBgTo={PREVIEW_COLORS.ACCENT}
           headerTextColor={PREVIEW_COLORS.WHITE}
-          headerBorderColor={PREVIEW_COLORS.BORDER}
+          headerBorderColor={STATIC_COLORS.BORDER_GRAY}
           noDataBg={PREVIEW_COLORS.SURFACE_DARK}
-          noDataTextColor={PREVIEW_COLORS.TEXT_LIGHT}
-          noDataBorderColor={PREVIEW_COLORS.BORDER}
+          noDataTextColor={STATIC_COLORS.LIGHT_TEXT}
+          noDataBorderColor={STATIC_COLORS.BORDER_GRAY}
         />
       );
     },
@@ -1245,7 +1245,7 @@ export const componentRegistry: ComponentDemo[] = [
             onClick={() => setIsOpen(true)}
             bg={PREVIEW_COLORS.PRIMARY}
             textColor={PREVIEW_COLORS.WHITE}
-            hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
+            hoverBg={PREVIEW_COLORS.ACCENT}
           >
             Open Modal
           </Button>
@@ -1255,7 +1255,7 @@ export const componentRegistry: ComponentDemo[] = [
             title="Welcome"
             icon={Settings}
             headerBgFrom={PREVIEW_COLORS.PRIMARY}
-            headerBgTo={PREVIEW_COLORS.PRIMARY_HOVER}
+            headerBgTo={PREVIEW_COLORS.ACCENT}
           >
             <div>
               <p className="text-gray-700 mb-4">
@@ -1285,7 +1285,7 @@ export const componentRegistry: ComponentDemo[] = [
             onClick={() => setIsOpen(true)}
             bg={PREVIEW_COLORS.PRIMARY}
             textColor={PREVIEW_COLORS.WHITE}
-            hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
+            hoverBg={PREVIEW_COLORS.ACCENT}
           >
             View Stats
           </Button>
@@ -1295,7 +1295,7 @@ export const componentRegistry: ComponentDemo[] = [
             title="Dashboard"
             icon={TrendingUp}
             headerBgFrom={PREVIEW_COLORS.PRIMARY}
-            headerBgTo={PREVIEW_COLORS.PRIMARY_HOVER}
+            headerBgTo={PREVIEW_COLORS.ACCENT}
             stats={[
               { icon: Users, number: '1,234', label: 'Users', color: PREVIEW_COLORS.PRIMARY },
               { icon: ShoppingCart, number: '567', label: 'Orders', color: PREVIEW_COLORS.SUCCESS },
@@ -1337,7 +1337,7 @@ export const componentRegistry: ComponentDemo[] = [
             onClick={() => setIsOpen(true)}
             bg={PREVIEW_COLORS.PRIMARY}
             textColor={PREVIEW_COLORS.WHITE}
-            hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
+            hoverBg={PREVIEW_COLORS.ACCENT}
           >
             Edit Form
           </Button>
@@ -1348,7 +1348,7 @@ export const componentRegistry: ComponentDemo[] = [
             icon={Edit}
             hasUnsavedChanges={hasChanges}
             headerBgFrom={PREVIEW_COLORS.PRIMARY}
-            headerBgTo={PREVIEW_COLORS.PRIMARY_HOVER}
+            headerBgTo={PREVIEW_COLORS.ACCENT}
           >
             <div>
               <p className="text-gray-700 mb-4">
@@ -1360,8 +1360,8 @@ export const componentRegistry: ComponentDemo[] = [
                 placeholder="Enter your name"
                 onChange={() => setHasChanges(true)}
                 bg={PREVIEW_COLORS.SURFACE_DARK}
-                textColor={PREVIEW_COLORS.TEXT_LIGHT}
-                borderColor={PREVIEW_COLORS.BORDER}
+                textColor={STATIC_COLORS.LIGHT_TEXT}
+                borderColor={STATIC_COLORS.BORDER_GRAY}
                 focusBorderColor={PREVIEW_COLORS.ACCENT}
               />
               <div className="mt-4">
@@ -1370,8 +1370,8 @@ export const componentRegistry: ComponentDemo[] = [
                   placeholder="Enter your email"
                   onChange={() => setHasChanges(true)}
                   bg={PREVIEW_COLORS.SURFACE_DARK}
-                  textColor={PREVIEW_COLORS.TEXT_LIGHT}
-                  borderColor={PREVIEW_COLORS.BORDER}
+                  textColor={STATIC_COLORS.LIGHT_TEXT}
+                  borderColor={STATIC_COLORS.BORDER_GRAY}
                   focusBorderColor={PREVIEW_COLORS.ACCENT}
                 />
               </div>
@@ -1395,7 +1395,7 @@ export const componentRegistry: ComponentDemo[] = [
             onClick={() => setIsOpen(true)}
             bg={PREVIEW_COLORS.SUCCESS}
             textColor={PREVIEW_COLORS.WHITE}
-            hoverBg={PREVIEW_COLORS.SUCCESS_HOVER}
+            hoverBg={PREVIEW_COLORS.SUCCESS}
           >
             Success Theme
           </Button>
@@ -1405,7 +1405,7 @@ export const componentRegistry: ComponentDemo[] = [
             title="Success!"
             icon={Check}
             headerBgFrom={PREVIEW_COLORS.SUCCESS}
-            headerBgTo={PREVIEW_COLORS.SUCCESS_HOVER}
+            headerBgTo={PREVIEW_COLORS.SUCCESS}
             scrollbarThumbColor={PREVIEW_COLORS.SUCCESS}
           >
             <div>
@@ -1438,7 +1438,7 @@ export const componentRegistry: ComponentDemo[] = [
             onClick={() => setIsOpen(true)}
             bg={PREVIEW_COLORS.PRIMARY}
             textColor={PREVIEW_COLORS.WHITE}
-            hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
+            hoverBg={PREVIEW_COLORS.ACCENT}
           >
             Large Content
           </Button>
@@ -1448,7 +1448,7 @@ export const componentRegistry: ComponentDemo[] = [
             title="Terms and Conditions"
             maxWidth="70rem"
             headerBgFrom={PREVIEW_COLORS.PRIMARY}
-            headerBgTo={PREVIEW_COLORS.PRIMARY_HOVER}
+            headerBgTo={PREVIEW_COLORS.ACCENT}
           >
             <div className="space-y-4">
               <p className="text-gray-700">
@@ -1485,7 +1485,7 @@ export const componentRegistry: ComponentDemo[] = [
             onClick={() => setIsOpen(true)}
             bg={PREVIEW_COLORS.PRIMARY}
             textColor={PREVIEW_COLORS.WHITE}
-            hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
+            hoverBg={PREVIEW_COLORS.ACCENT}
           >
             Confirm Action
           </Button>
@@ -1503,7 +1503,7 @@ export const componentRegistry: ComponentDemo[] = [
                 <div
                   className="w-12 h-12 rounded-full animate-spin"
                   style={{
-                    border: `3px solid ${PREVIEW_COLORS.ACCENT_ALPHA_10}`,
+                    border: `3px solid ${STATIC_COLORS.TRANSPARENT}`,
                     borderTopColor: PREVIEW_COLORS.PRIMARY,
                     borderRightColor: PREVIEW_COLORS.PRIMARY,
                   }}

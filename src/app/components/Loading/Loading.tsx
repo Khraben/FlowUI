@@ -5,12 +5,9 @@ import { createPortal } from 'react-dom';
 import { LoadingProps } from './models/Loading.interface';
 import {
   LOADING_OVERLAY_BASE,
-  LOADING_OVERLAY_DEFAULT_BG,
   LOADING_SIZES,
   LOADING_TEXT_SIZES,
   LOADING_DOT_SIZES,
-  LOADING_DEFAULT_SPINNER_COLOR,
-  LOADING_DEFAULT_TEXT_COLOR,
   LOADING_DEFAULT_SIZE,
   LOADING_DEFAULT_VARIANT,
   LOADING_DISPLAY_NAME,
@@ -20,8 +17,8 @@ export const Loading: React.FC<LoadingProps> = ({
   text,
   size = LOADING_DEFAULT_SIZE,
   variant = LOADING_DEFAULT_VARIANT,
-  overlayColor = LOADING_OVERLAY_DEFAULT_BG,
-  spinnerColor = LOADING_DEFAULT_SPINNER_COLOR,
+  overlayColor,
+  spinnerColor,
   showOverlay = true,
 }) => {
   const [mounted, setMounted] = useState(false);
@@ -141,11 +138,7 @@ export const Loading: React.FC<LoadingProps> = ({
         {variant === 'spinner' && renderSpinner()}
         {variant === 'dots' && renderDots()}
         {variant === 'pulse' && renderPulse()}
-        {text && (
-          <p className={`${textSizeClass} ${LOADING_DEFAULT_TEXT_COLOR} font-medium animate-pulse`}>
-            {text}
-          </p>
-        )}
+        {text && <p className={`${textSizeClass} text-white font-medium animate-pulse`}>{text}</p>}
       </div>
     </div>
   );

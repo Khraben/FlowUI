@@ -2,14 +2,11 @@
 
 import React from 'react';
 import { ActionIconProps } from './models/ActionIcon.interface';
+import { STATIC_COLORS } from '@/constants/staticColors.constants';
 import {
   ACTION_ICON_BASE,
   ACTION_ICON_SIZES,
   ACTION_ICON_ICON_SIZES,
-  ACTION_ICON_DEFAULT_COLOR,
-  ACTION_ICON_DEFAULT_HOVER_COLOR,
-  ACTION_ICON_DEFAULT_HOVER_BG,
-  ACTION_ICON_DISABLED_COLOR,
   ACTION_ICON_DISABLED_CURSOR,
   ACTION_ICON_ICON_HOVER_SCALE,
   ACTION_ICON_DISPLAY_NAME,
@@ -18,15 +15,15 @@ import {
 export const ActionIcon: React.FC<ActionIconProps> = ({
   icon: Icon,
   onClick,
-  color = ACTION_ICON_DEFAULT_COLOR,
-  hoverColor = ACTION_ICON_DEFAULT_HOVER_COLOR,
-  hoverBg = ACTION_ICON_DEFAULT_HOVER_BG,
+  color,
+  hoverColor,
+  hoverBg,
   title,
   size = 'md',
   className = '',
   disabled = false,
-  disabledColor = ACTION_ICON_DISABLED_COLOR,
 }) => {
+  const disabledColor = STATIC_COLORS.DISABLED_BG;
   const sizeClass = ACTION_ICON_SIZES[size];
   const iconSizeClass = ACTION_ICON_ICON_SIZES[size];
 
