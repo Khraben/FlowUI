@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { LanguageSelectorProps } from './models/LanguageSelector.interface';
 import {
@@ -85,7 +85,7 @@ export const LanguageSelector = React.forwardRef<HTMLButtonElement, LanguageSele
       if (isOpen && buttonRef.current) {
         const rect = buttonRef.current.getBoundingClientRect();
         setDropdownPosition({
-          top: rect.bottom + LANGUAGE_SELECTOR_DROPDOWN_OFFSET,
+          top: rect.bottom,
           left: rect.left,
         });
       }
@@ -133,17 +133,22 @@ export const LanguageSelector = React.forwardRef<HTMLButtonElement, LanguageSele
       ? dropdownClassName || ''
       : `${LANGUAGE_SELECTOR_DROPDOWN_BASE} ${dropdownBg} ${dropdownBorder} ${dropdownShadow} ${dropdownClassName || ''}`.trim();
 
+    const setRefs = useCallback(
+      (node: HTMLButtonElement | null) => {
+        if (typeof ref === 'function') {
+          ref(node);
+        } else if (ref) {
+          ref.current = node;
+        }
+        buttonRef.current = node;
+      },
+      [ref],
+    );
+
     return (
       <>
         <button
-          ref={(node) => {
-            if (typeof ref === 'function') {
-              ref(node);
-            } else if (ref) {
-              ref.current = node;
-            }
-            (buttonRef as React.MutableRefObject<HTMLButtonElement | null>).current = node;
-          }}
+          ref={setRefs}
           onClick={() => setIsOpen(!isOpen)}
           className={buttonClasses}
           aria-label="Select language"

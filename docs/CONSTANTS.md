@@ -20,7 +20,6 @@ src/constants/
 ```typescript
 import { BUTTON_VARIANTS, BUTTON_SIZES } from '@/constants';
 
-// Usar en componentes
 <Button variant={BUTTON_VARIANTS.PRIMARY} size={BUTTON_SIZES.MD}>
   Click me
 </Button>
@@ -62,7 +61,6 @@ Los estilos de Tailwind están centralizados en `styles.ts`:
 ```typescript
 import { BUTTON_STYLES, CARD_STYLES, SHOWCASE_STYLES } from '@/constants';
 
-// Los componentes usan estas constantes internamente
 <button className={BUTTON_STYLES.BASE}>
   {/* ... */}
 </button>
@@ -96,15 +94,13 @@ const demo: ComponentDemo = {
 ```typescript
 import { PREVIEW_CONFIG, PREVIEW_TEXT } from '@/constants';
 
-// Configuración
-PREVIEW_CONFIG.COMPONENTS_PER_PAGE; // 6
-PREVIEW_CONFIG.SCROLL_THRESHOLD; // 300
-PREVIEW_CONFIG.LOADING_DELAY; // 500
+PREVIEW_CONFIG.COMPONENTS_PER_PAGE;
+PREVIEW_CONFIG.SCROLL_THRESHOLD;
+PREVIEW_CONFIG.LOADING_DELAY;
 
-// Textos
-PREVIEW_TEXT.TITLE; // "FlowUI Component Library"
-PREVIEW_TEXT.SUBTITLE; // "Professional Tailwind & Next.js components"
-PREVIEW_TEXT.LOADING_MESSAGE; // "Loading more components..."
+PREVIEW_TEXT.TITLE;
+PREVIEW_TEXT.SUBTITLE;
+PREVIEW_TEXT.LOADING_MESSAGE;
 ```
 
 ## 💡 Mejores Prácticas
@@ -112,10 +108,8 @@ PREVIEW_TEXT.LOADING_MESSAGE; // "Loading more components..."
 ### ✅ Hacer
 
 ```typescript
-// Importar desde el index central
 import { BUTTON_VARIANTS, COMPONENT_CATEGORIES } from '@/constants';
 
-// Usar constantes en lugar de strings
 variant={BUTTON_VARIANTS.PRIMARY}
 category: COMPONENT_CATEGORIES.BUTTONS
 ```
@@ -123,11 +117,9 @@ category: COMPONENT_CATEGORIES.BUTTONS
 ### ❌ Evitar
 
 ```typescript
-// NO usar strings directos
 variant = 'primary';
 category: 'Buttons';
 
-// NO importar archivos individuales cuando no sea necesario
 import { BUTTON_VARIANTS } from '@/constants/variants';
 ```
 

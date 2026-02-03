@@ -1,0 +1,28 @@
+# Distribution files
+dist/
+
+# Build output
+.next/
+out/
+
+# Dependencies
+node_modules/
+
+# Preview/demo files (not needed in package)
+src/app/preview/
+src/app/constants/preview/
+
+# Development files
+.env*.local
+*.log
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Testing
+coverage/
+
+# Misc
+*.tsbuildinfo

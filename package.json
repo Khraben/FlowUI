@@ -1,12 +1,38 @@
 {
-  "name": "flow-ui",
+  "name": "@khraben/flowui",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "description": "FlowUI - React component library with 100% customizable colors via props",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Khraben/FlowUI.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "keywords": [
+    "react",
+    "components",
+    "ui",
+    "typescript",
+    "tailwind"
+  ],
+  "author": "Khraben",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:lib": "tsc --project tsconfig.lib.json && cp package.json dist/",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "prepublishOnly": "npm run build:lib"
   },
   "dependencies": {
     "date-fns": "^4.1.0",

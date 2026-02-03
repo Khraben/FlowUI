@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] - 2026-02-02
 
 ### Added
+
 - **Button Component** - Fully customizable button with variants (primary, secondary, tertiary, ghost)
 - **Input Component** - Text, password, email, number, and textarea variants with icon support
 - **ActionIcon Component** - Icon button with smooth hover animations
@@ -19,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **LanguageSelector Component** - Dropdown language switcher with flags
 
 ### Features
+
 - **100% Color Props** - All colors passed as individual props, zero hardcoded values
 - **Static Color System** - 27 system-level colors for consistent disabled states, grays, and overlays
 - **Preview Showcase** - Interactive component gallery with 100+ examples
@@ -28,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Accessibility** - ARIA labels, keyboard navigation, and focus management
 
 ### Developer Experience
+
 - ESLint + Prettier configuration
 - TypeScript strict mode
 - Next.js 16 with Turbopack
@@ -37,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Static color constants (27 colors)
 
 ### Documentation
+
 - Comprehensive README with usage examples
 - Component prop documentation
 - Color system guidelines
