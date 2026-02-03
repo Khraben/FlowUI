@@ -2,7 +2,7 @@ import React, { useState, ReactNode } from 'react';
 import { CheckCircle } from 'lucide-react';
 import { BaseModal } from '../BaseModal/BaseModal';
 import Button from '../Button/Button';
-import { PREVIEW_COLORS } from '@/app/constants';
+import { PREVIEW_COLORS, STATIC_COLORS } from '@/app/constants';
 
 export interface ConfirmationModalProps {
   isOpen: boolean;
@@ -35,7 +35,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         icon={CheckCircle}
         maxWidth="28.125rem"
         headerBgFrom={PREVIEW_COLORS.PRIMARY}
-        headerBgTo={PREVIEW_COLORS.PRIMARY_HOVER}
+        headerBgTo={PREVIEW_COLORS.ACCENT}
       >
         <div className="flex justify-center items-center py-10">{loadingContent}</div>
       </BaseModal>
@@ -59,7 +59,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       icon={CheckCircle}
       maxWidth="28.125rem"
       headerBgFrom={PREVIEW_COLORS.PRIMARY}
-      headerBgTo={PREVIEW_COLORS.PRIMARY_HOVER}
+      headerBgTo={PREVIEW_COLORS.ACCENT}
     >
       <p className="text-base text-gray-600 text-center my-5 leading-normal max-xs:text-sm">
         {message}
@@ -69,7 +69,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           variant="secondary"
           onClick={onClose}
           bg={PREVIEW_COLORS.SURFACE_DARK}
-          textColor={PREVIEW_COLORS.TEXT_LIGHT}
+          textColor={STATIC_COLORS.LIGHT_TEXT}
           hoverBg={PREVIEW_COLORS.SURFACE_DARK}
         >
           {cancelText}
@@ -79,7 +79,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           onClick={handleConfirm}
           bg={PREVIEW_COLORS.PRIMARY}
           textColor={PREVIEW_COLORS.WHITE}
-          hoverBg={PREVIEW_COLORS.PRIMARY_HOVER}
+          hoverBg={PREVIEW_COLORS.ACCENT}
         >
           {confirmText}
         </Button>
