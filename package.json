@@ -2,58 +2,34 @@
   "name": "@khraben/flowui",
   "version": "0.1.0",
   "private": false,
-  "description": "Modern React component library with TypeScript and Tailwind CSS",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    },
-    "./components": {
-      "import": "./dist/components/index.mjs",
-      "require": "./dist/components/index.js",
-      "types": "./dist/components/index.d.ts"
-    },
-    "./constants": {
-      "import": "./dist/constants/index.mjs",
-      "require": "./dist/constants/index.js",
-      "types": "./dist/constants/index.d.ts"
-    }
-  },
+  "description": "FlowUI - React component library with 100% customizable colors via props",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist",
     "README.md",
     "LICENSE"
   ],
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com",
-    "access": "restricted"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Khraben/FlowUI.git"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "keywords": [
     "react",
     "components",
+    "ui",
     "typescript",
-    "tailwindcss",
-    "ui-library",
-    "design-system"
+    "tailwind"
   ],
   "author": "Khraben",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Khraben/FlowUI/issues"
-  },
-  "homepage": "https://github.com/Khraben/FlowUI#readme",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:lib": "tsup",
+    "build:lib": "tsc --project tsconfig.lib.json && cp package.json dist/",
     "start": "next start",
     "lint": "eslint",
     "prepublishOnly": "npm run build:lib"

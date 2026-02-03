@@ -1,17 +1,28 @@
+# Distribution files
+dist/
+
+# Build output
 .next/
-.git/
-.github/
+out/
+
+# Dependencies
 node_modules/
-src/
-public/
-docs/
-.eslintrc.json
-.prettierrc
-.gitignore
-*.config.ts
-*.config.mjs
-*.config.js
-tsconfig*.json
-*.md
-!README.md
-!LICENSE
+
+# Preview/demo files (not needed in package)
+src/app/preview/
+src/app/constants/preview/
+
+# Development files
+.env*.local
+*.log
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Testing
+coverage/
+
+# Misc
+*.tsbuildinfo

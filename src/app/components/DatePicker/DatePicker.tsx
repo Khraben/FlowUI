@@ -165,7 +165,7 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
 
     return (
       <>
-        <style jsx global>{`
+        <style>{`
           .react-datepicker-popper[data-placement^='bottom'] {
             padding-top: 8px !important;
           }
