@@ -1,6 +1,45 @@
 # FlowUI
 
-Private React component library with Next.js, TypeScript and Tailwind CSS.
+Private React component library with TypeScript and Tailwind CSS.
+
+## ⚠️ Private Package - Authentication Required
+
+This is a **private GitHub Package**. You need a valid GitHub Personal Access Token to install it.
+
+### 1️⃣ Generate GitHub Token
+
+Go to: **GitHub → Settings → Developer settings → Personal access tokens (classic)**
+
+Required scopes:
+- ✅ `read:packages`
+- ✅ `repo` (because the repository is private)
+
+### 2️⃣ Configure Authentication
+
+Create/update `~/.npmrc` in your home directory:
+
+```
+@khraben:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN_HERE
+```
+
+**OR** login via npm:
+
+```bash
+npm login --scope=@khraben --registry=https://npm.pkg.github.com
+```
+
+- **Username:** Your GitHub username
+- **Password:** Your GitHub token (NOT your GitHub password)
+- **Email:** Any valid email
+
+## 📦 Installation
+
+```bash
+npm install @khraben/flowui
+```
+
+**Note:** Tailwind CSS is required but not enforced as a peer dependency. Make sure you have Tailwind CSS 4+ configured in your project.
 
 ## 🎨 Design Philosophy
 
@@ -12,20 +51,7 @@ Private React component library with Next.js, TypeScript and Tailwind CSS.
 - ✅ **Zero Defaults** - No hardcoded colors in components
 - ✅ **Darcula Theme** - Inspired by PyCharm
 - ✅ **TypeScript Strict** - Complete type safety
-- ✅ **Preview Showcase** - Visual examples with infinite scroll
-
-## 📦 Installation
-
-```bash
-npm install @khraben/flowui
-```
-
-**Prerequisites:** Add `.npmrc` to your project root:
-
-```
-@khraben:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
-```
+- ✅ **Built with tsup** - Optimized ESM + CJS builds
 
 ## 📚 Components
 

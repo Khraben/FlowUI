@@ -1,16 +1,19 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  entry: {
-    index: 'src/index.ts',
-    'components/index': 'src/app/components/index.ts',
-    'constants/index': 'src/app/constants/index.ts',
-  },
+  entry: ['src/index.ts'],
   format: ['cjs', 'esm'],
   dts: true,
-  clean: true,
   sourcemap: true,
-  external: ['react', 'react-dom', 'tailwindcss', 'next'],
+  clean: true,
+  external: [
+    'react',
+    'react-dom',
+    'react/jsx-runtime',
+    'date-fns',
+    'lucide-react',
+    'react-datepicker',
+  ],
   treeshake: true,
   splitting: false,
   minify: false,
