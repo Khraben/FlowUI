@@ -1,6 +1,6 @@
 {
   "name": "@khraben/flowui",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "FlowUI - Modern React component library with TypeScript and Tailwind CSS",
   "main": "index.js",
   "module": "index.mjs",
@@ -12,12 +12,17 @@
       "require": "./index.js"
     }
   },
+  "sideEffects": false,
   "files": [
-    "*"
+    "index.js",
+    "index.mjs",
+    "index.d.ts",
+    "index.d.mts",
+    "*.map"
   ],
   "peerDependencies": {
-    "react": ">=18",
-    "react-dom": ">=18"
+    "react": ">=18 <20",
+    "react-dom": ">=18 <20"
   },
   "dependencies": {
     "date-fns": "^4.1.0",

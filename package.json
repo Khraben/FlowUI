@@ -1,6 +1,6 @@
 {
   "name": "@khraben/flowui",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": false,
   "description": "FlowUI - React component library with 100% customizable colors via props",
   "main": "./dist/index.js",
@@ -37,7 +37,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:lib": "tsup && cp package.lib.json dist/package.json && cp README.md LICENSE dist/",
+    "build:lib": "rm -rf dist && tsup && cp package.lib.json dist/package.json && cp README.md LICENSE dist/",
     "start": "next start",
     "lint": "eslint",
     "prepublishOnly": "npm run build:lib"
