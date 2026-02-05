@@ -1,5 +1,5 @@
-# Distribution files
-dist/
+# Source files (only publish dist/)
+src/
 
 # Build output
 .next/
@@ -7,10 +7,6 @@ out/
 
 # Dependencies
 node_modules/
-
-# Preview/demo files (not needed in package)
-src/app/preview/
-src/app/constants/preview/
 
 # Development files
 .env*.local
@@ -24,5 +20,22 @@ src/app/constants/preview/
 # Testing
 coverage/
 
+# Config files
+tsconfig.json
+tsconfig.lib.json
+next.config.ts
+tailwind.config.js
+postcss.config.mjs
+eslint.config.mjs
+
+# Git
+.git
+.gitignore
+
 # Misc
 *.tsbuildinfo
+
+# Public assets (not needed in npm package)
+public/
+
+# Only dist/, README.md, LICENSE, and package.json will be published
