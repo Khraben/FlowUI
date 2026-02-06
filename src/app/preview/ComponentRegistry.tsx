@@ -151,6 +151,7 @@ const LanguageSelectorDemo = () => {
     <LanguageSelector
       selectedLanguage={lang}
       onLanguageChange={setLang}
+      availableLanguages={['en', 'es', 'pt', 'fr', 'it', 'ru', 'ja', 'de', 'zh']}
       colors={PREVIEW_COLOR_CONFIG}
     />
   );
