@@ -1,0 +1,9 @@
+export { FlagEN } from './FlagEN';
+export { FlagES } from './FlagES';
+export { FlagDE } from './FlagDE';
+export { FlagFR } from './FlagFR';
+export { FlagIT } from './FlagIT';
+export { FlagJA } from './FlagJA';
+export { FlagPT } from './FlagPT';
+export { FlagRU } from './FlagRU';
+export { FlagZH } from './FlagZH';

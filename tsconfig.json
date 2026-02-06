@@ -19,7 +19,13 @@
       "@constants/*": ["app/constants/*"],
       "@styles/*": ["styles/*"],
       "@types/*": ["types/*"]
-    }
+    },
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
     "next-env.d.ts",

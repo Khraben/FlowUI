@@ -111,7 +111,7 @@ export const LanguageSelector = React.forwardRef<HTMLButtonElement, LanguageSele
 
     const getLanguageName = (lang: {
       name: string | Record<string, string>;
-      flag: string;
+      flag: React.ComponentType<{ className?: string }>;
       code: string;
     }) => {
       if (typeof lang.name === 'string') {
@@ -153,13 +153,11 @@ export const LanguageSelector = React.forwardRef<HTMLButtonElement, LanguageSele
           aria-label="Select language"
           title={getLanguageName(currentLanguage)}
         >
-          <img
-            src={currentLanguage?.flag || '/flags/EN.svg'}
-            alt={getLanguageName(currentLanguage)}
-            width={64}
-            height={64}
-            className={`w-full h-full object-cover ${LANGUAGE_SELECTOR_FLAG_SCALE}`}
-          />
+          {currentLanguage?.flag && (
+            <currentLanguage.flag
+              className={`w-full h-full object-cover ${LANGUAGE_SELECTOR_FLAG_SCALE}`}
+            />
+          )}
         </button>
 
         {isOpen && (
@@ -182,11 +180,7 @@ export const LanguageSelector = React.forwardRef<HTMLButtonElement, LanguageSele
                   <div
                     className={`${flagSizeClass} ${LANGUAGE_SELECTOR_FLAG_CONTAINER} ${flagBorder}`}
                   >
-                    <img
-                      src={lang.flag}
-                      alt={getLanguageName(lang)}
-                      width={64}
-                      height={64}
+                    <lang.flag
                       className={`w-full h-full object-cover ${LANGUAGE_SELECTOR_FLAG_SCALE}`}
                     />
                   </div>

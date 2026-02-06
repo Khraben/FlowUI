@@ -29,28 +29,28 @@ src/
 All components are exported from the main entry point:
 
 ```typescript
-import { 
-  Button, 
-  Input, 
-  DatePicker, 
-  LanguageSelector, 
-  ActionIcon, 
-  Loading, 
-  Table, 
-  BaseModal, 
-  ConfirmationModal 
+import {
+  Button,
+  Input,
+  DatePicker,
+  LanguageSelector,
+  ActionIcon,
+  Loading,
+  Table,
+  BaseModal,
+  ConfirmationModal,
 } from '@khraben/flowui';
 ```
 
 ### Component Enums
 
 ```typescript
-import { 
-  BUTTON_VARIANT, 
-  BUTTON_ROUNDED, 
-  SIZE, 
-  POSITION, 
-  INPUT_VARIANT 
+import {
+  BUTTON_VARIANT,
+  BUTTON_ROUNDED,
+  SIZE,
+  POSITION,
+  INPUT_VARIANT
 } from '@khraben/flowui';
 
 <Button variant={BUTTON_VARIANT.PRIMARY} size={SIZE.MD} />
@@ -60,16 +60,16 @@ import {
 ### Language Constants
 
 ```typescript
-import { 
-  ALL_LANGUAGES, 
-  DEFAULT_LANGUAGES, 
-  DEFAULT_AVAILABLE_LANGUAGES, 
+import {
+  ALL_LANGUAGES,
+  DEFAULT_LANGUAGES,
+  DEFAULT_AVAILABLE_LANGUAGES,
   DEFAULT_SELECTED_LANGUAGE,
   LANGUAGE_SELECTOR_BUTTON_SIZES,
   LANGUAGE_SELECTOR_FLAG_SIZES
 } from '@khraben/flowui';
 
-<LanguageSelector 
+<LanguageSelector
   selectedLanguage={DEFAULT_SELECTED_LANGUAGE}
   availableLanguages={DEFAULT_AVAILABLE_LANGUAGES}
   size={LANGUAGE_SELECTOR_BUTTON_SIZES.md}
@@ -91,28 +91,35 @@ import { STATIC_COLORS } from '@khraben/flowui';
 **Available static colors (27 total):**
 
 **Disabled States:**
+
 - `DISABLED_BG` - #9CA3AF
 - `DISABLED_TEXT` - #D1D5DB
 
 **Overlays:**
+
 - `OVERLAY_DARK` - rgba(0, 0, 0, 0.5)
 - `OVERLAY_DARKER` - rgba(0, 0, 0, 0.7)
 
 **Grayscale:**
+
 - `GRAY_50` through `GRAY_900`
 - `WHITE` - #FFFFFF
 - `WHITE_ALPHA_20`, `WHITE_ALPHA_30`
 
 **Status Colors:**
+
 - `RED_500`, `RED_600`, `RED_HOVER`
 
 **Surfaces:**
+
 - `DARK_SURFACE`, `DARK_SURFACE_LIGHT`, `DARK_SURFACE_LIGHTER`
 
 **Text & Borders:**
+
 - `LIGHT_TEXT`, `DARK_TEXT`, `BORDER_GRAY`, `LABEL_GRAY`, `LABEL_LIGHT_GRAY`
 
 **Utility:**
+
 - `TRANSPARENT`
 
 ## 💡 Best Practices
@@ -124,8 +131,8 @@ Use exported constants for consistency:
 ```typescript
 import { BUTTON_VARIANT, SIZE, STATIC_COLORS } from '@khraben/flowui';
 
-<Button 
-  variant={BUTTON_VARIANT.PRIMARY} 
+<Button
+  variant={BUTTON_VARIANT.PRIMARY}
   size={SIZE.MD}
   bg="#1E90FF"
   textColor={STATIC_COLORS.WHITE}
@@ -138,8 +145,8 @@ import { BUTTON_VARIANT, SIZE, STATIC_COLORS } from '@khraben/flowui';
 Hardcoded strings and magic values:
 
 ```typescript
-<Button 
-  variant="primary" 
+<Button
+  variant="primary"
   size="md"
   bg="#1E90FF"
   textColor="#FFFFFF"
@@ -152,10 +159,11 @@ Hardcoded strings and magic values:
 FlowUI uses a **two-tier color system**:
 
 ### 1. Component Colors (Props)
+
 All visual colors are **passed as props** for maximum flexibility:
 
 ```typescript
-<Button 
+<Button
   bg="#1E90FF"              // Primary color
   textColor="#FFFFFF"        // Text color
   hoverBg="#187BCD"          // Hover state
@@ -164,6 +172,7 @@ All visual colors are **passed as props** for maximum flexibility:
 ```
 
 ### 2. System Colors (STATIC_COLORS)
+
 Non-customizable system colors for consistent UI states:
 
 ```typescript
@@ -179,9 +188,9 @@ const borderColor = STATIC_COLORS.BORDER_GRAY;
 All exports include full TypeScript definitions:
 
 ```typescript
-import type { 
-  ButtonProps, 
-  InputProps, 
+import type {
+  ButtonProps,
+  InputProps,
   DatePickerProps,
   LanguageSelectorProps,
   ActionIconProps,
@@ -189,7 +198,7 @@ import type {
   TableProps,
   TableColumn,
   BaseModalProps,
-  ConfirmationModalProps
+  ConfirmationModalProps,
 } from '@khraben/flowui';
 ```
 

@@ -11,6 +11,7 @@ This is a **private GitHub Package**. You need a valid GitHub Personal Access To
 Go to: **GitHub → Settings → Developer settings → Personal access tokens (classic)**
 
 Required scopes:
+
 - ✅ `read:packages`
 - ✅ `repo` (because the repository is private)
 
@@ -70,7 +71,7 @@ import { Button } from '@khraben/flowui';
   focusRing="#1E90FF"
 >
   Click me
-</Button>
+</Button>;
 ```
 
 **Color Props:**
@@ -99,7 +100,7 @@ import { Input } from '@khraben/flowui';
   focusBorderColor="#00D4FF"
   labelColor="#808080"
   labelActiveColor="#00D4FF"
-/>
+/>;
 ```
 
 **Color Props:**
@@ -131,7 +132,7 @@ import { Heart } from 'lucide-react';
   color="text-red-600"
   hoverColor="hover:text-red-700"
   hoverBg="hover:bg-red-600/10"
-/>
+/>;
 ```
 
 **Props:**
@@ -160,7 +161,7 @@ import { Loading } from '@khraben/flowui';
   spinnerColor="#3B82F6"
   overlayColor="bg-black/30"
   showOverlay={true}
-/>
+/>;
 ```
 
 **Variants:**
@@ -207,7 +208,7 @@ import { LanguageSelector, DEFAULT_AVAILABLE_LANGUAGES } from '@khraben/flowui';
   activeItemText="text-primary-400"
   itemText="text-gray-300"
   checkIconColor="text-primary-400"
-/>
+/>;
 ```
 
 **Available Languages:**
@@ -266,7 +267,7 @@ import { Table, STATIC_COLORS } from '@khraben/flowui';
   headerText={STATIC_COLORS.LIGHT_TEXT}
   rowBg={STATIC_COLORS.DARK_SURFACE_LIGHT}
   rowText={STATIC_COLORS.LIGHT_TEXT}
-/>
+/>;
 ```
 
 ### BaseModal
@@ -286,7 +287,7 @@ import { CheckCircle } from 'lucide-react';
   headerBgTo="#00D4FF"
 >
   <p>Operation completed successfully</p>
-</BaseModal>
+</BaseModal>;
 ```
 
 ### ConfirmationModal
@@ -305,7 +306,7 @@ import { ConfirmationModal } from '@khraben/flowui';
   message="Are you sure you want to delete this user?"
   confirmText="Delete"
   cancelText="Cancel"
-/>
+/>;
 ```
 
 ### DatePicker
@@ -323,7 +324,7 @@ import { DatePicker } from '@khraben/flowui';
   borderColor="#4A5A6A"
   calendarHeaderBg="#1E90FF"
   calendarSelectedBg="#00D4FF"
-/>
+/>;
 ```
 
 ## 🎨 Static Colors
@@ -333,11 +334,11 @@ System-level colors for consistent UI states:
 ```tsx
 import { STATIC_COLORS } from '@khraben/flowui';
 
-STATIC_COLORS.DISABLED_BG         // #9CA3AF
-STATIC_COLORS.DISABLED_TEXT       // #D1D5DB
-STATIC_COLORS.OVERLAY_DARK        // rgba(0, 0, 0, 0.5)
-STATIC_COLORS.LIGHT_TEXT          // #E5E7EB
-STATIC_COLORS.BORDER_GRAY         // #4B5563
+STATIC_COLORS.DISABLED_BG; // #9CA3AF
+STATIC_COLORS.DISABLED_TEXT; // #D1D5DB
+STATIC_COLORS.OVERLAY_DARK; // rgba(0, 0, 0, 0.5)
+STATIC_COLORS.LIGHT_TEXT; // #E5E7EB
+STATIC_COLORS.BORDER_GRAY; // #4B5563
 // ... 27 total colors
 ```
 

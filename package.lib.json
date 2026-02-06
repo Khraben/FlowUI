@@ -13,13 +13,7 @@
     }
   },
   "sideEffects": false,
-  "files": [
-    "index.js",
-    "index.mjs",
-    "index.d.ts",
-    "index.d.mts",
-    "*.map"
-  ],
+  "files": ["index.js", "index.mjs", "index.d.ts", "index.d.mts", "*.map"],
   "peerDependencies": {
     "react": ">=18 <20",
     "react-dom": ">=18 <20"
@@ -33,13 +27,7 @@
     "type": "git",
     "url": "git+https://github.com/khraben/FlowUI.git"
   },
-  "keywords": [
-    "react",
-    "components",
-    "ui",
-    "tailwind",
-    "typescript"
-  ],
+  "keywords": ["react", "components", "ui", "tailwind", "typescript"],
   "author": "khraben",
   "license": "MIT",
   "publishConfig": {

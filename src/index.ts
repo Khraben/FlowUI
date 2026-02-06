@@ -9,6 +9,9 @@ export { Table } from '@/app/components/Table/Table';
 export { BaseModal } from '@/app/components/BaseModal/BaseModal';
 export { default as ConfirmationModal } from '@/app/components/ConfirmationModal/ConfirmationModal';
 
+// Flag components
+export * from '@/flags';
+
 // Types
 export type { ButtonProps } from '@/app/components/Button/models/Button.interface';
 export type { InputProps } from '@/app/components/Input/models/Input.interface';

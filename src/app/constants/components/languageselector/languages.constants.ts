@@ -1,3 +1,5 @@
+import { FlagEN, FlagES, FlagPT, FlagFR, FlagIT, FlagRU, FlagJA, FlagDE, FlagZH } from '@/flags';
+
 export const ALL_LANGUAGES = {
   en: {
     name: {
@@ -11,7 +13,7 @@ export const ALL_LANGUAGES = {
       de: 'Englisch',
       zh: '英语',
     },
-    flag: '/flags/EN.svg',
+    flag: FlagEN,
     code: 'en',
   },
   es: {
@@ -26,7 +28,7 @@ export const ALL_LANGUAGES = {
       de: 'Spanisch',
       zh: '西班牙语',
     },
-    flag: '/flags/ES.svg',
+    flag: FlagES,
     code: 'es',
   },
   pt: {
@@ -41,7 +43,7 @@ export const ALL_LANGUAGES = {
       de: 'Portugiesisch',
       zh: '葡萄牙语',
     },
-    flag: '/flags/PT.svg',
+    flag: FlagPT,
     code: 'pt',
   },
   fr: {
@@ -56,7 +58,7 @@ export const ALL_LANGUAGES = {
       de: 'Französisch',
       zh: '法语',
     },
-    flag: '/flags/FR.svg',
+    flag: FlagFR,
     code: 'fr',
   },
   it: {
@@ -71,7 +73,7 @@ export const ALL_LANGUAGES = {
       de: 'Italienisch',
       zh: '意大利语',
     },
-    flag: '/flags/IT.svg',
+    flag: FlagIT,
     code: 'it',
   },
   ru: {
@@ -86,7 +88,7 @@ export const ALL_LANGUAGES = {
       de: 'Russisch',
       zh: '俄语',
     },
-    flag: '/flags/RU.svg',
+    flag: FlagRU,
     code: 'ru',
   },
   ja: {
@@ -101,7 +103,7 @@ export const ALL_LANGUAGES = {
       de: 'Japanisch',
       zh: '日语',
     },
-    flag: '/flags/JA.svg',
+    flag: FlagJA,
     code: 'ja',
   },
   de: {
@@ -116,7 +118,7 @@ export const ALL_LANGUAGES = {
       de: 'Deutsch',
       zh: '德语',
     },
-    flag: '/flags/DE.svg',
+    flag: FlagDE,
     code: 'de',
   },
   zh: {
@@ -131,7 +133,7 @@ export const ALL_LANGUAGES = {
       de: 'Chinesisch (Vereinfacht)',
       zh: '简体中文',
     },
-    flag: '/flags/ZH.svg',
+    flag: FlagZH,
     code: 'zh',
   },
 } as const;
