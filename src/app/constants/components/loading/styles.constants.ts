@@ -20,8 +20,6 @@ export const LOADING_DOT_SIZES = {
   lg: 'w-4 h-4',
 } as const;
 
-export const LOADING_DEFAULT_SPINNER_COLOR = '#3B82F6'; // blue-500
-export const LOADING_DEFAULT_TEXT_COLOR = 'text-white';
 export const LOADING_DEFAULT_SIZE = 'md';
 export const LOADING_DEFAULT_VARIANT = 'spinner';
 

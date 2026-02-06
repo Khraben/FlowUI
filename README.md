@@ -44,63 +44,97 @@ npm install @khraben/flowui
 
 ## 🎨 Design Philosophy
 
-**100% Reusable** - All colors are passed as individual props. Components have no default color styles, ensuring maximum flexibility.
+FlowUI uses a **simplified color system** that dramatically reduces the number of props needed while maintaining full customization flexibility.
+
+### New Color System (v2.0+)
+
+- **3 Base Colors** - `primary`, `secondary`, `accent` (required)
+- **3 Extended Colors** - `warning`, `success`, `danger` (when needed)
+- **Auto-calculated States** - Hover, focus, disabled states computed automatically
+- **Type-Safe** - Full TypeScript support
+
+See [Color System Documentation](docs/COLOR_SYSTEM.md) for complete details.
 
 ## 🚀 Features
 
-- ✅ **Individual Props** - Each color is a direct prop (e.g., `bg`, `textColor`, `hoverBg`)
-- ✅ **Zero Defaults** - No hardcoded colors in components
-- ✅ **Darcula Theme** - Inspired by PyCharm
+- ✅ **Simplified Color Props** - Define 3 colors instead of 10+
+- ✅ **Auto-calculated States** - Hover, focus, disabled colors computed dynamically
+- ✅ **Smart Contrast** - Text colors automatically adjusted for readability
+- ✅ **Consistent Theming** - Same color config across all components
 - ✅ **TypeScript Strict** - Complete type safety
 - ✅ **Built with tsup** - Optimized ESM + CJS builds
 
 ## 📚 Components
 
+### Quick Start
+
+```tsx
+import { Button, Input, BaseColorConfig } from '@khraben/flowui';
+
+// Define your color palette once
+const myColors: BaseColorConfig = {
+  primary: '#3B82F6',
+  secondary: '#8B5CF6',
+  accent: '#EC4899'
+};
+
+// Use it across all components
+<Button colors={myColors} variant="primary">Click me</Button>
+<Input colors={myColors} label="Username" />
+```
+
 ### Button
 
 ```tsx
-import { Button } from '@khraben/flowui';
+import { Button, BaseColorConfig } from '@khraben/flowui';
 
-<Button
-  variant="primary"
-  bg="#1E90FF"
-  textColor="#FFFFFF"
-  hoverBg="#187BCD"
-  disabledBg="#5A5A5A"
-  disabledTextColor="#808080"
-  focusRing="#1E90FF"
->
+const colors: BaseColorConfig = {
+  primary: '#3B82F6',    // Blue
+  secondary: '#8B5CF6',  // Purple
+  accent: '#EC4899'      // Pink
+};
+
+// Basic usage - hover, disabled, focus states auto-calculated
+<Button colors={colors} variant="primary">
   Click me
-</Button>;
+</Button>
+
+// Custom override when needed
+<Button
+  colors={colors}
+  customBg="#EF4444"
+  customTextColor="#FFFFFF"
+>
+  Danger Button
+</Button>
 ```
 
-**Color Props:**
+**New Props:**
 
-- `bg` - Background color
-- `textColor` - Text color
-- `borderColor` - Border color (optional)
-- `hoverBg` - Hover background
-- `hoverTextColor` - Hover text (optional, uses textColor by default)
-- `disabledBg` - Disabled background
-- `disabledTextColor` - Disabled text
-- `disabledBorderColor` - Disabled border (optional)
-- `focusRing` - Focus ring color
+- `colors?: BaseColorConfig` - Color configuration (primary, secondary, accent)
+- `customBg?: string` - Override background color
+- `customTextColor?: string` - Override text color
+- `customBorderColor?: string` - Override border color
+
+**Auto-calculated:**
+
+- Hover colors (lighter/darker based on luminosity)
+- Disabled states (reduced opacity)
+- Focus rings (adjusted opacity)
+- Text contrast (black/white for readability)
 
 ### Input
 
 ```tsx
-import { Input } from '@khraben/flowui';
+import { Input, BaseColorConfig } from '@khraben/flowui';
 
-<Input
-  variant="text"
-  label="Username"
-  bg="#313335"
-  textColor="#A9B7C6"
-  borderColor="#4A5A6A"
-  focusBorderColor="#00D4FF"
-  labelColor="#808080"
-  labelActiveColor="#00D4FF"
-/>;
+const colors: BaseColorConfig = {
+  primary: '#3B82F6',
+  secondary: '#8B5CF6',
+  accent: '#EC4899',
+};
+
+<Input colors={colors} label="Username" labelColor="#808080" labelActiveColor="#00D4FF" />;
 ```
 
 **Color Props:**

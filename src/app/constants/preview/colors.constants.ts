@@ -1,8 +1,6 @@
-export const PREVIEW_COLORS = {
-  PRIMARY: '#1E90FF',
-  ACCENT: '#00D4FF',
-  SUCCESS: '#00E676',
-  DANGER: '#FF5252',
-  WHITE: '#FFFFFF',
-  SURFACE_DARK: '#313335',
+// Preview color configuration for component demos
+export const PREVIEW_COLOR_CONFIG = {
+  primary: '#1E90FF',
+  secondary: '#313335',
+  accent: '#00D4FF',
 } as const;

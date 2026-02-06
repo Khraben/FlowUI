@@ -1,4 +1,4 @@
-import { forwardRef, useEffect } from 'react';
+import { forwardRef, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import ReactDatePicker, { registerLocale } from 'react-datepicker';
 import { Calendar, X } from 'lucide-react';
@@ -25,6 +25,8 @@ import {
   DATEPICKER_CALENDAR_Z_INDEX,
 } from '@/app/constants/components/datepicker/calendar.constants';
 import { SIZE } from '@/app/constants';
+import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
+import { adjustOpacity, getContrastColor } from '@/app/utils/colorUtils';
 import 'react-datepicker/dist/react-datepicker.css';
 
 export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
@@ -46,54 +48,67 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
       maxDate,
       startDate,
       endDate,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      bg,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      textColor,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      borderColor,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      focusBorderColor,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      focusShadow,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      iconColor,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      iconHoverColor,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      placeholderColor,
-
-      calendarBorderColor,
-
-      calendarHeaderBg,
-
-      calendarHeaderText,
-
-      calendarDayText,
-
-      calendarDayHoverBg,
-
-      calendarSelectedBg,
-
-      calendarSelectedText,
-
-      calendarKeyboardBg,
-
-      calendarDisabledText,
-
-      calendarDisabledBg,
-
-      calendarOutsideMonthText,
-
-      calendarNavigationHover,
-
-      calendarNavigationIcon,
-
-      calendarMonthBg,
+      colors,
+      customBg,
+      customTextColor,
+      customBorderColor,
       ...props
     },
     ref,
   ) => {
+    // Use default colors if not provided
+    const colorConfig = colors || DEFAULT_COLOR_CONFIG;
+
+    // Calculate dynamic colors for calendar
+    const calendarColors = useMemo(() => {
+      const primaryColor = colorConfig.primary;
+      const bgColor = customBg || '#FFFFFF';
+      const textColor = customTextColor || '#000000';
+      const borderColor = customBorderColor || adjustOpacity(textColor, 0.2);
+
+      return {
+        // Input field colors
+        inputBg: bgColor,
+        inputText: textColor,
+        inputBorder: borderColor,
+        inputFocusBorder: primaryColor,
+
+        // Calendar container
+        border: borderColor,
+
+        // Header (month/year selector)
+        headerBg: primaryColor,
+        headerText: getContrastColor(primaryColor),
+
+        // Days
+        dayText: textColor,
+        dayHoverBg: adjustOpacity(primaryColor, 0.1),
+
+        // Selected day
+        selectedBg: primaryColor,
+        selectedText: getContrastColor(primaryColor),
+
+        // Keyboard selected
+        keyboardBg: adjustOpacity(primaryColor, 0.15),
+
+        // Disabled days
+        disabledText: adjustOpacity(textColor, 0.4),
+        disabledBg: 'transparent',
+
+        // Outside month days
+        outsideMonthText: adjustOpacity(textColor, 0.5),
+
+        // Navigation buttons (prev/next month)
+        navigationHover: adjustOpacity(getContrastColor(primaryColor), 0.1),
+        navigationIcon: getContrastColor(primaryColor),
+
+        // Month picker background
+        monthBg: bgColor,
+
+        // Today highlight
+        todayBorder: colorConfig.secondary,
+      };
+    }, [colorConfig, customBg, customTextColor, customBorderColor]);
     const baseStyles = disableDefaultStyles
       ? DATEPICKER_EMPTY_VALUE
       : baseClassName ||
@@ -144,23 +159,6 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
       ...(maxDate !== null && maxDate !== undefined && { maxDate }),
       ...(startDate !== null && startDate !== undefined && { startDate }),
       ...(endDate !== null && endDate !== undefined && { endDate }),
-    };
-
-    const calendarColors = {
-      border: calendarBorderColor,
-      headerBg: calendarHeaderBg,
-      headerText: calendarHeaderText,
-      dayText: calendarDayText,
-      dayHoverBg: calendarDayHoverBg,
-      selectedBg: calendarSelectedBg,
-      selectedText: calendarSelectedText,
-      keyboardBg: calendarKeyboardBg,
-      disabledText: calendarDisabledText,
-      disabledBg: calendarDisabledBg,
-      outsideMonthText: calendarOutsideMonthText,
-      navigationHover: calendarNavigationHover,
-      navigationIcon: calendarNavigationIcon,
-      monthBg: calendarMonthBg,
     };
 
     return (

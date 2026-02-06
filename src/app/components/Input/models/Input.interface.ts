@@ -1,5 +1,6 @@
 import React from 'react';
 import { InputVariant, InputSize } from '../types/Input.types';
+import { BaseColorConfig } from '@/app/types/colors';
 
 export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   variant?: InputVariant;
@@ -17,14 +18,12 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   labelClassName?: string;
   wrapperClassName?: string;
   disableDefaultStyles?: boolean;
-  bg?: string;
-  textColor?: string;
-  borderColor?: string;
-  focusBorderColor?: string;
-  focusShadow?: string;
-  labelColor?: string;
-  labelActiveColor?: string;
-  iconColor?: string;
-  iconHoverColor?: string;
-  placeholderColor?: string;
+
+  // New simplified color system
+  colors?: BaseColorConfig;
+
+  // Optional overrides for specific use cases
+  customBg?: string;
+  customTextColor?: string;
+  customBorderColor?: string;
 }

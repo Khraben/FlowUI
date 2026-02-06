@@ -80,7 +80,6 @@ export { SIZE as DATEPICKER_SIZES } from './components/common.constants';
 
 export {
   LOADING_SIZES,
-  LOADING_DEFAULT_SPINNER_COLOR,
   LOADING_DEFAULT_SIZE,
   LOADING_DEFAULT_VARIANT,
 } from './components/loading/styles.constants';
@@ -88,8 +87,6 @@ export {
 export {
   ACTION_ICON_SIZES,
   ACTION_ICON_ICON_SIZES,
-  ACTION_ICON_DEFAULT_COLOR,
-  ACTION_ICON_DEFAULT_HOVER_COLOR,
   ACTION_ICON_DEFAULT_HOVER_BG,
 } from './components/actionicon/styles.constants';
 
@@ -121,7 +118,6 @@ export {
   LANGUAGE_SELECTOR_DROPDOWN_OFFSET,
 } from './components/languageselector/styles.constants';
 
-export { PREVIEW_COLORS } from './preview/colors.constants';
 export { PREVIEW_CONFIG, SHOWCASE_STYLES } from './preview/config.constants';
 
 export { COMPONENT_CATEGORIES } from './categories.constants';
@@ -174,4 +170,3 @@ export const FILTER_CATEGORY = {
 export * from './categories.constants';
 export * from './components/table/styles.constants';
 export * from './components/modal/styles.constants';
-export { STATIC_COLORS } from './staticColors.constants';

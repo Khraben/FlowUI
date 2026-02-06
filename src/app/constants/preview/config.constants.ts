@@ -21,7 +21,7 @@ export const SHOWCASE_STYLES = {
     BADGE: 'inline-block bg-[#1E90FF]/10 text-[#00D4FF] text-xs px-3 py-1 rounded-full mb-2',
   },
   PREVIEW: {
-    BASE: 'bg-[#313335] p-6',
-    STAGE: 'flex items-center justify-center min-h-[12.5rem]',
+    BASE: 'bg-[#313335] p-6 overflow-hidden flex items-center justify-center min-h-[12.5rem] max-h-[12.5rem]',
+    STAGE: 'flex items-center justify-center min-h-[12.5rem] bg-[#313335]',
   },
 } as const;

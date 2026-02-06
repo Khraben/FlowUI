@@ -1,8 +1,15 @@
+import { BaseColorConfig } from '@/app/types/colors';
+
 export interface LoadingProps {
   text?: string;
   size?: 'sm' | 'md' | 'lg';
   variant?: 'spinner' | 'dots' | 'pulse';
-  overlayColor?: string;
-  spinnerColor?: string;
   showOverlay?: boolean;
+
+  // New simplified color system
+  colors?: BaseColorConfig;
+
+  // Optional overrides
+  customOverlayColor?: string;
+  customSpinnerColor?: string;
 }

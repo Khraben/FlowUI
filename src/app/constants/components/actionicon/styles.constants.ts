@@ -13,8 +13,6 @@ export const ACTION_ICON_ICON_SIZES = {
   lg: 'w-5 h-5',
 } as const;
 
-export const ACTION_ICON_DEFAULT_COLOR = 'text-primary-600';
-export const ACTION_ICON_DEFAULT_HOVER_COLOR = 'hover:text-primary-700';
 export const ACTION_ICON_DEFAULT_HOVER_BG = 'hover:bg-primary-600/10';
 export const ACTION_ICON_DISABLED_COLOR = 'text-gray-400';
 export const ACTION_ICON_DISABLED_CURSOR = 'cursor-not-allowed opacity-50';
