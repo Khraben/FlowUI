@@ -1,28 +1,3 @@
-export const STATIC_COLORS = {
-  DISABLED_BG: '#9CA3AF',
-  DISABLED_TEXT: '#D1D5DB',
-  OVERLAY_DARK: 'rgba(0, 0, 0, 0.5)',
-  OVERLAY_DARKER: 'rgba(0, 0, 0, 0.7)',
-  WHITE: '#FFFFFF',
-  WHITE_ALPHA_20: 'rgba(255, 255, 255, 0.2)',
-  WHITE_ALPHA_30: 'rgba(255, 255, 255, 0.3)',
-  GRAY_50: '#F9FAFB',
-  GRAY_100: '#F3F4F6',
-  GRAY_200: '#E5E7EB',
-  GRAY_600: '#4B5563',
-  GRAY_700: '#374151',
-  GRAY_800: '#1F2937',
-  GRAY_900: '#111827',
-  RED_500: '#EF4444',
-  RED_600: '#DC2626',
-  RED_HOVER: '#FF5252',
-  DARK_SURFACE: '#2C3135',
-  DARK_SURFACE_LIGHT: '#3A3F42',
-  DARK_SURFACE_LIGHTER: '#424749',
-  LIGHT_TEXT: '#E5E7EB',
-  DARK_TEXT: '#111827',
-  BORDER_GRAY: '#4B5563',
-  LABEL_GRAY: '#9CA3AF',
-  LABEL_LIGHT_GRAY: '#6B7280',
-  TRANSPARENT: 'transparent',
-} as const;
+// This file has been deprecated. Color management is now handled through:
+// - BaseColorConfig/ExtendedColorConfig for component colors
+// - Local constants in preview files for demo-specific colors

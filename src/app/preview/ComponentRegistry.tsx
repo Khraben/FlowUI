@@ -12,8 +12,12 @@ import {
   ConfirmationModal,
 } from '@/app/components';
 import type { TableColumn } from '@/app/components/Table';
-import { COMPONENT_CATEGORIES, STATIC_COLORS } from '@/app/constants';
+import { COMPONENT_CATEGORIES } from '@/app/constants';
 import { PREVIEW_COLOR_CONFIG } from './previewColors';
+
+// Preview color constants
+const PREVIEW_DARK_SURFACE = '#2C3135';
+const PREVIEW_LIGHT_TEXT = '#E5E7EB';
 import {
   Check,
   X,
@@ -46,8 +50,8 @@ const SearchInputDemo = () => {
       clearIcon={<X size={14} />}
       placeholder=" "
       colors={PREVIEW_COLOR_CONFIG}
-      customBg={STATIC_COLORS.DARK_SURFACE}
-      customTextColor={STATIC_COLORS.LIGHT_TEXT}
+      customBg={PREVIEW_DARK_SURFACE}
+      customTextColor={PREVIEW_LIGHT_TEXT}
     />
   );
 };
@@ -64,8 +68,8 @@ const TimeInputDemo = () => {
       interval={30}
       selectIcon={<ChevronDown size={16} />}
       colors={PREVIEW_COLOR_CONFIG}
-      customBg={STATIC_COLORS.DARK_SURFACE}
-      customTextColor={STATIC_COLORS.LIGHT_TEXT}
+      customBg={PREVIEW_DARK_SURFACE}
+      customTextColor={PREVIEW_LIGHT_TEXT}
     />
   );
 };
@@ -83,8 +87,8 @@ const PasswordInputDemo = () => {
       passwordIconHidden={<EyeOff size={16} />}
       placeholder=" "
       colors={PREVIEW_COLOR_CONFIG}
-      customBg={STATIC_COLORS.DARK_SURFACE}
-      customTextColor={STATIC_COLORS.LIGHT_TEXT}
+      customBg={PREVIEW_DARK_SURFACE}
+      customTextColor={PREVIEW_LIGHT_TEXT}
     />
   );
 };
@@ -95,8 +99,8 @@ const SelectInputDemo = () => {
       label="Country"
       selectIcon={<ChevronDown size={16} />}
       colors={PREVIEW_COLOR_CONFIG}
-      customBg={STATIC_COLORS.DARK_SURFACE}
-      customTextColor={STATIC_COLORS.LIGHT_TEXT}
+      customBg={PREVIEW_DARK_SURFACE}
+      customTextColor={PREVIEW_LIGHT_TEXT}
     >
       <option value="">Select a country</option>
       <option value="us">United States</option>
@@ -117,8 +121,8 @@ const DatePickerDemo = () => {
       calendarIcon={<Calendar size={16} />}
       clearIcon={<X size={14} />}
       colors={PREVIEW_COLOR_CONFIG}
-      customBg={STATIC_COLORS.DARK_SURFACE}
-      customTextColor={STATIC_COLORS.LIGHT_TEXT}
+      customBg={PREVIEW_DARK_SURFACE}
+      customTextColor={PREVIEW_LIGHT_TEXT}
     />
   );
 };
@@ -135,8 +139,8 @@ const MonthYearPickerDemo = () => {
       calendarIcon={<Calendar size={16} />}
       clearIcon={<X size={14} />}
       colors={PREVIEW_COLOR_CONFIG}
-      customBg={STATIC_COLORS.DARK_SURFACE}
-      customTextColor={STATIC_COLORS.LIGHT_TEXT}
+      customBg={PREVIEW_DARK_SURFACE}
+      customTextColor={PREVIEW_LIGHT_TEXT}
     />
   );
 };
@@ -480,8 +484,8 @@ const BaseModalDemo = () => {
             label="Name"
             placeholder="Enter name"
             colors={PREVIEW_COLOR_CONFIG}
-            customBg={STATIC_COLORS.DARK_SURFACE}
-            customTextColor={STATIC_COLORS.LIGHT_TEXT}
+            customBg={PREVIEW_DARK_SURFACE}
+            customTextColor={PREVIEW_LIGHT_TEXT}
           />
           <div style={{ marginTop: '1rem' }}>
             <Input
@@ -489,8 +493,8 @@ const BaseModalDemo = () => {
               type="email"
               placeholder="Enter email"
               colors={PREVIEW_COLOR_CONFIG}
-              customBg={STATIC_COLORS.DARK_SURFACE}
-              customTextColor={STATIC_COLORS.LIGHT_TEXT}
+              customBg={PREVIEW_DARK_SURFACE}
+              customTextColor={PREVIEW_LIGHT_TEXT}
             />
           </div>
         </div>
@@ -666,8 +670,8 @@ export const componentRegistry: ComponentDemo[] = [
       label: 'Username',
       placeholder: ' ',
       colors: PREVIEW_COLOR_CONFIG,
-      customBg: STATIC_COLORS.DARK_SURFACE,
-      customTextColor: STATIC_COLORS.LIGHT_TEXT,
+      customBg: PREVIEW_DARK_SURFACE,
+      customTextColor: PREVIEW_LIGHT_TEXT,
     },
   },
   {
@@ -681,8 +685,8 @@ export const componentRegistry: ComponentDemo[] = [
       label: 'Email Address',
       placeholder: ' ',
       colors: PREVIEW_COLOR_CONFIG,
-      customBg: STATIC_COLORS.DARK_SURFACE,
-      customTextColor: STATIC_COLORS.LIGHT_TEXT,
+      customBg: PREVIEW_DARK_SURFACE,
+      customTextColor: PREVIEW_LIGHT_TEXT,
     },
   },
   {
@@ -712,8 +716,8 @@ export const componentRegistry: ComponentDemo[] = [
       label: 'Quantity',
       placeholder: ' ',
       colors: PREVIEW_COLOR_CONFIG,
-      customBg: STATIC_COLORS.DARK_SURFACE,
-      customTextColor: STATIC_COLORS.LIGHT_TEXT,
+      customBg: PREVIEW_DARK_SURFACE,
+      customTextColor: PREVIEW_LIGHT_TEXT,
     },
   },
   {

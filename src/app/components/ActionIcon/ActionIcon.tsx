@@ -2,7 +2,6 @@
 
 import React, { useMemo } from 'react';
 import { ActionIconProps } from './models/ActionIcon.interface';
-import { STATIC_COLORS } from '@/app/constants/';
 import {
   ACTION_ICON_BASE,
   ACTION_ICON_SIZES,
@@ -33,7 +32,7 @@ export const ActionIcon: React.FC<ActionIconProps> = ({
     const baseColor = customColor || colorConfig.primary;
     const hoverColor = getHoverColor(baseColor);
     const hoverBg = customBg ? getHoverColor(customBg, 5) : adjustOpacity(baseColor, 0.1);
-    const disabledColor = STATIC_COLORS.DISABLED_BG;
+    const disabledColor = adjustOpacity(baseColor, 0.4);
 
     return {
       color: baseColor,

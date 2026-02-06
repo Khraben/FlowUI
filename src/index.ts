@@ -41,9 +41,6 @@ export {
   LANGUAGE_SELECTOR_FLAG_SIZES,
 } from '@/app/constants';
 
-// Static colors for non-customizable system colors
-export { STATIC_COLORS } from '@/app/constants/';
-
 // Color system - New simplified color configuration
 export type { BaseColorConfig, ExtendedColorConfig } from '@/app/types/colors';
 export { hasExtendedColors, DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
