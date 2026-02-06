@@ -8,9 +8,6 @@ export { Loading } from '@/app/components/Loading/Loading';
 export { Table } from '@/app/components/Table/Table';
 export { BaseModal } from '@/app/components/BaseModal/BaseModal';
 export { default as ConfirmationModal } from '@/app/components/ConfirmationModal/ConfirmationModal';
-export { SideBar } from '@/app/components/SideBar/SideBar';
-export { NavBar } from '@/app/components/NavBar/NavBar';
-export { Gallery } from '@/app/components/Gallery/Gallery';
 
 // Flag components
 export * from '@/flags';
@@ -30,26 +27,11 @@ export type {
   BaseModalTexts,
 } from '@/app/components/BaseModal/models/BaseModal.interface';
 export type { ConfirmationModalProps } from '@/app/components/ConfirmationModal/ConfirmationModal';
-export type {
-  SideBarProps,
-  SideBarMenuItem,
-  SideBarLogoutButton,
-} from '@/app/components/SideBar/models/SideBar.interface';
-export type {
-  NavBarProps,
-  NavBarLogo,
-  NavBarMenuItem,
-  NavBarAction,
-} from '@/app/components/NavBar/models/NavBar.interface';
-export type { GalleryProps, GalleryImage } from '@/app/components/Gallery/models/Gallery.interface';
 
 // Re-export component enums and types from constants
 export { BUTTON_VARIANT, BUTTON_ROUNDED, SIZE, POSITION } from '@/app/constants';
 
 export { INPUT_VARIANT } from '@/app/constants';
-
-// LanguageSelector constants
-export { DEFAULT_AVAILABLE_LANGUAGES, ALL_LANGUAGES } from '@/app/constants/components/languageselector/languages.constants';
 
 // Color system - New simplified color configuration
 export type { BaseColorConfig, ExtendedColorConfig } from '@/app/types/colors';

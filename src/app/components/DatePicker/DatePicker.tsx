@@ -26,7 +26,7 @@ import {
 } from '@/app/constants/components/datepicker/calendar.constants';
 import { SIZE } from '@/app/constants';
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
-import { adjustOpacity, getContrastColor, lightenColor } from '@/app/utils/colorUtils';
+import { adjustOpacity, getContrastColor } from '@/app/utils/colorUtils';
 import 'react-datepicker/dist/react-datepicker.css';
 
 export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
@@ -62,10 +62,8 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
     // Calculate dynamic colors for calendar
     const calendarColors = useMemo(() => {
       const primaryColor = colorConfig.primary;
-      const defaultBg = lightenColor(colorConfig.secondary, 70);
-      const bgColor = customBg || defaultBg;
-      const defaultTextColor = getContrastColor(bgColor);
-      const textColor = customTextColor || defaultTextColor;
+      const bgColor = customBg || '#FFFFFF';
+      const textColor = customTextColor || '#000000';
       const borderColor = customBorderColor || adjustOpacity(textColor, 0.2);
 
       return {
@@ -183,7 +181,7 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
             border: ${DATEPICKER_CALENDAR_SIZES.BORDER_WIDTH} solid ${calendarColors.border} !important;
             border-radius: ${DATEPICKER_CALENDAR_SIZES.BORDER_RADIUS} !important;
             font-family: inherit !important;
-            box-shadow: 0 0.25rem 0.5rem ${adjustOpacity(calendarColors.border, 0.3)} !important;
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1) !important;
             min-width: ${DATEPICKER_CALENDAR_SIZES.MIN_WIDTH} !important;
           }
 

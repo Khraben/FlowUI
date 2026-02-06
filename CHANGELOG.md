@@ -5,45 +5,6 @@ All notable changes to FlowUI will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.1.0] - 2026-02-09
-
-### Added
-
-**Gallery Component** - New masonry gallery component with lazy loading and smooth animations:
-- 📱 Responsive CSS columns layout (1/2/3 columns)
-- 🖼️ Maintains original image aspect ratios
-- ⚡ Lazy loading with IntersectionObserver
-- 🔄 Infinite scroll support with batch loading
-- ✨ Framer Motion scroll animations
-- 🎯 Hover effects (zoom 1.03x + overlay)
-- 🎨 Integrated with simplified color system
-- Props: `images`, `batchSize`, `enableAnimation`, `colors`, `customBorderColor`, `customSkeletonBg`, `customOverlayColor`
-
-### Improved
-
-**Dynamic Color System Enforcement** - Eliminated all hardcoded colors across components:
-
-- **Table**: Removed `#1E1E1E`, `#252525`, rgba values → now uses `darkenColor`, `lightenColor`, `getContrastColor`, `adjustOpacity`
-- **BaseModal**: Removed hardcoded overlay rgba values → now uses `adjustOpacity(darkenColor(colors.secondary, 80), ...)`
-- **Input**: Removed `#FFFFFF`, `#000000` → now uses `lightenColor(colors.secondary, 70)` and `getContrastColor`
-- **DatePicker**: Removed `#FFFFFF`, `#000000`, rgba shadows → now uses dynamic calculations
-- **Loading**: Removed `#000000` → now uses `darkenColor(colors.secondary, 80)`
-- **LanguageSelector**: Removed `#FFFFFF` → now uses `lightenColor(colors.secondary, 70)`
-- **NavBar**: Removed all rgba values → now uses `adjustOpacity` and `getContrastColor`
-
-**Benefits:**
-- ✅ 100% theme consistency - all colors derived from the 3 base colors
-- ✅ Better dark/light mode support - calculations adapt to any color scheme
-- ✅ Zero magic numbers - no hardcoded hex or rgba values
-- ✅ Predictable behavior - same color utilities across all components
-
-### Technical
-
-- All components now strictly follow the 3-color philosophy (primary, secondary, accent)
-- Enhanced color utilities usage: `darkenColor`, `lightenColor`, `getContrastColor`, `adjustOpacity`
-- Improved hover states with dynamic overlay calculations
-- Better skeleton/loading state colors based on theme
-
 ## [2.0.0] - 2026-02-06
 
 ### 🎨 Major: Simplified Color System
