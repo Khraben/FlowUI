@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const FlagIT = ({ className = 'w-6 h-6' }: { className?: string }) => (
   <svg className={className} viewBox="0 0 496 496" xmlns="http://www.w3.org/2000/svg">
     <rect x="160" y="80" fill="#EBF7F7" width="176" height="336" />
