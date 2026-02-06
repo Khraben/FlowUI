@@ -1,6 +1,6 @@
 {
   "name": "@khraben/flowui",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "FlowUI - Modern React component library with TypeScript and Tailwind CSS",
   "main": "index.js",
   "module": "index.mjs",

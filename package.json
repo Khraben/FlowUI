@@ -1,6 +1,6 @@
 {
   "name": "@khraben/flowui",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "private": false,
   "description": "FlowUI - React component library with 100% customizable colors via props",
   "main": "./dist/index.js",
