@@ -1,4 +1,5 @@
 import { ComponentType, SVGProps } from 'react';
+import { ExtendedColorConfig } from '@/app/types/colors';
 
 export type SortDirection = 'asc' | 'desc';
 
@@ -31,21 +32,11 @@ export interface TableProps<T = Record<string, unknown>> {
   infoIcon?: ComponentType<SVGProps<SVGSVGElement>>;
   editIcon?: ComponentType<SVGProps<SVGSVGElement>>;
   deleteIcon?: ComponentType<SVGProps<SVGSVGElement>>;
-  // Color customization
-  headerBgFrom?: string;
-  headerBgTo?: string;
-  headerTextColor?: string;
-  headerBorderColor?: string;
-  headerHoverBg?: string;
-  rowBg?: string;
-  rowEvenBg?: string;
-  rowHoverBg?: string;
-  cellTextColor?: string;
-  cellBorderColor?: string;
-  actionColor?: string;
-  actionHoverColor?: string;
-  actionDeleteHoverColor?: string;
-  noDataBg?: string;
-  noDataTextColor?: string;
-  noDataBorderColor?: string;
+
+  // New simplified color system
+  colors?: ExtendedColorConfig;
+
+  // Optional overrides
+  customHeaderBg?: string;
+  customRowBg?: string;
 }

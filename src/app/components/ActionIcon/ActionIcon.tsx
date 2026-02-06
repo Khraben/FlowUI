@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ActionIconProps } from './models/ActionIcon.interface';
 import { STATIC_COLORS } from '@/app/constants/';
 import {
@@ -11,24 +11,55 @@ import {
   ACTION_ICON_ICON_HOVER_SCALE,
   ACTION_ICON_DISPLAY_NAME,
 } from '@/app/constants/components/actionicon/styles.constants';
+import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
+import { getHoverColor, adjustOpacity } from '@/app/utils/colorUtils';
 
 export const ActionIcon: React.FC<ActionIconProps> = ({
   icon: Icon,
   onClick,
-  color,
-  hoverColor,
-  hoverBg,
   title,
   size = 'md',
   className = '',
   disabled = false,
+  colors,
+  customColor,
+  customBg,
 }) => {
-  const disabledColor = STATIC_COLORS.DISABLED_BG;
+  // Use default colors if not provided
+  const colorConfig = colors || DEFAULT_COLOR_CONFIG;
+
+  // Calculate dynamic colors
+  const iconColors = useMemo(() => {
+    const baseColor = customColor || colorConfig.primary;
+    const hoverColor = getHoverColor(baseColor);
+    const hoverBg = customBg ? getHoverColor(customBg, 5) : adjustOpacity(baseColor, 0.1);
+    const disabledColor = STATIC_COLORS.DISABLED_BG;
+
+    return {
+      color: baseColor,
+      hoverColor,
+      hoverBg,
+      disabledColor,
+    };
+  }, [colorConfig, customColor, customBg]);
+
   const sizeClass = ACTION_ICON_SIZES[size];
   const iconSizeClass = ACTION_ICON_ICON_SIZES[size];
 
+  const inlineStyles = useMemo(() => {
+    if (!colors && !customColor && !customBg) return undefined;
+
+    return {
+      '--icon-color': iconColors.color,
+      '--icon-hover-color': iconColors.hoverColor,
+      '--icon-hover-bg': iconColors.hoverBg,
+      '--icon-disabled-color': iconColors.disabledColor,
+      color: disabled ? iconColors.disabledColor : iconColors.color,
+    } as React.CSSProperties;
+  }, [iconColors, disabled, colors, customColor, customBg]);
+
   const buttonClasses =
-    `${ACTION_ICON_BASE} ${sizeClass} ${disabled ? ACTION_ICON_DISABLED_CURSOR : ''} ${disabled ? disabledColor : color} ${!disabled ? hoverColor : ''} ${!disabled ? hoverBg : ''} ${className}`.trim();
+    `${ACTION_ICON_BASE} ${sizeClass} ${disabled ? ACTION_ICON_DISABLED_CURSOR : ''} ${className}`.trim();
 
   const iconClasses = `${iconSizeClass} ${!disabled ? ACTION_ICON_ICON_HOVER_SCALE : ''}`.trim();
 
@@ -39,6 +70,7 @@ export const ActionIcon: React.FC<ActionIconProps> = ({
       className={buttonClasses}
       disabled={disabled}
       type="button"
+      style={inlineStyles}
     >
       <Icon className={iconClasses} />
     </button>

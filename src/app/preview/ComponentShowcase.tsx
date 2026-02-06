@@ -21,9 +21,7 @@ const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({ demo }) => {
       </div>
 
       <div className={SHOWCASE_STYLES.PREVIEW.BASE}>
-        <div className={SHOWCASE_STYLES.PREVIEW.STAGE}>
-          <Component {...props} />
-        </div>
+        <Component {...props} />
       </div>
     </div>
   );

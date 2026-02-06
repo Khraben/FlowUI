@@ -1,5 +1,6 @@
 import React from 'react';
 import { InputSize, TimeVariant } from '../types/Input.types';
+import { BaseColorConfig } from '@/app/types/colors';
 
 export interface TimeInputProps {
   variant?: TimeVariant;
@@ -17,14 +18,12 @@ export interface TimeInputProps {
   wrapperClassName?: string;
   disableDefaultStyles?: boolean;
   className?: string;
-  bg?: string;
-  textColor?: string;
-  borderColor?: string;
-  focusBorderColor?: string;
-  focusShadow?: string;
-  labelColor?: string;
-  labelActiveColor?: string;
-  iconColor?: string;
-  iconHoverColor?: string;
-  placeholderColor?: string;
+
+  // New simplified color system
+  colors?: BaseColorConfig;
+
+  // Optional overrides for specific use cases
+  customBg?: string;
+  customTextColor?: string;
+  customBorderColor?: string;
 }
