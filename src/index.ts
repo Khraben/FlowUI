@@ -10,6 +10,7 @@ export { BaseModal } from '@/app/components/BaseModal/BaseModal';
 export { default as ConfirmationModal } from '@/app/components/ConfirmationModal/ConfirmationModal';
 export { SideBar } from '@/app/components/SideBar/SideBar';
 export { NavBar } from '@/app/components/NavBar/NavBar';
+export { Gallery } from '@/app/components/Gallery/Gallery';
 
 // Flag components
 export * from '@/flags';
@@ -40,6 +41,7 @@ export type {
   NavBarMenuItem,
   NavBarAction,
 } from '@/app/components/NavBar/models/NavBar.interface';
+export type { GalleryProps, GalleryImage } from '@/app/components/Gallery/models/Gallery.interface';
 
 // Re-export component enums and types from constants
 export { BUTTON_VARIANT, BUTTON_ROUNDED, SIZE, POSITION } from '@/app/constants';

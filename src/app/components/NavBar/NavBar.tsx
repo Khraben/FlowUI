@@ -10,6 +10,7 @@ import {
   NAVBAR_BASE_STYLES,
   NAVBAR_ACTION_STYLES,
 } from '@/app/constants';
+import { adjustOpacity, getContrastColor } from '@/app/utils/colorUtils';
 
 export const NavBar = ({
   logo,
@@ -27,6 +28,17 @@ export const NavBar = ({
 }: NavBarProps) => {
   const [internalMobileMenu, setInternalMobileMenu] = useState(false);
   const isMobileMenuOpen = controlledMobileMenu ?? internalMobileMenu;
+
+  const dynamicColors = useMemo(
+    () => ({
+      hoverBg: adjustOpacity(textColor, 0.05),
+      hoverBgActive: adjustOpacity(textColor, 0.1),
+      secondaryBg: adjustOpacity(textColor, 0.05),
+      activeItemBg: adjustOpacity(activeTextColor, 0.1),
+      outlineHoverText: getContrastColor(activeTextColor),
+    }),
+    [textColor, activeTextColor],
+  );
 
   const handleMobileMenuToggle = useCallback(() => {
     const newState = !isMobileMenuOpen;
@@ -63,7 +75,7 @@ export const NavBar = ({
       } else {
         variantStyles = NAVBAR_ACTION_STYLES.SECONDARY;
         customStyles = {
-          backgroundColor: 'rgba(0, 0, 0, 0.05)',
+          backgroundColor: dynamicColors.secondaryBg,
           color: textColor,
           borderColor: 'transparent',
         };
@@ -71,7 +83,7 @@ export const NavBar = ({
 
       return { className: `${baseStyles} ${variantStyles}`, style: customStyles };
     },
-    [activeTextColor, textColor],
+    [activeTextColor, textColor, dynamicColors],
   );
 
   const handleLogoClick = useCallback(() => {
@@ -164,9 +176,9 @@ export const NavBar = ({
                       e.currentTarget.style.opacity = '0.9';
                     } else if (action.variant === 'outline') {
                       e.currentTarget.style.backgroundColor = activeTextColor;
-                      e.currentTarget.style.color = '#FFFFFF';
+                      e.currentTarget.style.color = dynamicColors.outlineHoverText;
                     } else {
-                      e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
+                      e.currentTarget.style.backgroundColor = dynamicColors.hoverBgActive;
                     }
                   }}
                   onMouseLeave={(e) => {
@@ -176,7 +188,7 @@ export const NavBar = ({
                       e.currentTarget.style.backgroundColor = 'transparent';
                       e.currentTarget.style.color = activeTextColor;
                     } else {
-                      e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.05)';
+                      e.currentTarget.style.backgroundColor = dynamicColors.secondaryBg;
                     }
                   }}
                 >
@@ -192,7 +204,7 @@ export const NavBar = ({
             onClick={handleMobileMenuToggle}
             style={{ color: textColor }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.05)';
+              e.currentTarget.style.backgroundColor = dynamicColors.hoverBg;
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.backgroundColor = 'transparent';
@@ -231,7 +243,7 @@ export const NavBar = ({
                 onClick={handleMobileMenuToggle}
                 style={{ color: textColor }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.05)';
+                  e.currentTarget.style.backgroundColor = dynamicColors.hoverBg;
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = 'transparent';
@@ -252,14 +264,14 @@ export const NavBar = ({
                   }}
                   style={{
                     color: item.isActive ? activeTextColor : textColor,
-                    backgroundColor: item.isActive ? 'rgba(30, 144, 255, 0.1)' : 'transparent',
+                    backgroundColor: item.isActive ? dynamicColors.activeItemBg : 'transparent',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.05)';
+                    e.currentTarget.style.backgroundColor = dynamicColors.hoverBg;
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.backgroundColor = item.isActive
-                      ? 'rgba(30, 144, 255, 0.1)'
+                      ? dynamicColors.activeItemBg
                       : 'transparent';
                   }}
                 >

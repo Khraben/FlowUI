@@ -32,7 +32,12 @@ import {
   INPUT_BUTTON_TYPE,
 } from '@/app/constants';
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
-import { getHoverColor, adjustOpacity } from '@/app/utils/colorUtils';
+import {
+  getHoverColor,
+  adjustOpacity,
+  getContrastColor,
+  lightenColor,
+} from '@/app/utils/colorUtils';
 
 const generateTimeOptions = (startHour: number, endHour: number, interval: number) => {
   const times = [];
@@ -96,12 +101,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       const focusShadow = adjustOpacity(borderColor, 0.25);
       const iconColor = colorConfig.secondary;
       const iconHoverColor = getHoverColor(iconColor);
-      const labelColor = adjustOpacity(customTextColor || '#000000', 0.7);
+      const defaultBg = lightenColor(colorConfig.secondary, 70);
+      const defaultTextColor = getContrastColor(defaultBg);
+      const labelColor = adjustOpacity(customTextColor || defaultTextColor, 0.7);
       const labelActiveColor = colorConfig.primary;
 
       return {
-        bg: customBg || '#FFFFFF',
-        textColor: customTextColor || '#000000',
+        bg: customBg || defaultBg,
+        textColor: customTextColor || defaultTextColor,
         borderColor,
         focusBorderColor,
         focusShadow,
@@ -109,7 +116,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         iconHoverColor,
         labelColor,
         labelActiveColor,
-        placeholderColor: adjustOpacity(customTextColor || '#000000', 0.4),
+        placeholderColor: adjustOpacity(customTextColor || defaultTextColor, 0.4),
       };
     }, [colorConfig, customBg, customTextColor, customBorderColor]);
 
