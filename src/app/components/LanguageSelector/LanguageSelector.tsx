@@ -18,7 +18,7 @@ import {
   LANGUAGE_SELECTOR_DISPLAY_NAME,
 } from '@/app/constants';
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
-import { adjustOpacity, getContrastColor } from '@/app/utils/colorUtils';
+import { adjustOpacity, getContrastColor, lightenColor } from '@/app/utils/colorUtils';
 
 export const LanguageSelector = React.forwardRef<HTMLButtonElement, LanguageSelectorProps>(
   (
@@ -53,7 +53,8 @@ export const LanguageSelector = React.forwardRef<HTMLButtonElement, LanguageSele
 
     // Calculate dynamic colors
     const selectorColors = useMemo(() => {
-      const buttonBg = customBgColor || '#FFFFFF';
+      const defaultButtonBg = lightenColor(colorConfig.secondary, 70);
+      const buttonBg = customBgColor || defaultButtonBg;
       const buttonBorder = customBorderColor || colorConfig.primary;
       const buttonBorderHover = adjustOpacity(buttonBorder, 0.8);
       const dropdownBg = colorConfig.secondary;
