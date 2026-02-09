@@ -1,6 +1,7 @@
 import React from 'react';
+import type { FlagProps } from './index';
 
-export const FlagRU = ({ className = 'w-6 h-6' }: { className?: string }) => (
+export const FlagRU = ({ className = 'w-6 h-6' }: FlagProps) => (
   <svg className={className} viewBox="0 0 496 496" xmlns="http://www.w3.org/2000/svg">
     <path
       fill="#E73B36"

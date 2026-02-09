@@ -14,26 +14,11 @@ import {
   TABLE_SORT_ICON_SIZE,
   TABLE_DEFAULT_NO_DATA_MESSAGE,
   TABLE_DEFAULT_ACTIONS_LABEL,
-  TABLE_DEFAULT_HEADER_BG_FROM,
-  TABLE_DEFAULT_HEADER_BG_TO,
-  TABLE_DEFAULT_HEADER_TEXT_COLOR,
-  TABLE_DEFAULT_HEADER_BORDER_COLOR,
-  TABLE_DEFAULT_HEADER_HOVER_BG,
-  TABLE_DEFAULT_ROW_BG,
-  TABLE_DEFAULT_ROW_EVEN_BG,
-  TABLE_DEFAULT_ROW_HOVER_BG,
-  TABLE_DEFAULT_CELL_TEXT_COLOR,
-  TABLE_DEFAULT_CELL_BORDER_COLOR,
-  TABLE_DEFAULT_ACTION_COLOR,
-  TABLE_DEFAULT_ACTION_HOVER_COLOR,
-  TABLE_DEFAULT_ACTION_DELETE_HOVER_COLOR,
-  TABLE_DEFAULT_NO_DATA_BG,
-  TABLE_DEFAULT_NO_DATA_TEXT_COLOR,
-  TABLE_DEFAULT_NO_DATA_BORDER_COLOR,
   TABLE_DISPLAY_NAME,
 } from '@/app/constants/components/table/styles.constants';
+import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
+import { darkenColor, lightenColor, getContrastColor, adjustOpacity } from '@/app/utils/colorUtils';
 
-// Default icons (SVG components)
 const ArrowUpDown: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -162,23 +147,30 @@ export const Table = <T extends Record<string, unknown>>({
   infoIcon = InfoIcon,
   editIcon = EditIcon,
   deleteIcon = TrashIcon,
-  headerBgFrom = TABLE_DEFAULT_HEADER_BG_FROM,
-  headerBgTo = TABLE_DEFAULT_HEADER_BG_TO,
-  headerTextColor = TABLE_DEFAULT_HEADER_TEXT_COLOR,
-  headerBorderColor = TABLE_DEFAULT_HEADER_BORDER_COLOR,
-  headerHoverBg = TABLE_DEFAULT_HEADER_HOVER_BG,
-  rowBg = TABLE_DEFAULT_ROW_BG,
-  rowEvenBg = TABLE_DEFAULT_ROW_EVEN_BG,
-  rowHoverBg = TABLE_DEFAULT_ROW_HOVER_BG,
-  cellTextColor = TABLE_DEFAULT_CELL_TEXT_COLOR,
-  cellBorderColor = TABLE_DEFAULT_CELL_BORDER_COLOR,
-  actionColor = TABLE_DEFAULT_ACTION_COLOR,
-  actionHoverColor = TABLE_DEFAULT_ACTION_HOVER_COLOR,
-  actionDeleteHoverColor = TABLE_DEFAULT_ACTION_DELETE_HOVER_COLOR,
-  noDataBg = TABLE_DEFAULT_NO_DATA_BG,
-  noDataTextColor = TABLE_DEFAULT_NO_DATA_TEXT_COLOR,
-  noDataBorderColor = TABLE_DEFAULT_NO_DATA_BORDER_COLOR,
+  colors = DEFAULT_COLOR_CONFIG,
+  customHeaderBg,
+  customRowBg,
 }: TableProps<T>) => {
+  // Compute colors dynamically from the color config
+  const headerBgFrom = customHeaderBg || colors.primary;
+  const headerBgTo = customHeaderBg || colors.secondary;
+  const headerTextColor = getContrastColor(headerBgFrom);
+  const headerBorderColor = adjustOpacity(headerTextColor, 0.1);
+  const headerHoverBg = adjustOpacity(headerTextColor, 0.1);
+
+  // Row backgrounds calculated from secondary color
+  const rowBg = customRowBg || darkenColor(colors.secondary, 60);
+  const rowEvenBg = customRowBg || darkenColor(colors.secondary, 55);
+  const rowHoverBg = lightenColor(rowBg, 8);
+
+  const cellTextColor = getContrastColor(rowBg);
+  const cellBorderColor = adjustOpacity(cellTextColor, 0.1);
+
+  const actionDeleteHoverColor = colors.danger || darkenColor(colors.accent, 20);
+
+  const noDataBg = rowBg;
+  const noDataTextColor = adjustOpacity(cellTextColor, 0.6);
+  const noDataBorderColor = adjustOpacity(cellTextColor, 0.1);
   const getSortIcon = (field: string) => {
     if (sortField !== field) {
       return <ArrowUpDown className={TABLE_SORT_ICON_SIZE} />;
@@ -296,27 +288,17 @@ export const Table = <T extends Record<string, unknown>>({
                 }}
               >
                 {actionConfig.info && onInfo && (
-                  <ActionIcon
-                    icon={infoIcon}
-                    onClick={() => onInfo(item)}
-                    color={actionColor}
-                    hoverColor={actionHoverColor}
-                  />
+                  <ActionIcon icon={infoIcon} onClick={() => onInfo(item)} colors={colors} />
                 )}
                 {actionConfig.edit && onEdit && (
-                  <ActionIcon
-                    icon={editIcon}
-                    onClick={() => onEdit(item)}
-                    color={actionColor}
-                    hoverColor={actionHoverColor}
-                  />
+                  <ActionIcon icon={editIcon} onClick={() => onEdit(item)} colors={colors} />
                 )}
                 {actionConfig.delete && onDelete && (
                   <ActionIcon
                     icon={deleteIcon}
                     onClick={() => onDelete(item)}
-                    color={actionColor}
-                    hoverColor={actionDeleteHoverColor}
+                    colors={colors}
+                    customColor={actionDeleteHoverColor}
                   />
                 )}
               </td>

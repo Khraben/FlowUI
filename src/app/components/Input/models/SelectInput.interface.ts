@@ -1,5 +1,6 @@
 import React from 'react';
 import { InputSize, SelectVariant } from '../types/Input.types';
+import { BaseColorConfig } from '@/app/types/colors';
 
 export interface SelectInputProps extends Omit<
   React.SelectHTMLAttributes<HTMLSelectElement>,
@@ -16,14 +17,12 @@ export interface SelectInputProps extends Omit<
   labelClassName?: string;
   wrapperClassName?: string;
   disableDefaultStyles?: boolean;
-  bg?: string;
-  textColor?: string;
-  borderColor?: string;
-  focusBorderColor?: string;
-  focusShadow?: string;
-  labelColor?: string;
-  labelActiveColor?: string;
-  iconColor?: string;
-  iconHoverColor?: string;
-  placeholderColor?: string;
+
+  // New simplified color system
+  colors?: BaseColorConfig;
+
+  // Optional overrides for specific use cases
+  customBg?: string;
+  customTextColor?: string;
+  customBorderColor?: string;
 }

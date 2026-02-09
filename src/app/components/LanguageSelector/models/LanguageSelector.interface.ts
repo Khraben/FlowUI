@@ -1,3 +1,5 @@
+import { BaseColorConfig } from '@/app/types/colors';
+
 export interface LanguageSelectorProps {
   selectedLanguage?: string;
   onLanguageChange?: (languageKey: string) => void;
@@ -7,17 +9,13 @@ export interface LanguageSelectorProps {
   dropdownClassName?: string;
   itemClassName?: string;
   activeItemClassName?: string;
-  buttonBorder?: string;
-  buttonHoverBorder?: string;
-  buttonHoverScale?: string;
-  dropdownBg?: string;
-  dropdownBorder?: string;
-  dropdownShadow?: string;
-  itemHoverBg?: string;
-  activeItemBg?: string;
-  activeItemText?: string;
-  itemText?: string;
-  checkIconColor?: string;
-  flagBorder?: string;
   disableDefaultStyles?: boolean;
+
+  // New simplified color system
+  colors?: BaseColorConfig;
+
+  // Optional overrides for specific customization
+  customBorderColor?: string;
+  customBgColor?: string;
+  customTextColor?: string;
 }

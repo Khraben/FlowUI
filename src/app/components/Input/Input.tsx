@@ -1,4 +1,4 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef, useState, useMemo } from 'react';
 import { InputProps } from './models/Input.interface';
 import { SelectInputProps } from './models/SelectInput.interface';
 import { TimeInputProps } from './models/TimeInput.interface';
@@ -31,6 +31,13 @@ import {
   INPUT_NO_PADDING_CLASS,
   INPUT_BUTTON_TYPE,
 } from '@/app/constants';
+import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
+import {
+  getHoverColor,
+  adjustOpacity,
+  getContrastColor,
+  lightenColor,
+} from '@/app/utils/colorUtils';
 
 const generateTimeOptions = (startHour: number, endHour: number, interval: number) => {
   const times = [];
@@ -73,31 +80,63 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       wrapperClassName,
       disableDefaultStyles = false,
       value,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      bg,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      textColor,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      borderColor,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      focusBorderColor,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      focusShadow,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      labelColor,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      labelActiveColor,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      iconColor,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      iconHoverColor,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      placeholderColor,
+      colors,
+      customBg,
+      customTextColor,
+      customBorderColor,
+      style,
       ...props
     },
     ref,
   ) => {
     const [showPassword, setShowPassword] = useState(false);
+
+    // Use default colors if not provided
+    const colorConfig = colors || DEFAULT_COLOR_CONFIG;
+
+    // Calculate dynamic colors for input
+    const inputColors = useMemo(() => {
+      const borderColor = customBorderColor || colorConfig.primary;
+      const focusBorderColor = getHoverColor(borderColor, 15);
+      const focusShadow = adjustOpacity(borderColor, 0.25);
+      const iconColor = colorConfig.secondary;
+      const iconHoverColor = getHoverColor(iconColor);
+      const defaultBg = lightenColor(colorConfig.secondary, 70);
+      const defaultTextColor = getContrastColor(defaultBg);
+      const labelColor = adjustOpacity(customTextColor || defaultTextColor, 0.7);
+      const labelActiveColor = colorConfig.primary;
+
+      return {
+        bg: customBg || defaultBg,
+        textColor: customTextColor || defaultTextColor,
+        borderColor,
+        focusBorderColor,
+        focusShadow,
+        iconColor,
+        iconHoverColor,
+        labelColor,
+        labelActiveColor,
+        placeholderColor: adjustOpacity(customTextColor || defaultTextColor, 0.4),
+      };
+    }, [colorConfig, customBg, customTextColor, customBorderColor]);
+
+    const inlineStyles = useMemo(() => {
+      if (!colors && !customBg && !customTextColor && !customBorderColor) return style;
+
+      return {
+        ...style,
+        '--input-bg': inputColors.bg,
+        '--input-text': inputColors.textColor,
+        '--input-border': inputColors.borderColor,
+        '--input-focus-border': inputColors.focusBorderColor,
+        '--input-focus-shadow': inputColors.focusShadow,
+        '--input-label': inputColors.labelColor,
+        '--input-label-active': inputColors.labelActiveColor,
+        '--input-icon': inputColors.iconColor,
+        '--input-icon-hover': inputColors.iconHoverColor,
+        '--input-placeholder': inputColors.placeholderColor,
+      } as React.CSSProperties;
+    }, [inputColors, style, colors, customBg, customTextColor, customBorderColor]);
 
     const baseStyles = disableDefaultStyles
       ? INPUT_EMPTY_VALUE
@@ -130,6 +169,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div
         className={`${wrapperStyles} ${fullWidth ? INPUT_FULL_WIDTH_CLASS : INPUT_EMPTY_VALUE} ${className}`}
+        style={inlineStyles}
       >
         <input
           ref={ref}
@@ -202,25 +242,13 @@ export const SelectInput = forwardRef<HTMLSelectElement, SelectInputProps>(
       disableDefaultStyles = false,
       value,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      bg,
+      colors,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      textColor,
+      customBg,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      borderColor,
+      customTextColor,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      focusBorderColor,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      focusShadow,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      labelColor,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      labelActiveColor,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      iconColor,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      iconHoverColor,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      placeholderColor,
+      customBorderColor,
       ...props
     },
     ref,
@@ -278,6 +306,10 @@ export const TimeInput = forwardRef<HTMLSelectElement, TimeInputProps>(
       labelClassName,
       wrapperClassName,
       disableDefaultStyles = false,
+      colors,
+      customBg,
+      customTextColor,
+      customBorderColor,
     },
     ref,
   ) => {
@@ -295,6 +327,10 @@ export const TimeInput = forwardRef<HTMLSelectElement, TimeInputProps>(
         labelClassName={labelClassName}
         wrapperClassName={wrapperClassName}
         disableDefaultStyles={disableDefaultStyles}
+        colors={colors}
+        customBg={customBg}
+        customTextColor={customTextColor}
+        customBorderColor={customBorderColor}
       >
         {generateTimeOptions(startHour, endHour, interval).map((time, index) => (
           <option key={index} value={time}>

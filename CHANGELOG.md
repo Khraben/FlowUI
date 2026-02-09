@@ -5,6 +5,160 @@ All notable changes to FlowUI will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-02-09
+
+### Added
+
+**Gallery Component** - New masonry gallery component with lazy loading and smooth animations:
+- 📱 Responsive CSS columns layout (1/2/3 columns)
+- 🖼️ Maintains original image aspect ratios
+- ⚡ Lazy loading with IntersectionObserver
+- 🔄 Infinite scroll support with batch loading
+- ✨ Framer Motion scroll animations
+- 🎯 Hover effects (zoom 1.03x + overlay)
+- 🎨 Integrated with simplified color system
+- Props: `images`, `batchSize`, `enableAnimation`, `colors`, `customBorderColor`, `customSkeletonBg`, `customOverlayColor`
+
+### Improved
+
+**Dynamic Color System Enforcement** - Eliminated all hardcoded colors across components:
+
+- **Table**: Removed `#1E1E1E`, `#252525`, rgba values → now uses `darkenColor`, `lightenColor`, `getContrastColor`, `adjustOpacity`
+- **BaseModal**: Removed hardcoded overlay rgba values → now uses `adjustOpacity(darkenColor(colors.secondary, 80), ...)`
+- **Input**: Removed `#FFFFFF`, `#000000` → now uses `lightenColor(colors.secondary, 70)` and `getContrastColor`
+- **DatePicker**: Removed `#FFFFFF`, `#000000`, rgba shadows → now uses dynamic calculations
+- **Loading**: Removed `#000000` → now uses `darkenColor(colors.secondary, 80)`
+- **LanguageSelector**: Removed `#FFFFFF` → now uses `lightenColor(colors.secondary, 70)`
+- **NavBar**: Removed all rgba values → now uses `adjustOpacity` and `getContrastColor`
+
+**Benefits:**
+- ✅ 100% theme consistency - all colors derived from the 3 base colors
+- ✅ Better dark/light mode support - calculations adapt to any color scheme
+- ✅ Zero magic numbers - no hardcoded hex or rgba values
+- ✅ Predictable behavior - same color utilities across all components
+
+### Technical
+
+- All components now strictly follow the 3-color philosophy (primary, secondary, accent)
+- Enhanced color utilities usage: `darkenColor`, `lightenColor`, `getContrastColor`, `adjustOpacity`
+- Improved hover states with dynamic overlay calculations
+- Better skeleton/loading state colors based on theme
+
+## [2.0.0] - 2026-02-06
+
+### 🎨 Major: Simplified Color System
+
+Complete redesign of the color prop system to dramatically reduce complexity while maintaining full customization.
+
+#### Breaking Changes
+
+**All components now use simplified color props:**
+
+- **Before**: 10-40 individual color props per component (`bg`, `textColor`, `hoverBg`, `hoverTextColor`, `disabledBg`, etc.)
+- **After**: Single `colors` prop with 3-6 colors + optional overrides
+
+**New Color Configuration:**
+
+- `BaseColorConfig`: `primary`, `secondary`, `accent` (required for all components)
+- `ExtendedColorConfig`: Adds `warning`, `success`, `danger` (for modals, confirmations)
+
+**Removed Props** (now auto-calculated or moved to `colors` config):
+
+- Button: `bg`, `textColor`, `hoverBg`, `hoverTextColor`, `disabledBg`, `disabledTextColor`, `disabledBorderColor`, `focusRing`
+- Input: `bg`, `textColor`, `borderColor`, `focusBorderColor`, `focusShadow`, `labelColor`, `labelActiveColor`, `iconColor`, `iconHoverColor`, `placeholderColor`
+- ActionIcon: `color`, `hoverColor`, `hoverBg`, `disabledColor`
+- DatePicker: 30+ color props simplified to `colors` + 3 overrides
+- BaseModal: 30+ color props simplified to `colors` + 2 overrides
+- LanguageSelector: 15+ color props simplified to `colors` + 3 overrides
+- Loading: `overlayColor`, `spinnerColor` → `colors` + optional overrides
+
+**New Override Props** (for edge cases):
+
+- Button: `customBg`, `customTextColor`, `customBorderColor`
+- Input: `customBg`, `customTextColor`, `customBorderColor`
+- ActionIcon: `customColor`, `customBg`
+- DatePicker: `customBg`, `customTextColor`, `customBorderColor`
+- Loading: `customOverlayColor`, `customSpinnerColor`
+- LanguageSelector: `customBorderColor`, `customBgColor`, `customTextColor`
+- BaseModal: `customOverlayBg`, `customModalBg`
+
+#### Added
+
+**New Color Utilities:**
+
+- `isDarkColor(hex)` - Determines if a color is dark based on luminance
+- `darkenColor(hex, percent)` - Darkens a color by percentage
+- `lightenColor(hex, percent)` - Lightens a color by percentage
+- `getHoverColor(hex, intensity)` - Auto-calculates hover color (darkens light, lightens dark)
+- `getContrastColor(hex)` - Returns white or black for optimal text contrast
+- `adjustOpacity(hex, opacity)` - Converts hex to rgba with opacity
+
+**New Type Exports:**
+
+- `BaseColorConfig` - Interface for basic 3-color configuration
+- `ExtendedColorConfig` - Interface for 6-color configuration (includes status colors)
+- `hasExtendedColors()` - Type guard for extended color configs
+- `DEFAULT_COLOR_CONFIG` - Default color palette
+
+**Auto-calculated States:**
+All components now automatically calculate:
+
+- Hover colors (intelligent darkening/lightening)
+- Disabled states (opacity adjustment)
+- Focus rings (color with adjusted opacity)
+- Text contrast (ensures readability)
+- Border hover states
+
+**New Documentation:**
+
+- `docs/COLOR_SYSTEM.md` - Complete color system guide
+- `docs/MIGRATION_GUIDE.md` - Step-by-step migration instructions
+- `docs/examples/ColorSystemExamples.tsx` - 7 practical examples
+
+#### Benefits
+
+- **90% fewer color props** - From 10-40 props to 3-6
+- **Consistent theming** - Same color config across all components
+- **Smart defaults** - Hover, disabled, focus states auto-calculated
+- **Better accessibility** - Automatic contrast calculations
+- **Easier maintenance** - Update theme by changing one config object
+- **Full type safety** - TypeScript ensures required colors present
+- **Still flexible** - Override props available for edge cases
+
+#### Migration
+
+See [Migration Guide](docs/MIGRATION_GUIDE.md) for detailed instructions.
+
+**Quick Example:**
+
+Before:
+
+```tsx
+<Button
+  bg="#3B82F6"
+  textColor="#FFFFFF"
+  hoverBg="#2563EB"
+  hoverTextColor="#FFFFFF"
+  disabledBg="#9CA3AF"
+  disabledTextColor="#D1D5DB"
+  focusRing="#93C5FD"
+/>
+```
+
+After:
+
+```tsx
+const colors = {
+  primary: '#3B82F6',
+  secondary: '#8B5CF6',
+  accent: '#EC4899',
+};
+
+<Button colors={colors} variant="primary" />;
+```
+
+---
+
 ## [0.1.0] - 2026-02-02
 
 ### Added

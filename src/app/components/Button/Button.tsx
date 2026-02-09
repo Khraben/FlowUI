@@ -23,6 +23,8 @@ import {
   STRING,
   SVG,
 } from '@/app/constants';
+import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
+import { getHoverColor, adjustOpacity, getContrastColor } from '@/app/utils/colorUtils';
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -42,20 +44,72 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       disableDefaultStyles = false,
       children,
       disabled,
-      bg,
-      textColor,
-      borderColor,
-      hoverBg,
-      hoverTextColor,
-      disabledBg,
-      disabledTextColor,
-      disabledBorderColor,
-      focusRing,
+      colors,
+      customBg,
+      customTextColor,
+      customBorderColor,
       style,
       ...props
     },
     ref,
   ) => {
+    // Use default colors if not provided
+    const colorConfig = colors || DEFAULT_COLOR_CONFIG;
+
+    // Calculate dynamic colors based on variant
+    const getVariantColors = () => {
+      let baseColor: string;
+      let textColor: string;
+      let borderColor: string;
+
+      switch (variant) {
+        case BUTTON_VARIANTS.PRIMARY:
+          baseColor = customBg || colorConfig.primary;
+          textColor = customTextColor || getContrastColor(baseColor);
+          borderColor = customBorderColor || STRING.TRANSPARENT;
+          break;
+        case BUTTON_VARIANTS.SECONDARY:
+          // Secondary: bg is secondary color, text and border are primary color
+          baseColor = customBg || colorConfig.secondary;
+          textColor = customTextColor || colorConfig.primary;
+          borderColor = customBorderColor || colorConfig.primary;
+          break;
+        default:
+          baseColor = customBg || colorConfig.accent;
+          textColor = customTextColor || getContrastColor(baseColor);
+          borderColor = customBorderColor || STRING.TRANSPARENT;
+          break;
+      }
+
+      const hoverBg = getHoverColor(baseColor);
+      const hoverTextColor =
+        variant === BUTTON_VARIANTS.SECONDARY
+          ? getHoverColor(textColor)
+          : getContrastColor(hoverBg);
+      const disabledBg = adjustOpacity(baseColor, 0.5);
+      const disabledTextColor = adjustOpacity(textColor, 0.6);
+      const focusRing = adjustOpacity(
+        variant === BUTTON_VARIANTS.SECONDARY ? colorConfig.primary : baseColor,
+        0.5,
+      );
+
+      return {
+        bg: baseColor,
+        textColor,
+        borderColor,
+        hoverBg,
+        hoverTextColor,
+        disabledBg,
+        disabledTextColor,
+        disabledBorderColor: customBorderColor
+          ? adjustOpacity(customBorderColor, 0.5)
+          : adjustOpacity(borderColor, 0.5),
+        focusRing,
+      };
+    };
+
+    const variantColors = getVariantColors();
+
     const baseStyles = disableDefaultStyles
       ? BUTTON_EMPTY_VALUE
       : baseClassName || BUTTON_BASE_STYLES;
@@ -89,38 +143,24 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const widthStyles = fullWidth ? BUTTON_FULL_WIDTH_STYLES : BUTTON_EMPTY_VALUE;
 
     const inlineStyles = useMemo(() => {
-      if (!bg && !textColor) return style;
+      if (!customBg && !customTextColor && !colors) return style;
 
       return {
         ...style,
-        [BUTTON_COLOR_METADATA.BG]: bg,
-        [BUTTON_COLOR_METADATA.TEXT]: textColor,
-        [BUTTON_COLOR_METADATA.BORDER]: borderColor || STRING.TRANSPARENT,
-        [BUTTON_COLOR_METADATA.HOVER_BG]: hoverBg,
-        [BUTTON_COLOR_METADATA.HOVER_TEXT]: hoverTextColor || textColor,
-        [BUTTON_COLOR_METADATA.DISABLED_BG]: disabledBg,
-        [BUTTON_COLOR_METADATA.DISABLED_TEXT]: disabledTextColor,
-        [BUTTON_COLOR_METADATA.DISABLED_BORDER]: disabledBorderColor || STRING.TRANSPARENT,
-        [BUTTON_COLOR_METADATA.FOCUS_RING]: focusRing,
-        backgroundColor: disabled ? disabledBg : bg,
-        color: disabled ? disabledTextColor : textColor,
-        borderColor: disabled
-          ? disabledBorderColor || STRING.TRANSPARENT
-          : borderColor || STRING.TRANSPARENT,
+        [BUTTON_COLOR_METADATA.BG]: variantColors.bg,
+        [BUTTON_COLOR_METADATA.TEXT]: variantColors.textColor,
+        [BUTTON_COLOR_METADATA.BORDER]: variantColors.borderColor,
+        [BUTTON_COLOR_METADATA.HOVER_BG]: variantColors.hoverBg,
+        [BUTTON_COLOR_METADATA.HOVER_TEXT]: variantColors.hoverTextColor,
+        [BUTTON_COLOR_METADATA.DISABLED_BG]: variantColors.disabledBg,
+        [BUTTON_COLOR_METADATA.DISABLED_TEXT]: variantColors.disabledTextColor,
+        [BUTTON_COLOR_METADATA.DISABLED_BORDER]: variantColors.disabledBorderColor,
+        [BUTTON_COLOR_METADATA.FOCUS_RING]: variantColors.focusRing,
+        backgroundColor: disabled ? variantColors.disabledBg : variantColors.bg,
+        color: disabled ? variantColors.disabledTextColor : variantColors.textColor,
+        borderColor: disabled ? variantColors.disabledBorderColor : variantColors.borderColor,
       } as React.CSSProperties;
-    }, [
-      bg,
-      textColor,
-      borderColor,
-      hoverBg,
-      hoverTextColor,
-      disabledBg,
-      disabledTextColor,
-      disabledBorderColor,
-      focusRing,
-      disabled,
-      style,
-    ]);
+    }, [variantColors, disabled, style, customBg, customTextColor, colors]);
 
     return (
       <button

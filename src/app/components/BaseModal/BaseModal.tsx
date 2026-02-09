@@ -2,37 +2,9 @@ import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { X, AlertTriangle } from 'lucide-react';
 import type { BaseModalProps } from './models/BaseModal.interface';
-import {
-  MODAL_DEFAULT_OVERLAY_BG,
-  MODAL_DEFAULT_BG,
-  MODAL_DEFAULT_HEADER_BG_FROM,
-  MODAL_DEFAULT_HEADER_BG_TO,
-  MODAL_DEFAULT_HEADER_TEXT_COLOR,
-  MODAL_DEFAULT_CLOSE_BTN_BG,
-  MODAL_DEFAULT_CLOSE_BTN_HOVER_BG,
-  MODAL_DEFAULT_CLOSE_BTN_COLOR,
-  MODAL_DEFAULT_STATS_BG_FROM,
-  MODAL_DEFAULT_STATS_BG_TO,
-  MODAL_DEFAULT_STATS_BORDER_COLOR,
-  MODAL_DEFAULT_STATS_NUMBER_COLOR,
-  MODAL_DEFAULT_STATS_LABEL_COLOR,
-  MODAL_DEFAULT_SCROLLBAR_TRACK_COLOR,
-  MODAL_DEFAULT_SCROLLBAR_THUMB_COLOR,
-  MODAL_DEFAULT_CONFIRM_OVERLAY_BG,
-  MODAL_DEFAULT_CONFIRM_HEADER_BG_FROM,
-  MODAL_DEFAULT_CONFIRM_HEADER_BG_TO,
-  MODAL_DEFAULT_CONFIRM_HEADER_TEXT_COLOR,
-  MODAL_DEFAULT_CONFIRM_TEXT_COLOR,
-  MODAL_DEFAULT_CONFIRM_FOOTER_BG,
-  MODAL_DEFAULT_CONTINUE_BTN_BORDER,
-  MODAL_DEFAULT_CONTINUE_BTN_COLOR,
-  MODAL_DEFAULT_CONTINUE_BTN_HOVER_BG,
-  MODAL_DEFAULT_CONTINUE_BTN_HOVER_COLOR,
-  MODAL_DEFAULT_DISCARD_BTN_BG_FROM,
-  MODAL_DEFAULT_DISCARD_BTN_BG_TO,
-  MODAL_DEFAULT_DISCARD_BTN_COLOR,
-  MODAL_DEFAULT_TEXTS,
-} from '@/app/constants/components/modal/styles.constants';
+import { MODAL_DEFAULT_TEXTS } from '@/app/constants/components/modal/styles.constants';
+import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
+import { darkenColor, lightenColor, getContrastColor, adjustOpacity } from '@/app/utils/colorUtils';
 
 export const BaseModal: React.FC<BaseModalProps> = ({
   isOpen,
@@ -45,38 +17,48 @@ export const BaseModal: React.FC<BaseModalProps> = ({
   showCloseButton = true,
   hasUnsavedChanges = false,
   texts = MODAL_DEFAULT_TEXTS,
-  overlayBg = MODAL_DEFAULT_OVERLAY_BG,
-  modalBg = MODAL_DEFAULT_BG,
-  headerBgFrom = MODAL_DEFAULT_HEADER_BG_FROM,
-  headerBgTo = MODAL_DEFAULT_HEADER_BG_TO,
-  headerTextColor = MODAL_DEFAULT_HEADER_TEXT_COLOR,
-  closeBtnBg = MODAL_DEFAULT_CLOSE_BTN_BG,
-  closeBtnHoverBg = MODAL_DEFAULT_CLOSE_BTN_HOVER_BG,
-  closeBtnColor = MODAL_DEFAULT_CLOSE_BTN_COLOR,
-  statsBgFrom = MODAL_DEFAULT_STATS_BG_FROM,
-  statsBgTo = MODAL_DEFAULT_STATS_BG_TO,
-  statsBorderColor = MODAL_DEFAULT_STATS_BORDER_COLOR,
-  statsNumberColor = MODAL_DEFAULT_STATS_NUMBER_COLOR,
-  statsLabelColor = MODAL_DEFAULT_STATS_LABEL_COLOR,
-  scrollbarTrackColor = MODAL_DEFAULT_SCROLLBAR_TRACK_COLOR,
-  scrollbarThumbColor = MODAL_DEFAULT_SCROLLBAR_THUMB_COLOR,
-  confirmOverlayBg = MODAL_DEFAULT_CONFIRM_OVERLAY_BG,
-  confirmHeaderBgFrom = MODAL_DEFAULT_CONFIRM_HEADER_BG_FROM,
-  confirmHeaderBgTo = MODAL_DEFAULT_CONFIRM_HEADER_BG_TO,
-  confirmHeaderTextColor = MODAL_DEFAULT_CONFIRM_HEADER_TEXT_COLOR,
-  confirmTextColor = MODAL_DEFAULT_CONFIRM_TEXT_COLOR,
-  confirmFooterBg = MODAL_DEFAULT_CONFIRM_FOOTER_BG,
-  continueBtnBorder = MODAL_DEFAULT_CONTINUE_BTN_BORDER,
-  continueBtnColor = MODAL_DEFAULT_CONTINUE_BTN_COLOR,
-  continueBtnHoverBg = MODAL_DEFAULT_CONTINUE_BTN_HOVER_BG,
-  continueBtnHoverColor = MODAL_DEFAULT_CONTINUE_BTN_HOVER_COLOR,
-  discardBtnBgFrom = MODAL_DEFAULT_DISCARD_BTN_BG_FROM,
-  discardBtnBgTo = MODAL_DEFAULT_DISCARD_BTN_BG_TO,
-  discardBtnColor = MODAL_DEFAULT_DISCARD_BTN_COLOR,
+  colors = DEFAULT_COLOR_CONFIG,
+  customOverlayBg,
+  customModalBg,
 }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   if (!isOpen) return null;
+
+  // Compute colors dynamically from the color config
+  const overlayBg = customOverlayBg || adjustOpacity(darkenColor(colors.secondary, 80), 0.6);
+  const modalBg = customModalBg || darkenColor(colors.secondary, 60);
+  const headerBgFrom = colors.primary;
+  const headerBgTo = colors.secondary;
+  const headerTextColor = getContrastColor(headerBgFrom);
+  const closeBtnBg = adjustOpacity(headerTextColor, 0.2);
+  const closeBtnHoverBg = adjustOpacity(headerTextColor, 0.3);
+  const closeBtnColor = headerTextColor;
+
+  const statsBgFrom = adjustOpacity(headerTextColor, 0.05);
+  const statsBgTo = adjustOpacity(headerTextColor, 0.02);
+  const statsBorderColor = adjustOpacity(headerTextColor, 0.1);
+  const statsNumberColor = getContrastColor(modalBg);
+  const statsLabelColor = adjustOpacity(statsNumberColor, 0.7);
+
+  const scrollbarTrackColor = adjustOpacity(statsNumberColor, 0.05);
+  const scrollbarThumbColor = adjustOpacity(statsNumberColor, 0.15);
+
+  const confirmOverlayBg = adjustOpacity(darkenColor(colors.secondary, 80), 0.7);
+  const dangerColor = colors.danger || darkenColor(colors.accent, 20);
+  const confirmHeaderBgFrom = dangerColor;
+  const confirmHeaderBgTo = lightenColor(dangerColor, 5);
+  const confirmHeaderTextColor = getContrastColor(dangerColor);
+  const confirmTextColor = adjustOpacity(getContrastColor(modalBg), 0.9);
+  const confirmFooterBg = adjustOpacity(confirmTextColor, 0.05);
+
+  const continueBtnBorder = colors.primary;
+  const continueBtnColor = colors.primary;
+  const continueBtnHoverBg = colors.primary;
+  const continueBtnHoverColor = getContrastColor(colors.primary);
+  const discardBtnBgFrom = dangerColor;
+  const discardBtnBgTo = lightenColor(dangerColor, 5);
+  const discardBtnColor = getContrastColor(dangerColor);
 
   const handleClose = () => {
     if (hasUnsavedChanges) {

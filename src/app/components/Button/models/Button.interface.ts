@@ -1,6 +1,7 @@
 import React from 'react';
 import { ButtonVariant, ButtonSize } from '../types/Button.types';
 import { BUTTON_ICON_POSITIONS, BUTTON_ROUNDED_OPTIONS } from '@/app/constants';
+import { BaseColorConfig } from '@/app/types/colors';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
@@ -16,13 +17,12 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   variantClassName?: string;
   sizeClassName?: string;
   disableDefaultStyles?: boolean;
-  bg?: string;
-  textColor?: string;
-  borderColor?: string;
-  hoverBg?: string;
-  hoverTextColor?: string;
-  disabledBg?: string;
-  disabledTextColor?: string;
-  disabledBorderColor?: string;
-  focusRing?: string;
+
+  // New simplified color system
+  colors?: BaseColorConfig;
+
+  // Optional overrides for specific use cases
+  customBg?: string;
+  customTextColor?: string;
+  customBorderColor?: string;
 }

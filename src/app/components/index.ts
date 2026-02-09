@@ -13,3 +13,18 @@ export type {
 } from './BaseModal/models/BaseModal.interface';
 export { default as ConfirmationModal } from './ConfirmationModal/ConfirmationModal';
 export type { ConfirmationModalProps } from './ConfirmationModal/ConfirmationModal';
+export { SideBar } from './SideBar/SideBar';
+export type {
+  SideBarProps,
+  SideBarMenuItem,
+  SideBarLogoutButton,
+} from './SideBar/models/SideBar.interface';
+export { NavBar } from './NavBar/NavBar';
+export type {
+  NavBarProps,
+  NavBarLogo,
+  NavBarMenuItem,
+  NavBarAction,
+} from './NavBar/models/NavBar.interface';
+export { Gallery } from './Gallery/Gallery';
+export type { GalleryProps, GalleryImage } from './Gallery/models/Gallery.interface';

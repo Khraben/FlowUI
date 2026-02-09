@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { LoadingProps } from './models/Loading.interface';
 import {
@@ -12,15 +12,32 @@ import {
   LOADING_DEFAULT_VARIANT,
   LOADING_DISPLAY_NAME,
 } from '@/app/constants/components/loading/styles.constants';
+import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
+import { adjustOpacity, darkenColor } from '@/app/utils/colorUtils';
 
 export const Loading: React.FC<LoadingProps> = ({
   text,
   size = LOADING_DEFAULT_SIZE,
   variant = LOADING_DEFAULT_VARIANT,
-  overlayColor,
-  spinnerColor,
+  colors,
+  customOverlayColor,
+  customSpinnerColor,
   showOverlay = true,
 }) => {
+  // Use default colors if not provided
+  const colorConfig = colors || DEFAULT_COLOR_CONFIG;
+
+  // Calculate dynamic colors
+  const loadingColors = useMemo(() => {
+    const spinnerColor = customSpinnerColor || colorConfig.primary;
+    const overlayColor =
+      customOverlayColor || adjustOpacity(darkenColor(colorConfig.secondary, 80), 0.5);
+
+    return {
+      spinner: spinnerColor,
+      overlay: overlayColor,
+    };
+  }, [colorConfig, customSpinnerColor, customOverlayColor]);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -52,8 +69,8 @@ export const Loading: React.FC<LoadingProps> = ({
         }
         .modern-spinner {
           border: 3px solid transparent;
-          border-top-color: ${spinnerColor};
-          border-right-color: ${spinnerColor};
+          border-top-color: ${loadingColors.spinner};
+          border-right-color: ${loadingColors.spinner};
           border-radius: 50%;
           animation: spin-modern 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
           position: relative;
@@ -65,7 +82,7 @@ export const Loading: React.FC<LoadingProps> = ({
           left: -3px;
           right: -3px;
           bottom: -3px;
-          border: 3px solid ${spinnerColor}20;
+          border: 3px solid ${loadingColors.spinner}20;
           border-radius: 50%;
           animation: pulse-ring 1.5s ease-in-out infinite;
         }
@@ -87,15 +104,15 @@ export const Loading: React.FC<LoadingProps> = ({
       `}</style>
       <div
         className={`${dotSizeClass} rounded-full dot-1`}
-        style={{ backgroundColor: spinnerColor }}
+        style={{ backgroundColor: loadingColors.spinner }}
       />
       <div
         className={`${dotSizeClass} rounded-full dot-2`}
-        style={{ backgroundColor: spinnerColor }}
+        style={{ backgroundColor: loadingColors.spinner }}
       />
       <div
         className={`${dotSizeClass} rounded-full dot-3`}
-        style={{ backgroundColor: spinnerColor }}
+        style={{ backgroundColor: loadingColors.spinner }}
       />
     </div>
   );
@@ -121,19 +138,25 @@ export const Loading: React.FC<LoadingProps> = ({
           left: 50%;
           transform: translate(-50%, -50%);
           border-radius: 50%;
-          border: 2px solid ${spinnerColor};
+          border: 2px solid ${loadingColors.spinner};
           animation: pulse-outer 1.5s ease-out infinite;
         }
       `}</style>
       <div className="relative" style={{ width: '4rem', height: '4rem' }}>
-        <div className={`pulse-core ${sizeClass}`} style={{ backgroundColor: spinnerColor }} />
+        <div
+          className={`pulse-core ${sizeClass}`}
+          style={{ backgroundColor: loadingColors.spinner }}
+        />
         <div className={`pulse-ring ${sizeClass}`} style={{ width: '100%', height: '100%' }} />
       </div>
     </div>
   );
 
   const loadingContent = (
-    <div className={`${LOADING_OVERLAY_BASE} ${showOverlay ? overlayColor : ''}`}>
+    <div
+      className={LOADING_OVERLAY_BASE}
+      style={showOverlay ? { backgroundColor: loadingColors.overlay } : undefined}
+    >
       <div className="flex flex-col items-center gap-4">
         {variant === 'spinner' && renderSpinner()}
         {variant === 'dots' && renderDots()}

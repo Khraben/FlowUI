@@ -2,7 +2,8 @@ import React, { useState, ReactNode } from 'react';
 import { CheckCircle } from 'lucide-react';
 import { BaseModal } from '../BaseModal/BaseModal';
 import Button from '../Button/Button';
-import { PREVIEW_COLORS, STATIC_COLORS } from '@/app/constants';
+import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
+import type { ExtendedColorConfig } from '@/app/types/colors';
 
 export interface ConfirmationModalProps {
   isOpen: boolean;
@@ -12,6 +13,9 @@ export interface ConfirmationModalProps {
   confirmText?: string;
   cancelText?: string;
   loadingContent?: ReactNode;
+
+  // New simplified color system
+  colors?: ExtendedColorConfig;
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
@@ -22,8 +26,10 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   confirmText = 'Confirm',
   cancelText = 'Cancel',
   loadingContent,
+  colors,
 }) => {
   const [loading, setLoading] = useState(false);
+  const colorConfig = colors || DEFAULT_COLOR_CONFIG;
 
   if (!isOpen) return null;
   if (loading && loadingContent)
@@ -34,8 +40,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         title="Processing"
         icon={CheckCircle}
         maxWidth="28.125rem"
-        headerBgFrom={PREVIEW_COLORS.PRIMARY}
-        headerBgTo={PREVIEW_COLORS.ACCENT}
+        colors={colorConfig}
       >
         <div className="flex justify-center items-center py-10">{loadingContent}</div>
       </BaseModal>
@@ -58,29 +63,16 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       title={confirmText}
       icon={CheckCircle}
       maxWidth="28.125rem"
-      headerBgFrom={PREVIEW_COLORS.PRIMARY}
-      headerBgTo={PREVIEW_COLORS.ACCENT}
+      colors={colorConfig}
     >
       <p className="text-base text-gray-600 text-center my-5 leading-normal max-xs:text-sm">
         {message}
       </p>
       <div className="flex justify-between gap-2.5 mt-5 max-xs:flex-col max-xs:gap-1.5">
-        <Button
-          variant="secondary"
-          onClick={onClose}
-          bg={PREVIEW_COLORS.SURFACE_DARK}
-          textColor={STATIC_COLORS.LIGHT_TEXT}
-          hoverBg={PREVIEW_COLORS.SURFACE_DARK}
-        >
+        <Button variant="secondary" onClick={onClose} colors={colorConfig}>
           {cancelText}
         </Button>
-        <Button
-          variant="primary"
-          onClick={handleConfirm}
-          bg={PREVIEW_COLORS.PRIMARY}
-          textColor={PREVIEW_COLORS.WHITE}
-          hoverBg={PREVIEW_COLORS.ACCENT}
-        >
+        <Button variant="primary" onClick={handleConfirm} colors={colorConfig}>
           {confirmText}
         </Button>
       </div>

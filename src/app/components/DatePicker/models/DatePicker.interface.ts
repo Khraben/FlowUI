@@ -1,4 +1,5 @@
 import React from 'react';
+import { BaseColorConfig } from '@/app/types/colors';
 
 export type DatePickerSize = 'sm' | 'md' | 'lg';
 
@@ -53,26 +54,12 @@ export interface DatePickerProps {
   showPopperArrow?: boolean;
   autoComplete?: string;
   className?: string;
-  bg?: string;
-  textColor?: string;
-  borderColor?: string;
-  focusBorderColor?: string;
-  focusShadow?: string;
-  iconColor?: string;
-  iconHoverColor?: string;
-  placeholderColor?: string;
-  calendarBorderColor?: string;
-  calendarHeaderBg?: string;
-  calendarHeaderText?: string;
-  calendarDayText?: string;
-  calendarDayHoverBg?: string;
-  calendarSelectedBg?: string;
-  calendarSelectedText?: string;
-  calendarKeyboardBg?: string;
-  calendarDisabledText?: string;
-  calendarDisabledBg?: string;
-  calendarOutsideMonthText?: string;
-  calendarNavigationHover?: string;
-  calendarNavigationIcon?: string;
-  calendarMonthBg?: string;
+
+  // New simplified color system
+  colors?: BaseColorConfig;
+
+  // Optional overrides for specific use cases
+  customBg?: string;
+  customTextColor?: string;
+  customBorderColor?: string;
 }
