@@ -727,6 +727,54 @@ const NavBarDemo = () => {
   );
 };
 
+const GalleryDemo = () => {
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+
+  const heights = [180, 240, 200, 220, 190, 210];
+  const sampleImages = Array.from({ length: 6 }, (_, i) => ({
+    id: `img-${i + 1}`,
+    src: `https://picsum.photos/seed/${i + 1}/400/${heights[i]}`,
+    alt: `Gallery image ${i + 1}`,
+    width: 400,
+    height: heights[i],
+  }));
+
+  return (
+    <div className="w-full">
+      <div className="columns-2 gap-3">
+        {sampleImages.map((img) => (
+          <div key={img.id} className="mb-3 break-inside-avoid">
+            <div
+              className="relative overflow-hidden rounded-lg border cursor-pointer"
+              style={{ borderColor: PREVIEW_COLOR_CONFIG.primary + '20' }}
+              onMouseEnter={() => setHoveredId(img.id)}
+              onMouseLeave={() => setHoveredId(null)}
+            >
+              <div
+                className="w-full h-auto bg-gray-100 transition-transform duration-500 ease-out"
+                style={{
+                  aspectRatio: `${img.width} / ${img.height}`,
+                  backgroundImage: `url(${img.src})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  transform: hoveredId === img.id ? 'scale(1.03)' : 'scale(1)',
+                }}
+              />
+              <div
+                className="pointer-events-none absolute inset-0 transition-colors duration-300"
+                style={{
+                  backgroundColor:
+                    hoveredId === img.id ? PREVIEW_COLOR_CONFIG.secondary + '33' : 'transparent',
+                }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export const componentRegistry: ComponentDemo[] = [
   {
     id: 'button-primary',
@@ -1039,6 +1087,14 @@ export const componentRegistry: ComponentDemo[] = [
     description: 'Modern responsive navbar with logo, menu items and action buttons',
     category: COMPONENT_CATEGORIES.NAVIGATION,
     component: NavBarDemo,
+    props: {},
+  },
+  {
+    id: 'gallery',
+    name: 'Masonry Gallery',
+    description: 'Responsive masonry gallery with lazy loading and smooth animations',
+    category: COMPONENT_CATEGORIES.OTHER,
+    component: GalleryDemo,
     props: {},
   },
 ];

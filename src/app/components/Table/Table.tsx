@@ -19,7 +19,6 @@ import {
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
 import { darkenColor, lightenColor, getContrastColor, adjustOpacity } from '@/app/utils/colorUtils';
 
-// Default icons (SVG components)
 const ArrowUpDown: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

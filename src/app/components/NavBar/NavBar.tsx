@@ -29,14 +29,16 @@ export const NavBar = ({
   const [internalMobileMenu, setInternalMobileMenu] = useState(false);
   const isMobileMenuOpen = controlledMobileMenu ?? internalMobileMenu;
 
-  // Calculate dynamic colors
-  const dynamicColors = useMemo(() => ({
-    hoverBg: adjustOpacity(textColor, 0.05),
-    hoverBgActive: adjustOpacity(textColor, 0.1),
-    secondaryBg: adjustOpacity(textColor, 0.05),
-    activeItemBg: adjustOpacity(activeTextColor, 0.1),
-    outlineHoverText: getContrastColor(activeTextColor),
-  }), [textColor, activeTextColor]);
+  const dynamicColors = useMemo(
+    () => ({
+      hoverBg: adjustOpacity(textColor, 0.05),
+      hoverBgActive: adjustOpacity(textColor, 0.1),
+      secondaryBg: adjustOpacity(textColor, 0.05),
+      activeItemBg: adjustOpacity(activeTextColor, 0.1),
+      outlineHoverText: getContrastColor(activeTextColor),
+    }),
+    [textColor, activeTextColor],
+  );
 
   const handleMobileMenuToggle = useCallback(() => {
     const newState = !isMobileMenuOpen;

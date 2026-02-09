@@ -477,6 +477,64 @@ const actions = [
 - `showMobileMenu?` - Controlled mobile menu state
 - `onMobileMenuToggle?` - Mobile menu toggle handler
 
+### Gallery
+
+Responsive masonry gallery with lazy loading, infinite scroll, and smooth animations.
+
+```tsx
+import { Gallery } from '@khraben/flowui';
+
+const images = [
+  {
+    id: '1',
+    src: 'https://example.com/image1.jpg',
+    alt: 'Beautiful landscape',
+    width: 800,
+    height: 600,
+  },
+  {
+    id: '2',
+    src: 'https://example.com/image2.jpg',
+    alt: 'City skyline',
+    width: 600,
+    height: 800,
+  },
+  // ... more images
+];
+
+<Gallery
+  images={images}
+  batchSize={12}
+  enableAnimation={true}
+  colors={{
+    primary: '#1E90FF',
+    secondary: '#2C3135',
+    accent: '#00D4FF',
+  }}
+/>;
+```
+
+**Props:**
+
+- `images` - Array of image objects (id, src, alt, width, height)
+- `batchSize?` - Number of images to load per batch (default: 12)
+- `enableAnimation?` - Enable scroll animations (default: true)
+- `className?` - Additional CSS classes
+- `colors?` - BaseColorConfig for dynamic theming
+- `customBorderColor?` - Override border color
+- `customSkeletonBg?` - Override skeleton background
+- `customOverlayColor?` - Override hover overlay color
+
+**Features:**
+
+- 📱 Responsive layout (1/2/3 columns)
+- 🎨 CSS columns masonry layout
+- 🖼️ Maintains original aspect ratios
+- ⚡ Lazy loading with IntersectionObserver
+- 🔄 Infinite scroll support
+- ✨ Framer Motion animations
+- 🎯 Hover effects with zoom and overlay
+
 ### DatePicker
 
 Calendar date picker with range selection.

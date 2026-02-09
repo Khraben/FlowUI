@@ -30,7 +30,8 @@ export const Loading: React.FC<LoadingProps> = ({
   // Calculate dynamic colors
   const loadingColors = useMemo(() => {
     const spinnerColor = customSpinnerColor || colorConfig.primary;
-    const overlayColor = customOverlayColor || adjustOpacity(darkenColor(colorConfig.secondary, 80), 0.5);
+    const overlayColor =
+      customOverlayColor || adjustOpacity(darkenColor(colorConfig.secondary, 80), 0.5);
 
     return {
       spinner: spinnerColor,
