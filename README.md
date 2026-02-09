@@ -61,8 +61,10 @@ See [Color System Documentation](docs/COLOR_SYSTEM.md) for complete details.
 - ✅ **Auto-calculated States** - Hover, focus, disabled colors computed dynamically
 - ✅ **Smart Contrast** - Text colors automatically adjusted for readability
 - ✅ **Consistent Theming** - Same color config across all components
+- ✅ **Zero Hardcoded Colors** - All colors derived from the 3 base colors
 - ✅ **TypeScript Strict** - Complete type safety
 - ✅ **Built with tsup** - Optimized ESM + CJS builds
+- ✅ **Framer Motion** - Smooth animations in Gallery and other components
 
 ## 📚 Components
 
@@ -134,39 +136,65 @@ const colors: BaseColorConfig = {
   accent: '#EC4899',
 };
 
-<Input colors={colors} label="Username" labelColor="#808080" labelActiveColor="#00D4FF" />;
+<Input 
+  colors={colors} 
+  label="Username" 
+  placeholder="Enter username"
+/>
+
+// With custom overrides
+<Input
+  colors={colors}
+  customBg="#F3F4F6"
+  customTextColor="#1F2937"
+  label="Email"
+/>
 ```
 
-**Color Props:**
+**New Props:**
 
-- `bg` - Background color
-- `textColor` - Text color
-- `borderColor` - Border color
-- `focusBorderColor` - Focus border
-- `focusShadow` - Focus shadow
-- `labelColor` - Label default color
-- `labelActiveColor` - Label active/focused color
-- `iconColor` - Icon color
-- `iconHoverColor` - Icon hover color
-- `placeholderColor` - Placeholder color
+- `colors?: BaseColorConfig` - Color configuration (primary, secondary, accent)
+- `customBg?: string` - Override input background
+- `customTextColor?: string` - Override text color
+- `customBorderColor?: string` - Override border color
+
+**Auto-calculated:**
+
+- Border and focus colors (from primary)
+- Label colors (active and inactive states)
+- Icon colors and hover states
+- Placeholder color
+- Focus shadow
 
 ### ActionIcon
 
 Icon button with hover effects and smooth animations.
 
 ```tsx
-import { ActionIcon } from '@khraben/flowui';
+import { ActionIcon, BaseColorConfig } from '@khraben/flowui';
 import { Heart } from 'lucide-react';
+
+const colors: BaseColorConfig = {
+  primary: '#3B82F6',
+  secondary: '#8B5CF6',
+  accent: '#EC4899',
+};
 
 <ActionIcon
   icon={Heart}
   onClick={() => console.log('clicked')}
   title="Like"
   size="md"
-  color="text-red-600"
-  hoverColor="hover:text-red-700"
-  hoverBg="hover:bg-red-600/10"
-/>;
+  colors={colors}
+/>
+
+// With custom color override
+<ActionIcon
+  icon={Heart}
+  colors={colors}
+  customColor="#EF4444"
+  title="Delete"
+/>
 ```
 
 **Props:**
@@ -175,27 +203,45 @@ import { Heart } from 'lucide-react';
 - `onClick` - Click callback function
 - `title` - Tooltip text
 - `size` - Size: `'sm' | 'md' | 'lg'` (default: `'md'`)
-- `color` - Icon color
-- `hoverColor` - Hover color
-- `hoverBg` - Hover background
+- `colors?: BaseColorConfig` - Color configuration
+- `customColor?: string` - Override icon color
+- `customBg?: string` - Override background color
 - `disabled` - Disabled state
 - `className` - Additional CSS classes
+
+**Auto-calculated:**
+
+- Hover color (based on icon color)
+- Hover background (semi-transparent)
+- Disabled state (reduced opacity)
 
 ### Loading
 
 Modern loading component with pure CSS animations. Includes 3 variants: spinner, dots, and pulse.
 
 ```tsx
-import { Loading } from '@khraben/flowui';
+import { Loading, BaseColorConfig } from '@khraben/flowui';
+
+const colors: BaseColorConfig = {
+  primary: '#3B82F6',
+  secondary: '#8B5CF6',
+  accent: '#EC4899',
+};
 
 <Loading
   variant="spinner"
   size="md"
   text="Loading..."
-  spinnerColor="#3B82F6"
-  overlayColor="bg-black/30"
+  colors={colors}
   showOverlay={true}
-/>;
+/>
+
+// With custom overrides
+<Loading
+  colors={colors}
+  customSpinnerColor="#EF4444"
+  customOverlayColor="rgba(0, 0, 0, 0.5)"
+/>
 ```
 
 **Variants:**
@@ -209,8 +255,9 @@ import { Loading } from '@khraben/flowui';
 - `variant` - Loader type: `'spinner' | 'dots' | 'pulse'` (default: `'spinner'`)
 - `size` - Size: `'sm' | 'md' | 'lg'` (default: `'md'`)
 - `text` - Optional text below loader
-- `spinnerColor` - Loader color
-- `overlayColor` - Overlay color
+- `colors?: BaseColorConfig` - Color configuration
+- `customSpinnerColor?: string` - Override spinner color
+- `customOverlayColor?: string` - Override overlay color
 - `showOverlay` - Show background overlay (default: `true`)
 
 **Features:**
@@ -226,23 +273,29 @@ import { Loading } from '@khraben/flowui';
 Language selector with dropdown and support for 9 languages. Names are automatically translated to the selected language.
 
 ```tsx
-import { LanguageSelector, DEFAULT_AVAILABLE_LANGUAGES } from '@khraben/flowui';
+import { LanguageSelector, DEFAULT_AVAILABLE_LANGUAGES, BaseColorConfig } from '@khraben/flowui';
+
+const colors: BaseColorConfig = {
+  primary: '#3B82F6',
+  secondary: '#8B5CF6',
+  accent: '#EC4899',
+};
 
 <LanguageSelector
   selectedLanguage="en"
   onLanguageChange={(langCode) => console.log(langCode)}
   availableLanguages={DEFAULT_AVAILABLE_LANGUAGES}
   size="md"
-  buttonBorder="border-2 border-primary-600"
-  buttonHoverBorder="hover:border-primary-700"
-  dropdownBg="bg-gray-900"
-  dropdownBorder="border border-gray-700"
-  itemHoverBg="hover:bg-gray-800"
-  activeItemBg="bg-primary-900"
-  activeItemText="text-primary-400"
-  itemText="text-gray-300"
-  checkIconColor="text-primary-400"
-/>;
+  colors={colors}
+/>
+
+// With custom overrides
+<LanguageSelector
+  colors={colors}
+  customBgColor="#F3F4F6"
+  customBorderColor="#D1D5DB"
+  customTextColor="#1F2937"
+/>
 ```
 
 **Available Languages:**
@@ -263,16 +316,18 @@ import { LanguageSelector, DEFAULT_AVAILABLE_LANGUAGES } from '@khraben/flowui';
 - `onLanguageChange` - Callback when language changes
 - `availableLanguages` - Array of language codes to display
 - `size` - Size: `'sm' | 'md' | 'lg'` (default: `'md'`)
-- `buttonBorder` - Button border
-- `buttonHoverBorder` - Hover border
-- `dropdownBg` - Dropdown background
-- `dropdownBorder` - Dropdown border
-- `itemHoverBg` - Item hover background
-- `activeItemBg` - Active item background
-- `activeItemText` - Active item text color
-- `itemText` - Item text color
-- `checkIconColor` - Check icon color
-- `flagBorder` - Flag border
+- `colors?: BaseColorConfig` - Color configuration
+- `customBorderColor?: string` - Override button border
+- `customBgColor?: string` - Override button background
+- `customTextColor?: string` - Override text color
+
+**Auto-calculated:**
+
+- Dropdown background (from secondary)
+- Item hover states
+- Active item background
+- Check icon color (from primary)
+- Border hover states
 
 **Auto Translations:**
 
@@ -287,7 +342,13 @@ Language names are displayed in the selected language. For example:
 Data table with sorting, pagination, and custom styling.
 
 ```tsx
-import { Table, STATIC_COLORS } from '@khraben/flowui';
+import { Table, BaseColorConfig } from '@khraben/flowui';
+
+const colors: BaseColorConfig = {
+  primary: '#3B82F6',
+  secondary: '#8B5CF6',
+  accent: '#EC4899',
+};
 
 <Table
   columns={[
@@ -297,39 +358,110 @@ import { Table, STATIC_COLORS } from '@khraben/flowui';
   data={users}
   onEdit={(user) => console.log(user)}
   onDelete={(user) => console.log(user)}
-  headerBg={STATIC_COLORS.DARK_SURFACE}
-  headerText={STATIC_COLORS.LIGHT_TEXT}
-  rowBg={STATIC_COLORS.DARK_SURFACE_LIGHT}
-  rowText={STATIC_COLORS.LIGHT_TEXT}
-/>;
+  colors={colors}
+/>
+
+// With custom overrides
+<Table
+  columns={columns}
+  data={data}
+  colors={colors}
+  customHeaderBg="#1F2937"
+  customRowBg="#111827"
+/>
 ```
+
+**Props:**
+
+- `columns` - Array of column definitions
+- `data` - Array of data objects
+- `onEdit?` - Edit callback function
+- `onDelete?` - Delete callback function
+- `colors?: BaseColorConfig` - Color configuration
+- `customHeaderBg?: string` - Override header background
+- `customRowBg?: string` - Override row background
+
+**Auto-calculated:**
+
+- Header text color (based on contrast)
+- Row hover states
+- Border colors
+- Action icon colors
+- Sort indicator colors
 
 ### BaseModal
 
 Modal foundation with gradient headers and animations.
 
 ```tsx
-import { BaseModal } from '@khraben/flowui';
+import { BaseModal, ExtendedColorConfig } from '@khraben/flowui';
 import { CheckCircle } from 'lucide-react';
+
+const colors: ExtendedColorConfig = {
+  primary: '#3B82F6',
+  secondary: '#8B5CF6',
+  accent: '#EC4899',
+  warning: '#F59E0B',
+  success: '#10B981',
+  danger: '#EF4444',
+};
 
 <BaseModal
   isOpen={true}
   onClose={() => setOpen(false)}
   title="Success"
   icon={CheckCircle}
-  headerBgFrom="#1E90FF"
-  headerBgTo="#00D4FF"
+  colors={colors}
 >
   <p>Operation completed successfully</p>
-</BaseModal>;
+</BaseModal>
+
+// With custom overrides
+<BaseModal
+  colors={colors}
+  customOverlayBg="rgba(0, 0, 0, 0.8)"
+  customModalBg="#1F2937"
+  title="Custom Modal"
+>
+  <p>Content here</p>
+</BaseModal>
 ```
+
+**Props:**
+
+- `isOpen` - Modal visibility state
+- `onClose` - Close callback
+- `title` - Modal title
+- `icon?` - Header icon component
+- `colors?: ExtendedColorConfig` - Color configuration
+- `customOverlayBg?: string` - Override overlay background
+- `customModalBg?: string` - Override modal background
+- `hasUnsavedChanges?` - Show confirmation on close
+
+**Auto-calculated:**
+
+- Header gradient (primary to secondary)
+- Header text color (based on contrast)
+- Close button states
+- Stats section colors
+- Scrollbar styling
+- Confirmation dialog colors
 
 ### ConfirmationModal
 
 Pre-built confirmation dialog with async support.
 
 ```tsx
-import { ConfirmationModal } from '@khraben/flowui';
+import { ConfirmationModal, ExtendedColorConfig } from '@khraben/flowui';
+
+const colors: ExtendedColorConfig = {
+  primary: '#3B82F6',
+  secondary: '#8B5CF6',
+  accent: '#EC4899',
+  warning: '#F59E0B',
+  success: '#10B981',
+  danger: '#EF4444',
+};
 
 <ConfirmationModal
   isOpen={true}
@@ -340,8 +472,24 @@ import { ConfirmationModal } from '@khraben/flowui';
   message="Are you sure you want to delete this user?"
   confirmText="Delete"
   cancelText="Cancel"
-/>;
+  colors={colors}
+/>
 ```
+
+**Props:**
+
+- `isOpen` - Modal visibility state
+- `onClose` - Close callback
+- `onConfirm` - Confirm callback (can be async)
+- `message` - Confirmation message
+- `confirmText?` - Confirm button text
+- `cancelText?` - Cancel button text
+- `colors?: ExtendedColorConfig` - Color configuration
+- `loadingContent?` - Custom loading component
+
+**Auto-calculated:**
+
+All colors are automatically managed through the BaseModal component.
 
 ### SideBar
 
@@ -582,7 +730,9 @@ STATIC_COLORS.BORDER_GRAY; // #4B5563
 ├── BaseModal
 ├── ConfirmationModal
 ├── SideBar
-└── STATIC_COLORS
+├── NavBar
+├── Gallery
+└── Color System (BaseColorConfig, ExtendedColorConfig)
 ```
 
 ## 🎯 Usage
