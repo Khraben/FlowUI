@@ -11,6 +11,7 @@ export default defineConfig({
     'react-dom',
     'react/jsx-runtime',
     'date-fns',
+    'framer-motion',
     'lucide-react',
     'react-datepicker',
   ],

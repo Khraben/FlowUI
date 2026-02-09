@@ -1,6 +1,6 @@
 {
   "name": "@khraben/flowui",
-  "version": "0.2.4",
+  "version": "0.2.6",
   "description": "FlowUI - Modern React component library with TypeScript and Tailwind CSS",
   "main": "index.js",
   "module": "index.mjs",
@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "date-fns": "^4.1.0",
+    "framer-motion": "^12.34.0",
     "lucide-react": "^0.562.0",
     "react-datepicker": "^9.1.0"
   },
