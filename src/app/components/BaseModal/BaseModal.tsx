@@ -26,7 +26,7 @@ export const BaseModal: React.FC<BaseModalProps> = ({
   if (!isOpen) return null;
 
   // Compute colors dynamically from the color config
-  const overlayBg = customOverlayBg || adjustOpacity(darkenColor(colors.secondary, 80), 0.6);
+  const overlayBg = customOverlayBg || 'rgba(0, 0, 0, 0.6)';
   const modalBg = customModalBg || darkenColor(colors.secondary, 60);
   const headerBgFrom = colors.primary;
   const headerBgTo = colors.secondary;
@@ -44,7 +44,7 @@ export const BaseModal: React.FC<BaseModalProps> = ({
   const scrollbarTrackColor = adjustOpacity(statsNumberColor, 0.05);
   const scrollbarThumbColor = adjustOpacity(statsNumberColor, 0.15);
 
-  const confirmOverlayBg = adjustOpacity(darkenColor(colors.secondary, 80), 0.7);
+  const confirmOverlayBg = 'rgba(0, 0, 0, 0.7)';
   const dangerColor = colors.danger || darkenColor(colors.accent, 20);
   const confirmHeaderBgFrom = dangerColor;
   const confirmHeaderBgTo = lightenColor(dangerColor, 5);

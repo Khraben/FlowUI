@@ -26,5 +26,3 @@ export type {
   NavBarMenuItem,
   NavBarAction,
 } from './NavBar/models/NavBar.interface';
-export { Gallery } from './Gallery/Gallery';
-export type { GalleryProps, GalleryImage } from './Gallery/models/Gallery.interface';
