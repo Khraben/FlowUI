@@ -171,3 +171,4 @@ export * from './categories.constants';
 export * from './components/table/styles.constants';
 export * from './components/modal/styles.constants';
 export * from './components/sidebar/styles.constants';
+export * from './components/navbar/styles.constants';

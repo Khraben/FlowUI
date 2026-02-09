@@ -1,4 +1,5 @@
 import { ComponentDemo } from '@/types/component';
+import Image from 'next/image';
 import {
   Button,
   Input,
@@ -656,6 +657,76 @@ const SideBarDemo = () => {
   );
 };
 
+const NavBarDemo = () => {
+  const [activeItem, setActiveItem] = useState('home');
+
+  const menuItems = [
+    {
+      id: 'home',
+      label: 'Home',
+      onClick: () => setActiveItem('home'),
+      isActive: activeItem === 'home',
+    },
+    {
+      id: 'docs',
+      label: 'Docs',
+      onClick: () => setActiveItem('docs'),
+      isActive: activeItem === 'docs',
+    },
+  ];
+
+  return (
+    <div className="relative w-full h-14 bg-white border border-[#E5E7EB] rounded-lg overflow-visible">
+      <div className="absolute inset-0 flex items-center px-4">
+        <div className="flex items-center gap-2 shrink-0">
+          <Image src="/FlowUI.svg" alt="FlowUI Logo" width={24} height={24} className="w-6 h-6" />
+          <span className="text-sm font-bold" style={{ color: '#374151' }}>
+            FlowUI
+          </span>
+        </div>
+
+        <div className="flex items-center gap-4 ml-6">
+          {menuItems.map((item) => (
+            <div
+              key={item.id}
+              onClick={item.onClick}
+              className="font-medium text-xs cursor-pointer transition-all duration-300 pb-0.5"
+              style={{
+                color: item.isActive ? PREVIEW_COLOR_CONFIG.primary : '#374151',
+                borderBottom: item.isActive
+                  ? `2px solid ${PREVIEW_COLOR_CONFIG.primary}`
+                  : '2px solid transparent',
+              }}
+            >
+              {item.label}
+            </div>
+          ))}
+        </div>
+
+        <div className="ml-auto">
+          <button
+            onClick={() => {}}
+            className="px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-300 cursor-pointer border-2"
+            style={{
+              backgroundColor: PREVIEW_COLOR_CONFIG.primary,
+              color: '#FFFFFF',
+              borderColor: 'transparent',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = '0.9';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = '1';
+            }}
+          >
+            Get Started
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const componentRegistry: ComponentDemo[] = [
   {
     id: 'button-primary',
@@ -960,6 +1031,14 @@ export const componentRegistry: ComponentDemo[] = [
     description: 'Collapsible sidebar with top and bottom sections',
     category: COMPONENT_CATEGORIES.NAVIGATION,
     component: SideBarDemo,
+    props: {},
+  },
+  {
+    id: 'navbar',
+    name: 'Navigation Bar',
+    description: 'Modern responsive navbar with logo, menu items and action buttons',
+    category: COMPONENT_CATEGORIES.NAVIGATION,
+    component: NavBarDemo,
     props: {},
   },
 ];

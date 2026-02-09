@@ -19,3 +19,10 @@ export type {
   SideBarMenuItem,
   SideBarLogoutButton,
 } from './SideBar/models/SideBar.interface';
+export { NavBar } from './NavBar/NavBar';
+export type {
+  NavBarProps,
+  NavBarLogo,
+  NavBarMenuItem,
+  NavBarAction,
+} from './NavBar/models/NavBar.interface';

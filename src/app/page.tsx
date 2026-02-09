@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import ComponentShowcase from './preview/ComponentShowcase';
 import { componentRegistry } from './preview/ComponentRegistry';
 import { ComponentCategory } from '@/types/component';
@@ -60,7 +61,14 @@ export default function HomePage() {
       <div className="sticky top-0 z-50">
         <header className="bg-[#3C3F41]/95 backdrop-blur-md shadow-lg">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="flex flex-col items-center text-center gap-4">
+            <div className="flex flex-col items-center text-center gap-3">
+              <Image
+                src="/FlowUI.svg"
+                alt="FlowUI Logo"
+                width={64}
+                height={64}
+                className="w-16 h-16 md:w-14 md:h-14 sm:w-12 sm:h-12"
+              />
               <div>
                 <h1 className="text-3xl font-bold bg-gradient-to-r from-[#6897BB] to-[#287BDE] bg-clip-text text-transparent">
                   {PREVIEW_TEXT.TITLE}

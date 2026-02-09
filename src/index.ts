@@ -9,6 +9,7 @@ export { Table } from '@/app/components/Table/Table';
 export { BaseModal } from '@/app/components/BaseModal/BaseModal';
 export { default as ConfirmationModal } from '@/app/components/ConfirmationModal/ConfirmationModal';
 export { SideBar } from '@/app/components/SideBar/SideBar';
+export { NavBar } from '@/app/components/NavBar/NavBar';
 
 // Flag components
 export * from '@/flags';
@@ -33,6 +34,12 @@ export type {
   SideBarMenuItem,
   SideBarLogoutButton,
 } from '@/app/components/SideBar/models/SideBar.interface';
+export type {
+  NavBarProps,
+  NavBarLogo,
+  NavBarMenuItem,
+  NavBarAction,
+} from '@/app/components/NavBar/models/NavBar.interface';
 
 // Re-export component enums and types from constants
 export { BUTTON_VARIANT, BUTTON_ROUNDED, SIZE, POSITION } from '@/app/constants';
