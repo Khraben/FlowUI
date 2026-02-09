@@ -343,6 +343,57 @@ import { ConfirmationModal } from '@khraben/flowui';
 />;
 ```
 
+### SideBar
+
+Collapsible navigation sidebar with top and bottom sections.
+
+```tsx
+import { SideBar } from '@khraben/flowui';
+import { Home, Users, Settings, LogOut } from 'lucide-react';
+
+const menuItems = [
+  {
+    id: 'home',
+    label: 'Home',
+    icon: <Home />,
+    onClick: () => router.push('/'),
+    section: 'top', // Optional: 'top' | 'bottom'
+  },
+  {
+    id: 'users',
+    label: 'Users',
+    icon: <Users />,
+    onClick: () => router.push('/users'),
+  },
+  {
+    id: 'settings',
+    label: 'Settings',
+    icon: <Settings />,
+    onClick: () => router.push('/settings'),
+    section: 'bottom', // Will be placed at bottom
+  },
+];
+
+const logoutButton = {
+  label: 'Logout',
+  icon: <LogOut />,
+  onClick: () => handleLogout(),
+};
+
+<SideBar
+  menuItems={menuItems}
+  logoutButton={logoutButton}
+  isOpen={isOpen}
+  onToggle={(open) => setIsOpen(open)}
+  backgroundColor="var(--color-primary)"
+  textColor="var(--color-text-light)"
+  hoverBackgroundColor="var(--color-hover-surface)"
+  logoutTextColor="var(--color-error-light)"
+  logoutHoverBackgroundColor="var(--color-hover-error)"
+  logoutHoverTextColor="var(--color-error)"
+/>;
+```
+
 ### DatePicker
 
 Calendar date picker with range selection.
@@ -389,6 +440,7 @@ STATIC_COLORS.BORDER_GRAY; // #4B5563
 ├── LanguageSelector
 ├── BaseModal
 ├── ConfirmationModal
+├── SideBar
 └── STATIC_COLORS
 ```
 

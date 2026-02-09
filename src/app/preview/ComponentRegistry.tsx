@@ -15,7 +15,6 @@ import type { TableColumn } from '@/app/components/Table';
 import { COMPONENT_CATEGORIES } from '@/app/constants';
 import { PREVIEW_COLOR_CONFIG } from './previewColors';
 
-// Preview color constants
 const PREVIEW_DARK_SURFACE = '#2C3135';
 const PREVIEW_LIGHT_TEXT = '#E5E7EB';
 import {
@@ -33,10 +32,11 @@ import {
   Calendar,
   Edit,
   Info,
+  Home,
+  LogOut,
 } from 'lucide-react';
 import { useState } from 'react';
 
-// Demo components with state
 const SearchInputDemo = () => {
   const [searchValue, setSearchValue] = useState('');
   return (
@@ -526,9 +526,137 @@ const ConfirmationModalDemo = () => {
   );
 };
 
-// Component Registry
+const SideBarDemo = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const menuItems = [
+    {
+      id: 'home',
+      label: 'Home',
+      icon: <Home size={16} />,
+      onClick: () => {},
+    },
+    {
+      id: 'settings',
+      label: 'Settings',
+      icon: <Settings size={16} />,
+      onClick: () => {},
+    },
+  ];
+
+  const logoutItem = {
+    label: 'Logout',
+    icon: <LogOut size={16} />,
+    onClick: () => {},
+  };
+
+  return (
+    <div className="relative w-full max-w-[240px] h-[200px] bg-[#1A1A1A] rounded-lg overflow-hidden border border-[#333] mx-auto">
+      <nav
+        className={`absolute top-0 left-0 h-full flex flex-col transition-[width] duration-300 ease-in-out ${isOpen ? 'w-[11rem]' : 'w-[3rem]'}`}
+        style={{ backgroundColor: PREVIEW_COLOR_CONFIG.primary }}
+      >
+        <div className="relative pt-2 pb-2 shrink-0">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className={`absolute top-2 border-none p-1.5 cursor-pointer rounded-lg flex items-center justify-center w-7 h-7 transition-all duration-300 ${isOpen ? 'left-3' : 'left-1/2 -translate-x-1/2'}`}
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.2)',
+              color: PREVIEW_LIGHT_TEXT,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+            }}
+          >
+            {isOpen ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+            )}
+          </button>
+        </div>
+
+        <ul className="list-none w-full p-0 m-0 flex flex-col flex-1 overflow-y-auto px-1.5 pt-6 pb-2">
+          {menuItems.map((item) => (
+            <li key={item.id} className="w-full mb-0.5">
+              <button
+                onClick={item.onClick}
+                className={`bg-transparent border-none font-bold flex items-center w-full transition-all duration-300 cursor-pointer text-xs ${isOpen ? 'px-2.5 py-1.5 justify-start' : 'p-1.5 justify-center'}`}
+                style={{ color: PREVIEW_LIGHT_TEXT }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }}
+              >
+                <span className={`shrink-0 ${isOpen ? 'mr-2' : 'mr-0'}`}>{item.icon}</span>
+                {isOpen && (
+                  <span className="whitespace-nowrap overflow-hidden text-xs">{item.label}</span>
+                )}
+              </button>
+            </li>
+          ))}
+
+          <li className="w-full mt-auto mb-1.5">
+            <button
+              onClick={logoutItem.onClick}
+              className={`bg-transparent border-none font-bold flex items-center w-full transition-all duration-300 cursor-pointer text-xs ${isOpen ? 'px-2.5 py-1.5 justify-start' : 'p-1.5 justify-center'}`}
+              style={{ color: '#DC2626' }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(220, 38, 38, 0.15)';
+                e.currentTarget.style.color = '#B91C1C';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.color = '#DC2626';
+              }}
+            >
+              <span className={`shrink-0 ${isOpen ? 'mr-2' : 'mr-0'}`}>{logoutItem.icon}</span>
+              {isOpen && (
+                <span className="whitespace-nowrap overflow-hidden text-xs">
+                  {logoutItem.label}
+                </span>
+              )}
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  );
+};
+
 export const componentRegistry: ComponentDemo[] = [
-  // BUTTONS
   {
     id: 'button-primary',
     name: 'Primary Button',
@@ -658,8 +786,6 @@ export const componentRegistry: ComponentDemo[] = [
     ),
     props: {},
   },
-
-  // INPUTS
   {
     id: 'input-text',
     name: 'Text Input',
@@ -737,8 +863,6 @@ export const componentRegistry: ComponentDemo[] = [
     component: TimeInputDemo,
     props: {},
   },
-
-  // ACTION ICONS
   {
     id: 'action-icons',
     name: 'Action Buttons',
@@ -758,8 +882,6 @@ export const componentRegistry: ComponentDemo[] = [
     ),
     props: {},
   },
-
-  // PICKERS
   {
     id: 'datepicker',
     name: 'Date Picker',
@@ -780,17 +902,15 @@ export const componentRegistry: ComponentDemo[] = [
     id: 'language-selector',
     name: 'Language Selector',
     description: 'Dropdown language selector with flags',
-    category: COMPONENT_CATEGORIES.INPUTS,
+    category: COMPONENT_CATEGORIES.NAVIGATION,
     component: LanguageSelectorDemo,
     props: {},
   },
-
-  // LOADING
   {
     id: 'loading-variants',
     name: 'Loading Variants',
     description: 'Loading indicators: spinner, pulse, and dots',
-    category: COMPONENT_CATEGORIES.OTHER,
+    category: COMPONENT_CATEGORIES.LOADERS,
     component: LoadingVariantsDemo,
     props: {},
   },
@@ -798,12 +918,10 @@ export const componentRegistry: ComponentDemo[] = [
     id: 'loading-with-text',
     name: 'Loading With Text',
     description: 'Loading indicators with text labels',
-    category: COMPONENT_CATEGORIES.OTHER,
+    category: COMPONENT_CATEGORIES.LOADERS,
     component: LoadingWithTextDemo,
     props: {},
   },
-
-  // DATA DISPLAY
   {
     id: 'table-simple',
     name: 'Simple Table',
@@ -820,8 +938,6 @@ export const componentRegistry: ComponentDemo[] = [
     component: TableWithActionsDemo,
     props: {},
   },
-
-  // OVERLAYS
   {
     id: 'modal-base',
     name: 'Base Modal',
@@ -836,6 +952,14 @@ export const componentRegistry: ComponentDemo[] = [
     description: 'Confirmation dialog for destructive actions',
     category: COMPONENT_CATEGORIES.MODALS,
     component: ConfirmationModalDemo,
+    props: {},
+  },
+  {
+    id: 'sidebar',
+    name: 'Side Navigation',
+    description: 'Collapsible sidebar with top and bottom sections',
+    category: COMPONENT_CATEGORIES.NAVIGATION,
+    component: SideBarDemo,
     props: {},
   },
 ];
