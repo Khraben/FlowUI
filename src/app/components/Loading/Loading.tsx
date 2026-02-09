@@ -13,7 +13,7 @@ import {
   LOADING_DISPLAY_NAME,
 } from '@/app/constants/components/loading/styles.constants';
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
-import { adjustOpacity } from '@/app/utils/colorUtils';
+import { adjustOpacity, darkenColor } from '@/app/utils/colorUtils';
 
 export const Loading: React.FC<LoadingProps> = ({
   text,
@@ -30,7 +30,8 @@ export const Loading: React.FC<LoadingProps> = ({
   // Calculate dynamic colors
   const loadingColors = useMemo(() => {
     const spinnerColor = customSpinnerColor || colorConfig.primary;
-    const overlayColor = customOverlayColor || adjustOpacity('#000000', 0.5);
+    const overlayColor =
+      customOverlayColor || adjustOpacity(darkenColor(colorConfig.secondary, 80), 0.5);
 
     return {
       spinner: spinnerColor,
