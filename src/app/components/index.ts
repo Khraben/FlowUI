@@ -13,3 +13,9 @@ export type {
 } from './BaseModal/models/BaseModal.interface';
 export { default as ConfirmationModal } from './ConfirmationModal/ConfirmationModal';
 export type { ConfirmationModalProps } from './ConfirmationModal/ConfirmationModal';
+export { SideBar } from './SideBar/SideBar';
+export type {
+  SideBarProps,
+  SideBarMenuItem,
+  SideBarLogoutButton,
+} from './SideBar/models/SideBar.interface';

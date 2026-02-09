@@ -8,6 +8,7 @@ export { Loading } from '@/app/components/Loading/Loading';
 export { Table } from '@/app/components/Table/Table';
 export { BaseModal } from '@/app/components/BaseModal/BaseModal';
 export { default as ConfirmationModal } from '@/app/components/ConfirmationModal/ConfirmationModal';
+export { SideBar } from '@/app/components/SideBar/SideBar';
 
 // Flag components
 export * from '@/flags';
@@ -27,6 +28,11 @@ export type {
   BaseModalTexts,
 } from '@/app/components/BaseModal/models/BaseModal.interface';
 export type { ConfirmationModalProps } from '@/app/components/ConfirmationModal/ConfirmationModal';
+export type {
+  SideBarProps,
+  SideBarMenuItem,
+  SideBarLogoutButton,
+} from '@/app/components/SideBar/models/SideBar.interface';
 
 // Re-export component enums and types from constants
 export { BUTTON_VARIANT, BUTTON_ROUNDED, SIZE, POSITION } from '@/app/constants';
