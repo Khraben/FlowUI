@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="24"
+   height="24"
+   viewBox="0 0 24 24"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
+   sodipodi:docname="FlowUI.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     inkscape:zoom="22.627417"
+     inkscape:cx="20.837553"
+     inkscape:cy="11.092738"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="matrix(1.1230229,0,0,1.1230229,-1.9697852,-1.2426774)">
+    <path
+       d="m 7.9490214,14.167901 c 1.1790927,2.007379 3.9337026,6.097184 3.9337026,6.097184 0,0 -3.7061201,-8.826647 -1.9524685,-8.329633 3.9926205,1.131574 3.7182225,-1.058094 5.8121745,-1.335899 0.970422,-0.128746 1.301646,-1.7721438 1.301646,-1.7721438 0,0 -5.622351,1.4098758 -7.3878514,-0.2740308 C 8.2582506,7.220012 9.3219877,6.1470211 10.307048,5.161961 c 1.954146,-1.9541457 8.564769,1.6099308 8.564769,1.6099308 0,0 2.916652,-3.091852 0,-2.936774 -5.556327,0.2954289 -13.3359545,-2.1884921 -11.9504109,0 C 8.5233335,6.3653922 5.5419299,10.06988 7.9490214,14.167901 Z"
+       id="text1"
+       style="font-weight:bold;font-size:25.9534px;line-height:0;font-family:Montserrat;-inkscape-font-specification:'Montserrat Bold';fill:#4a5a6a;stroke:#00d4ff;stroke-width:1.16261;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill;fill-opacity:1"
+       aria-label="F"
+       sodipodi:nodetypes="scsscsscsss" />
+  </g>
+</svg>

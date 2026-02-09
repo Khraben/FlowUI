@@ -394,6 +394,89 @@ const logoutButton = {
 />;
 ```
 
+### NavBar
+
+Modern responsive navigation bar with logo, menu items, and action buttons.
+
+```tsx
+import { NavBar } from '@khraben/flowui';
+import { ShoppingCart, User } from 'lucide-react';
+
+const logo = {
+  text: 'MyApp',
+  // Or use an image
+  // src: '/logo.png',
+  // alt: 'MyApp Logo',
+  href: '/',
+};
+
+const menuItems = [
+  {
+    id: 'home',
+    label: 'Home',
+    onClick: () => router.push('/'),
+    isActive: pathname === '/',
+  },
+  {
+    id: 'products',
+    label: 'Products',
+    href: '/products',
+    isActive: pathname === '/products',
+  },
+  {
+    id: 'about',
+    label: 'About',
+    onClick: () => router.push('/about'),
+  },
+];
+
+const actions = [
+  {
+    id: 'cart',
+    label: 'Cart',
+    icon: <ShoppingCart size={16} />,
+    onClick: () => router.push('/cart'),
+    variant: 'outline',
+  },
+  {
+    id: 'login',
+    label: 'Login',
+    onClick: () => router.push('/login'),
+    variant: 'secondary',
+  },
+  {
+    id: 'signup',
+    label: 'Sign Up',
+    onClick: () => router.push('/signup'),
+    variant: 'primary',
+  },
+];
+
+<NavBar
+  logo={logo}
+  menuItems={menuItems}
+  actions={actions}
+  backgroundColor="#FFFFFF"
+  textColor="#374151"
+  activeTextColor="#1E90FF"
+  hoverTextColor="#1E90FF"
+  height="4rem"
+/>;
+```
+
+**Props:**
+
+- `logo?` - Logo configuration (text, image, href, onClick)
+- `menuItems?` - Array of navigation links
+- `actions?` - Array of action buttons (login, signup, etc.)
+- `backgroundColor?` - NavBar background color
+- `textColor?` - Default text color
+- `activeTextColor?` - Active menu item color
+- `hoverTextColor?` - Hover state text color
+- `height?` - NavBar height (default: 4rem)
+- `showMobileMenu?` - Controlled mobile menu state
+- `onMobileMenuToggle?` - Mobile menu toggle handler
+
 ### DatePicker
 
 Calendar date picker with range selection.
