@@ -11,6 +11,7 @@ import {
   Table,
   BaseModal,
   ConfirmationModal,
+  Gallery,
 } from '@/app/components';
 import type { TableColumn } from '@/app/components/Table';
 import { COMPONENT_CATEGORIES } from '@/app/constants';
@@ -35,8 +36,10 @@ import {
   Info,
   Home,
   LogOut,
+  LogIn,
 } from 'lucide-react';
 import { useState } from 'react';
+import { adjustOpacity, getContrastColor } from '@/app/utils/colorUtils';
 
 const SearchInputDemo = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -119,6 +122,8 @@ const DatePickerDemo = () => {
       selected={date}
       onChange={(newDate: Date | null) => setDate(newDate as Date)}
       onClear={() => setDate(null)}
+      label="Date Picker"
+      placeholderText=" "
       calendarIcon={<Calendar size={16} />}
       clearIcon={<X size={14} />}
       colors={PREVIEW_COLOR_CONFIG}
@@ -135,6 +140,8 @@ const MonthYearPickerDemo = () => {
       selected={date}
       onChange={(newDate: Date | null) => setDate(newDate as Date)}
       onClear={() => setDate(null)}
+      label="Month Year Picker"
+      placeholderText=" "
       showMonthYearPicker
       dateFormat="MM/yyyy"
       calendarIcon={<Calendar size={16} />}
@@ -374,9 +381,9 @@ const SimpleTableDemo = () => {
   ];
 
   const baseData: DataRow[] = [
-    { id: 5, name: 'Alice Brown', status: 'Active' },
-    { id: 2, name: 'Bob Wilson', status: 'Inactive' },
-    { id: 8, name: 'Charlie Davis', status: 'Active' },
+    { id: 5, name: 'Alice ', status: 'Active' },
+    { id: 2, name: 'Bob ', status: 'Inactive' },
+    { id: 8, name: 'Charlie', status: 'Active' },
   ];
 
   const handleSort = (field: string) => {
@@ -426,9 +433,9 @@ const TableWithActionsDemo = () => {
   ];
 
   const baseData: DataRow[] = [
-    { id: 3, name: 'Emma Johnson' },
-    { id: 7, name: 'Frank Miller' },
-    { id: 1, name: 'Grace Lee' },
+    { id: 3, name: 'Emma' },
+    { id: 7, name: 'Frank' },
+    { id: 1, name: 'Grace' },
   ];
 
   const handleSort = (field: string) => {
@@ -535,41 +542,87 @@ const SideBarDemo = () => {
       id: 'home',
       label: 'Home',
       icon: <Home size={16} />,
-      onClick: () => {},
     },
     {
       id: 'settings',
       label: 'Settings',
       icon: <Settings size={16} />,
-      onClick: () => {},
     },
   ];
 
   const logoutItem = {
     label: 'Logout',
     icon: <LogOut size={16} />,
-    onClick: () => {},
   };
 
+  // Calculate colors dynamically like the real SideBar component
+  const backgroundColor = PREVIEW_COLOR_CONFIG.secondary;
+  const textColor = '#E5E7EB';
+  const hoverBg = 'rgba(255, 255, 255, 0.1)';
+  const toggleBtnBg = 'rgba(255, 255, 255, 0.2)';
+  const toggleBtnHoverBg = 'rgba(255, 255, 255, 0.3)';
+  const logoutTextColor = '#ff6b6b';
+  const logoutHoverBg = 'rgba(255, 107, 107, 0.2)';
+
   return (
-    <div className="relative w-full max-w-[240px] h-[200px] bg-[#1A1A1A] rounded-lg overflow-hidden border border-[#333] mx-auto">
+    <div
+      style={{
+        position: 'relative',
+        width: '100%',
+        maxWidth: '240px',
+        height: '200px',
+        backgroundColor: '#1A1A1A',
+        borderRadius: '0.5rem',
+        overflow: 'hidden',
+        border: '1px solid #333',
+        margin: '0 auto',
+      }}
+    >
       <nav
-        className={`absolute top-0 left-0 h-full flex flex-col transition-[width] duration-300 ease-in-out ${isOpen ? 'w-[11rem]' : 'w-[3rem]'}`}
-        style={{ backgroundColor: PREVIEW_COLOR_CONFIG.primary }}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          transition: 'width 300ms ease-in-out',
+          width: isOpen ? '11rem' : '3rem',
+          backgroundColor,
+        }}
       >
-        <div className="relative pt-2 pb-2 shrink-0">
+        <div
+          style={{
+            position: 'relative',
+            paddingTop: '0.5rem',
+            paddingBottom: '0.5rem',
+            flexShrink: 0,
+          }}
+        >
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className={`absolute top-2 border-none p-1.5 cursor-pointer rounded-lg flex items-center justify-center w-7 h-7 transition-all duration-300 ${isOpen ? 'left-3' : 'left-1/2 -translate-x-1/2'}`}
             style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.2)',
-              color: PREVIEW_LIGHT_TEXT,
+              position: 'absolute',
+              top: '0.5rem',
+              left: '0.75rem',
+              border: 'none',
+              padding: '0.375rem',
+              cursor: 'pointer',
+              borderRadius: '0.5rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '1.75rem',
+              height: '1.75rem',
+              transition: 'background-color 300ms',
+              backgroundColor: toggleBtnBg,
+              color: textColor,
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
+              e.currentTarget.style.backgroundColor = toggleBtnHoverBg;
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+              e.currentTarget.style.backgroundColor = toggleBtnBg;
             }}
           >
             {isOpen ? (
@@ -607,45 +660,85 @@ const SideBarDemo = () => {
           </button>
         </div>
 
-        <ul className="list-none w-full p-0 m-0 flex flex-col flex-1 overflow-y-auto px-1.5 pt-6 pb-2">
+        <ul
+          style={{
+            listStyle: 'none',
+            width: '100%',
+            padding: '0.5rem 0.375rem',
+            paddingTop: '1.5rem',
+            margin: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+            overflowY: 'auto',
+          }}
+        >
           {menuItems.map((item) => (
-            <li key={item.id} className="w-full mb-0.5">
+            <li key={item.id} style={{ width: '100%', marginBottom: '0.125rem' }}>
               <button
-                onClick={item.onClick}
-                className={`bg-transparent border-none font-bold flex items-center w-full transition-all duration-300 cursor-pointer text-xs ${isOpen ? 'px-2.5 py-1.5 justify-start' : 'p-1.5 justify-center'}`}
-                style={{ color: PREVIEW_LIGHT_TEXT }}
+                style={{
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  fontWeight: 'bold',
+                  display: 'flex',
+                  alignItems: 'center',
+                  width: '100%',
+                  transition: 'all 300ms',
+                  cursor: 'pointer',
+                  fontSize: '0.75rem',
+                  padding: isOpen ? '0.375rem 0.625rem' : '0.375rem',
+                  justifyContent: isOpen ? 'flex-start' : 'center',
+                  color: textColor,
+                  borderRadius: '0.25rem',
+                }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.backgroundColor = hoverBg;
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = 'transparent';
                 }}
               >
-                <span className={`shrink-0 ${isOpen ? 'mr-2' : 'mr-0'}`}>{item.icon}</span>
+                <span style={{ flexShrink: 0, marginRight: isOpen ? '0.5rem' : 0 }}>
+                  {item.icon}
+                </span>
                 {isOpen && (
-                  <span className="whitespace-nowrap overflow-hidden text-xs">{item.label}</span>
+                  <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', fontSize: '0.75rem' }}>
+                    {item.label}
+                  </span>
                 )}
               </button>
             </li>
           ))}
 
-          <li className="w-full mt-auto mb-1.5">
+          <li style={{ width: '100%', marginTop: 'auto', marginBottom: '0.375rem' }}>
             <button
-              onClick={logoutItem.onClick}
-              className={`bg-transparent border-none font-bold flex items-center w-full transition-all duration-300 cursor-pointer text-xs ${isOpen ? 'px-2.5 py-1.5 justify-start' : 'p-1.5 justify-center'}`}
-              style={{ color: '#DC2626' }}
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                fontWeight: 'bold',
+                display: 'flex',
+                alignItems: 'center',
+                width: '100%',
+                transition: 'all 300ms',
+                cursor: 'pointer',
+                fontSize: '0.75rem',
+                padding: isOpen ? '0.375rem 0.625rem' : '0.375rem',
+                justifyContent: isOpen ? 'flex-start' : 'center',
+                color: logoutTextColor,
+                borderRadius: '0.25rem',
+              }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(220, 38, 38, 0.15)';
-                e.currentTarget.style.color = '#B91C1C';
+                e.currentTarget.style.backgroundColor = logoutHoverBg;
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = '#DC2626';
               }}
             >
-              <span className={`shrink-0 ${isOpen ? 'mr-2' : 'mr-0'}`}>{logoutItem.icon}</span>
+              <span style={{ flexShrink: 0, marginRight: isOpen ? '0.5rem' : 0 }}>
+                {logoutItem.icon}
+              </span>
               {isOpen && (
-                <span className="whitespace-nowrap overflow-hidden text-xs">
+                <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', fontSize: '0.75rem' }}>
                   {logoutItem.label}
                 </span>
               )}
@@ -660,6 +753,12 @@ const SideBarDemo = () => {
 const NavBarDemo = () => {
   const [activeItem, setActiveItem] = useState('home');
 
+  // Compute colors from BaseColorConfig (matching real NavBar)
+  const backgroundColor = PREVIEW_COLOR_CONFIG.secondary;
+  const textColor = getContrastColor(backgroundColor);
+  const activeColor = PREVIEW_COLOR_CONFIG.accent;
+  const hoverColor = PREVIEW_COLOR_CONFIG.primary;
+
   const menuItems = [
     {
       id: 'home',
@@ -668,109 +767,186 @@ const NavBarDemo = () => {
       isActive: activeItem === 'home',
     },
     {
-      id: 'docs',
-      label: 'Docs',
-      onClick: () => setActiveItem('docs'),
-      isActive: activeItem === 'docs',
+      id: 'explore',
+      label: 'Explore',
+      onClick: () => setActiveItem('explore'),
+      isActive: activeItem === 'explore',
     },
   ];
 
   return (
-    <div className="relative w-full h-14 bg-white border border-[#E5E7EB] rounded-lg overflow-visible">
-      <div className="absolute inset-0 flex items-center px-4">
-        <div className="flex items-center gap-2 shrink-0">
-          <Image src="/FlowUI.svg" alt="FlowUI Logo" width={24} height={24} className="w-6 h-6" />
-          <span className="text-sm font-bold" style={{ color: '#374151' }}>
-            FlowUI
-          </span>
-        </div>
-
-        <div className="flex items-center gap-4 ml-6">
-          {menuItems.map((item) => (
-            <div
-              key={item.id}
-              onClick={item.onClick}
-              className="font-medium text-xs cursor-pointer transition-all duration-300 pb-0.5"
-              style={{
-                color: item.isActive ? PREVIEW_COLOR_CONFIG.primary : '#374151',
-                borderBottom: item.isActive
-                  ? `2px solid ${PREVIEW_COLOR_CONFIG.primary}`
-                  : '2px solid transparent',
-              }}
-            >
-              {item.label}
-            </div>
-          ))}
-        </div>
-
-        <div className="ml-auto">
-          <button
-            onClick={() => {}}
-            className="px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-300 cursor-pointer border-2"
+    <div
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: '220px',
+        backgroundColor: '#1A1A1A',
+        borderRadius: '0.5rem',
+        overflow: 'hidden',
+        border: '1px solid #333',
+      }}
+    >
+      {/* NavBar at top */}
+      <nav
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '3.5rem',
+          backgroundColor,
+          borderBottom: `1px solid ${adjustOpacity('#000', 0.1)}`,
+        }}
+      >
+        <div
+          style={{
+            height: '100%',
+            paddingLeft: '1rem',
+            paddingRight: '1rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          {/* Logo */}
+          <div
             style={{
-              backgroundColor: PREVIEW_COLOR_CONFIG.primary,
-              color: '#FFFFFF',
-              borderColor: 'transparent',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = '0.9';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = '1';
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              flexShrink: 0,
             }}
           >
-            Get Started
-          </button>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                cursor: 'pointer',
+                transition: 'opacity 300ms',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.opacity = '0.8';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.opacity = '1';
+              }}
+            >
+              <Image src="/FlowUI.svg" alt="FlowUI Logo" width={20} height={20} />
+              <span
+                style={{
+                  fontSize: '1rem',
+                  fontWeight: 'bold',
+                  color: textColor,
+                }}
+              >
+                FlowUI
+              </span>
+            </div>
+          </div>
+
+          {/* Menu Items */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1.5rem',
+            }}
+          >
+            {menuItems.map((item) => (
+              <div
+                key={item.id}
+                onClick={item.onClick}
+                style={{
+                  fontWeight: 500,
+                  transition: 'all 300ms',
+                  cursor: 'pointer',
+                  fontSize: '0.8125rem',
+                  color: item.isActive ? activeColor : textColor,
+                  borderBottom: item.isActive
+                    ? `2px solid ${activeColor}`
+                    : '2px solid transparent',
+                  paddingBottom: '0.25rem',
+                }}
+                onMouseEnter={(e) => {
+                  if (!item.isActive) {
+                    e.currentTarget.style.color = hoverColor;
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!item.isActive) {
+                    e.currentTarget.style.color = textColor;
+                  }
+                }}
+              >
+                {item.label}
+              </div>
+            ))}
+          </div>
+
+          {/* Action Button */}
+          <Button
+            variant="primary"
+            size="sm"
+            icon={<LogIn size={14} />}
+            iconPosition="left"
+            colors={{
+              primary: activeColor,
+              secondary: textColor,
+              accent: activeColor,
+            }}
+            onClick={() => {}}
+          >
+            Login
+          </Button>
         </div>
-      </div>
+      </nav>
+
+      {/* Content area below navbar */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '3.5rem',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          padding: '1rem',
+          color: '#A0A0A0',
+        }}
+      ></div>
     </div>
   );
 };
 
 const GalleryDemo = () => {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const imageConfigs = [
+    { width: 420, height: 350 },
+    { width: 520, height: 420 },
+    { width: 530, height: 410 },
+    { width: 390, height: 510 },
+    { width: 610, height: 390 },
+    { width: 700, height: 500 },
+    { width: 650, height: 450 },
+    { width: 600, height: 400 },
+  ];
 
-  const heights = [180, 240, 200, 220, 190, 210];
-  const sampleImages = Array.from({ length: 6 }, (_, i) => ({
+  const sampleImages = imageConfigs.map((config, i) => ({
     id: `img-${i + 1}`,
-    src: `https://picsum.photos/seed/${i + 1}/400/${heights[i]}`,
+    src: `https://picsum.photos/seed/${i + 1}/${config.width}/${config.height}`,
     alt: `Gallery image ${i + 1}`,
-    width: 400,
-    height: heights[i],
+    width: config.width,
+    height: config.height,
   }));
 
   return (
     <div className="w-full">
-      <div className="columns-2 gap-3">
-        {sampleImages.map((img) => (
-          <div key={img.id} className="mb-3 break-inside-avoid">
-            <div
-              className="relative overflow-hidden rounded-lg border cursor-pointer"
-              style={{ borderColor: PREVIEW_COLOR_CONFIG.primary + '20' }}
-              onMouseEnter={() => setHoveredId(img.id)}
-              onMouseLeave={() => setHoveredId(null)}
-            >
-              <div
-                className="w-full h-auto bg-gray-100 transition-transform duration-500 ease-out"
-                style={{
-                  aspectRatio: `${img.width} / ${img.height}`,
-                  backgroundImage: `url(${img.src})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  transform: hoveredId === img.id ? 'scale(1.03)' : 'scale(1)',
-                }}
-              />
-              <div
-                className="pointer-events-none absolute inset-0 transition-colors duration-300"
-                style={{
-                  backgroundColor:
-                    hoveredId === img.id ? PREVIEW_COLOR_CONFIG.secondary + '33' : 'transparent',
-                }}
-              />
-            </div>
-          </div>
-        ))}
-      </div>
+      <Gallery
+        images={sampleImages}
+        batchSize={25}
+        enableAnimation={true}
+        colors={PREVIEW_COLOR_CONFIG}
+        forceColumnCount={3}
+      />
     </div>
   );
 };
@@ -921,21 +1097,6 @@ export const componentRegistry: ComponentDemo[] = [
     },
   },
   {
-    id: 'input-email',
-    name: 'Email Input',
-    description: 'Email input with validation',
-    category: COMPONENT_CATEGORIES.INPUTS,
-    component: Input,
-    props: {
-      variant: 'email',
-      label: 'Email Address',
-      placeholder: ' ',
-      colors: PREVIEW_COLOR_CONFIG,
-      customBg: PREVIEW_DARK_SURFACE,
-      customTextColor: PREVIEW_LIGHT_TEXT,
-    },
-  },
-  {
     id: 'input-password',
     name: 'Password Input',
     description: 'Password input with toggle visibility',
@@ -956,15 +1117,17 @@ export const componentRegistry: ComponentDemo[] = [
     name: 'Number Input',
     description: 'Numeric input field',
     category: COMPONENT_CATEGORIES.INPUTS,
-    component: Input,
-    props: {
-      variant: 'number',
-      label: 'Quantity',
-      placeholder: ' ',
-      colors: PREVIEW_COLOR_CONFIG,
-      customBg: PREVIEW_DARK_SURFACE,
-      customTextColor: PREVIEW_LIGHT_TEXT,
-    },
+    component: () => (
+      <Input
+        variant="number"
+        label="Quantity"
+        placeholder=" "
+        colors={PREVIEW_COLOR_CONFIG}
+        customBg={PREVIEW_DARK_SURFACE}
+        customTextColor={PREVIEW_LIGHT_TEXT}
+      />
+    ),
+    props: {},
   },
   {
     id: 'input-select',

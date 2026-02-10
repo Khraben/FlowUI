@@ -1,10 +1,215 @@
-import React, { useState } from 'react';
+import React, { useState, CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
-import { X, AlertTriangle } from 'lucide-react';
+import { X } from 'lucide-react';
 import type { BaseModalProps } from './models/BaseModal.interface';
 import { MODAL_DEFAULT_TEXTS } from '@/app/constants/components/modal/styles.constants';
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
-import { darkenColor, lightenColor, getContrastColor, adjustOpacity } from '@/app/utils/colorUtils';
+import { darkenColor, getContrastColor, adjustOpacity } from '@/app/utils/colorUtils';
+
+// Helper functions for BaseModal styles
+const getOverlayStyles = (overlayBg: string): CSSProperties => ({
+  position: 'fixed' as const,
+  top: 0,
+  left: 0,
+  width: '100vw',
+  height: '100vh',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  zIndex: 1002,
+  padding: '1.25rem',
+  backgroundColor: overlayBg,
+});
+
+const getModalContainerStyles = (maxWidth: string, modalBg: string): CSSProperties => ({
+  borderRadius: '1rem',
+  width: '90%',
+  maxWidth,
+  maxHeight: '85vh',
+  overflow: 'hidden',
+  boxShadow: '0 0.625rem 2.5rem rgba(0,0,0,0.3)',
+  display: 'flex',
+  flexDirection: 'column' as const,
+  backgroundColor: modalBg,
+});
+
+const getHeaderStyles = (
+  headerBgFrom: string,
+  headerBgTo: string,
+  headerTextColor: string,
+): CSSProperties => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  padding: '1.25rem 1.875rem',
+  borderRadius: '1rem 1rem 0 0',
+  background: `linear-gradient(to bottom right, ${headerBgFrom}, ${headerBgTo})`,
+  color: headerTextColor,
+});
+
+const getHeaderTitleContainerStyles = (): CSSProperties => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.9375rem',
+});
+
+const getHeaderIconStyles = (): CSSProperties => ({
+  fontSize: '1.75rem',
+  display: 'flex',
+  alignItems: 'center',
+});
+
+const getHeaderTitleStyles = (): CSSProperties => ({
+  fontSize: '1.5rem',
+  fontWeight: 'bold',
+  margin: 0,
+});
+
+const getCloseButtonStyles = (closeBtnBg: string, closeBtnColor: string): CSSProperties => ({
+  border: 'none',
+  fontSize: '1.5rem',
+  cursor: 'pointer',
+  padding: '0.5rem',
+  borderRadius: '9999px',
+  width: '2.5rem',
+  height: '2.5rem',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  transition: 'all 300ms',
+  backgroundColor: closeBtnBg,
+  color: closeBtnColor,
+});
+
+const getStatsContainerStyles = (
+  statsCount: number,
+  statsBgFrom: string,
+  statsBgTo: string,
+  statsBorderColor: string,
+): CSSProperties => ({
+  display: 'flex',
+  justifyContent: statsCount === 1 ? 'center' : 'space-around',
+  padding: '1.25rem',
+  borderBottom: '1px solid',
+  background: `linear-gradient(to right, ${statsBgFrom}, ${statsBgTo})`,
+  borderColor: statsBorderColor,
+});
+
+const getStatItemStyles = (): CSSProperties => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.75rem',
+  flexDirection: 'column' as const,
+  textAlign: 'center' as const,
+});
+
+const getStatIconStyles = (color: string): CSSProperties => ({
+  fontSize: '2rem',
+  color,
+});
+
+const getStatContentStyles = (): CSSProperties => ({
+  display: 'flex',
+  flexDirection: 'column' as const,
+  alignItems: 'center',
+});
+
+const getStatNumberStyles = (color: string): CSSProperties => ({
+  fontSize: '1.5rem',
+  fontWeight: 'bold',
+  lineHeight: 1,
+  color,
+});
+
+const getStatLabelStyles = (color: string): CSSProperties => ({
+  fontSize: '0.75rem',
+  textTransform: 'uppercase' as const,
+  letterSpacing: '0.05em',
+  marginTop: '0.125rem',
+  color,
+});
+
+const getContentStyles = (): CSSProperties => ({
+  padding: '1.5625rem 1.875rem',
+  overflowY: 'auto' as const,
+  flex: 1,
+});
+
+const getConfirmOverlayStyles = (confirmOverlayBg: string): CSSProperties => ({
+  position: 'fixed' as const,
+  top: 0,
+  left: 0,
+  width: '100vw',
+  height: '100vh',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  zIndex: 1003,
+  padding: '1.25rem',
+  backgroundColor: confirmOverlayBg,
+});
+
+const getConfirmModalStyles = (modalBg: string): CSSProperties => ({
+  borderRadius: '1rem',
+  width: '90%',
+  maxWidth: '28.125rem',
+  boxShadow: '0 10px 40px rgba(0,0,0,0.4)',
+  overflow: 'hidden',
+  backgroundColor: modalBg,
+  padding: '2rem',
+});
+
+const getConfirmTitleStyles = (confirmTextColor: string): CSSProperties => ({
+  margin: '0 0 0.5rem 0',
+  fontSize: '1.5rem',
+  fontWeight: 'bold',
+  color: confirmTextColor,
+});
+
+const getConfirmTextStyles = (confirmDangerTextColor: string): CSSProperties => ({
+  margin: '0 0 1.5rem 0',
+  fontSize: '0.9375rem',
+  lineHeight: 1.6,
+  color: confirmDangerTextColor,
+});
+
+const getConfirmFooterStyles = (): CSSProperties => ({
+  display: 'flex',
+  gap: '0.75rem',
+  justifyContent: 'flex-end',
+});
+
+const getContinueButtonStyles = (
+  modalBg: string,
+  continueBtnBorder: string,
+  continueBtnColor: string,
+): CSSProperties => ({
+  padding: '0.625rem 1.25rem',
+  border: `1px solid ${continueBtnBorder}`,
+  borderRadius: '0.5rem',
+  fontSize: '0.875rem',
+  fontWeight: '600',
+  cursor: 'pointer',
+  transition: 'all 200ms',
+  backgroundColor: modalBg,
+  color: continueBtnColor,
+});
+
+const getDiscardButtonStyles = (
+  modalBg: string,
+  discardBtnBorder: string,
+  discardBtnColor: string,
+): CSSProperties => ({
+  padding: '0.625rem 1.25rem',
+  border: `1px solid ${discardBtnBorder}`,
+  borderRadius: '0.5rem',
+  fontSize: '0.875rem',
+  fontWeight: '600',
+  cursor: 'pointer',
+  transition: 'all 200ms',
+  backgroundColor: modalBg,
+  color: discardBtnColor,
+});
 
 export const BaseModal: React.FC<BaseModalProps> = ({
   isOpen,
@@ -46,19 +251,15 @@ export const BaseModal: React.FC<BaseModalProps> = ({
 
   const confirmOverlayBg = adjustOpacity(darkenColor(colors.secondary, 80), 0.7);
   const dangerColor = colors.danger || darkenColor(colors.accent, 20);
-  const confirmHeaderBgFrom = dangerColor;
-  const confirmHeaderBgTo = lightenColor(dangerColor, 5);
-  const confirmHeaderTextColor = getContrastColor(dangerColor);
-  const confirmTextColor = adjustOpacity(getContrastColor(modalBg), 0.9);
-  const confirmFooterBg = adjustOpacity(confirmTextColor, 0.05);
+  const confirmTextColor = getContrastColor(modalBg);
+  const confirmDangerTextColor = dangerColor;
 
-  const continueBtnBorder = colors.primary;
-  const continueBtnColor = colors.primary;
-  const continueBtnHoverBg = colors.primary;
-  const continueBtnHoverColor = getContrastColor(colors.primary);
-  const discardBtnBgFrom = dangerColor;
-  const discardBtnBgTo = lightenColor(dangerColor, 5);
-  const discardBtnColor = getContrastColor(dangerColor);
+  const continueBtnBorder = adjustOpacity(confirmTextColor, 0.2);
+  const continueBtnColor = confirmTextColor;
+  const continueBtnHoverBg = adjustOpacity(confirmTextColor, 0.1);
+  const discardBtnBorder = dangerColor;
+  const discardBtnColor = dangerColor;
+  const discardBtnHoverBg = adjustOpacity(dangerColor, 0.1);
 
   const handleClose = () => {
     if (hasUnsavedChanges) {
@@ -81,46 +282,111 @@ export const BaseModal: React.FC<BaseModalProps> = ({
 
   const modalContent = (
     <>
-      <div
-        className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center z-[1002] p-5"
-        style={{ backgroundColor: overlayBg }}
-      >
+      <style>{`
+        @media (max-width: 768px) {
+          .modal-container {
+            width: 95% !important;
+            max-height: 90vh !important;
+          }
+          .modal-header {
+            padding: 0.9375rem 1.25rem !important;
+          }
+          .modal-header-icon {
+            font-size: 1.5rem !important;
+          }
+          .modal-header-title {
+            font-size: 1.25rem !important;
+          }
+          .modal-close-btn {
+            width: 2.25rem !important;
+            height: 2.25rem !important;
+            font-size: 1.25rem !important;
+          }
+          .modal-stats {
+            padding: 0.9375rem 0.625rem !important;
+          }
+          .modal-stat-item {
+            gap: 0.5rem !important;
+          }
+          .modal-stat-icon {
+            font-size: 1.5rem !important;
+          }
+          .modal-stat-number {
+            font-size: 1.25rem !important;
+          }
+          .modal-content {
+            padding: 1.25rem !important;
+          }
+          .modal-content::-webkit-scrollbar {
+            width: 0.5rem;
+          }
+          .modal-content::-webkit-scrollbar-track {
+            background-color: var(--scrollbar-track);
+            border-radius: 0.75rem;
+          }
+          .modal-content::-webkit-scrollbar-thumb {
+            background-color: var(--scrollbar-thumb);
+            border-radius: 0.75rem;
+          }
+          .confirm-footer {
+            flex-direction: column-reverse !important;
+          }
+          .confirm-footer button {
+            width: 100% !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .modal-header-title {
+            font-size: 1.125rem !important;
+          }
+          .modal-content {
+            padding: 0.9375rem !important;
+          }
+        }
+        .modal-content::-webkit-scrollbar {
+          width: 0.5rem;
+        }
+        .modal-content::-webkit-scrollbar-track {
+          background-color: var(--scrollbar-track);
+          border-radius: 0.75rem;
+        }
+        .modal-content::-webkit-scrollbar-thumb {
+          background-color: var(--scrollbar-thumb);
+          border-radius: 0.75rem;
+        }
+      `}</style>
+      <div style={getOverlayStyles(overlayBg)}>
         <div
           onClick={(e) => e.stopPropagation()}
-          className="rounded-2xl w-[90%] max-h-[85vh] overflow-hidden shadow-[0_0.625rem_2.5rem_rgba(0,0,0,0.3)] flex flex-col md:w-[95%] md:max-h-[90vh]"
-          style={{
-            maxWidth,
-            backgroundColor: modalBg,
-          }}
+          className="modal-container"
+          style={getModalContainerStyles(maxWidth, modalBg)}
         >
           <div
-            className="flex justify-between items-center p-5 px-[1.875rem] rounded-t-2xl md:p-[0.9375rem] md:px-5"
-            style={{
-              background: `linear-gradient(to bottom right, ${headerBgFrom}, ${headerBgTo})`,
-              color: headerTextColor,
-            }}
+            className="modal-header"
+            style={getHeaderStyles(headerBgFrom, headerBgTo, headerTextColor)}
           >
-            <div className="flex items-center gap-[0.9375rem]">
+            <div style={getHeaderTitleContainerStyles()}>
               {Icon && (
-                <div className="text-[1.75rem] flex items-center md:text-2xl">
+                <div className="modal-header-icon" style={getHeaderIconStyles()}>
                   <Icon />
                 </div>
               )}
-              <h2 className="text-2xl font-bold m-0 md:text-xl max-xs:text-lg">{title}</h2>
+              <h2 className="modal-header-title" style={getHeaderTitleStyles()}>
+                {title}
+              </h2>
             </div>
             {showCloseButton && (
               <button
                 onClick={handleClose}
-                className="border-none text-2xl cursor-pointer p-2 rounded-full w-10 h-10 flex items-center justify-center transition-all duration-300 hover:rotate-90 max-xs:w-9 max-xs:h-9 max-xs:text-xl"
-                style={{
-                  backgroundColor: closeBtnBg,
-                  color: closeBtnColor,
-                }}
+                className="modal-close-btn"
+                style={getCloseButtonStyles(closeBtnBg, closeBtnColor)}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = closeBtnHoverBg;
+                  e.currentTarget.style.transform = 'rotate(90deg)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = closeBtnBg;
+                  e.currentTarget.style.transform = 'rotate(0deg)';
                 }}
               >
                 <X />
@@ -130,38 +396,30 @@ export const BaseModal: React.FC<BaseModalProps> = ({
 
           {stats && stats.length > 0 && (
             <div
-              className={`flex ${stats.length === 1 ? 'justify-center' : 'justify-around'} p-5 border-b max-xs:p-[0.9375rem] max-xs:px-2.5`}
-              style={{
-                background: `linear-gradient(to right, ${statsBgFrom}, ${statsBgTo})`,
-                borderColor: statsBorderColor,
-              }}
+              className="modal-stats"
+              style={getStatsContainerStyles(
+                stats.length,
+                statsBgFrom,
+                statsBgTo,
+                statsBorderColor,
+              )}
             >
               {stats.map((stat, index) => (
-                <div
-                  key={index}
-                  className="flex items-center gap-3 flex-col text-center max-xs:gap-2"
-                >
+                <div key={index} className="modal-stat-item" style={getStatItemStyles()}>
                   <div
-                    className="text-[2rem] max-xs:text-2xl"
-                    style={{
-                      color: stat.color || headerBgFrom,
-                    }}
+                    className="modal-stat-icon"
+                    style={getStatIconStyles(stat.color || headerBgFrom)}
                   >
                     {stat.icon && <stat.icon />}
                   </div>
-                  <div className="flex flex-col items-center">
+                  <div style={getStatContentStyles()}>
                     <div
-                      className="text-2xl font-bold leading-none max-xs:text-xl"
-                      style={{ color: statsNumberColor }}
+                      className="modal-stat-number"
+                      style={getStatNumberStyles(statsNumberColor)}
                     >
                       {stat.number}
                     </div>
-                    <div
-                      className="text-xs uppercase tracking-wide mt-0.5"
-                      style={{ color: statsLabelColor }}
-                    >
-                      {stat.label}
-                    </div>
+                    <div style={getStatLabelStyles(statsLabelColor)}>{stat.label}</div>
                   </div>
                 </div>
               ))}
@@ -169,24 +427,12 @@ export const BaseModal: React.FC<BaseModalProps> = ({
           )}
 
           <div
-            className="p-[1.5625rem] px-[1.875rem] overflow-y-auto flex-1 md:p-5 max-xs:p-[0.9375rem]"
+            className="modal-content"
             style={{
+              ...getContentStyles(),
               // @ts-expect-error - CSS custom properties for scrollbar
               '--scrollbar-track': scrollbarTrackColor,
               '--scrollbar-thumb': scrollbarThumbColor,
-            }}
-            css={{
-              '&::-webkit-scrollbar': {
-                width: '0.5rem',
-              },
-              '&::-webkit-scrollbar-track': {
-                backgroundColor: 'var(--scrollbar-track)',
-                borderRadius: '0.75rem',
-              },
-              '&::-webkit-scrollbar-thumb': {
-                backgroundColor: 'var(--scrollbar-thumb)',
-                borderRadius: '0.75rem',
-              },
             }}
           >
             {children}
@@ -195,61 +441,35 @@ export const BaseModal: React.FC<BaseModalProps> = ({
       </div>
 
       {showConfirmation && (
-        <div
-          className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center z-[1003] p-5"
-          style={{ backgroundColor: confirmOverlayBg }}
-        >
-          <div
-            className="rounded-2xl w-[90%] max-w-[28.125rem] shadow-[0_10px_40px_rgba(0,0,0,0.4)] overflow-hidden"
-            style={{ backgroundColor: modalBg }}
-          >
-            <div
-              className="flex items-center gap-[0.9375rem] p-6 px-[1.875rem]"
-              style={{
-                background: `linear-gradient(to right, ${confirmHeaderBgFrom}, ${confirmHeaderBgTo})`,
-                color: confirmHeaderTextColor,
-              }}
-            >
-              <div className="text-[2rem] flex items-center justify-center">
-                <AlertTriangle />
-              </div>
-              <h3 className="m-0 text-xl font-bold">{mergedTexts.discardChangesTitle}</h3>
-            </div>
-            <p
-              className="p-6 px-[1.875rem] m-0 text-[0.9375rem] leading-relaxed"
-              style={{ color: confirmTextColor }}
-            >
+        <div style={getConfirmOverlayStyles(confirmOverlayBg)}>
+          <div style={getConfirmModalStyles(modalBg)}>
+            <h3 style={getConfirmTitleStyles(confirmTextColor)}>
+              {mergedTexts.discardChangesTitle}
+            </h3>
+            <p style={getConfirmTextStyles(confirmDangerTextColor)}>
               {mergedTexts.unsavedChangesWarning}
             </p>
-            <div
-              className="flex gap-3 p-5 px-[1.875rem] justify-end max-xs:flex-col-reverse"
-              style={{ backgroundColor: confirmFooterBg }}
-            >
+            <div className="confirm-footer" style={getConfirmFooterStyles()}>
               <button
                 onClick={handleCancelClose}
-                className="py-2.5 px-5 border-2 rounded-lg text-sm font-semibold cursor-pointer transition-all duration-200 max-xs:w-full"
-                style={{
-                  borderColor: continueBtnBorder,
-                  backgroundColor: modalBg,
-                  color: continueBtnColor,
-                }}
+                style={getContinueButtonStyles(modalBg, continueBtnBorder, continueBtnColor)}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = continueBtnHoverBg;
-                  e.currentTarget.style.color = continueBtnHoverColor;
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = modalBg;
-                  e.currentTarget.style.color = continueBtnColor;
                 }}
               >
                 {mergedTexts.continueEditing}
               </button>
               <button
                 onClick={handleConfirmClose}
-                className="py-2.5 px-5 border-none rounded-lg text-sm font-semibold cursor-pointer transition-all duration-200 shadow-[0_0.125rem_0.5rem_rgba(255,107,107,0.3)] hover:-translate-y-0.5 hover:shadow-[0_0.25rem_0.75rem_rgba(255,107,107,0.4)] max-xs:w-full"
-                style={{
-                  background: `linear-gradient(to right, ${discardBtnBgFrom}, ${discardBtnBgTo})`,
-                  color: discardBtnColor,
+                style={getDiscardButtonStyles(modalBg, discardBtnBorder, discardBtnColor)}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = discardBtnHoverBg;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = modalBg;
                 }}
               >
                 {mergedTexts.discardButton}

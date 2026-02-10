@@ -1,4 +1,5 @@
 import React from 'react';
+import { BaseColorConfig } from '@/app/types/colors';
 
 export interface NavBarLogo {
   src?: string;
@@ -28,14 +29,19 @@ export interface NavBarProps {
   logo?: NavBarLogo;
   menuItems?: NavBarMenuItem[];
   actions?: NavBarAction[];
-  backgroundColor?: string;
-  textColor?: string;
-  activeTextColor?: string;
-  hoverTextColor?: string;
+  colors?: BaseColorConfig;
+  customBgColor?: string;
+  customTextColor?: string;
+  customActiveColor?: string;
+  customHoverColor?: string;
   height?: string;
-  mobileBreakpoint?: string;
-  className?: string;
-  disableDefaultStyles?: boolean;
   showMobileMenu?: boolean;
   onMobileMenuToggle?: (isOpen: boolean) => void;
+
+  // Language selector
+  languageSelector?: {
+    selectedLanguage?: string;
+    onLanguageChange?: (languageKey: string) => void;
+    availableLanguages?: string[];
+  };
 }

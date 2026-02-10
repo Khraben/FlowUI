@@ -1,38 +1,137 @@
-import { forwardRef, useEffect, useMemo } from 'react';
+import { forwardRef, useEffect, useMemo, CSSProperties, useState } from 'react';
 import { createPortal } from 'react-dom';
 import ReactDatePicker, { registerLocale } from 'react-datepicker';
 import { Calendar, X } from 'lucide-react';
 import { enUS } from 'date-fns/locale';
 import { DatePickerProps } from './models/DatePicker.interface';
-import {
-  DATEPICKER_BASE_STYLES,
-  DATEPICKER_BORDER_STYLES,
-  DATEPICKER_SIZE_STYLES_WITH_CLEAR,
-  DATEPICKER_PLACEHOLDER_STYLES,
-  DATEPICKER_ICON_BUTTON_BASE,
-  DATEPICKER_ICON_POSITIONS,
-  DATEPICKER_CLEAR_BUTTON_BASE,
-  DATEPICKER_CLEAR_POSITIONS,
-  DATEPICKER_ICON_SIZES,
-  DATEPICKER_WRAPPER_STYLES,
-  DATEPICKER_WIDTH_STYLES,
-  DATEPICKER_FULL_WIDTH_CLASS,
-  DATEPICKER_EMPTY_VALUE,
-  DATEPICKER_DISPLAY_NAME,
-} from '@/app/constants/components/datepicker/styles.constants';
-import {
-  DATEPICKER_CALENDAR_SIZES,
-  DATEPICKER_CALENDAR_Z_INDEX,
-} from '@/app/constants/components/datepicker/calendar.constants';
-import { SIZE } from '@/app/constants';
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
 import { adjustOpacity, getContrastColor, lightenColor } from '@/app/utils/colorUtils';
 import 'react-datepicker/dist/react-datepicker.css';
 
+// Constants
+const DATEPICKER_DISPLAY_NAME = 'DatePicker';
+const DATEPICKER_EMPTY_VALUE = '';
+
+const DATEPICKER_CALENDAR_SIZES = {
+  MIN_WIDTH: '10.5rem',
+  MONTH_PICKER_WIDTH: '10rem',
+  BORDER_RADIUS: '0.625rem',
+  BORDER_WIDTH: '0.125rem',
+  DAY_SIZE: '2rem',
+  DAY_MARGIN: '0.166rem',
+  MONTH_MARGIN: '0.4rem',
+  HEADER_PADDING_TOP: '0.5rem',
+  HEADER_PADDING_SIDE: '0.25rem',
+  NAVIGATION_SIZE: '2rem',
+  NAVIGATION_TOP: '0.625rem',
+  NAVIGATION_SIDE: '0.25rem',
+  ICON_SIZE: '0.5rem',
+  ICON_TOP: '0.375rem',
+  MONTH_TEXT_WIDTH: '2.75rem',
+  MONTH_TEXT_HEIGHT: '1.75rem',
+  MONTH_GAP: '0.25rem',
+  MONTH_PADDING: '0.5rem',
+} as const;
+
+const DATEPICKER_CALENDAR_Z_INDEX = '1000';
+
+// Helper functions for DatePicker styles
+const getDatePickerSizeStyles = (size: string, showClearButton: boolean): CSSProperties => {
+  const basePadding = {
+    sm: {
+      paddingTop: '0.5rem',
+      paddingBottom: '0.5rem',
+      paddingLeft: '0.625rem',
+      fontSize: '0.75rem',
+    },
+    md: {
+      paddingTop: '0.625rem',
+      paddingBottom: '0.625rem',
+      paddingLeft: '0.75rem',
+      fontSize: '0.875rem',
+    },
+    lg: {
+      paddingTop: '0.75rem',
+      paddingBottom: '0.75rem',
+      paddingLeft: '0.9375rem',
+      fontSize: '0.875rem',
+    },
+  };
+
+  const paddingRight = showClearButton
+    ? { sm: '3.5rem', md: '4rem', lg: '4.5rem' }
+    : { sm: '2rem', md: '2.5rem', lg: '2.8125rem' };
+
+  const sizeStyle = basePadding[size as keyof typeof basePadding] || basePadding.md;
+  const pr = paddingRight[size as keyof typeof paddingRight] || paddingRight.md;
+
+  return {
+    ...sizeStyle,
+    paddingRight: pr,
+  };
+};
+
+const getLabelStyles = (
+  hasValue: boolean,
+  isFocused: boolean,
+  customStyle?: CSSProperties,
+): CSSProperties => {
+  const baseStyles: CSSProperties = {
+    position: 'absolute',
+    left: '1rem',
+    top: '0.75rem',
+    fontSize: hasValue || isFocused ? '0.75rem' : '1rem',
+    color: hasValue || isFocused ? 'var(--input-accent, #00D4FF)' : 'var(--input-label, #808080)',
+    transition: 'all 300ms ease-in-out',
+    pointerEvents: 'none',
+    transform: hasValue || isFocused ? 'translateY(-1.75rem)' : 'translateY(0)',
+  };
+
+  return { ...baseStyles, ...customStyle };
+};
+
+const getIconPositionStyles = (size: string): CSSProperties => {
+  const positions = {
+    sm: { right: '0.375rem' },
+    md: { right: '0.5rem' },
+    lg: { right: '0.75rem' },
+  };
+  return positions[size as keyof typeof positions] || positions.md;
+};
+
+const getClearButtonPositionStyles = (size: string): CSSProperties => {
+  const positions = {
+    sm: { right: '1.5rem', minWidth: '1.0625rem', minHeight: '1.0625rem' },
+    md: { right: '2rem', minWidth: '1.375rem', minHeight: '1.375rem' },
+    lg: { right: '2.75rem', minWidth: '1.5rem', minHeight: '1.5rem' },
+  };
+  return positions[size as keyof typeof positions] || positions.md;
+};
+
+const getIconSizeStyles = (size: string): CSSProperties => {
+  const sizes = {
+    sm: { minWidth: '0.875rem', minHeight: '0.875rem' },
+    md: { minWidth: '1rem', minHeight: '1rem' },
+    lg: { minWidth: '1.25rem', minHeight: '1.25rem' },
+  };
+  return sizes[size as keyof typeof sizes] || sizes.md;
+};
+
+const getWidthStyles = (size: string, fullWidth: boolean): CSSProperties => {
+  if (fullWidth) return { width: '100%' };
+
+  const widths = {
+    sm: { maxWidth: '12rem' },
+    md: { maxWidth: '14rem' },
+    lg: { maxWidth: '16rem' },
+  };
+  return widths[size as keyof typeof widths] || widths.md;
+};
+
 export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
   (
     {
-      size = SIZE.MD,
+      size = 'md',
       onClear,
       calendarIcon,
       clearIcon,
@@ -52,14 +151,21 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
       customBg,
       customTextColor,
       customBorderColor,
+      label,
+      labelStyle,
+      placeholderText = ' ',
       ...props
     },
     ref,
   ) => {
-    // Use default colors if not provided
+    const [isFocused, setIsFocused] = useState(false);
+
+    const [inputClassName] = useState(
+      () => `datepicker-input-${Math.random().toString(36).substr(2, 9)}`,
+    );
+
     const colorConfig = colors || DEFAULT_COLOR_CONFIG;
 
-    // Calculate dynamic colors for calendar
     const calendarColors = useMemo(() => {
       const primaryColor = colorConfig.primary;
       const defaultBg = lightenColor(colorConfig.secondary, 70);
@@ -69,58 +175,93 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
       const borderColor = customBorderColor || adjustOpacity(textColor, 0.2);
 
       return {
-        // Input field colors
         inputBg: bgColor,
         inputText: textColor,
         inputBorder: borderColor,
         inputFocusBorder: primaryColor,
-
-        // Calendar container
         border: borderColor,
-
-        // Header (month/year selector)
         headerBg: primaryColor,
         headerText: getContrastColor(primaryColor),
-
-        // Days
         dayText: textColor,
         dayHoverBg: adjustOpacity(primaryColor, 0.1),
-
-        // Selected day
         selectedBg: primaryColor,
         selectedText: getContrastColor(primaryColor),
-
-        // Keyboard selected
         keyboardBg: adjustOpacity(primaryColor, 0.15),
-
-        // Disabled days
         disabledText: adjustOpacity(textColor, 0.4),
         disabledBg: 'transparent',
-
-        // Outside month days
         outsideMonthText: adjustOpacity(textColor, 0.5),
-
-        // Navigation buttons (prev/next month)
         navigationHover: adjustOpacity(getContrastColor(primaryColor), 0.1),
         navigationIcon: getContrastColor(primaryColor),
-
-        // Month picker background
         monthBg: bgColor,
-
-        // Today highlight
         todayBorder: colorConfig.secondary,
       };
     }, [colorConfig, customBg, customTextColor, customBorderColor]);
-    const baseStyles = disableDefaultStyles
-      ? DATEPICKER_EMPTY_VALUE
-      : baseClassName ||
-        `${DATEPICKER_BASE_STYLES} ${DATEPICKER_BORDER_STYLES} ${DATEPICKER_SIZE_STYLES_WITH_CLEAR[size as 'sm' | 'md' | 'lg']} ${DATEPICKER_PLACEHOLDER_STYLES}`;
 
-    const wrapperStyles = wrapperClassName || DATEPICKER_WRAPPER_STYLES;
+    const showClearButton = Boolean(onClear);
 
-    const widthStyles = fullWidth
-      ? DATEPICKER_FULL_WIDTH_CLASS
-      : DATEPICKER_WIDTH_STYLES[size as 'sm' | 'md' | 'lg'];
+    const cssVariables = useMemo(() => {
+      if (!colors && !customBg && !customTextColor && !customBorderColor) return {};
+
+      const accentColor = colorConfig.accent || colorConfig.primary;
+      const defaultBg = lightenColor(colorConfig.secondary, 70);
+      const defaultTextColor = getContrastColor(customBg || defaultBg);
+      const textColor = customTextColor || defaultTextColor;
+      const borderColor = customBorderColor || adjustOpacity(textColor, 0.2);
+
+      return {
+        '--input-bg': customBg || defaultBg,
+        '--input-text': textColor,
+        '--input-border': borderColor,
+        '--input-label': adjustOpacity(textColor, 0.7),
+        '--input-accent': accentColor,
+      } as React.CSSProperties;
+    }, [colorConfig, customBg, customTextColor, customBorderColor, colors]);
+
+    const wrapperStyle: CSSProperties = disableDefaultStyles
+      ? {}
+      : {
+          position: 'relative',
+          marginBottom: '0.625rem',
+          width: '100%',
+          ...getWidthStyles(size, fullWidth),
+          ...cssVariables,
+        };
+
+    const iconButtonStyle: CSSProperties = {
+      position: 'absolute',
+      top: '50%',
+      transform: 'translateY(-50%)',
+      backgroundColor: 'transparent',
+      border: 'none',
+      cursor: 'pointer',
+      color: colorConfig.accent || colorConfig.primary,
+      transition: 'color 300ms',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      pointerEvents: 'none',
+      zIndex: 1,
+      ...getIconPositionStyles(size),
+      ...getIconSizeStyles(size),
+    };
+
+    const clearButtonStyle: CSSProperties = {
+      position: 'absolute',
+      top: '50%',
+      transform: 'translateY(-50%)',
+      backgroundColor: 'transparent',
+      border: 'none',
+      color: colorConfig.accent || colorConfig.primary,
+      cursor: 'pointer',
+      zIndex: 2,
+      padding: '0.25rem',
+      borderRadius: '9999px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      transition: 'color 300ms',
+      ...getClearButtonPositionStyles(size),
+    };
 
     const defaultCalendarIcon = <Calendar size={18} />;
     const defaultClearIcon = <X size={16} />;
@@ -163,9 +304,29 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
       ...(endDate !== null && endDate !== undefined && { endDate }),
     };
 
+    const sizeStyles = getDatePickerSizeStyles(size, showClearButton);
+
     return (
       <>
         <style>{`
+          .${inputClassName} {
+            width: 100%;
+            border: 2px solid ${isFocused ? calendarColors.inputFocusBorder : calendarColors.inputBorder};
+            border-radius: 1.5625rem !important;
+            outline: none;
+            transition: all 300ms;
+            background-color: ${calendarColors.inputBg};
+            color: ${calendarColors.inputText};
+            cursor: pointer;
+            box-sizing: border-box;
+            padding-top: ${sizeStyles.paddingTop};
+            padding-bottom: ${sizeStyles.paddingBottom};
+            padding-left: ${sizeStyles.paddingLeft};
+            padding-right: ${sizeStyles.paddingRight};
+            font-size: ${sizeStyles.fontSize};
+            ${isFocused ? `box-shadow: 0 0 0 0.1875rem ${adjustOpacity(calendarColors.inputFocusBorder, 0.1)};` : ''}
+          }
+
           .react-datepicker-popper[data-placement^='bottom'] {
             padding-top: 8px !important;
           }
@@ -374,15 +535,18 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
           }
         `}</style>
 
-        <div className={`${wrapperStyles} ${widthStyles} ${className}`}>
+        <div style={wrapperStyle} className={wrapperClassName || className}>
           <ReactDatePicker
             ref={ref}
-            className={baseStyles}
-            wrapperClassName="w-full"
+            className={`${baseClassName || ''} ${inputClassName}`.trim()}
+            wrapperClassName={DATEPICKER_EMPTY_VALUE}
             popperPlacement="bottom-start"
             locale="datepicker-locale"
             selected={selected}
             onChange={handleChange}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            placeholderText={placeholderText}
             {...(reactDatePickerProps as Record<string, unknown>)}
             popperContainer={({ children }) => {
               if (typeof document !== 'undefined') {
@@ -391,20 +555,28 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
               return children;
             }}
           />
+          {label && (
+            <label style={getLabelStyles(Boolean(selected), isFocused, labelStyle)}>{label}</label>
+          )}
           {selected && onClear && (
             <button
               onClick={onClear}
-              className={`${DATEPICKER_CLEAR_BUTTON_BASE} ${DATEPICKER_CLEAR_POSITIONS[size as 'sm' | 'md' | 'lg']}`}
+              style={clearButtonStyle}
               type="button"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = adjustOpacity(
+                  colorConfig.accent || colorConfig.primary,
+                  0.1,
+                );
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+              }}
             >
               {clearIcon || defaultClearIcon}
             </button>
           )}
-          <div
-            className={`${DATEPICKER_ICON_BUTTON_BASE} ${DATEPICKER_ICON_POSITIONS[size as 'sm' | 'md' | 'lg']} ${DATEPICKER_ICON_SIZES[size as 'sm' | 'md' | 'lg']} pointer-events-none`}
-          >
-            {calendarIcon || defaultCalendarIcon}
-          </div>
+          <div style={iconButtonStyle}>{calendarIcon || defaultCalendarIcon}</div>
         </div>
       </>
     );

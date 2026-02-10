@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 **Gallery Component** - New masonry gallery component with lazy loading and smooth animations:
+
 - 📱 Responsive CSS columns layout (1/2/3 columns)
 - 🖼️ Maintains original image aspect ratios
 - ⚡ Lazy loading with IntersectionObserver
@@ -32,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **NavBar**: Removed all rgba values → now uses `adjustOpacity` and `getContrastColor`
 
 **Benefits:**
+
 - ✅ 100% theme consistency - all colors derived from the 3 base colors
 - ✅ Better dark/light mode support - calculations adapt to any color scheme
 - ✅ Zero magic numbers - no hardcoded hex or rgba values

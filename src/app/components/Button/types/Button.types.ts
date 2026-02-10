@@ -1,4 +1,9 @@
-import { BUTTON_VARIANTS, BUTTON_SIZES } from '@/app/constants';
-
-export type ButtonVariant = (typeof BUTTON_VARIANTS)[keyof typeof BUTTON_VARIANTS];
-export type ButtonSize = (typeof BUTTON_SIZES)[keyof typeof BUTTON_SIZES];
+export type ButtonVariant =
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'danger'
+  | 'close'
+  | 'clear'
+  | 'icon';
+export type ButtonSize = 'sm' | 'md' | 'lg';
