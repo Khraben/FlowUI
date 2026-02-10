@@ -1,43 +1,264 @@
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, CSSProperties } from 'react';
 import { Menu, X } from 'lucide-react';
-import { NavBarProps, NavBarAction } from './models/NavBar.interface';
-import {
-  NAVBAR_DISPLAY_NAME,
-  NAVBAR_HEIGHTS,
-  NAVBAR_COLORS,
-  NAVBAR_BASE_STYLES,
-  NAVBAR_ACTION_STYLES,
-} from '@/app/constants';
+import { NavBarProps } from './models/NavBar.interface';
+import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
 import { adjustOpacity, getContrastColor } from '@/app/utils/colorUtils';
+
+const NAVBAR_DISPLAY_NAME = 'NavBar';
+
+// Helper functions for NavBar styles
+const getContainerStyles = (backgroundColor: string, height: string): CSSProperties => ({
+  position: 'fixed' as const,
+  top: 0,
+  left: 0,
+  right: 0,
+  zIndex: 50,
+  width: '100%',
+  borderBottom: `1px solid ${adjustOpacity('#000', 0.1)}`,
+  transition: 'all 300ms',
+  backgroundColor,
+  height,
+});
+
+const getContentStyles = (): CSSProperties => ({
+  maxWidth: '100%',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  paddingLeft: '1.5rem',
+  paddingRight: '1.5rem',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  height: '100%',
+});
+
+const getLogoContainerStyles = (): CSSProperties => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.75rem',
+  flexShrink: 0,
+});
+
+const getLogoLinkStyles = (): CSSProperties => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.75rem',
+  textDecoration: 'none',
+  cursor: 'pointer',
+  transition: 'opacity 300ms',
+});
+
+const getLogoImageStyles = (): CSSProperties => ({
+  height: '2rem',
+  width: 'auto',
+});
+
+const getLogoTextStyles = (textColor: string): CSSProperties => ({
+  fontSize: '1.25rem',
+  fontWeight: 'bold',
+  color: textColor,
+});
+
+const getMenuContainerStyles = (): CSSProperties => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '2rem',
+});
+
+const getMenuItemStyles = (
+  textColor: string,
+  isActive: boolean,
+  activeColor: string,
+): CSSProperties => ({
+  fontWeight: 500,
+  transition: 'all 300ms',
+  textDecoration: 'none',
+  cursor: 'pointer',
+  fontSize: '0.875rem',
+  color: isActive ? activeColor : textColor,
+  borderBottom: isActive ? `2px solid ${activeColor}` : '2px solid transparent',
+  paddingBottom: '0.25rem',
+});
+
+const getActionsContainerStyles = (): CSSProperties => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.75rem',
+});
+
+const getActionButtonStyles = (
+  variant: 'primary' | 'secondary' | 'outline',
+  activeColor: string,
+  textColor: string,
+  hoverBg: string,
+): CSSProperties => {
+  const baseStyles: CSSProperties = {
+    paddingLeft: '1rem',
+    paddingRight: '1rem',
+    paddingTop: '0.5rem',
+    paddingBottom: '0.5rem',
+    fontSize: '0.875rem',
+    fontWeight: 500,
+    borderRadius: '0.5rem',
+    transition: 'all 300ms',
+    cursor: 'pointer',
+    border: '2px solid',
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+  };
+
+  if (variant === 'primary') {
+    return {
+      ...baseStyles,
+      backgroundColor: activeColor,
+      borderColor: 'transparent',
+      color: getContrastColor(activeColor),
+    };
+  } else if (variant === 'outline') {
+    return {
+      ...baseStyles,
+      color: activeColor,
+      borderColor: activeColor,
+      backgroundColor: 'transparent',
+    };
+  } else {
+    return {
+      ...baseStyles,
+      backgroundColor: hoverBg,
+      color: textColor,
+      borderColor: 'transparent',
+    };
+  }
+};
+
+const getMobileToggleStyles = (textColor: string): CSSProperties => ({
+  padding: '0.5rem',
+  cursor: 'pointer',
+  transition: 'all 300ms',
+  borderRadius: '0.5rem',
+  color: textColor,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
+
+const getMobileMenuStyles = (): CSSProperties => ({
+  position: 'fixed' as const,
+  inset: 0,
+  zIndex: 50,
+  transition: 'all 300ms',
+});
+
+const getMobileOverlayStyles = (): CSSProperties => ({
+  position: 'absolute' as const,
+  inset: 0,
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+});
+
+const getMobilePanelStyles = (isOpen: boolean, bgColor: string): CSSProperties => ({
+  position: 'absolute' as const,
+  top: 0,
+  right: 0,
+  height: '100%',
+  width: '20rem',
+  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+  transition: 'transform 300ms',
+  backgroundColor: bgColor,
+  transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
+  display: 'flex',
+  flexDirection: 'column' as const,
+});
+
+const getMobileHeaderStyles = (): CSSProperties => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: '1rem',
+  borderBottom: `1px solid ${adjustOpacity('#000', 0.1)}`,
+});
+
+const getMobileCloseStyles = (textColor: string): CSSProperties => ({
+  padding: '0.5rem',
+  cursor: 'pointer',
+  transition: 'all 300ms',
+  borderRadius: '0.5rem',
+  color: textColor,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
+
+const getMobileNavStyles = (): CSSProperties => ({
+  display: 'flex',
+  flexDirection: 'column' as const,
+  padding: '1rem',
+  gap: '0.5rem',
+  flex: 1,
+  overflowY: 'auto' as const,
+});
+
+const getMobileMenuItemStyles = (
+  textColor: string,
+  isActive: boolean,
+  activeBg: string,
+  activeColor: string,
+): CSSProperties => ({
+  fontWeight: 500,
+  transition: 'all 300ms',
+  paddingLeft: '1rem',
+  paddingRight: '1rem',
+  paddingTop: '0.75rem',
+  paddingBottom: '0.75rem',
+  borderRadius: '0.5rem',
+  fontSize: '0.875rem',
+  cursor: 'pointer',
+  color: isActive ? activeColor : textColor,
+  backgroundColor: isActive ? activeBg : 'transparent',
+});
+
+const getMobileActionsStyles = (): CSSProperties => ({
+  display: 'flex',
+  flexDirection: 'column' as const,
+  gap: '0.5rem',
+  padding: '1rem',
+  borderTop: `1px solid ${adjustOpacity('#000', 0.1)}`,
+  marginTop: 'auto',
+});
 
 export const NavBar = ({
   logo,
   menuItems = [],
   actions = [],
-  backgroundColor = NAVBAR_COLORS.BACKGROUND,
-  textColor = NAVBAR_COLORS.TEXT,
-  activeTextColor = NAVBAR_COLORS.ACTIVE_TEXT,
-  hoverTextColor = NAVBAR_COLORS.HOVER_TEXT,
-  height = NAVBAR_HEIGHTS.DEFAULT,
-  className = '',
-  disableDefaultStyles = false,
+  colors = DEFAULT_COLOR_CONFIG,
+  customBgColor,
+  customTextColor,
+  customActiveColor,
+  customHoverColor,
+  height = '4rem',
   showMobileMenu: controlledMobileMenu,
   onMobileMenuToggle,
 }: NavBarProps) => {
   const [internalMobileMenu, setInternalMobileMenu] = useState(false);
   const isMobileMenuOpen = controlledMobileMenu ?? internalMobileMenu;
 
+  // Compute colors dynamically from BaseColorConfig
+  const backgroundColor = customBgColor || colors.secondary;
+  const textColor = customTextColor || getContrastColor(backgroundColor);
+  const activeColor = customActiveColor || colors.accent;
+  const hoverColor = customHoverColor || colors.primary;
+
   const dynamicColors = useMemo(
     () => ({
       hoverBg: adjustOpacity(textColor, 0.05),
       hoverBgActive: adjustOpacity(textColor, 0.1),
       secondaryBg: adjustOpacity(textColor, 0.05),
-      activeItemBg: adjustOpacity(activeTextColor, 0.1),
-      outlineHoverText: getContrastColor(activeTextColor),
+      activeItemBg: adjustOpacity(activeColor, 0.1),
+      outlineHoverText: getContrastColor(activeColor),
     }),
-    [textColor, activeTextColor],
+    [textColor, activeColor],
   );
 
   const handleMobileMenuToggle = useCallback(() => {
@@ -47,44 +268,6 @@ export const NavBar = ({
     }
     onMobileMenuToggle?.(newState);
   }, [isMobileMenuOpen, controlledMobileMenu, onMobileMenuToggle]);
-
-  const containerClasses = useMemo(() => {
-    if (disableDefaultStyles) return className;
-    return `${NAVBAR_BASE_STYLES.CONTAINER} ${className}`;
-  }, [disableDefaultStyles, className]);
-
-  const getActionButtonStyles = useCallback(
-    (action: NavBarAction) => {
-      const baseStyles = NAVBAR_ACTION_STYLES.BASE;
-      let variantStyles = '';
-      let customStyles: React.CSSProperties = {};
-
-      if (action.variant === 'primary') {
-        variantStyles = NAVBAR_ACTION_STYLES.PRIMARY;
-        customStyles = {
-          backgroundColor: activeTextColor,
-          borderColor: 'transparent',
-        };
-      } else if (action.variant === 'outline') {
-        variantStyles = NAVBAR_ACTION_STYLES.OUTLINE;
-        customStyles = {
-          color: activeTextColor,
-          borderColor: activeTextColor,
-          backgroundColor: 'transparent',
-        };
-      } else {
-        variantStyles = NAVBAR_ACTION_STYLES.SECONDARY;
-        customStyles = {
-          backgroundColor: dynamicColors.secondaryBg,
-          color: textColor,
-          borderColor: 'transparent',
-        };
-      }
-
-      return { className: `${baseStyles} ${variantStyles}`, style: customStyles };
-    },
-    [activeTextColor, textColor, dynamicColors],
-  );
 
   const handleLogoClick = useCallback(() => {
     if (logo?.onClick) {
@@ -104,28 +287,85 @@ export const NavBar = ({
 
   return (
     <>
-      <nav
-        className={containerClasses}
-        style={{
-          backgroundColor,
-          borderColor: NAVBAR_COLORS.BORDER,
-          height,
-        }}
-      >
-        <div className={NAVBAR_BASE_STYLES.CONTENT}>
+      <style>{`
+        @media (max-width: 64rem) {
+          .navbar-menu-container,
+          .navbar-actions-container {
+            display: none !important;
+          }
+          .navbar-mobile-toggle {
+            display: flex !important;
+          }
+        }
+        @media (min-width: 64rem) {
+          .navbar-menu-container,
+          .navbar-actions-container {
+            display: flex !important;
+          }
+          .navbar-mobile-toggle {
+            display: none !important;
+          }
+        }
+        @media (max-width: 48rem) {
+          .navbar-content {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+          }
+          .navbar-menu-container {
+            gap: 1.5rem !important;
+          }
+          .navbar-actions-container {
+            gap: 0.5rem !important;
+          }
+          .navbar-action-button {
+            padding-left: 0.75rem !important;
+            padding-right: 0.75rem !important;
+            padding-top: 0.375rem !important;
+            padding-bottom: 0.375rem !important;
+            font-size: 0.75rem !important;
+          }
+        }
+        @media (max-width: 40rem) {
+          .navbar-content {
+            padding-left: 0.75rem !important;
+            padding-right: 0.75rem !important;
+          }
+          .navbar-logo-image {
+            height: 1.5rem !important;
+          }
+          .navbar-logo-text {
+            font-size: 1rem !important;
+          }
+          .navbar-mobile-panel {
+            width: 18rem !important;
+          }
+        }
+      `}</style>
+      <nav style={getContainerStyles(backgroundColor, height)}>
+        <div className="navbar-content" style={getContentStyles()}>
           {logo && (
-            <div className={NAVBAR_BASE_STYLES.LOGO_CONTAINER}>
-              <div className={NAVBAR_BASE_STYLES.LOGO_LINK} onClick={handleLogoClick}>
+            <div style={getLogoContainerStyles()}>
+              <div
+                style={getLogoLinkStyles()}
+                onClick={handleLogoClick}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.opacity = '0.8';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.opacity = '1';
+                }}
+              >
                 {logo.src && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={logo.src}
                     alt={logo.alt || 'Logo'}
-                    className={NAVBAR_BASE_STYLES.LOGO_IMAGE}
+                    className="navbar-logo-image"
+                    style={getLogoImageStyles()}
                   />
                 )}
                 {logo.text && (
-                  <span className={NAVBAR_BASE_STYLES.LOGO_TEXT} style={{ color: textColor }}>
+                  <span className="navbar-logo-text" style={getLogoTextStyles(textColor)}>
                     {logo.text}
                   </span>
                 )}
@@ -133,22 +373,15 @@ export const NavBar = ({
             </div>
           )}
 
-          <div className={NAVBAR_BASE_STYLES.MENU_CONTAINER}>
+          <div className="navbar-menu-container" style={getMenuContainerStyles()}>
             {menuItems.map((item) => (
               <div
                 key={item.id}
-                className={NAVBAR_BASE_STYLES.MENU_ITEM}
                 onClick={() => handleMenuItemClick(item)}
-                style={{
-                  color: item.isActive ? activeTextColor : textColor,
-                  borderBottom: item.isActive
-                    ? `2px solid ${activeTextColor}`
-                    : '2px solid transparent',
-                  paddingBottom: '0.25rem',
-                }}
+                style={getMenuItemStyles(textColor, item.isActive || false, activeColor)}
                 onMouseEnter={(e) => {
                   if (!item.isActive) {
-                    e.currentTarget.style.color = hoverTextColor;
+                    e.currentTarget.style.color = hoverColor;
                   }
                 }}
                 onMouseLeave={(e) => {
@@ -162,47 +395,49 @@ export const NavBar = ({
             ))}
           </div>
 
-          <div className={NAVBAR_BASE_STYLES.ACTIONS_CONTAINER}>
-            {actions.map((action) => {
-              const { className: btnClassName, style: btnStyle } = getActionButtonStyles(action);
-              return (
-                <button
-                  key={action.id}
-                  className={btnClassName}
-                  style={btnStyle}
-                  onClick={action.onClick}
-                  onMouseEnter={(e) => {
-                    if (action.variant === 'primary') {
-                      e.currentTarget.style.opacity = '0.9';
-                    } else if (action.variant === 'outline') {
-                      e.currentTarget.style.backgroundColor = activeTextColor;
-                      e.currentTarget.style.color = dynamicColors.outlineHoverText;
-                    } else {
-                      e.currentTarget.style.backgroundColor = dynamicColors.hoverBgActive;
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (action.variant === 'primary') {
-                      e.currentTarget.style.opacity = '1';
-                    } else if (action.variant === 'outline') {
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                      e.currentTarget.style.color = activeTextColor;
-                    } else {
-                      e.currentTarget.style.backgroundColor = dynamicColors.secondaryBg;
-                    }
-                  }}
-                >
-                  {action.icon && <span className="mr-2">{action.icon}</span>}
-                  {action.label}
-                </button>
-              );
-            })}
+          <div className="navbar-actions-container" style={getActionsContainerStyles()}>
+            {actions.map((action) => (
+              <button
+                key={action.id}
+                className="navbar-action-button"
+                style={getActionButtonStyles(
+                  action.variant || 'secondary',
+                  activeColor,
+                  textColor,
+                  dynamicColors.secondaryBg,
+                )}
+                onClick={action.onClick}
+                onMouseEnter={(e) => {
+                  if (action.variant === 'primary') {
+                    e.currentTarget.style.opacity = '0.9';
+                  } else if (action.variant === 'outline') {
+                    e.currentTarget.style.backgroundColor = activeColor;
+                    e.currentTarget.style.color = dynamicColors.outlineHoverText;
+                  } else {
+                    e.currentTarget.style.backgroundColor = dynamicColors.hoverBgActive;
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (action.variant === 'primary') {
+                    e.currentTarget.style.opacity = '1';
+                  } else if (action.variant === 'outline') {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.color = activeColor;
+                  } else {
+                    e.currentTarget.style.backgroundColor = dynamicColors.secondaryBg;
+                  }
+                }}
+              >
+                {action.icon && <span>{action.icon}</span>}
+                {action.label}
+              </button>
+            ))}
           </div>
 
           <div
-            className={NAVBAR_BASE_STYLES.MOBILE_TOGGLE}
+            className="navbar-mobile-toggle"
+            style={getMobileToggleStyles(textColor)}
             onClick={handleMobileMenuToggle}
-            style={{ color: textColor }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = dynamicColors.hoverBg;
             }}
@@ -216,32 +451,21 @@ export const NavBar = ({
       </nav>
 
       {isMobileMenuOpen && (
-        <div className={NAVBAR_BASE_STYLES.MOBILE_MENU}>
+        <div style={getMobileMenuStyles()}>
+          <div style={getMobileOverlayStyles()} onClick={handleMobileMenuToggle} />
           <div
-            className={NAVBAR_BASE_STYLES.MOBILE_OVERLAY}
-            style={{ backgroundColor: NAVBAR_COLORS.MOBILE_OVERLAY }}
-            onClick={handleMobileMenuToggle}
-          />
-          <div
-            className={NAVBAR_BASE_STYLES.MOBILE_PANEL}
-            style={{
-              backgroundColor: NAVBAR_COLORS.MOBILE_MENU_BG,
-              transform: isMobileMenuOpen ? 'translateX(0)' : 'translateX(100%)',
-            }}
+            className="navbar-mobile-panel"
+            style={getMobilePanelStyles(isMobileMenuOpen, backgroundColor)}
           >
-            <div
-              className={NAVBAR_BASE_STYLES.MOBILE_HEADER}
-              style={{ borderColor: NAVBAR_COLORS.BORDER }}
-            >
+            <div style={getMobileHeaderStyles()}>
               {logo?.text && (
-                <span className="text-lg font-bold" style={{ color: textColor }}>
+                <span style={{ fontSize: '1.125rem', fontWeight: 'bold', color: textColor }}>
                   {logo.text}
                 </span>
               )}
               <div
-                className={NAVBAR_BASE_STYLES.MOBILE_CLOSE}
+                style={getMobileCloseStyles(textColor)}
                 onClick={handleMobileMenuToggle}
-                style={{ color: textColor }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = dynamicColors.hoverBg;
                 }}
@@ -253,18 +477,19 @@ export const NavBar = ({
               </div>
             </div>
 
-            <div className={NAVBAR_BASE_STYLES.MOBILE_NAV}>
+            <div style={getMobileNavStyles()}>
               {menuItems.map((item) => (
                 <div
                   key={item.id}
-                  className={NAVBAR_BASE_STYLES.MOBILE_MENU_ITEM}
+                  style={getMobileMenuItemStyles(
+                    textColor,
+                    item.isActive || false,
+                    dynamicColors.activeItemBg,
+                    activeColor,
+                  )}
                   onClick={() => {
                     handleMenuItemClick(item);
                     handleMobileMenuToggle();
-                  }}
-                  style={{
-                    color: item.isActive ? activeTextColor : textColor,
-                    backgroundColor: item.isActive ? dynamicColors.activeItemBg : 'transparent',
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.backgroundColor = dynamicColors.hoverBg;
@@ -280,27 +505,26 @@ export const NavBar = ({
               ))}
             </div>
 
-            <div
-              className={NAVBAR_BASE_STYLES.MOBILE_ACTIONS}
-              style={{ borderColor: NAVBAR_COLORS.BORDER }}
-            >
-              {actions.map((action) => {
-                const { className: btnClassName, style: btnStyle } = getActionButtonStyles(action);
-                return (
-                  <button
-                    key={action.id}
-                    className={btnClassName}
-                    style={btnStyle}
-                    onClick={() => {
-                      action.onClick();
-                      handleMobileMenuToggle();
-                    }}
-                  >
-                    {action.icon && <span className="mr-2">{action.icon}</span>}
-                    {action.label}
-                  </button>
-                );
-              })}
+            <div style={getMobileActionsStyles()}>
+              {actions.map((action) => (
+                <button
+                  key={action.id}
+                  className="navbar-action-button"
+                  style={getActionButtonStyles(
+                    action.variant || 'secondary',
+                    activeColor,
+                    textColor,
+                    dynamicColors.secondaryBg,
+                  )}
+                  onClick={() => {
+                    action.onClick();
+                    handleMobileMenuToggle();
+                  }}
+                >
+                  {action.icon && <span>{action.icon}</span>}
+                  {action.label}
+                </button>
+              ))}
             </div>
           </div>
         </div>

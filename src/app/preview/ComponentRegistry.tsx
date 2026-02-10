@@ -36,8 +36,10 @@ import {
   Info,
   Home,
   LogOut,
+  LogIn,
 } from 'lucide-react';
 import { useState } from 'react';
+import { adjustOpacity, getContrastColor } from '@/app/utils/colorUtils';
 
 const SearchInputDemo = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -751,6 +753,12 @@ const SideBarDemo = () => {
 const NavBarDemo = () => {
   const [activeItem, setActiveItem] = useState('home');
 
+  // Compute colors from BaseColorConfig (matching real NavBar)
+  const backgroundColor = PREVIEW_COLOR_CONFIG.secondary;
+  const textColor = getContrastColor(backgroundColor);
+  const activeColor = PREVIEW_COLOR_CONFIG.accent;
+  const hoverColor = PREVIEW_COLOR_CONFIG.primary;
+
   const menuItems = [
     {
       id: 'home',
@@ -759,50 +767,143 @@ const NavBarDemo = () => {
       isActive: activeItem === 'home',
     },
     {
-      id: 'docs',
-      label: 'Docs',
-      onClick: () => setActiveItem('docs'),
-      isActive: activeItem === 'docs',
+      id: 'explore',
+      label: 'Explore',
+      onClick: () => setActiveItem('explore'),
+      isActive: activeItem === 'explore',
     },
   ];
 
   return (
-    <div className="relative w-full h-14 bg-white border border-[#E5E7EB] rounded-lg overflow-visible">
-      <div className="absolute inset-0 flex items-center px-4">
-        <div className="flex items-center gap-2 shrink-0">
-          <Image src="/FlowUI.svg" alt="FlowUI Logo" width={24} height={24} className="w-6 h-6" />
-          <span className="text-sm font-bold" style={{ color: '#374151' }}>
-            FlowUI
-          </span>
-        </div>
-
-        <div className="flex items-center gap-4 ml-6">
-          {menuItems.map((item) => (
+    <div
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: '220px',
+        backgroundColor: '#1A1A1A',
+        borderRadius: '0.5rem',
+        overflow: 'hidden',
+        border: '1px solid #333',
+      }}
+    >
+      {/* NavBar at top */}
+      <nav
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '3.5rem',
+          backgroundColor,
+          borderBottom: `1px solid ${adjustOpacity('#000', 0.1)}`,
+        }}
+      >
+        <div
+          style={{
+            height: '100%',
+            paddingLeft: '1rem',
+            paddingRight: '1rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          {/* Logo */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              flexShrink: 0,
+            }}
+          >
             <div
-              key={item.id}
-              onClick={item.onClick}
-              className="font-medium text-xs cursor-pointer transition-all duration-300 pb-0.5"
               style={{
-                color: item.isActive ? PREVIEW_COLOR_CONFIG.primary : '#374151',
-                borderBottom: item.isActive
-                  ? `2px solid ${PREVIEW_COLOR_CONFIG.primary}`
-                  : '2px solid transparent',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                cursor: 'pointer',
+                transition: 'opacity 300ms',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.opacity = '0.8';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.opacity = '1';
               }}
             >
-              {item.label}
+              <Image src="/FlowUI.svg" alt="FlowUI Logo" width={20} height={20} />
+              <span
+                style={{
+                  fontSize: '1rem',
+                  fontWeight: 'bold',
+                  color: textColor,
+                }}
+              >
+                FlowUI
+              </span>
             </div>
-          ))}
-        </div>
+          </div>
 
-        <div className="ml-auto">
-          <button
-            onClick={() => {}}
-            className="px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-300 cursor-pointer border-2"
+          {/* Menu Items */}
+          <div
             style={{
-              backgroundColor: PREVIEW_COLOR_CONFIG.primary,
-              color: '#FFFFFF',
-              borderColor: 'transparent',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1.5rem',
             }}
+          >
+            {menuItems.map((item) => (
+              <div
+                key={item.id}
+                onClick={item.onClick}
+                style={{
+                  fontWeight: 500,
+                  transition: 'all 300ms',
+                  cursor: 'pointer',
+                  fontSize: '0.8125rem',
+                  color: item.isActive ? activeColor : textColor,
+                  borderBottom: item.isActive
+                    ? `2px solid ${activeColor}`
+                    : '2px solid transparent',
+                  paddingBottom: '0.25rem',
+                }}
+                onMouseEnter={(e) => {
+                  if (!item.isActive) {
+                    e.currentTarget.style.color = hoverColor;
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!item.isActive) {
+                    e.currentTarget.style.color = textColor;
+                  }
+                }}
+              >
+                {item.label}
+              </div>
+            ))}
+          </div>
+
+          {/* Action Button */}
+          <button
+            style={{
+              paddingLeft: '0.75rem',
+              paddingRight: '0.75rem',
+              paddingTop: '0.375rem',
+              paddingBottom: '0.375rem',
+              fontSize: '0.8125rem',
+              fontWeight: 500,
+              borderRadius: '0.5rem',
+              transition: 'all 300ms',
+              cursor: 'pointer',
+              border: '2px solid transparent',
+              backgroundColor: activeColor,
+              color: getContrastColor(activeColor),
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.375rem',
+            }}
+            onClick={() => {}}
             onMouseEnter={(e) => {
               e.currentTarget.style.opacity = '0.9';
             }}
@@ -810,10 +911,24 @@ const NavBarDemo = () => {
               e.currentTarget.style.opacity = '1';
             }}
           >
-            Get Started
+            <LogIn size={14} />
+            Login
           </button>
         </div>
-      </div>
+      </nav>
+
+      {/* Content area below navbar */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '3.5rem',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          padding: '1rem',
+          color: '#A0A0A0',
+        }}
+      ></div>
     </div>
   );
 };
