@@ -540,41 +540,87 @@ const SideBarDemo = () => {
       id: 'home',
       label: 'Home',
       icon: <Home size={16} />,
-      onClick: () => {},
     },
     {
       id: 'settings',
       label: 'Settings',
       icon: <Settings size={16} />,
-      onClick: () => {},
     },
   ];
 
   const logoutItem = {
     label: 'Logout',
     icon: <LogOut size={16} />,
-    onClick: () => {},
   };
 
+  // Calculate colors dynamically like the real SideBar component
+  const backgroundColor = PREVIEW_COLOR_CONFIG.secondary;
+  const textColor = '#E5E7EB';
+  const hoverBg = 'rgba(255, 255, 255, 0.1)';
+  const toggleBtnBg = 'rgba(255, 255, 255, 0.2)';
+  const toggleBtnHoverBg = 'rgba(255, 255, 255, 0.3)';
+  const logoutTextColor = '#ff6b6b';
+  const logoutHoverBg = 'rgba(255, 107, 107, 0.2)';
+
   return (
-    <div className="relative w-full max-w-[240px] h-[200px] bg-[#1A1A1A] rounded-lg overflow-hidden border border-[#333] mx-auto">
+    <div
+      style={{
+        position: 'relative',
+        width: '100%',
+        maxWidth: '240px',
+        height: '200px',
+        backgroundColor: '#1A1A1A',
+        borderRadius: '0.5rem',
+        overflow: 'hidden',
+        border: '1px solid #333',
+        margin: '0 auto',
+      }}
+    >
       <nav
-        className={`absolute top-0 left-0 h-full flex flex-col transition-[width] duration-300 ease-in-out ${isOpen ? 'w-[11rem]' : 'w-[3rem]'}`}
-        style={{ backgroundColor: PREVIEW_COLOR_CONFIG.primary }}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          transition: 'width 300ms ease-in-out',
+          width: isOpen ? '11rem' : '3rem',
+          backgroundColor,
+        }}
       >
-        <div className="relative pt-2 pb-2 shrink-0">
+        <div
+          style={{
+            position: 'relative',
+            paddingTop: '0.5rem',
+            paddingBottom: '0.5rem',
+            flexShrink: 0,
+          }}
+        >
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className={`absolute top-2 border-none p-1.5 cursor-pointer rounded-lg flex items-center justify-center w-7 h-7 transition-all duration-300 ${isOpen ? 'left-3' : 'left-1/2 -translate-x-1/2'}`}
             style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.2)',
-              color: PREVIEW_LIGHT_TEXT,
+              position: 'absolute',
+              top: '0.5rem',
+              left: '0.75rem',
+              border: 'none',
+              padding: '0.375rem',
+              cursor: 'pointer',
+              borderRadius: '0.5rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '1.75rem',
+              height: '1.75rem',
+              transition: 'background-color 300ms',
+              backgroundColor: toggleBtnBg,
+              color: textColor,
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
+              e.currentTarget.style.backgroundColor = toggleBtnHoverBg;
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+              e.currentTarget.style.backgroundColor = toggleBtnBg;
             }}
           >
             {isOpen ? (
@@ -612,45 +658,85 @@ const SideBarDemo = () => {
           </button>
         </div>
 
-        <ul className="list-none w-full p-0 m-0 flex flex-col flex-1 overflow-y-auto px-1.5 pt-6 pb-2">
+        <ul
+          style={{
+            listStyle: 'none',
+            width: '100%',
+            padding: '0.5rem 0.375rem',
+            paddingTop: '1.5rem',
+            margin: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+            overflowY: 'auto',
+          }}
+        >
           {menuItems.map((item) => (
-            <li key={item.id} className="w-full mb-0.5">
+            <li key={item.id} style={{ width: '100%', marginBottom: '0.125rem' }}>
               <button
-                onClick={item.onClick}
-                className={`bg-transparent border-none font-bold flex items-center w-full transition-all duration-300 cursor-pointer text-xs ${isOpen ? 'px-2.5 py-1.5 justify-start' : 'p-1.5 justify-center'}`}
-                style={{ color: PREVIEW_LIGHT_TEXT }}
+                style={{
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  fontWeight: 'bold',
+                  display: 'flex',
+                  alignItems: 'center',
+                  width: '100%',
+                  transition: 'all 300ms',
+                  cursor: 'pointer',
+                  fontSize: '0.75rem',
+                  padding: isOpen ? '0.375rem 0.625rem' : '0.375rem',
+                  justifyContent: isOpen ? 'flex-start' : 'center',
+                  color: textColor,
+                  borderRadius: '0.25rem',
+                }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.backgroundColor = hoverBg;
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = 'transparent';
                 }}
               >
-                <span className={`shrink-0 ${isOpen ? 'mr-2' : 'mr-0'}`}>{item.icon}</span>
+                <span style={{ flexShrink: 0, marginRight: isOpen ? '0.5rem' : 0 }}>
+                  {item.icon}
+                </span>
                 {isOpen && (
-                  <span className="whitespace-nowrap overflow-hidden text-xs">{item.label}</span>
+                  <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', fontSize: '0.75rem' }}>
+                    {item.label}
+                  </span>
                 )}
               </button>
             </li>
           ))}
 
-          <li className="w-full mt-auto mb-1.5">
+          <li style={{ width: '100%', marginTop: 'auto', marginBottom: '0.375rem' }}>
             <button
-              onClick={logoutItem.onClick}
-              className={`bg-transparent border-none font-bold flex items-center w-full transition-all duration-300 cursor-pointer text-xs ${isOpen ? 'px-2.5 py-1.5 justify-start' : 'p-1.5 justify-center'}`}
-              style={{ color: '#DC2626' }}
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                fontWeight: 'bold',
+                display: 'flex',
+                alignItems: 'center',
+                width: '100%',
+                transition: 'all 300ms',
+                cursor: 'pointer',
+                fontSize: '0.75rem',
+                padding: isOpen ? '0.375rem 0.625rem' : '0.375rem',
+                justifyContent: isOpen ? 'flex-start' : 'center',
+                color: logoutTextColor,
+                borderRadius: '0.25rem',
+              }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(220, 38, 38, 0.15)';
-                e.currentTarget.style.color = '#B91C1C';
+                e.currentTarget.style.backgroundColor = logoutHoverBg;
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = '#DC2626';
               }}
             >
-              <span className={`shrink-0 ${isOpen ? 'mr-2' : 'mr-0'}`}>{logoutItem.icon}</span>
+              <span style={{ flexShrink: 0, marginRight: isOpen ? '0.5rem' : 0 }}>
+                {logoutItem.icon}
+              </span>
               {isOpen && (
-                <span className="whitespace-nowrap overflow-hidden text-xs">
+                <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', fontSize: '0.75rem' }}>
                   {logoutItem.label}
                 </span>
               )}

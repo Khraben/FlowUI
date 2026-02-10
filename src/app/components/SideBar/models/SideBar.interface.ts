@@ -1,4 +1,5 @@
 import React from 'react';
+import { BaseColorConfig } from '@/app/types/colors';
 
 export interface SideBarMenuItem {
   id: string;
@@ -6,6 +7,7 @@ export interface SideBarMenuItem {
   icon: React.ReactNode;
   onClick: () => void;
   section?: 'top' | 'bottom';
+  isActive?: boolean;
 }
 
 export interface SideBarLogoutButton {
@@ -21,14 +23,17 @@ export interface SideBarProps {
   onToggle?: (isOpen: boolean) => void;
   openWidth?: string;
   closedWidth?: string;
-  backgroundColor?: string;
-  textColor?: string;
-  hoverBackgroundColor?: string;
-  toggleButtonBackgroundColor?: string;
-  toggleButtonHoverBackgroundColor?: string;
-  logoutTextColor?: string;
-  logoutHoverBackgroundColor?: string;
-  logoutHoverTextColor?: string;
-  className?: string;
-  disableDefaultStyles?: boolean;
+
+  // New simplified color system
+  colors?: BaseColorConfig;
+
+  // Optional overrides for specific customization
+  customBg?: string;
+  customTextColor?: string;
+  customHoverBg?: string;
+  customToggleBtnBg?: string;
+  customToggleBtnHoverBg?: string;
+  customLogoutTextColor?: string;
+  customLogoutHoverBg?: string;
+  customLogoutHoverTextColor?: string;
 }
