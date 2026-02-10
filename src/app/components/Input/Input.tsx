@@ -1,23 +1,10 @@
-import { forwardRef, useState, useMemo } from 'react';
+import { forwardRef, useState, useMemo, CSSProperties } from 'react';
 import { InputProps } from './models/Input.interface';
 import { SelectInputProps } from './models/SelectInput.interface';
 import { TimeInputProps } from './models/TimeInput.interface';
 import {
   INPUT_VARIANTS,
   INPUT_SIZES,
-  INPUT_BASE_STYLES,
-  INPUT_BORDER_STYLES,
-  INPUT_SIZE_STYLES,
-  INPUT_LABEL_BASE_STYLES,
-  INPUT_ICON_BUTTON_BASE,
-  INPUT_ICON_BUTTON_POSITIONS,
-  INPUT_ICON_SIZES,
-  INPUT_SELECT_PADDING,
-  INPUT_SEARCH_PADDING,
-  INPUT_CLEAR_BUTTON_STYLES,
-  INPUT_SELECT_APPEARANCE,
-  INPUT_WRAPPER_STYLES,
-  INPUT_PASSWORD_BUTTON_SIZES,
   INPUT_DISPLAY_NAME,
   SELECT_INPUT_DISPLAY_NAME,
   TIME_INPUT_DISPLAY_NAME,
@@ -27,8 +14,6 @@ import {
   INPUT_PLACEHOLDER_CHAR,
   INPUT_EMPTY_VALUE,
   INPUT_AUTOCOMPLETE_VALUES,
-  INPUT_FULL_WIDTH_CLASS,
-  INPUT_NO_PADDING_CLASS,
   INPUT_BUTTON_TYPE,
 } from '@/app/constants';
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
@@ -60,6 +45,96 @@ const generateTimeOptions = (startHour: number, endHour: number, interval: numbe
   return times;
 };
 
+// Helper functions to get size-specific styles
+const getInputSizeStyles = (size: string): CSSProperties => {
+  const baseStyles: CSSProperties = {
+    width: '100%',
+    border: '2px solid',
+    borderRadius: '1.5625rem',
+    outline: 'none',
+    transition: 'all 300ms',
+    backgroundColor: 'var(--input-bg, #313335)',
+    color: 'var(--input-text, #A9B7C6)',
+  };
+
+  const sizeMap: Record<string, CSSProperties> = {
+    sm: {
+      padding: '0.5rem 0.625rem',
+      fontSize: '0.75rem',
+    },
+    md: {
+      padding: '0.625rem 0.75rem',
+      fontSize: '0.875rem',
+    },
+    lg: {
+      padding: '0.75rem 0.9375rem',
+      fontSize: '0.875rem',
+    },
+  };
+
+  return { ...baseStyles, ...(sizeMap[size] || sizeMap.md) };
+};
+
+const getLabelStyles = (
+  hasValue: boolean,
+  isFocused: boolean,
+  customStyle?: CSSProperties,
+): CSSProperties => {
+  const baseStyles: CSSProperties = {
+    position: 'absolute',
+    left: '1rem',
+    top: '0.75rem',
+    fontSize: hasValue || isFocused ? '0.75rem' : '1rem',
+    color: hasValue || isFocused ? 'var(--input-accent, #00D4FF)' : 'var(--input-label, #808080)',
+    transition: 'all 300ms ease-in-out',
+    pointerEvents: 'none',
+    transform: hasValue || isFocused ? 'translateY(-1.75rem)' : 'translateY(0)',
+  };
+
+  return { ...baseStyles, ...customStyle };
+};
+
+const getIconButtonStyles = (size: string): CSSProperties => {
+  const sizeMap: Record<string, CSSProperties> = {
+    sm: {
+      minWidth: '1.0625rem',
+      minHeight: '1.0625rem',
+    },
+    md: {
+      minWidth: '1.125rem',
+      minHeight: '1.125rem',
+    },
+    lg: {
+      minWidth: '1.25rem',
+      minHeight: '1.25rem',
+    },
+  };
+
+  return {
+    position: 'absolute',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    backgroundColor: 'transparent',
+    border: 'none',
+    cursor: 'pointer',
+    color: 'var(--input-accent, #00D4FF)',
+    transition: 'color 300ms',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...(sizeMap[size] || sizeMap.md),
+  };
+};
+
+const getPasswordButtonFontSize = (size: string): string => {
+  const sizeMap: Record<string, string> = {
+    sm: '0.6875rem',
+    md: '0.75rem',
+    lg: '0.875rem',
+  };
+  return sizeMap[size] || sizeMap.md;
+};
+
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
@@ -85,66 +160,56 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       customTextColor,
       customBorderColor,
       style,
+      onFocus,
+      onBlur,
+      onChange,
       ...props
     },
     ref,
   ) => {
     const [showPassword, setShowPassword] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
+    const [internalValue, setInternalValue] = useState('');
 
     // Use default colors if not provided
     const colorConfig = colors || DEFAULT_COLOR_CONFIG;
 
     // Calculate dynamic colors for input
     const inputColors = useMemo(() => {
-      const borderColor = customBorderColor || colorConfig.primary;
-      const focusBorderColor = getHoverColor(borderColor, 15);
-      const focusShadow = adjustOpacity(borderColor, 0.25);
-      const iconColor = colorConfig.secondary;
-      const iconHoverColor = getHoverColor(iconColor);
+      const accentColor = colorConfig.accent || colorConfig.primary;
       const defaultBg = lightenColor(colorConfig.secondary, 70);
       const defaultTextColor = getContrastColor(defaultBg);
-      const labelColor = adjustOpacity(customTextColor || defaultTextColor, 0.7);
-      const labelActiveColor = colorConfig.primary;
+      const textColor = customTextColor || defaultTextColor;
+      const borderColor = customBorderColor || adjustOpacity(textColor, 0.2);
+      const focusBorderColor = accentColor;
+      const focusShadow = adjustOpacity(accentColor, 0.1);
 
       return {
         bg: customBg || defaultBg,
-        textColor: customTextColor || defaultTextColor,
+        textColor: textColor,
         borderColor,
         focusBorderColor,
         focusShadow,
-        iconColor,
-        iconHoverColor,
-        labelColor,
-        labelActiveColor,
-        placeholderColor: adjustOpacity(customTextColor || defaultTextColor, 0.4),
+        accentColor,
+        labelColor: adjustOpacity(textColor, 0.7),
+        placeholderColor: adjustOpacity(textColor, 0.4),
       };
     }, [colorConfig, customBg, customTextColor, customBorderColor]);
 
-    const inlineStyles = useMemo(() => {
-      if (!colors && !customBg && !customTextColor && !customBorderColor) return style;
+    const cssVariables = useMemo(() => {
+      if (!colors && !customBg && !customTextColor && !customBorderColor) return {};
 
       return {
-        ...style,
         '--input-bg': inputColors.bg,
         '--input-text': inputColors.textColor,
         '--input-border': inputColors.borderColor,
         '--input-focus-border': inputColors.focusBorderColor,
         '--input-focus-shadow': inputColors.focusShadow,
         '--input-label': inputColors.labelColor,
-        '--input-label-active': inputColors.labelActiveColor,
-        '--input-icon': inputColors.iconColor,
-        '--input-icon-hover': inputColors.iconHoverColor,
+        '--input-accent': inputColors.accentColor,
         '--input-placeholder': inputColors.placeholderColor,
       } as React.CSSProperties;
-    }, [inputColors, style, colors, customBg, customTextColor, customBorderColor]);
-
-    const baseStyles = disableDefaultStyles
-      ? INPUT_EMPTY_VALUE
-      : baseClassName || `${INPUT_BASE_STYLES} ${INPUT_BORDER_STYLES} ${INPUT_SIZE_STYLES[size]}`;
-
-    const wrapperStyles = wrapperClassName || INPUT_WRAPPER_STYLES;
-
-    const labelStyles = labelClassName || INPUT_LABEL_BASE_STYLES;
+    }, [inputColors, colors, customBg, customTextColor, customBorderColor]);
 
     const getInputType = () => {
       if (variant === INPUT_VARIANTS.PASSWORD && showPasswordToggle) {
@@ -153,23 +218,84 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       return variant === INPUT_VARIANTS.SEARCH ? INPUT_VARIANTS.TEXT : variant;
     };
 
-    const getInputStyles = () => {
-      if (variant === INPUT_VARIANTS.SEARCH) {
-        return `${baseStyles} ${INPUT_SEARCH_PADDING}`;
-      }
-      return baseStyles;
-    };
-
     const toggleShowPassword = (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
       setShowPassword(!showPassword);
     };
 
+    const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+      setIsFocused(true);
+      onFocus?.(e);
+    };
+
+    const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+      setIsFocused(false);
+      onBlur?.(e);
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      // Update internal value for uncontrolled inputs
+      setInternalValue(e.target.value);
+      // Call parent onChange if provided
+      onChange?.(e);
+    };
+
+    const wrapperStyle: CSSProperties = disableDefaultStyles
+      ? {}
+      : {
+          position: 'relative',
+          marginBottom: '0.625rem',
+          width: fullWidth ? '100%' : 'auto',
+          ...cssVariables,
+        };
+
+    const inputStyle: CSSProperties = disableDefaultStyles
+      ? {}
+      : {
+          ...getInputSizeStyles(size),
+          borderColor: isFocused
+            ? 'var(--input-focus-border, #00D4FF)'
+            : 'var(--input-border, #4A5A6A)',
+          boxShadow: isFocused ? '0 0 0 0.1875rem var(--input-focus-shadow, rgba(0,212,255,0.1))' : 'none',
+          paddingRight:
+            variant === INPUT_VARIANTS.SEARCH
+              ? '2.5rem'
+              : variant === INPUT_VARIANTS.PASSWORD && showPasswordToggle
+                ? '2rem'
+                : undefined,
+        };
+
+    const passwordButtonStyle: CSSProperties = {
+      ...getIconButtonStyles(size),
+      right: '0.5rem',
+      padding: 0,
+      fontSize: getPasswordButtonFontSize(size),
+    };
+
+    const searchIconStyle: CSSProperties = {
+      ...getIconButtonStyles(size),
+      right: '0.5rem',
+      padding: 0,
+      pointerEvents: 'none',
+    };
+
+    const clearButtonStyle: CSSProperties = {
+      ...getIconButtonStyles(size),
+      right: '2rem',
+      padding: '0.25rem',
+      borderRadius: '9999px',
+      zIndex: 2,
+    };
+
+    // Check if input has value - handle both controlled and uncontrolled inputs
+    const currentValue = value !== undefined ? value : internalValue;
+    const hasValue = Boolean(currentValue && String(currentValue).trim().length > 0);
+
     return (
       <div
-        className={`${wrapperStyles} ${fullWidth ? INPUT_FULL_WIDTH_CLASS : INPUT_EMPTY_VALUE} ${className}`}
-        style={inlineStyles}
+        className={wrapperClassName}
+        style={{ ...wrapperStyle, ...style }}
       >
         <input
           ref={ref}
@@ -177,11 +303,18 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           placeholder={INPUT_PLACEHOLDER_CHAR}
           value={value}
           autoComplete={INPUT_AUTOCOMPLETE_VALUES.OFF}
-          className={getInputStyles()}
+          className={disableDefaultStyles ? baseClassName : className}
+          style={inputStyle}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onChange={handleChange}
           {...props}
         />
         {label && (
-          <label style={labelStyle} className={labelStyles}>
+          <label
+            className={labelClassName}
+            style={getLabelStyles(hasValue, isFocused, labelStyle)}
+          >
             {label}
           </label>
         )}
@@ -193,7 +326,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             <button
               type={INPUT_BUTTON_TYPE}
               onClick={toggleShowPassword}
-              className={`${INPUT_ICON_BUTTON_BASE} ${INPUT_ICON_BUTTON_POSITIONS.RIGHT} ${INPUT_ICON_SIZES[size]} ${INPUT_PASSWORD_BUTTON_SIZES[size]} ${INPUT_NO_PADDING_CLASS}`}
+              style={passwordButtonStyle}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = getHoverColor(inputColors.accentColor);
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'var(--input-accent, #00D4FF)';
+              }}
             >
               {showPassword ? passwordIconHidden : passwordIcon}
             </button>
@@ -205,15 +344,21 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               <button
                 onClick={onClear}
                 type={INPUT_BUTTON_TYPE}
-                className={`${INPUT_ICON_BUTTON_BASE} ${INPUT_ICON_BUTTON_POSITIONS.CLEAR} ${INPUT_ICON_SIZES[size]} ${INPUT_CLEAR_BUTTON_STYLES}`}
+                style={clearButtonStyle}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = adjustOpacity(inputColors.accentColor, 0.1);
+                  e.currentTarget.style.color = getHoverColor(inputColors.accentColor);
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = 'var(--input-accent, #00D4FF)';
+                }}
               >
                 {clearIcon}
               </button>
             )}
             {searchIcon && (
-              <div
-                className={`${INPUT_ICON_BUTTON_BASE} ${INPUT_ICON_BUTTON_POSITIONS.RIGHT} ${INPUT_ICON_SIZES[size]} ${INPUT_NO_PADDING_CLASS} pointer-events-none`}
-              >
+              <div style={searchIconStyle}>
                 {searchIcon}
               </div>
             )}
@@ -241,44 +386,126 @@ export const SelectInput = forwardRef<HTMLSelectElement, SelectInputProps>(
       wrapperClassName,
       disableDefaultStyles = false,
       value,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       colors,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       customBg,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       customTextColor,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       customBorderColor,
+      style,
+      onFocus,
+      onBlur,
       ...props
     },
     ref,
   ) => {
-    const baseStyles = disableDefaultStyles
-      ? INPUT_EMPTY_VALUE
-      : baseClassName ||
-        `${INPUT_BASE_STYLES} ${INPUT_BORDER_STYLES} ${INPUT_SIZE_STYLES[size]} ${INPUT_SELECT_PADDING} ${INPUT_SELECT_APPEARANCE}`;
+    const [isFocused, setIsFocused] = useState(false);
 
-    const wrapperStyles = wrapperClassName || INPUT_WRAPPER_STYLES;
+    // Use default colors if not provided
+    const colorConfig = colors || DEFAULT_COLOR_CONFIG;
 
-    const labelStyles = labelClassName || INPUT_LABEL_BASE_STYLES;
+    // Calculate dynamic colors for select
+    const selectColors = useMemo(() => {
+      const accentColor = colorConfig.accent || colorConfig.primary;
+      const defaultBg = lightenColor(colorConfig.secondary, 70);
+      const defaultTextColor = getContrastColor(defaultBg);
+      const textColor = customTextColor || defaultTextColor;
+      const borderColor = customBorderColor || adjustOpacity(textColor, 0.2);
+      const focusBorderColor = accentColor;
+      const focusShadow = adjustOpacity(accentColor, 0.1);
+
+      return {
+        bg: customBg || defaultBg,
+        textColor: textColor,
+        borderColor,
+        focusBorderColor,
+        focusShadow,
+        accentColor,
+        labelColor: adjustOpacity(textColor, 0.7),
+      };
+    }, [colorConfig, customBg, customTextColor, customBorderColor]);
+
+    const cssVariables = useMemo(() => {
+      if (!colors && !customBg && !customTextColor && !customBorderColor) return {};
+
+      return {
+        '--input-bg': selectColors.bg,
+        '--input-text': selectColors.textColor,
+        '--input-border': selectColors.borderColor,
+        '--input-focus-border': selectColors.focusBorderColor,
+        '--input-focus-shadow': selectColors.focusShadow,
+        '--input-label': selectColors.labelColor,
+        '--input-accent': selectColors.accentColor,
+      } as React.CSSProperties;
+    }, [selectColors, colors, customBg, customTextColor, customBorderColor]);
+
+    const handleFocus = (e: React.FocusEvent<HTMLSelectElement>) => {
+      setIsFocused(true);
+      onFocus?.(e);
+    };
+
+    const handleBlur = (e: React.FocusEvent<HTMLSelectElement>) => {
+      setIsFocused(false);
+      onBlur?.(e);
+    };
+
+    const wrapperStyle: CSSProperties = disableDefaultStyles
+      ? {}
+      : {
+          position: 'relative',
+          marginBottom: '0.625rem',
+          width: fullWidth ? '100%' : 'auto',
+          ...cssVariables,
+        };
+
+    const selectStyle: CSSProperties = disableDefaultStyles
+      ? {}
+      : {
+          ...getInputSizeStyles(size),
+          paddingRight: '2rem',
+          appearance: 'none',
+          cursor: 'pointer',
+          borderColor: isFocused
+            ? 'var(--input-focus-border, #00D4FF)'
+            : 'var(--input-border, #4A5A6A)',
+          boxShadow: isFocused ? '0 0 0 0.1875rem var(--input-focus-shadow, rgba(0,212,255,0.1))' : 'none',
+        };
+
+    const iconStyle: CSSProperties = {
+      ...getIconButtonStyles(size),
+      right: '0.5rem',
+      padding: 0,
+      pointerEvents: 'none',
+    };
+
+    // SelectInput always has value because it has default option + children
+    const hasValue = true;
 
     return (
       <div
-        className={`${wrapperStyles} ${fullWidth ? INPUT_FULL_WIDTH_CLASS : INPUT_EMPTY_VALUE} ${className}`}
+        className={wrapperClassName}
+        style={{ ...wrapperStyle, ...style }}
       >
-        <select ref={ref} value={value} className={baseStyles} {...props}>
+        <select
+          ref={ref}
+          value={value}
+          className={disableDefaultStyles ? baseClassName : className}
+          style={selectStyle}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          {...props}
+        >
           <option value={INPUT_EMPTY_VALUE} disabled hidden></option>
           {children}
         </select>
         {label && (
-          <label style={labelStyle} className={labelStyles}>
+          <label
+            className={labelClassName}
+            style={getLabelStyles(hasValue, isFocused, labelStyle)}
+          >
             {label}
           </label>
         )}
         {selectIcon && (
-          <div
-            className={`${INPUT_ICON_BUTTON_BASE} ${INPUT_ICON_BUTTON_POSITIONS.RIGHT} ${INPUT_ICON_SIZES[size]} ${INPUT_NO_PADDING_CLASS} pointer-events-none`}
-          >
+          <div style={iconStyle}>
             {selectIcon}
           </div>
         )}
