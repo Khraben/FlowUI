@@ -249,6 +249,8 @@ export const Gallery = ({
   useEffect(() => {
     if (!loaderRef.current) return;
 
+    const currentLoader = loaderRef.current;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -261,8 +263,27 @@ export const Gallery = ({
       { rootMargin: GALLERY_DEFAULTS.OBSERVER_ROOT_MARGIN },
     );
 
-    observer.observe(loaderRef.current);
-    return () => observer.disconnect();
+    observer.observe(currentLoader);
+
+    // Check if loader is already visible on mount (e.g., when component is filtered into view)
+    const checkInitialVisibility = () => {
+      const rect = currentLoader.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+      if (isVisible) {
+        setVisibleImages((prev) => {
+          const next = images.slice(0, prev.length + batchSize);
+          return next.length === prev.length ? prev : next;
+        });
+      }
+    };
+
+    // Small delay to ensure DOM is settled
+    const timeoutId = setTimeout(checkInitialVisibility, 100);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(timeoutId);
+    };
   }, [images, batchSize]);
 
   const columns = useMemo(
