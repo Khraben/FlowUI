@@ -1,16 +1,8 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo, CSSProperties } from 'react';
 import { LanguageSelectorProps } from './models/LanguageSelector.interface';
 import {
-  LANGUAGE_SELECTOR_BUTTON_SIZES,
-  LANGUAGE_SELECTOR_FLAG_SIZES,
-  LANGUAGE_SELECTOR_BUTTON_BASE,
-  LANGUAGE_SELECTOR_DROPDOWN_BASE,
-  LANGUAGE_SELECTOR_ITEM_BASE,
-  LANGUAGE_SELECTOR_FLAG_CONTAINER,
-  LANGUAGE_SELECTOR_FLAG_SCALE,
-  LANGUAGE_SELECTOR_CHECK_ICON,
   LANGUAGE_SELECTOR_DROPDOWN_OFFSET,
   ALL_LANGUAGES,
   DEFAULT_AVAILABLE_LANGUAGES,
@@ -19,6 +11,89 @@ import {
 } from '@/app/constants';
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
 import { adjustOpacity, getContrastColor, lightenColor } from '@/app/utils/colorUtils';
+
+const getButtonSizeStyles = (size: string): CSSProperties => {
+  const sizeMap: Record<string, CSSProperties> = {
+    sm: { width: '2rem', height: '2rem' },
+    md: { width: '2.5rem', height: '2.5rem' },
+    lg: { width: '3rem', height: '3rem' },
+  };
+  return sizeMap[size] || sizeMap.md;
+};
+
+const getFlagSizeStyles = (size: string): CSSProperties => {
+  const sizeMap: Record<string, CSSProperties> = {
+    sm: { width: '1.5rem', height: '1.5rem' },
+    md: { width: '2rem', height: '2rem' },
+    lg: { width: '2.5rem', height: '2.5rem' },
+  };
+  return sizeMap[size] || sizeMap.md;
+};
+
+const getButtonBaseStyles = (): CSSProperties => ({
+  borderRadius: '9999px',
+  overflow: 'hidden',
+  transition: 'all 300ms',
+  outline: 'none',
+  border: '2px solid',
+  cursor: 'pointer',
+  padding: 0,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
+
+const getDropdownBaseStyles = (): CSSProperties => ({
+  position: 'fixed' as const,
+  width: '12rem',
+  borderRadius: '0.5rem',
+  overflow: 'hidden',
+  zIndex: 150,
+  border: '2px solid',
+  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+});
+
+const getItemBaseStyles = (): CSSProperties => ({
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.75rem',
+  padding: '0.75rem 1rem',
+  transition: 'background-color 150ms, color 150ms',
+  border: 'none',
+  cursor: 'pointer',
+  fontSize: '0.875rem',
+  fontWeight: 500,
+  textAlign: 'left' as const,
+});
+
+const getFlagContainerStyles = (): CSSProperties => ({
+  borderRadius: '9999px',
+  overflow: 'hidden',
+  flexShrink: 0,
+  backgroundColor: '#ffffff',
+  border: '2px solid',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
+
+const getCheckIconStyles = (): CSSProperties => ({
+  width: '1.25rem',
+  height: '1.25rem',
+  marginLeft: 'auto',
+  flexShrink: 0,
+});
+
+const getFlagScaleStyles = (): CSSProperties => ({
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  overflow: 'hidden',
+  transform: 'scale(2.2)',
+});
 
 export const LanguageSelector = React.forwardRef<HTMLButtonElement, LanguageSelectorProps>(
   (
@@ -48,15 +123,15 @@ export const LanguageSelector = React.forwardRef<HTMLButtonElement, LanguageSele
     const buttonRef = useRef<HTMLButtonElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-    // Use default colors if not provided
     const colorConfig = colors || DEFAULT_COLOR_CONFIG;
 
-    // Calculate dynamic colors
     const selectorColors = useMemo(() => {
       const defaultButtonBg = lightenColor(colorConfig.secondary, 70);
       const buttonBg = customBgColor || defaultButtonBg;
-      const buttonBorder = customBorderColor || colorConfig.primary;
-      const buttonBorderHover = adjustOpacity(buttonBorder, 0.8);
+      const textColor = customTextColor || getContrastColor(buttonBg);
+      const buttonBorder = customBorderColor || adjustOpacity(textColor, 0.2);
+      const buttonBorderHover = colorConfig.accent || colorConfig.primary;
+      const buttonBorderFocus = colorConfig.accent || colorConfig.primary;
       const dropdownBg = colorConfig.secondary;
       const dropdownBorder = adjustOpacity(colorConfig.primary, 0.2);
       const itemText = customTextColor || getContrastColor(dropdownBg);
@@ -68,6 +143,7 @@ export const LanguageSelector = React.forwardRef<HTMLButtonElement, LanguageSele
         buttonBg,
         buttonBorder,
         buttonBorderHover,
+        buttonBorderFocus,
         dropdownBg,
         dropdownBorder,
         itemText,
@@ -84,8 +160,6 @@ export const LanguageSelector = React.forwardRef<HTMLButtonElement, LanguageSele
         const viewportHeight = window.innerHeight;
         const spaceBelow = viewportHeight - rect.bottom;
         const spaceAbove = rect.top;
-
-        // Open upward if there's not enough space below but there is above
         const shouldOpenUpward = spaceBelow < dropdownHeight && spaceAbove > spaceBelow;
 
         setDropdownPosition({
@@ -164,16 +238,27 @@ export const LanguageSelector = React.forwardRef<HTMLButtonElement, LanguageSele
     };
     const languageEntries = Object.entries(filteredLanguages);
 
-    const buttonSizeClass = LANGUAGE_SELECTOR_BUTTON_SIZES[size];
-    const flagSizeClass = LANGUAGE_SELECTOR_FLAG_SIZES[size];
+    const buttonStyle: CSSProperties = disableDefaultStyles
+      ? {}
+      : {
+          ...getButtonBaseStyles(),
+          ...getButtonSizeStyles(size),
+          backgroundColor: selectorColors.buttonBg,
+          borderColor: selectorColors.buttonBorder,
+        };
 
-    const buttonClasses = disableDefaultStyles
-      ? buttonClassName || ''
-      : `${buttonSizeClass} ${LANGUAGE_SELECTOR_BUTTON_BASE} hover:scale-110 focus:outline-none focus:ring-2 ${buttonClassName || ''}`.trim();
-
-    const dropdownClasses = disableDefaultStyles
-      ? dropdownClassName || ''
-      : `${LANGUAGE_SELECTOR_DROPDOWN_BASE} shadow-lg ${dropdownClassName || ''}`.trim();
+    const dropdownStyle: CSSProperties = {
+      ...getDropdownBaseStyles(),
+      top: dropdownPosition.openUpward
+        ? 'auto'
+        : `${dropdownPosition.top + LANGUAGE_SELECTOR_DROPDOWN_OFFSET}px`,
+      bottom: dropdownPosition.openUpward
+        ? `calc(100vh - ${dropdownPosition.top}px + ${LANGUAGE_SELECTOR_DROPDOWN_OFFSET}px)`
+        : 'auto',
+      left: `${dropdownPosition.left}px`,
+      backgroundColor: selectorColors.dropdownBg,
+      borderColor: selectorColors.dropdownBorder,
+    };
 
     const setRefs = useCallback(
       (node: HTMLButtonElement | null) => {
@@ -192,59 +277,59 @@ export const LanguageSelector = React.forwardRef<HTMLButtonElement, LanguageSele
         <button
           ref={setRefs}
           onClick={() => setIsOpen(!isOpen)}
-          className={buttonClasses}
-          style={{
-            backgroundColor: selectorColors.buttonBg,
-            borderColor: selectorColors.buttonBorder,
-          }}
+          className={buttonClassName}
+          style={buttonStyle}
           onMouseEnter={(e) => {
             e.currentTarget.style.borderColor = selectorColors.buttonBorderHover;
+            e.currentTarget.style.transform = 'scale(1.1)';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.borderColor = selectorColors.buttonBorder;
+            e.currentTarget.style.transform = 'scale(1)';
+          }}
+          onFocus={(e) => {
+            e.currentTarget.style.borderColor = selectorColors.buttonBorderFocus;
+            e.currentTarget.style.boxShadow = `0 0 0 0.1875rem ${adjustOpacity(selectorColors.buttonBorderFocus, 0.1)}`;
+          }}
+          onBlur={(e) => {
+            e.currentTarget.style.borderColor = selectorColors.buttonBorder;
+            e.currentTarget.style.boxShadow = 'none';
           }}
           aria-label="Select language"
           title={getLanguageName(currentLanguage)}
         >
           {currentLanguage?.flag && (
-            <currentLanguage.flag
-              className={`w-full h-full object-cover ${LANGUAGE_SELECTOR_FLAG_SCALE}`}
-            />
+            <div style={getFlagScaleStyles()}>
+              <currentLanguage.flag />
+            </div>
           )}
         </button>
 
         {isOpen && (
-          <div
-            ref={dropdownRef}
-            className={dropdownClasses}
-            style={{
-              position: 'fixed',
-              top: dropdownPosition.openUpward
-                ? 'auto'
-                : `${dropdownPosition.top + LANGUAGE_SELECTOR_DROPDOWN_OFFSET}px`,
-              bottom: dropdownPosition.openUpward
-                ? `calc(100vh - ${dropdownPosition.top}px + ${LANGUAGE_SELECTOR_DROPDOWN_OFFSET}px)`
-                : 'auto',
-              left: `${dropdownPosition.left}px`,
-              backgroundColor: selectorColors.dropdownBg,
-              borderColor: selectorColors.dropdownBorder,
-            }}
-          >
+          <div ref={dropdownRef} className={dropdownClassName} style={dropdownStyle}>
             {languageEntries.map(([key, lang]) => {
               const isActive = selectedLanguage === key;
-              const itemClasses = disableDefaultStyles
-                ? itemClassName || ''
-                : `${LANGUAGE_SELECTOR_ITEM_BASE} ${isActive ? activeItemClassName || '' : itemClassName || ''}`.trim();
+
+              const itemStyle: CSSProperties = disableDefaultStyles
+                ? {}
+                : {
+                    ...getItemBaseStyles(),
+                    color: selectorColors.itemText,
+                    backgroundColor: isActive ? selectorColors.activeItemBg : 'transparent',
+                  };
+
+              const flagContainerStyle: CSSProperties = {
+                ...getFlagContainerStyles(),
+                ...getFlagSizeStyles(size),
+                borderColor: selectorColors.dropdownBorder,
+              };
 
               return (
                 <button
                   key={key}
                   onClick={() => handleLanguageChange(key)}
-                  className={itemClasses}
-                  style={{
-                    color: selectorColors.itemText,
-                    backgroundColor: isActive ? selectorColors.activeItemBg : 'transparent',
-                  }}
+                  className={isActive ? activeItemClassName : itemClassName}
+                  style={itemStyle}
                   onMouseEnter={(e) => {
                     if (!isActive) {
                       e.currentTarget.style.backgroundColor = selectorColors.itemHoverBg;
@@ -256,19 +341,18 @@ export const LanguageSelector = React.forwardRef<HTMLButtonElement, LanguageSele
                     }
                   }}
                 >
-                  <div
-                    className={`${flagSizeClass} ${LANGUAGE_SELECTOR_FLAG_CONTAINER}`}
-                    style={{ borderColor: selectorColors.dropdownBorder }}
-                  >
-                    <lang.flag
-                      className={`w-full h-full object-cover ${LANGUAGE_SELECTOR_FLAG_SCALE}`}
-                    />
+                  <div style={flagContainerStyle}>
+                    <div style={getFlagScaleStyles()}>
+                      <lang.flag />
+                    </div>
                   </div>
                   <span>{getLanguageName(lang)}</span>
                   {isActive && (
                     <svg
-                      className={LANGUAGE_SELECTOR_CHECK_ICON}
-                      style={{ color: selectorColors.checkIconColor }}
+                      style={{
+                        ...getCheckIconStyles(),
+                        color: selectorColors.checkIconColor,
+                      }}
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
