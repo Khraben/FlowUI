@@ -1,6 +1,6 @@
 # FlowUI
 
-Private React component library with TypeScript and Tailwind CSS.
+Modern React component library with TypeScript and CSS-in-JS styling.
 
 ## ⚠️ Private Package - Authentication Required
 
@@ -40,7 +40,7 @@ npm login --scope=@khraben --registry=https://npm.pkg.github.com
 npm install @khraben/flowui
 ```
 
-**Note:** Tailwind CSS is required but not enforced as a peer dependency. Make sure you have Tailwind CSS 4+ configured in your project.
+**Note:** FlowUI v0.2.7+ uses **CSS-in-JS** and no longer requires Tailwind CSS. All styling is done through inline styles with dynamic color calculations.
 
 ## 🎨 Design Philosophy
 
@@ -62,6 +62,7 @@ See [Color System Documentation](docs/COLOR_SYSTEM.md) for complete details.
 - ✅ **Smart Contrast** - Text colors automatically adjusted for readability
 - ✅ **Consistent Theming** - Same color config across all components
 - ✅ **Zero Hardcoded Colors** - All colors derived from the 3 base colors
+- ✅ **CSS-in-JS** - Pure inline styles with CSSProperties, no external dependencies
 - ✅ **TypeScript Strict** - Complete type safety
 - ✅ **Built with tsup** - Optimized ESM + CJS builds
 - ✅ **Framer Motion** - Smooth animations in Gallery and other components
