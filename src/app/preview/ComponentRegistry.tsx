@@ -11,6 +11,7 @@ import {
   Table,
   BaseModal,
   ConfirmationModal,
+  Gallery,
 } from '@/app/components';
 import type { TableColumn } from '@/app/components/Table';
 import { COMPONENT_CATEGORIES } from '@/app/constants';
@@ -732,49 +733,34 @@ const NavBarDemo = () => {
 };
 
 const GalleryDemo = () => {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const imageConfigs = [
+    { width: 420, height: 350 },
+    { width: 520, height: 420 },
+    { width: 530, height: 410 },
+    { width: 390, height: 510 },
+    { width: 610, height: 390 },
+    { width: 700, height: 500 },
+    { width: 650, height: 450 },
+    { width: 600, height: 400 },
+  ];
 
-  const heights = [180, 240, 200, 220, 190, 210];
-  const sampleImages = Array.from({ length: 6 }, (_, i) => ({
+  const sampleImages = imageConfigs.map((config, i) => ({
     id: `img-${i + 1}`,
-    src: `https://picsum.photos/seed/${i + 1}/400/${heights[i]}`,
+    src: `https://picsum.photos/seed/${i + 1}/${config.width}/${config.height}`,
     alt: `Gallery image ${i + 1}`,
-    width: 400,
-    height: heights[i],
+    width: config.width,
+    height: config.height,
   }));
 
   return (
     <div className="w-full">
-      <div className="columns-2 gap-3">
-        {sampleImages.map((img) => (
-          <div key={img.id} className="mb-3 break-inside-avoid">
-            <div
-              className="relative overflow-hidden rounded-lg border cursor-pointer"
-              style={{ borderColor: PREVIEW_COLOR_CONFIG.primary + '20' }}
-              onMouseEnter={() => setHoveredId(img.id)}
-              onMouseLeave={() => setHoveredId(null)}
-            >
-              <div
-                className="w-full h-auto bg-gray-100 transition-transform duration-500 ease-out"
-                style={{
-                  aspectRatio: `${img.width} / ${img.height}`,
-                  backgroundImage: `url(${img.src})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  transform: hoveredId === img.id ? 'scale(1.03)' : 'scale(1)',
-                }}
-              />
-              <div
-                className="pointer-events-none absolute inset-0 transition-colors duration-300"
-                style={{
-                  backgroundColor:
-                    hoveredId === img.id ? PREVIEW_COLOR_CONFIG.secondary + '33' : 'transparent',
-                }}
-              />
-            </div>
-          </div>
-        ))}
-      </div>
+      <Gallery
+        images={sampleImages}
+        batchSize={25}
+        enableAnimation={true}
+        colors={PREVIEW_COLOR_CONFIG}
+        forceColumnCount={3}
+      />
     </div>
   );
 };

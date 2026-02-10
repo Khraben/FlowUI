@@ -14,6 +14,7 @@ export interface GalleryProps {
   enableAnimation?: boolean;
   className?: string;
   disableDefaultStyles?: boolean;
+  forceColumnCount?: number; // Force a specific number of columns
 
   // Color system
   colors?: BaseColorConfig;
