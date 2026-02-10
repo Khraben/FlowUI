@@ -13,18 +13,14 @@ export { COMPONENT_CATEGORIES } from './categories.constants';
 
 export const PREVIEW_TEXT = {
   TITLE: 'FlowUI Component Library',
-  SUBTITLE: 'Professional Tailwind & Next.js components',
-  TOTAL_LABEL: 'Total:',
+  SUBTITLE: 'Professional components',
   COMPONENTS_LABEL: 'components',
   LOADING_MESSAGE: 'Loading more components...',
-  ALL_LOADED_TITLE: "You've seen them all! 🎉",
   ALL_LOADED_MESSAGE: (count: number, category: string) =>
     `${count} component${count !== 1 ? 's' : ''} in ${category}`,
   NO_COMPONENTS_TITLE: 'No components found',
   NO_COMPONENTS_MESSAGE: 'Try selecting a different category',
-  FOOTER_TEXT: 'FlowUI Component Library - Built with Next.js, TypeScript & Tailwind CSS',
-  VIEW_CODE_BUTTON: 'View Code →',
-  COMPONENT_ID_LABEL: 'Component ID:',
+  FOOTER_TEXT: 'FlowUI Component Library - Built with TypeScript',
 } as const;
 
 export const FILTER_CATEGORY = {

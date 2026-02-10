@@ -43,11 +43,6 @@ export type {
 } from '@/app/components/NavBar/models/NavBar.interface';
 export type { GalleryProps, GalleryImage } from '@/app/components/Gallery/models/Gallery.interface';
 
-// Re-export component enums and types from constants
-export { BUTTON_VARIANT, BUTTON_ROUNDED, SIZE, POSITION } from '@/app/constants';
-
-export { INPUT_VARIANT } from '@/app/constants';
-
 // Color system - New simplified color configuration
 export type { BaseColorConfig, ExtendedColorConfig } from '@/app/types/colors';
 export { hasExtendedColors, DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
