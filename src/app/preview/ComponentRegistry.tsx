@@ -119,6 +119,8 @@ const DatePickerDemo = () => {
       selected={date}
       onChange={(newDate: Date | null) => setDate(newDate as Date)}
       onClear={() => setDate(null)}
+      label="Date Picker"
+      placeholderText=" "
       calendarIcon={<Calendar size={16} />}
       clearIcon={<X size={14} />}
       colors={PREVIEW_COLOR_CONFIG}
@@ -135,6 +137,8 @@ const MonthYearPickerDemo = () => {
       selected={date}
       onChange={(newDate: Date | null) => setDate(newDate as Date)}
       onClear={() => setDate(null)}
+      label="Month Year Picker"
+      placeholderText=" "
       showMonthYearPicker
       dateFormat="MM/yyyy"
       calendarIcon={<Calendar size={16} />}
@@ -941,15 +945,17 @@ export const componentRegistry: ComponentDemo[] = [
     name: 'Number Input',
     description: 'Numeric input field',
     category: COMPONENT_CATEGORIES.INPUTS,
-    component: Input,
-    props: {
-      variant: 'number',
-      label: 'Quantity',
-      placeholder: ' ',
-      colors: PREVIEW_COLOR_CONFIG,
-      customBg: PREVIEW_DARK_SURFACE,
-      customTextColor: PREVIEW_LIGHT_TEXT,
-    },
+    component: () => (
+      <Input
+        variant="number"
+        label="Quantity"
+        placeholder=" "
+        colors={PREVIEW_COLOR_CONFIG}
+        customBg={PREVIEW_DARK_SURFACE}
+        customTextColor={PREVIEW_LIGHT_TEXT}
+      />
+    ),
+    props: {},
   },
   {
     id: 'input-select',

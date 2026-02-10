@@ -54,6 +54,8 @@ export interface DatePickerProps {
   showPopperArrow?: boolean;
   autoComplete?: string;
   className?: string;
+  label?: string;
+  labelStyle?: React.CSSProperties;
 
   // New simplified color system
   colors?: BaseColorConfig;
