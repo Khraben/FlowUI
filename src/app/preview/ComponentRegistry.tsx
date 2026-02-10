@@ -378,9 +378,9 @@ const SimpleTableDemo = () => {
   ];
 
   const baseData: DataRow[] = [
-    { id: 5, name: 'Alice Brown', status: 'Active' },
-    { id: 2, name: 'Bob Wilson', status: 'Inactive' },
-    { id: 8, name: 'Charlie Davis', status: 'Active' },
+    { id: 5, name: 'Alice ', status: 'Active' },
+    { id: 2, name: 'Bob ', status: 'Inactive' },
+    { id: 8, name: 'Charlie', status: 'Active' },
   ];
 
   const handleSort = (field: string) => {
@@ -430,9 +430,9 @@ const TableWithActionsDemo = () => {
   ];
 
   const baseData: DataRow[] = [
-    { id: 3, name: 'Emma Johnson' },
-    { id: 7, name: 'Frank Miller' },
-    { id: 1, name: 'Grace Lee' },
+    { id: 3, name: 'Emma' },
+    { id: 7, name: 'Frank' },
+    { id: 1, name: 'Grace' },
   ];
 
   const handleSort = (field: string) => {

@@ -1,23 +1,97 @@
 'use client';
 
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { TableProps } from './models/Table.interface';
 import ActionIcon from '../ActionIcon/ActionIcon';
 import {
-  TABLE_CONTAINER_CLASS,
-  TABLE_HEADER_CELL_BASE,
-  TABLE_HEADER_CELL_SORTABLE,
-  TABLE_HEADER_CELL_RESPONSIVE,
-  TABLE_ACTIONS_HEADER_CLASS,
-  TABLE_ACTIONS_CELL_CLASS,
-  TABLE_SORT_ICON_CLASS,
-  TABLE_SORT_ICON_SIZE,
   TABLE_DEFAULT_NO_DATA_MESSAGE,
   TABLE_DEFAULT_ACTIONS_LABEL,
   TABLE_DISPLAY_NAME,
 } from '@/app/constants/components/table/styles.constants';
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
 import { darkenColor, lightenColor, getContrastColor, adjustOpacity } from '@/app/utils/colorUtils';
+
+// Helper functions for Table styles
+const getTableContainerStyles = (): CSSProperties => ({
+  width: '100%',
+  maxWidth: '75rem',
+  borderCollapse: 'separate' as const,
+  borderSpacing: 0,
+  borderRadius: '0.75rem',
+  overflow: 'hidden',
+  boxShadow: '0 0.25rem 0.75rem rgba(0, 0, 0, 0.08)',
+});
+
+const getNoDataStyles = (): CSSProperties => ({
+  textAlign: 'center' as const,
+  padding: '2rem 1.25rem',
+  fontSize: '1rem',
+  fontWeight: 500,
+  borderRadius: '0.75rem',
+  border: '2px dashed',
+  maxWidth: '75rem',
+  width: '100%',
+});
+
+const getHeaderCellBaseStyles = (): CSSProperties => ({
+  padding: '0.625rem 1.25rem',
+  textAlign: 'left' as const,
+  textTransform: 'uppercase' as const,
+  fontSize: '0.8125rem',
+  fontWeight: 600,
+  letterSpacing: '0.08em',
+  borderBottom: '2px solid',
+  userSelect: 'none' as const,
+  whiteSpace: 'nowrap' as const,
+});
+
+const getHeaderCellSortableStyles = (): CSSProperties => ({
+  cursor: 'pointer',
+  transition: 'all 200ms',
+  position: 'relative' as const,
+});
+
+const getTheadStyles = (): CSSProperties => ({
+  position: 'sticky' as const,
+  top: 0,
+  zIndex: 10,
+});
+
+const getActionsHeaderStyles = (): CSSProperties => ({
+  textAlign: 'center' as const,
+  width: '9.375rem',
+});
+
+const getSortIconContainerStyles = (): CSSProperties => ({
+  marginLeft: '0.375rem',
+  display: 'inline-flex',
+  alignItems: 'center',
+  verticalAlign: 'middle',
+  opacity: 0.8,
+  transition: 'opacity 200ms',
+});
+
+const getSortIconStyles = (): CSSProperties => ({
+  width: '0.875rem',
+  height: '0.875rem',
+});
+
+const getBodyCellStyles = (): CSSProperties => ({
+  padding: '0.625rem 1.25rem',
+  textAlign: 'left' as const,
+  fontSize: '0.875rem',
+  fontWeight: 500,
+  borderBottom: '1px solid',
+});
+
+const getActionsCellStyles = (): CSSProperties => ({
+  textAlign: 'center' as const,
+  whiteSpace: 'nowrap' as const,
+});
+
+const getRowStyles = (): CSSProperties => ({
+  transition: 'all 200ms',
+});
 
 const ArrowUpDown: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
@@ -171,14 +245,22 @@ export const Table = <T extends Record<string, unknown>>({
   const noDataBg = rowBg;
   const noDataTextColor = adjustOpacity(cellTextColor, 0.6);
   const noDataBorderColor = adjustOpacity(cellTextColor, 0.1);
+
+  const noDataStyle: CSSProperties = {
+    ...getNoDataStyles(),
+    background: noDataBg,
+    color: noDataTextColor,
+    borderColor: noDataBorderColor,
+  };
+
   const getSortIcon = (field: string) => {
     if (sortField !== field) {
-      return <ArrowUpDown className={TABLE_SORT_ICON_SIZE} />;
+      return <ArrowUpDown style={getSortIconStyles()} />;
     }
     return sortDirection === 'asc' ? (
-      <ArrowUp className={TABLE_SORT_ICON_SIZE} />
+      <ArrowUp style={getSortIconStyles()} />
     ) : (
-      <ArrowDown className={TABLE_SORT_ICON_SIZE} />
+      <ArrowDown style={getSortIconStyles()} />
     );
   };
 
@@ -189,50 +271,55 @@ export const Table = <T extends Record<string, unknown>>({
   };
 
   if (data.length === 0) {
-    return (
-      <div
-        className="text-center py-[3.75rem] px-5 text-base font-medium rounded-xl border-2 border-dashed max-w-[75rem] w-full max-xs:py-10 max-xs:px-[0.9375rem] max-xs:text-sm"
-        style={{
-          background: noDataBg,
-          color: noDataTextColor,
-          borderColor: noDataBorderColor,
-        }}
-      >
-        {noDataMessage}
-      </div>
-    );
+    return <div style={noDataStyle}>{noDataMessage}</div>;
   }
 
   return (
-    <table className={TABLE_CONTAINER_CLASS}>
-      <thead
-        className="sticky top-0 z-10"
-        style={{
-          background: `linear-gradient(to right, ${headerBgFrom}, ${headerBgTo})`,
-          color: headerTextColor,
-        }}
-      >
-        <tr>
+    <table style={getTableContainerStyles()}>
+      <thead style={getTheadStyles()}>
+        <tr
+          style={{
+            background: `linear-gradient(to right, ${headerBgFrom}, ${headerBgTo})`,
+            color: headerTextColor,
+          }}
+        >
           {columns.map((column, index) =>
             column.sortable ? (
               <th
                 key={column.key || index}
                 onClick={() => handleSort(column.key)}
-                className={`${TABLE_HEADER_CELL_BASE} ${TABLE_HEADER_CELL_SORTABLE} ${TABLE_HEADER_CELL_RESPONSIVE}`}
                 style={{
+                  ...getHeaderCellBaseStyles(),
+                  ...getHeaderCellSortableStyles(),
                   borderBottomColor: headerBorderColor,
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = headerHoverBg)}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = headerHoverBg;
+                  const icon = e.currentTarget.querySelector('.sort-icon') as HTMLElement;
+                  if (icon) icon.style.opacity = '1';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  const icon = e.currentTarget.querySelector('.sort-icon') as HTMLElement;
+                  if (icon) icon.style.opacity = '0.8';
+                }}
+                onMouseDown={(e) => {
+                  e.currentTarget.style.transform = 'scale(0.98)';
+                }}
+                onMouseUp={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
               >
                 {column.label}{' '}
-                <span className={TABLE_SORT_ICON_CLASS}>{getSortIcon(column.key)}</span>
+                <span className="sort-icon" style={getSortIconContainerStyles()}>
+                  {getSortIcon(column.key)}
+                </span>
               </th>
             ) : (
               <th
                 key={column.key || index}
-                className={`${TABLE_HEADER_CELL_BASE} ${TABLE_HEADER_CELL_RESPONSIVE}`}
                 style={{
+                  ...getHeaderCellBaseStyles(),
                   borderBottomColor: headerBorderColor,
                 }}
               >
@@ -242,8 +329,9 @@ export const Table = <T extends Record<string, unknown>>({
           )}
           {showActions && (
             <th
-              className={`${TABLE_HEADER_CELL_BASE} ${TABLE_ACTIONS_HEADER_CLASS} ${TABLE_HEADER_CELL_RESPONSIVE}`}
               style={{
+                ...getHeaderCellBaseStyles(),
+                ...getActionsHeaderStyles(),
                 borderBottomColor: headerBorderColor,
               }}
             >
@@ -256,20 +344,26 @@ export const Table = <T extends Record<string, unknown>>({
         {data.map((item, rowIndex) => (
           <tr
             key={(item as { id?: string | number }).id || rowIndex}
-            className="transition-all duration-200 hover:-translate-y-[0.0625rem] hover:shadow-[0_0.125rem_0.5rem_rgba(0,0,0,0.06)] last:border-b-0"
             style={{
+              ...getRowStyles(),
               backgroundColor: rowIndex % 2 === 0 ? rowBg : rowEvenBg,
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = rowHoverBg)}
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.backgroundColor = rowIndex % 2 === 0 ? rowBg : rowEvenBg)
-            }
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = rowHoverBg;
+              e.currentTarget.style.transform = 'translateY(-0.0625rem)';
+              e.currentTarget.style.boxShadow = '0 0.125rem 0.5rem rgba(0, 0, 0, 0.06)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = rowIndex % 2 === 0 ? rowBg : rowEvenBg;
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
           >
             {columns.map((column, colIndex) => (
               <td
                 key={column.key || colIndex}
-                className="p-4 px-5 text-left text-sm font-medium border-b md:text-xs md:p-3 md:px-[0.9375rem] max-xs:text-[0.6875rem] max-xs:p-2.5 max-xs:px-3"
                 style={{
+                  ...getBodyCellStyles(),
                   color: cellTextColor,
                   borderBottomColor: cellBorderColor,
                 }}
@@ -281,8 +375,9 @@ export const Table = <T extends Record<string, unknown>>({
             ))}
             {showActions && (
               <td
-                className={`p-4 px-5 text-left text-sm font-medium border-b md:text-xs md:p-3 md:px-[0.9375rem] max-xs:text-[0.6875rem] max-xs:p-2.5 max-xs:px-3 ${TABLE_ACTIONS_CELL_CLASS}`}
                 style={{
+                  ...getBodyCellStyles(),
+                  ...getActionsCellStyles(),
                   color: cellTextColor,
                   borderBottomColor: cellBorderColor,
                 }}
