@@ -921,21 +921,6 @@ export const componentRegistry: ComponentDemo[] = [
     },
   },
   {
-    id: 'input-email',
-    name: 'Email Input',
-    description: 'Email input with validation',
-    category: COMPONENT_CATEGORIES.INPUTS,
-    component: Input,
-    props: {
-      variant: 'email',
-      label: 'Email Address',
-      placeholder: ' ',
-      colors: PREVIEW_COLOR_CONFIG,
-      customBg: PREVIEW_DARK_SURFACE,
-      customTextColor: PREVIEW_LIGHT_TEXT,
-    },
-  },
-  {
     id: 'input-password',
     name: 'Password Input',
     description: 'Password input with toggle visibility',
