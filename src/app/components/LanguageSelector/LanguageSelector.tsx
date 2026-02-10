@@ -85,15 +85,22 @@ const getCheckIconStyles = (): CSSProperties => ({
   flexShrink: 0,
 });
 
-const getFlagScaleStyles = (): CSSProperties => ({
-  width: '100%',
-  height: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  overflow: 'hidden',
-  transform: 'scale(2.2)',
-});
+const getFlagScaleStyles = (size: string): CSSProperties => {
+  const scaleMap: Record<string, string> = {
+    sm: 'scale(1.2, 1.7)',
+    md: 'scale(2, 2.15)',
+    lg: 'scale(2.2, 2.65)',
+  };
+  return {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    transform: scaleMap[size] || scaleMap.md,
+  };
+};
 
 export const LanguageSelector = React.forwardRef<HTMLButtonElement, LanguageSelectorProps>(
   (
@@ -299,7 +306,7 @@ export const LanguageSelector = React.forwardRef<HTMLButtonElement, LanguageSele
           title={getLanguageName(currentLanguage)}
         >
           {currentLanguage?.flag && (
-            <div style={getFlagScaleStyles()}>
+            <div style={getFlagScaleStyles(size)}>
               <currentLanguage.flag />
             </div>
           )}
@@ -342,7 +349,7 @@ export const LanguageSelector = React.forwardRef<HTMLButtonElement, LanguageSele
                   }}
                 >
                   <div style={flagContainerStyle}>
-                    <div style={getFlagScaleStyles()}>
+                    <div style={getFlagScaleStyles(size)}>
                       <lang.flag />
                     </div>
                   </div>

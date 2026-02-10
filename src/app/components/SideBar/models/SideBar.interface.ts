@@ -24,6 +24,13 @@ export interface SideBarProps {
   openWidth?: string;
   closedWidth?: string;
 
+  // Language selector
+  languageSelector?: {
+    selectedLanguage?: string;
+    onLanguageChange?: (languageKey: string) => void;
+    availableLanguages?: string[];
+  };
+
   // New simplified color system
   colors?: BaseColorConfig;
 

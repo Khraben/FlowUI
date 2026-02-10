@@ -37,4 +37,11 @@ export interface NavBarProps {
   height?: string;
   showMobileMenu?: boolean;
   onMobileMenuToggle?: (isOpen: boolean) => void;
+
+  // Language selector
+  languageSelector?: {
+    selectedLanguage?: string;
+    onLanguageChange?: (languageKey: string) => void;
+    availableLanguages?: string[];
+  };
 }

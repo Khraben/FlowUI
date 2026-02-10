@@ -6,6 +6,7 @@ import { NavBarProps } from './models/NavBar.interface';
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
 import { adjustOpacity, getContrastColor } from '@/app/utils/colorUtils';
 import Button from '../Button/Button';
+import { LanguageSelector } from '../LanguageSelector/LanguageSelector';
 
 const NAVBAR_DISPLAY_NAME = 'NavBar';
 
@@ -195,6 +196,7 @@ export const NavBar = ({
   height = '4rem',
   showMobileMenu: controlledMobileMenu,
   onMobileMenuToggle,
+  languageSelector,
 }: NavBarProps) => {
   const [internalMobileMenu, setInternalMobileMenu] = useState(false);
   const isMobileMenuOpen = controlledMobileMenu ?? internalMobileMenu;
@@ -351,6 +353,17 @@ export const NavBar = ({
           </div>
 
           <div className="navbar-actions-container" style={getActionsContainerStyles()}>
+            {languageSelector && (
+              <LanguageSelector
+                selectedLanguage={languageSelector.selectedLanguage}
+                onLanguageChange={languageSelector.onLanguageChange}
+                availableLanguages={languageSelector.availableLanguages}
+                size="sm"
+                colors={colors}
+                customBgColor={backgroundColor}
+                customTextColor={textColor}
+              />
+            )}
             {actions.map((action) => {
               const variant = action.variant === 'primary' ? 'primary' : 'secondary';
               return (
@@ -446,6 +459,27 @@ export const NavBar = ({
                 </div>
               ))}
             </div>
+
+            {languageSelector && (
+              <div
+                style={{
+                  padding: '1rem',
+                  borderTop: `1px solid ${adjustOpacity('#000', 0.1)}`,
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
+                <LanguageSelector
+                  selectedLanguage={languageSelector.selectedLanguage}
+                  onLanguageChange={languageSelector.onLanguageChange}
+                  availableLanguages={languageSelector.availableLanguages}
+                  size="sm"
+                  colors={colors}
+                  customBgColor={backgroundColor}
+                  customTextColor={textColor}
+                />
+              </div>
+            )}
 
             <div style={getMobileActionsStyles()}>
               {actions.map((action) => {

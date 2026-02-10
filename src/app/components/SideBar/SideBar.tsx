@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo, CSSProperties } from 'react';
 import { SideBarProps, SideBarMenuItem } from './models/SideBar.interface';
 import { DEFAULT_COLOR_CONFIG, hasExtendedColors } from '@/app/types/colors';
 import { adjustOpacity, getContrastColor, lightenColor } from '@/app/utils/colorUtils';
+import { LanguageSelector } from '../LanguageSelector/LanguageSelector';
 
 const SIDEBAR_DISPLAY_NAME = 'SideBar';
 
@@ -120,6 +121,7 @@ export const SideBar = ({
   customLogoutTextColor,
   customLogoutHoverBg,
   customLogoutHoverTextColor,
+  languageSelector,
 }: SideBarProps) => {
   const [internalIsOpen, setInternalIsOpen] = useState(false);
   const isOpen = controlledIsOpen ?? internalIsOpen;
@@ -319,7 +321,51 @@ export const SideBar = ({
 
           {bottomItems.length > 0 && (
             <li style={{ ...getListItemStyles(), ...getBottomSectionStyles() }}>
-              <ul style={getListStyles()}>{bottomItems.map((item) => renderMenuItem(item))}</ul>
+              <ul style={getListStyles()}>
+                {bottomItems.map((item) => renderMenuItem(item))}
+                {languageSelector && (
+                  <li style={getListItemStyles()}>
+                    <div
+                      style={{
+                        padding: isOpen ? '0.75rem 1.25rem' : '0.75rem',
+                        display: 'flex',
+                        justifyContent: isOpen ? 'flex-start' : 'center',
+                      }}
+                    >
+                      <LanguageSelector
+                        selectedLanguage={languageSelector.selectedLanguage}
+                        onLanguageChange={languageSelector.onLanguageChange}
+                        availableLanguages={languageSelector.availableLanguages}
+                        size="sm"
+                        colors={colors}
+                        customBgColor={backgroundColor}
+                        customTextColor={textColor}
+                      />
+                    </div>
+                  </li>
+                )}
+              </ul>
+            </li>
+          )}
+          {bottomItems.length === 0 && languageSelector && (
+            <li style={{ ...getListItemStyles(), ...getBottomSectionStyles() }}>
+              <div
+                style={{
+                  padding: isOpen ? '0.75rem 1.25rem' : '0.75rem',
+                  display: 'flex',
+                  justifyContent: isOpen ? 'flex-start' : 'center',
+                }}
+              >
+                <LanguageSelector
+                  selectedLanguage={languageSelector.selectedLanguage}
+                  onLanguageChange={languageSelector.onLanguageChange}
+                  availableLanguages={languageSelector.availableLanguages}
+                  size="sm"
+                  colors={colors}
+                  customBgColor={backgroundColor}
+                  customTextColor={textColor}
+                />
+              </div>
             </li>
           )}
         </ul>
