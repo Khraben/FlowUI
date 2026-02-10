@@ -1,9 +1,33 @@
-import React, { useState, ReactNode } from 'react';
+import React, { useState, ReactNode, CSSProperties } from 'react';
 import { CheckCircle } from 'lucide-react';
 import { BaseModal } from '../BaseModal/BaseModal';
 import Button from '../Button/Button';
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
 import type { ExtendedColorConfig } from '@/app/types/colors';
+import { getContrastColor, adjustOpacity } from '@/app/utils/colorUtils';
+
+// Helper functions for ConfirmationModal styles
+const getLoadingContainerStyles = (): CSSProperties => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: '2.5rem 0',
+});
+
+const getMessageStyles = (modalBg: string): CSSProperties => ({
+  fontSize: '1rem',
+  textAlign: 'center' as const,
+  margin: '1.25rem 0',
+  lineHeight: 1.5,
+  color: adjustOpacity(getContrastColor(modalBg), 0.9),
+});
+
+const getButtonContainerStyles = (): CSSProperties => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  gap: '0.625rem',
+  marginTop: '1.25rem',
+});
 
 export interface ConfirmationModalProps {
   isOpen: boolean;
@@ -34,16 +58,29 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   if (!isOpen) return null;
   if (loading && loadingContent)
     return (
-      <BaseModal
-        isOpen={true}
-        onClose={onClose}
-        title="Processing"
-        icon={CheckCircle}
-        maxWidth="28.125rem"
-        colors={colorConfig}
-      >
-        <div className="flex justify-center items-center py-10">{loadingContent}</div>
-      </BaseModal>
+      <>
+        <style>{`
+          @media (max-width: 480px) {
+            .confirm-message {
+              font-size: 0.875rem !important;
+            }
+            .confirm-buttons {
+              flex-direction: column !important;
+              gap: 0.375rem !important;
+            }
+          }
+        `}</style>
+        <BaseModal
+          isOpen={true}
+          onClose={onClose}
+          title="Processing"
+          icon={CheckCircle}
+          maxWidth="28.125rem"
+          colors={colorConfig}
+        >
+          <div style={getLoadingContainerStyles()}>{loadingContent}</div>
+        </BaseModal>
+      </>
     );
 
   const handleConfirm = async () => {
@@ -56,6 +93,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     }
   };
 
+  const modalBg = colorConfig.secondary;
+
   return (
     <BaseModal
       isOpen={isOpen}
@@ -65,10 +104,10 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       maxWidth="28.125rem"
       colors={colorConfig}
     >
-      <p className="text-base text-gray-600 text-center my-5 leading-normal max-xs:text-sm">
+      <p className="confirm-message" style={getMessageStyles(modalBg)}>
         {message}
       </p>
-      <div className="flex justify-between gap-2.5 mt-5 max-xs:flex-col max-xs:gap-1.5">
+      <div className="confirm-buttons" style={getButtonContainerStyles()}>
         <Button variant="secondary" onClick={onClose} colors={colorConfig}>
           {cancelText}
         </Button>
