@@ -148,3 +148,5 @@ export const DEFAULT_AVAILABLE_LANGUAGES = ['en', 'es'] as const;
 export const DEFAULT_SELECTED_LANGUAGE = 'en';
 
 export const LANGUAGE_SELECTOR_DISPLAY_NAME = 'LanguageSelector';
+
+export const LANGUAGE_SELECTOR_DROPDOWN_OFFSET = 8;

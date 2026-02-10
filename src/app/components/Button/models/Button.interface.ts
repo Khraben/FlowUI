@@ -1,17 +1,16 @@
 import React from 'react';
 import { ButtonVariant, ButtonSize } from '../types/Button.types';
-import { BUTTON_ICON_POSITIONS, BUTTON_ROUNDED_OPTIONS } from '@/app/constants';
 import { BaseColorConfig } from '@/app/types/colors';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   icon?: React.ReactNode;
-  iconPosition?: (typeof BUTTON_ICON_POSITIONS)[keyof typeof BUTTON_ICON_POSITIONS];
+  iconPosition?: 'left' | 'right';
   isLoading?: boolean;
   loadingText?: string;
   fullWidth?: boolean;
-  rounded?: (typeof BUTTON_ROUNDED_OPTIONS)[keyof typeof BUTTON_ROUNDED_OPTIONS];
+  rounded?: 'none' | 'sm' | 'md' | 'lg' | 'full';
   children?: React.ReactNode;
   baseClassName?: string;
   variantClassName?: string;

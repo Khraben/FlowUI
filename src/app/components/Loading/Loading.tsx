@@ -3,13 +3,13 @@
 import React, { useState, useEffect, useMemo, CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 import { LoadingProps } from './models/Loading.interface';
-import {
-  LOADING_DEFAULT_SIZE,
-  LOADING_DEFAULT_VARIANT,
-  LOADING_DISPLAY_NAME,
-} from '@/app/constants/components/loading/styles.constants';
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
 import { adjustOpacity, darkenColor } from '@/app/utils/colorUtils';
+
+// Constants
+const LOADING_DISPLAY_NAME = 'Loading';
+const LOADING_DEFAULT_SIZE = 'md';
+const LOADING_DEFAULT_VARIANT = 'spinner';
 
 // Helper functions for loading styles
 const getLoadingSizeStyles = (size: string): { width: string; height: string } => {

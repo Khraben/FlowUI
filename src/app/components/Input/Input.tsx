@@ -2,20 +2,6 @@ import { forwardRef, useState, useMemo, CSSProperties } from 'react';
 import { InputProps } from './models/Input.interface';
 import { SelectInputProps } from './models/SelectInput.interface';
 import { TimeInputProps } from './models/TimeInput.interface';
-import {
-  INPUT_VARIANTS,
-  INPUT_SIZES,
-  INPUT_DISPLAY_NAME,
-  SELECT_INPUT_DISPLAY_NAME,
-  TIME_INPUT_DISPLAY_NAME,
-  INPUT_TIME_PERIODS,
-  INPUT_TIME_DEFAULTS,
-  INPUT_TIME_FORMAT,
-  INPUT_PLACEHOLDER_CHAR,
-  INPUT_EMPTY_VALUE,
-  INPUT_AUTOCOMPLETE_VALUES,
-  INPUT_BUTTON_TYPE,
-} from '@/app/constants';
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
 import {
   getHoverColor,
@@ -23,6 +9,55 @@ import {
   getContrastColor,
   lightenColor,
 } from '@/app/utils/colorUtils';
+
+// Constants
+const INPUT_DISPLAY_NAME = 'Input';
+const SELECT_INPUT_DISPLAY_NAME = 'SelectInput';
+const TIME_INPUT_DISPLAY_NAME = 'TimeInput';
+const INPUT_PLACEHOLDER_CHAR = ' ';
+const INPUT_EMPTY_VALUE = '';
+const INPUT_BUTTON_TYPE = 'button';
+
+const INPUT_VARIANTS = {
+  TEXT: 'text',
+  NUMBER: 'number',
+  SEARCH: 'search',
+  SELECT: 'select',
+  PASSWORD: 'password',
+  TIME: 'time',
+  DATE: 'date',
+} as const;
+
+const INPUT_SIZES = {
+  SM: 'sm',
+  MD: 'md',
+  LG: 'lg',
+} as const;
+
+const INPUT_TIME_PERIODS = {
+  AM: 'am',
+  PM: 'pm',
+} as const;
+
+const INPUT_TIME_DEFAULTS = {
+  START_HOUR: 0,
+  END_HOUR: 23,
+  INTERVAL: 30,
+  DISPLAY_12H: 12,
+} as const;
+
+const INPUT_TIME_FORMAT = {
+  MINUTES_PER_HOUR: 60,
+  NOON_HOUR: 12,
+  ZERO_HOUR: 0,
+  ZERO_MINUTE_PAD: '00',
+  TIME_SEPARATOR: ':',
+} as const;
+
+const INPUT_AUTOCOMPLETE_VALUES = {
+  OFF: 'off',
+  ON: 'on',
+} as const;
 
 const generateTimeOptions = (startHour: number, endHour: number, interval: number) => {
   const times = [];

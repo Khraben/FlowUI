@@ -4,18 +4,36 @@ import ReactDatePicker, { registerLocale } from 'react-datepicker';
 import { Calendar, X } from 'lucide-react';
 import { enUS } from 'date-fns/locale';
 import { DatePickerProps } from './models/DatePicker.interface';
-import {
-  DATEPICKER_EMPTY_VALUE,
-  DATEPICKER_DISPLAY_NAME,
-} from '@/app/constants/components/datepicker/styles.constants';
-import {
-  DATEPICKER_CALENDAR_SIZES,
-  DATEPICKER_CALENDAR_Z_INDEX,
-} from '@/app/constants/components/datepicker/calendar.constants';
-import { SIZE } from '@/app/constants';
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
 import { adjustOpacity, getContrastColor, lightenColor } from '@/app/utils/colorUtils';
 import 'react-datepicker/dist/react-datepicker.css';
+
+// Constants
+const DATEPICKER_DISPLAY_NAME = 'DatePicker';
+const DATEPICKER_EMPTY_VALUE = '';
+
+const DATEPICKER_CALENDAR_SIZES = {
+  MIN_WIDTH: '10.5rem',
+  MONTH_PICKER_WIDTH: '10rem',
+  BORDER_RADIUS: '0.625rem',
+  BORDER_WIDTH: '0.125rem',
+  DAY_SIZE: '2rem',
+  DAY_MARGIN: '0.166rem',
+  MONTH_MARGIN: '0.4rem',
+  HEADER_PADDING_TOP: '0.5rem',
+  HEADER_PADDING_SIDE: '0.25rem',
+  NAVIGATION_SIZE: '2rem',
+  NAVIGATION_TOP: '0.625rem',
+  NAVIGATION_SIDE: '0.25rem',
+  ICON_SIZE: '0.5rem',
+  ICON_TOP: '0.375rem',
+  MONTH_TEXT_WIDTH: '2.75rem',
+  MONTH_TEXT_HEIGHT: '1.75rem',
+  MONTH_GAP: '0.25rem',
+  MONTH_PADDING: '0.5rem',
+} as const;
+
+const DATEPICKER_CALENDAR_Z_INDEX = '1000';
 
 // Helper functions for DatePicker styles
 const getDatePickerSizeStyles = (size: string, showClearButton: boolean): CSSProperties => {
@@ -113,7 +131,7 @@ const getWidthStyles = (size: string, fullWidth: boolean): CSSProperties => {
 export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
   (
     {
-      size = SIZE.MD,
+      size = 'md',
       onClear,
       calendarIcon,
       clearIcon,

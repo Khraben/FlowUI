@@ -1,16 +1,32 @@
 import { forwardRef, useMemo, CSSProperties } from 'react';
 import { ButtonProps } from './models/Button.interface';
-import {
-  BUTTON_VARIANTS,
-  BUTTON_SIZES,
-  BUTTON_ICON_POSITIONS,
-  BUTTON_EMPTY_VALUE,
-  BUTTON_DISPLAY_NAME,
-  STRING,
-  SVG,
-} from '@/app/constants';
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
 import { getHoverColor, adjustOpacity, getContrastColor } from '@/app/utils/colorUtils';
+
+// Constants
+const BUTTON_DISPLAY_NAME = 'Button';
+const BUTTON_EMPTY_VALUE = '';
+
+const BUTTON_VARIANTS = {
+  PRIMARY: 'primary',
+  SECONDARY: 'secondary',
+  SUCCESS: 'success',
+  DANGER: 'danger',
+  CLOSE: 'close',
+  CLEAR: 'clear',
+  ICON: 'icon',
+} as const;
+
+const BUTTON_SIZES = {
+  SM: 'sm',
+  MD: 'md',
+  LG: 'lg',
+} as const;
+
+const BUTTON_ICON_POSITIONS = {
+  LEFT: 'left',
+  RIGHT: 'right',
+} as const;
 
 // Helper functions for button styles
 const getButtonBaseStyles = (): CSSProperties => ({
@@ -159,7 +175,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         case BUTTON_VARIANTS.PRIMARY:
           baseColor = customBg || colorConfig.primary;
           textColor = customTextColor || getContrastColor(baseColor);
-          borderColor = customBorderColor || STRING.TRANSPARENT;
+          borderColor = customBorderColor || 'transparent';
           break;
         case BUTTON_VARIANTS.SECONDARY:
           baseColor = customBg || colorConfig.secondary;
@@ -169,7 +185,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         default:
           baseColor = customBg || colorConfig.accent;
           textColor = customTextColor || getContrastColor(baseColor);
-          borderColor = customBorderColor || STRING.TRANSPARENT;
+          borderColor = customBorderColor || 'transparent';
           break;
       }
 
@@ -308,9 +324,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             <>
               <svg
                 style={spinnerStyle}
-                xmlns={SVG.NAMESPACE}
-                fill={SVG.FILL.NONE}
-                viewBox={SVG.VIEWBOX}
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
               >
                 <circle
                   style={{ opacity: 0.25 }}
