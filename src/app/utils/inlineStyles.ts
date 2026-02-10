@@ -10,7 +10,7 @@ let animationsInjected = false;
 
 export const injectAnimations = () => {
   if (animationsInjected || typeof document === 'undefined') return;
-  
+
   const styleId = 'flowui-animations';
   if (!document.getElementById(styleId)) {
     const style = document.createElement('style');

@@ -257,7 +257,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           borderColor: isFocused
             ? 'var(--input-focus-border, #00D4FF)'
             : 'var(--input-border, #4A5A6A)',
-          boxShadow: isFocused ? '0 0 0 0.1875rem var(--input-focus-shadow, rgba(0,212,255,0.1))' : 'none',
+          boxShadow: isFocused
+            ? '0 0 0 0.1875rem var(--input-focus-shadow, rgba(0,212,255,0.1))'
+            : 'none',
           paddingRight:
             variant === INPUT_VARIANTS.SEARCH
               ? '2.5rem'
@@ -293,10 +295,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const hasValue = Boolean(currentValue && String(currentValue).trim().length > 0);
 
     return (
-      <div
-        className={wrapperClassName}
-        style={{ ...wrapperStyle, ...style }}
-      >
+      <div className={wrapperClassName} style={{ ...wrapperStyle, ...style }}>
         <input
           ref={ref}
           type={getInputType()}
@@ -311,10 +310,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         {label && (
-          <label
-            className={labelClassName}
-            style={getLabelStyles(hasValue, isFocused, labelStyle)}
-          >
+          <label className={labelClassName} style={getLabelStyles(hasValue, isFocused, labelStyle)}>
             {label}
           </label>
         )}
@@ -346,7 +342,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 type={INPUT_BUTTON_TYPE}
                 style={clearButtonStyle}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = adjustOpacity(inputColors.accentColor, 0.1);
+                  e.currentTarget.style.backgroundColor = adjustOpacity(
+                    inputColors.accentColor,
+                    0.1,
+                  );
                   e.currentTarget.style.color = getHoverColor(inputColors.accentColor);
                 }}
                 onMouseLeave={(e) => {
@@ -357,11 +356,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 {clearIcon}
               </button>
             )}
-            {searchIcon && (
-              <div style={searchIconStyle}>
-                {searchIcon}
-              </div>
-            )}
+            {searchIcon && <div style={searchIconStyle}>{searchIcon}</div>}
           </>
         )}
       </div>
@@ -466,7 +461,9 @@ export const SelectInput = forwardRef<HTMLSelectElement, SelectInputProps>(
           borderColor: isFocused
             ? 'var(--input-focus-border, #00D4FF)'
             : 'var(--input-border, #4A5A6A)',
-          boxShadow: isFocused ? '0 0 0 0.1875rem var(--input-focus-shadow, rgba(0,212,255,0.1))' : 'none',
+          boxShadow: isFocused
+            ? '0 0 0 0.1875rem var(--input-focus-shadow, rgba(0,212,255,0.1))'
+            : 'none',
         };
 
     const iconStyle: CSSProperties = {
@@ -480,10 +477,7 @@ export const SelectInput = forwardRef<HTMLSelectElement, SelectInputProps>(
     const hasValue = true;
 
     return (
-      <div
-        className={wrapperClassName}
-        style={{ ...wrapperStyle, ...style }}
-      >
+      <div className={wrapperClassName} style={{ ...wrapperStyle, ...style }}>
         <select
           ref={ref}
           value={value}
@@ -497,18 +491,11 @@ export const SelectInput = forwardRef<HTMLSelectElement, SelectInputProps>(
           {children}
         </select>
         {label && (
-          <label
-            className={labelClassName}
-            style={getLabelStyles(hasValue, isFocused, labelStyle)}
-          >
+          <label className={labelClassName} style={getLabelStyles(hasValue, isFocused, labelStyle)}>
             {label}
           </label>
         )}
-        {selectIcon && (
-          <div style={iconStyle}>
-            {selectIcon}
-          </div>
-        )}
+        {selectIcon && <div style={iconStyle}>{selectIcon}</div>}
       </div>
     );
   },

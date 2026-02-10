@@ -136,9 +136,9 @@ const colors: BaseColorConfig = {
   accent: '#EC4899',
 };
 
-<Input 
-  colors={colors} 
-  label="Username" 
+<Input
+  colors={colors}
+  label="Username"
   placeholder="Enter username"
 />
 
@@ -473,7 +473,7 @@ const colors: ExtendedColorConfig = {
   confirmText="Delete"
   cancelText="Cancel"
   colors={colors}
-/>
+/>;
 ```
 
 **Props:**
