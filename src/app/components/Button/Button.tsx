@@ -86,7 +86,7 @@ const getButtonRoundedStyles = (rounded?: string, variant?: string): CSSProperti
       lg: '0.5rem',
       full: '9999px',
     };
-    return { borderRadius: roundedMap[rounded] || '1.5625rem' };
+    return { borderRadius: roundedMap[rounded] || '0.5rem' };
   }
 
   // Default rounded based on variant
@@ -94,7 +94,7 @@ const getButtonRoundedStyles = (rounded?: string, variant?: string): CSSProperti
     return { borderRadius: '9999px' };
   }
 
-  return { borderRadius: '1.5625rem' };
+  return { borderRadius: '0.5rem' };
 };
 
 const getButtonVariantStyles = (variant: string): CSSProperties => {

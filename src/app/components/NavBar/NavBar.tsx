@@ -5,6 +5,7 @@ import { Menu, X } from 'lucide-react';
 import { NavBarProps } from './models/NavBar.interface';
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
 import { adjustOpacity, getContrastColor } from '@/app/utils/colorUtils';
+import Button from '../Button/Button';
 
 const NAVBAR_DISPLAY_NAME = 'NavBar';
 
@@ -87,52 +88,6 @@ const getActionsContainerStyles = (): CSSProperties => ({
   alignItems: 'center',
   gap: '0.75rem',
 });
-
-const getActionButtonStyles = (
-  variant: 'primary' | 'secondary' | 'outline',
-  activeColor: string,
-  textColor: string,
-  hoverBg: string,
-): CSSProperties => {
-  const baseStyles: CSSProperties = {
-    paddingLeft: '1rem',
-    paddingRight: '1rem',
-    paddingTop: '0.5rem',
-    paddingBottom: '0.5rem',
-    fontSize: '0.875rem',
-    fontWeight: 500,
-    borderRadius: '0.5rem',
-    transition: 'all 300ms',
-    cursor: 'pointer',
-    border: '2px solid',
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '0.5rem',
-  };
-
-  if (variant === 'primary') {
-    return {
-      ...baseStyles,
-      backgroundColor: activeColor,
-      borderColor: 'transparent',
-      color: getContrastColor(activeColor),
-    };
-  } else if (variant === 'outline') {
-    return {
-      ...baseStyles,
-      color: activeColor,
-      borderColor: activeColor,
-      backgroundColor: 'transparent',
-    };
-  } else {
-    return {
-      ...baseStyles,
-      backgroundColor: hoverBg,
-      color: textColor,
-      borderColor: 'transparent',
-    };
-  }
-};
 
 const getMobileToggleStyles = (textColor: string): CSSProperties => ({
   padding: '0.5rem',
@@ -396,42 +351,29 @@ export const NavBar = ({
           </div>
 
           <div className="navbar-actions-container" style={getActionsContainerStyles()}>
-            {actions.map((action) => (
-              <button
-                key={action.id}
-                className="navbar-action-button"
-                style={getActionButtonStyles(
-                  action.variant || 'secondary',
-                  activeColor,
-                  textColor,
-                  dynamicColors.secondaryBg,
-                )}
-                onClick={action.onClick}
-                onMouseEnter={(e) => {
-                  if (action.variant === 'primary') {
-                    e.currentTarget.style.opacity = '0.9';
-                  } else if (action.variant === 'outline') {
-                    e.currentTarget.style.backgroundColor = activeColor;
-                    e.currentTarget.style.color = dynamicColors.outlineHoverText;
-                  } else {
-                    e.currentTarget.style.backgroundColor = dynamicColors.hoverBgActive;
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (action.variant === 'primary') {
-                    e.currentTarget.style.opacity = '1';
-                  } else if (action.variant === 'outline') {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                    e.currentTarget.style.color = activeColor;
-                  } else {
-                    e.currentTarget.style.backgroundColor = dynamicColors.secondaryBg;
-                  }
-                }}
-              >
-                {action.icon && <span>{action.icon}</span>}
-                {action.label}
-              </button>
-            ))}
+            {actions.map((action) => {
+              const variant = action.variant === 'primary' ? 'primary' : 'secondary';
+              return (
+                <Button
+                  key={action.id}
+                  variant={variant}
+                  size="sm"
+                  onClick={action.onClick}
+                  icon={action.icon}
+                  iconPosition="left"
+                  colors={{
+                    primary: activeColor,
+                    secondary: textColor,
+                    accent: activeColor,
+                  }}
+                  customBg={variant === 'secondary' ? dynamicColors.secondaryBg : undefined}
+                  customTextColor={variant === 'secondary' ? textColor : undefined}
+                  customBorderColor={action.variant === 'outline' ? activeColor : undefined}
+                >
+                  {action.label}
+                </Button>
+              );
+            })}
           </div>
 
           <div
@@ -506,25 +448,33 @@ export const NavBar = ({
             </div>
 
             <div style={getMobileActionsStyles()}>
-              {actions.map((action) => (
-                <button
-                  key={action.id}
-                  className="navbar-action-button"
-                  style={getActionButtonStyles(
-                    action.variant || 'secondary',
-                    activeColor,
-                    textColor,
-                    dynamicColors.secondaryBg,
-                  )}
-                  onClick={() => {
-                    action.onClick();
-                    handleMobileMenuToggle();
-                  }}
-                >
-                  {action.icon && <span>{action.icon}</span>}
-                  {action.label}
-                </button>
-              ))}
+              {actions.map((action) => {
+                const variant = action.variant === 'primary' ? 'primary' : 'secondary';
+                return (
+                  <Button
+                    key={action.id}
+                    variant={variant}
+                    size="sm"
+                    onClick={() => {
+                      action.onClick();
+                      handleMobileMenuToggle();
+                    }}
+                    icon={action.icon}
+                    iconPosition="left"
+                    colors={{
+                      primary: activeColor,
+                      secondary: textColor,
+                      accent: activeColor,
+                    }}
+                    customBg={variant === 'secondary' ? dynamicColors.secondaryBg : undefined}
+                    customTextColor={variant === 'secondary' ? textColor : undefined}
+                    customBorderColor={action.variant === 'outline' ? activeColor : undefined}
+                    style={{ width: '100%' }}
+                  >
+                    {action.label}
+                  </Button>
+                );
+              })}
             </div>
           </div>
         </div>

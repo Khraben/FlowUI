@@ -885,35 +885,20 @@ const NavBarDemo = () => {
           </div>
 
           {/* Action Button */}
-          <button
-            style={{
-              paddingLeft: '0.75rem',
-              paddingRight: '0.75rem',
-              paddingTop: '0.375rem',
-              paddingBottom: '0.375rem',
-              fontSize: '0.8125rem',
-              fontWeight: 500,
-              borderRadius: '0.5rem',
-              transition: 'all 300ms',
-              cursor: 'pointer',
-              border: '2px solid transparent',
-              backgroundColor: activeColor,
-              color: getContrastColor(activeColor),
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.375rem',
+          <Button
+            variant="primary"
+            size="sm"
+            icon={<LogIn size={14} />}
+            iconPosition="left"
+            colors={{
+              primary: activeColor,
+              secondary: textColor,
+              accent: activeColor,
             }}
             onClick={() => {}}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = '0.9';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = '1';
-            }}
           >
-            <LogIn size={14} />
             Login
-          </button>
+          </Button>
         </div>
       </nav>
 
