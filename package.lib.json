@@ -1,7 +1,7 @@
 {
   "name": "@khraben/flowui",
-  "version": "0.2.6",
-  "description": "FlowUI - Modern React component library with TypeScript and Tailwind CSS",
+  "version": "0.2.7",
+  "description": "FlowUI - Modern React component library with TypeScript and CSS-in-JS",
   "main": "index.js",
   "module": "index.mjs",
   "types": "index.d.ts",
@@ -28,7 +28,7 @@
     "type": "git",
     "url": "git+https://github.com/khraben/FlowUI.git"
   },
-  "keywords": ["react", "components", "ui", "tailwind", "typescript"],
+  "keywords": ["react", "components", "ui", "css-in-js", "typescript"],
   "author": "khraben",
   "license": "MIT",
   "publishConfig": {

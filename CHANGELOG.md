@@ -5,11 +5,39 @@ All notable changes to FlowUI will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.7] - 2026-02-10
+
+### Removed
+
+**Complete Tailwind CSS Elimination** - All components now use pure CSS-in-JS:
+
+- 🚫 **ActionIcon**: Completely refactored from Tailwind to inline styles with size-based scaling
+- 🧹 **Cleaned Constants**: Removed all obsolete style constants for Button, Input, DatePicker, Loading, NavBar, SideBar, and LanguageSelector
+- 📦 **Simplified Dependencies**: Components no longer depend on Tailwind CSS classes
+- 🎯 **Consistent Styling**: All components now use CSSProperties with dynamic color calculations
+- ⚡ **Performance**: Reduced bundle size by eliminating Tailwind dependency for component library
+- 🎨 **Pure Color System**: All visual styling now handled through BaseColorConfig and ExtendedColorConfig
+
+### Technical Improvements
+
+**Component Refactoring**:
+
+- **ActionIcon**: Size-based configurations (sm: 0.25rem padding / 14px icon, md: 0.375rem / 16px, lg: 0.5rem / 20px)
+- **Constants Cleanup**: Removed ~15 obsolete constant files and simplified imports
+- **Type Safety**: Converted all constant-based types to literal string unions
+- **Build Optimization**: Improved compilation speed and bundle size
+
+### Fixed
+
+- All TypeScript compilation errors related to missing constant exports
+- Build process now consistently successful without Tailwind dependencies
+
 ## [2.1.0] - 2026-02-09
 
 ### Added
 
 **Gallery Component** - New masonry gallery component with lazy loading and smooth animations:
+
 - 📱 Responsive CSS columns layout (1/2/3 columns)
 - 🖼️ Maintains original image aspect ratios
 - ⚡ Lazy loading with IntersectionObserver
@@ -32,6 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **NavBar**: Removed all rgba values → now uses `adjustOpacity` and `getContrastColor`
 
 **Benefits:**
+
 - ✅ 100% theme consistency - all colors derived from the 3 base colors
 - ✅ Better dark/light mode support - calculations adapt to any color scheme
 - ✅ Zero magic numbers - no hardcoded hex or rgba values

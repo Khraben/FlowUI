@@ -1,6 +1,4 @@
-import { INPUT_VARIANTS, INPUT_SIZES } from '@/app/constants';
-
-export type InputVariant = (typeof INPUT_VARIANTS)[keyof typeof INPUT_VARIANTS];
-export type InputSize = (typeof INPUT_SIZES)[keyof typeof INPUT_SIZES];
-export type SelectVariant = typeof INPUT_VARIANTS.SELECT;
-export type TimeVariant = typeof INPUT_VARIANTS.TIME;
+export type InputVariant = 'text' | 'number' | 'search' | 'select' | 'password' | 'time' | 'date';
+export type InputSize = 'sm' | 'md' | 'lg';
+export type SelectVariant = 'select';
+export type TimeVariant = 'time';
