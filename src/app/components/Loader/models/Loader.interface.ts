@@ -1,10 +1,11 @@
 import { BaseColorConfig } from '@/app/types/colors';
 
-export interface LoadingProps {
+export interface LoaderProps {
   text?: string;
   size?: 'sm' | 'md' | 'lg';
   variant?: 'spinner' | 'dots' | 'pulse';
-  showOverlay?: boolean;
+  fullScreen?: boolean;
+  overlay?: boolean;
 
   colors?: BaseColorConfig;
 
