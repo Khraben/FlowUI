@@ -8,7 +8,6 @@ import { LanguageSelector } from '../LanguageSelector/LanguageSelector';
 
 const SIDEBAR_DISPLAY_NAME = 'SideBar';
 
-// Helper functions for SideBar styles
 const getContainerStyles = (
   isOpen: boolean,
   openWidth: string,
@@ -126,14 +125,12 @@ export const SideBar = ({
   const [internalIsOpen, setInternalIsOpen] = useState(false);
   const isOpen = controlledIsOpen ?? internalIsOpen;
 
-  // Compute colors dynamically from BaseColorConfig
   const backgroundColor = customBg || colors.secondary;
   const textColor = customTextColor || getContrastColor(backgroundColor);
   const hoverBackgroundColor = customHoverBg || adjustOpacity(colors.primary, 0.8);
   const toggleBtnBg = customToggleBtnBg || adjustOpacity(textColor, 0.2);
   const toggleBtnHoverBg = customToggleBtnHoverBg || adjustOpacity(textColor, 0.3);
 
-  // Logout colors - use danger from ExtendedColorConfig if available, otherwise lighten accent
   const dangerColor = hasExtendedColors(colors) ? colors.danger : lightenColor(colors.accent, 10);
   const logoutTextColor = customLogoutTextColor || dangerColor;
   const logoutHoverBg = customLogoutHoverBg || adjustOpacity(dangerColor, 0.2);
@@ -146,6 +143,19 @@ export const SideBar = ({
     }
     onToggle?.(newState);
   }, [isOpen, controlledIsOpen, onToggle]);
+
+  const isMenuItemActive = useCallback((item: SideBarMenuItem) => {
+    if (item.isActive !== undefined) {
+      return item.isActive;
+    }
+    if (item.href && typeof window !== 'undefined') {
+      const currentPath = window.location.pathname;
+      return (
+        currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href + '/'))
+      );
+    }
+    return false;
+  }, []);
 
   const { topItems, bottomItems, logoutItem } = useMemo(() => {
     const top: SideBarMenuItem[] = [];
@@ -175,15 +185,27 @@ export const SideBar = ({
 
   const renderMenuItem = useCallback(
     (item: SideBarMenuItem, isLogout = false) => {
-      const isActive = item.isActive || false;
+      const isActive = isMenuItemActive(item);
       const itemTextColor = isActive ? colors.accent : isLogout ? logoutTextColor : textColor;
       const itemHoverBg = isLogout ? logoutHoverBg : hoverBackgroundColor;
       const itemHoverTextColor = isLogout ? logoutHoverTextColor : itemTextColor;
+      const itemId = item.id || item.href || item.label.toLowerCase().replace(/\s+/g, '-');
 
       return (
-        <li key={item.id} style={getListItemStyles()}>
+        <li key={itemId} style={getListItemStyles()}>
           <button
-            onClick={isActive ? undefined : item.onClick}
+            onClick={
+              isActive
+                ? undefined
+                : () => {
+                    if (item.onClick) {
+                      item.onClick();
+                    }
+                    if (item.href) {
+                      window.location.href = item.href;
+                    }
+                  }
+            }
             className="sidebar-menu-item"
             style={{
               ...getMenuItemButtonStyles(isOpen, itemTextColor),
@@ -218,6 +240,7 @@ export const SideBar = ({
       logoutTextColor,
       logoutHoverBg,
       logoutHoverTextColor,
+      isMenuItemActive,
     ],
   );
 

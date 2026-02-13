@@ -18,10 +18,8 @@ export interface SelectInputProps extends Omit<
   wrapperClassName?: string;
   disableDefaultStyles?: boolean;
 
-  // New simplified color system
   colors?: BaseColorConfig;
 
-  // Optional overrides for specific use cases
   customBg?: string;
   customTextColor?: string;
   customBorderColor?: string;

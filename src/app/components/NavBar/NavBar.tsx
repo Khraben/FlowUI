@@ -10,7 +10,6 @@ import { LanguageSelector } from '../LanguageSelector/LanguageSelector';
 
 const NAVBAR_DISPLAY_NAME = 'NavBar';
 
-// Helper functions for NavBar styles
 const getContainerStyles = (backgroundColor: string, height: string): CSSProperties => ({
   position: 'fixed' as const,
   top: 0,
@@ -201,7 +200,6 @@ export const NavBar = ({
   const [internalMobileMenu, setInternalMobileMenu] = useState(false);
   const isMobileMenuOpen = controlledMobileMenu ?? internalMobileMenu;
 
-  // Compute colors dynamically from BaseColorConfig
   const backgroundColor = customBgColor || colors.secondary;
   const textColor = customTextColor || getContrastColor(backgroundColor);
   const activeColor = customActiveColor || colors.accent;
@@ -237,9 +235,23 @@ export const NavBar = ({
   const handleMenuItemClick = useCallback((item: (typeof menuItems)[0]) => {
     if (item.onClick) {
       item.onClick();
-    } else if (item.href) {
+    }
+    if (item.href) {
       window.location.href = item.href;
     }
+  }, []);
+
+  const isMenuItemActive = useCallback((item: (typeof menuItems)[0]) => {
+    if (item.isActive !== undefined) {
+      return item.isActive;
+    }
+    if (item.href && typeof window !== 'undefined') {
+      const currentPath = window.location.pathname;
+      return (
+        currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href + '/'))
+      );
+    }
+    return false;
   }, []);
 
   return (
@@ -331,25 +343,29 @@ export const NavBar = ({
           )}
 
           <div className="navbar-menu-container" style={getMenuContainerStyles()}>
-            {menuItems.map((item) => (
-              <div
-                key={item.id}
-                onClick={() => handleMenuItemClick(item)}
-                style={getMenuItemStyles(textColor, item.isActive || false, activeColor)}
-                onMouseEnter={(e) => {
-                  if (!item.isActive) {
-                    e.currentTarget.style.color = hoverColor;
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!item.isActive) {
-                    e.currentTarget.style.color = textColor;
-                  }
-                }}
-              >
-                {item.label}
-              </div>
-            ))}
+            {menuItems.map((item, index) => {
+              const isActive = isMenuItemActive(item);
+              const itemId = item.id || item.href || `menu-item-${index}`;
+              return (
+                <div
+                  key={itemId}
+                  onClick={() => handleMenuItemClick(item)}
+                  style={getMenuItemStyles(textColor, isActive, activeColor)}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.color = hoverColor;
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.color = textColor;
+                    }
+                  }}
+                >
+                  {item.label}
+                </div>
+              );
+            })}
           </div>
 
           <div className="navbar-actions-container" style={getActionsContainerStyles()}>
@@ -364,11 +380,12 @@ export const NavBar = ({
                 customTextColor={textColor}
               />
             )}
-            {actions.map((action) => {
+            {actions.map((action, index) => {
               const variant = action.variant === 'primary' ? 'primary' : 'secondary';
+              const actionId = action.id || `action-${index}`;
               return (
                 <Button
-                  key={action.id}
+                  key={actionId}
                   variant={variant}
                   size="sm"
                   onClick={action.onClick}
@@ -433,31 +450,35 @@ export const NavBar = ({
             </div>
 
             <div style={getMobileNavStyles()}>
-              {menuItems.map((item) => (
-                <div
-                  key={item.id}
-                  style={getMobileMenuItemStyles(
-                    textColor,
-                    item.isActive || false,
-                    dynamicColors.activeItemBg,
-                    activeColor,
-                  )}
-                  onClick={() => {
-                    handleMenuItemClick(item);
-                    handleMobileMenuToggle();
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = dynamicColors.hoverBg;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = item.isActive
-                      ? dynamicColors.activeItemBg
-                      : 'transparent';
-                  }}
-                >
-                  {item.label}
-                </div>
-              ))}
+              {menuItems.map((item, index) => {
+                const isActive = isMenuItemActive(item);
+                const itemId = item.id || item.href || `menu-item-${index}`;
+                return (
+                  <div
+                    key={itemId}
+                    style={getMobileMenuItemStyles(
+                      textColor,
+                      isActive,
+                      dynamicColors.activeItemBg,
+                      activeColor,
+                    )}
+                    onClick={() => {
+                      handleMenuItemClick(item);
+                      handleMobileMenuToggle();
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = dynamicColors.hoverBg;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = isActive
+                        ? dynamicColors.activeItemBg
+                        : 'transparent';
+                    }}
+                  >
+                    {item.label}
+                  </div>
+                );
+              })}
             </div>
 
             {languageSelector && (
@@ -482,11 +503,12 @@ export const NavBar = ({
             )}
 
             <div style={getMobileActionsStyles()}>
-              {actions.map((action) => {
+              {actions.map((action, index) => {
                 const variant = action.variant === 'primary' ? 'primary' : 'secondary';
+                const actionId = action.id || `action-${index}`;
                 return (
                   <Button
-                    key={action.id}
+                    key={actionId}
                     variant={variant}
                     size="sm"
                     onClick={() => {

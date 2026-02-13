@@ -1,7 +1,7 @@
 import type { BaseColorConfig } from '@/app/types/colors';
 
 export interface GalleryImage {
-  id: string;
+  id?: string;
   src: string;
   alt?: string;
   width?: number;
@@ -14,9 +14,8 @@ export interface GalleryProps {
   enableAnimation?: boolean;
   className?: string;
   disableDefaultStyles?: boolean;
-  forceColumnCount?: number; // Force a specific number of columns
+  forceColumnCount?: number;
 
-  // Color system
   colors?: BaseColorConfig;
   customBorderColor?: string;
   customSkeletonBg?: string;

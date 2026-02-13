@@ -55,10 +55,8 @@ export interface BaseModalProps {
   /** Custom text labels for i18n support */
   texts?: BaseModalTexts;
 
-  // New simplified color system - uses ExtendedColorConfig because needs danger state
   colors?: ExtendedColorConfig;
 
-  // Optional overrides for specific customization
   customOverlayBg?: string;
   customModalBg?: string;
 }

@@ -19,10 +19,8 @@ export interface TimeInputProps {
   disableDefaultStyles?: boolean;
   className?: string;
 
-  // New simplified color system
   colors?: BaseColorConfig;
 
-  // Optional overrides for specific use cases
   customBg?: string;
   customTextColor?: string;
   customBorderColor?: string;

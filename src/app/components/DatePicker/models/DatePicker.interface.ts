@@ -57,10 +57,8 @@ export interface DatePickerProps {
   label?: string;
   labelStyle?: React.CSSProperties;
 
-  // New simplified color system
   colors?: BaseColorConfig;
 
-  // Optional overrides for specific use cases
   customBg?: string;
   customTextColor?: string;
   customBorderColor?: string;

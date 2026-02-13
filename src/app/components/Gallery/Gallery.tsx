@@ -296,16 +296,19 @@ export const Gallery = ({
       <div style={getContainerStyles()}>
         {columns.map((column, columnIndex) => (
           <div key={columnIndex} style={getColumnStyles()}>
-            {column.map((img) => (
-              <GalleryItem
-                key={img.id}
-                image={img}
-                enableAnimation={enableAnimation}
-                borderColor={galleryColors.border}
-                skeletonBg={galleryColors.skeleton}
-                overlayColor={galleryColors.overlayHover}
-              />
-            ))}
+            {column.map((img, imgIndex) => {
+              const imageId = img.id || img.src || `gallery-img-${columnIndex}-${imgIndex}`;
+              return (
+                <GalleryItem
+                  key={imageId}
+                  image={img}
+                  enableAnimation={enableAnimation}
+                  borderColor={galleryColors.border}
+                  skeletonBg={galleryColors.skeleton}
+                  overlayColor={galleryColors.overlayHover}
+                />
+              );
+            })}
           </div>
         ))}
       </div>

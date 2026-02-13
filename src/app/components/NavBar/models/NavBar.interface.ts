@@ -10,7 +10,7 @@ export interface NavBarLogo {
 }
 
 export interface NavBarMenuItem {
-  id: string;
+  id?: string;
   label: string;
   href?: string;
   onClick?: () => void;
@@ -18,7 +18,7 @@ export interface NavBarMenuItem {
 }
 
 export interface NavBarAction {
-  id: string;
+  id?: string;
   label: string;
   onClick: () => void;
   variant?: 'primary' | 'secondary' | 'outline';
@@ -38,7 +38,6 @@ export interface NavBarProps {
   showMobileMenu?: boolean;
   onMobileMenuToggle?: (isOpen: boolean) => void;
 
-  // Language selector
   languageSelector?: {
     selectedLanguage?: string;
     onLanguageChange?: (languageKey: string) => void;

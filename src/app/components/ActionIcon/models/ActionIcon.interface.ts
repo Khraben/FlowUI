@@ -9,10 +9,8 @@ export interface ActionIconProps {
   className?: string;
   disabled?: boolean;
 
-  // New simplified color system
   colors?: BaseColorConfig;
 
-  // Optional overrides
   customColor?: string;
   customBg?: string;
 }
