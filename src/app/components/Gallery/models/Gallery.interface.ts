@@ -15,6 +15,7 @@ export interface GalleryProps {
   className?: string;
   disableDefaultStyles?: boolean;
   forceColumnCount?: number;
+  gap?: string;
 
   colors?: BaseColorConfig;
   customBorderColor?: string;

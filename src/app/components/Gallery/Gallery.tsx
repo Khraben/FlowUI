@@ -12,27 +12,26 @@ import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
 import { adjustOpacity, lightenColor } from '@/app/utils/colorUtils';
 import { ImagePlaceholder } from './ImagePlaceholder';
 
-// Calculate aspect ratio padding for placeholder containers
 const getAspectRatioPadding = (width?: number, height?: number): string => {
   if (width && height && width > 0) {
     const ratio = (height / width) * 100;
     return `${ratio}%`;
   }
-  return '75%'; // Default 4:3 aspect ratio
+  return '75%';
 };
 
-// Helper functions for Gallery styles
-const getColumnStyles = (): CSSProperties => ({
+const getColumnStyles = (gap: string): CSSProperties => ({
   display: 'flex',
   flexDirection: 'column' as const,
-  gap: '1rem',
+  gap,
   flex: 1,
 });
 
-const getContainerStyles = (): CSSProperties => ({
+const getContainerStyles = (gap: string): CSSProperties => ({
   display: 'flex',
-  gap: '1rem',
+  gap,
   width: '100%',
+  height: '100%',
 });
 
 const getLoaderStyles = (): CSSProperties => ({
@@ -84,7 +83,6 @@ const getOverlayStyles = (isHovered: boolean, overlayColor: string): CSSProperti
   backgroundColor: isHovered ? overlayColor : 'transparent',
 });
 
-// Internal GalleryItem component
 const GalleryItem = ({
   image,
   enableAnimation,
@@ -142,13 +140,16 @@ const GalleryItem = ({
   );
 };
 
-// Distribute images across columns for masonry layout with balanced heights
 const distributeImages = (images: GalleryImage[], columnCount: number): GalleryImage[][] => {
   const columns: GalleryImage[][] = Array.from({ length: columnCount }, () => []);
   const columnHeights: number[] = Array.from({ length: columnCount }, () => 0);
 
-  images.forEach((image) => {
-    // Find the column with the smallest height
+  const imagesWithRatio = images.map((img) => {
+    const ratio = img.width && img.height && img.width > 0 ? img.height / img.width : 0.75;
+    return { image: img, ratio };
+  });
+
+  imagesWithRatio.forEach(({ image, ratio }) => {
     let minHeightIndex = 0;
     let minHeight = columnHeights[0];
 
@@ -159,21 +160,31 @@ const distributeImages = (images: GalleryImage[], columnCount: number): GalleryI
       }
     }
 
-    // Add image to the shortest column
     columns[minHeightIndex].push(image);
-
-    // Calculate estimated height based on image aspect ratio
-    // Assume a standard column width and calculate proportional height
-    let estimatedHeight = 400; // Default height
-
-    if (image.width && image.height && image.width > 0) {
-      // Calculate height maintaining aspect ratio for a 400px width
-      estimatedHeight = (400 / image.width) * image.height;
-    }
-
-    // Add some margin to account for gaps
-    columnHeights[minHeightIndex] += estimatedHeight + 16; // 16px gap
+    columnHeights[minHeightIndex] += ratio;
   });
+
+  const maxHeight = Math.max(...columnHeights);
+  const tolerance = 0.01;
+
+  if (maxHeight > 0) {
+    const heightDifference = Math.max(...columnHeights) - Math.min(...columnHeights);
+    const needsAdjustment = heightDifference > tolerance * maxHeight;
+
+    if (needsAdjustment && columnCount > 1) {
+      const sortedByHeight = imagesWithRatio.sort((a, b) => b.ratio - a.ratio);
+      const newColumns: GalleryImage[][] = Array.from({ length: columnCount }, () => []);
+      const newHeights: number[] = Array.from({ length: columnCount }, () => 0);
+
+      sortedByHeight.forEach(({ image, ratio }) => {
+        const minIdx = newHeights.indexOf(Math.min(...newHeights));
+        newColumns[minIdx].push(image);
+        newHeights[minIdx] += ratio;
+      });
+
+      return newColumns;
+    }
+  }
 
   return columns;
 };
@@ -183,6 +194,7 @@ export const Gallery = ({
   batchSize = GALLERY_DEFAULTS.BATCH_SIZE,
   enableAnimation = GALLERY_DEFAULTS.ENABLE_ANIMATION,
   forceColumnCount,
+  gap = '1rem',
   colors,
   customBorderColor,
   customSkeletonBg,
@@ -191,11 +203,7 @@ export const Gallery = ({
   const [visibleImages, setVisibleImages] = useState<GalleryImage[]>([]);
   const [columnCount, setColumnCount] = useState(forceColumnCount || 3);
   const loaderRef = useRef<HTMLDivElement | null>(null);
-
-  // Use default colors if not provided
   const colorConfig = colors || DEFAULT_COLOR_CONFIG;
-
-  // Calculate dynamic colors
   const galleryColors = useMemo(() => {
     const borderColor = customBorderColor || adjustOpacity(colorConfig.primary, 0.1);
     const skeletonBg = customSkeletonBg || lightenColor(colorConfig.secondary, 50);
@@ -209,30 +217,22 @@ export const Gallery = ({
     };
   }, [colorConfig, customBorderColor, customSkeletonBg, customOverlayColor]);
 
-  // Handle responsive column count
   useEffect(() => {
-    // Skip responsive updates if column count is forced
     if (forceColumnCount) return;
 
     const handleResize = () => {
       const width = window.innerWidth;
       if (width < 480) {
-        // Extra small mobile
         setColumnCount(1);
       } else if (width < 768) {
-        // Small tablets and large phones
         setColumnCount(2);
       } else if (width < 1024) {
-        // Medium tablets
         setColumnCount(3);
       } else if (width < 1440) {
-        // Desktop
         setColumnCount(4);
       } else if (width < 1920) {
-        // Large desktop
         setColumnCount(5);
       } else {
-        // Ultra wide screens
         setColumnCount(6);
       }
     };
@@ -265,7 +265,6 @@ export const Gallery = ({
 
     observer.observe(currentLoader);
 
-    // Check if loader is already visible on mount (e.g., when component is filtered into view)
     const checkInitialVisibility = () => {
       const rect = currentLoader.getBoundingClientRect();
       const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
@@ -277,7 +276,6 @@ export const Gallery = ({
       }
     };
 
-    // Small delay to ensure DOM is settled
     const timeoutId = setTimeout(checkInitialVisibility, 100);
 
     return () => {
@@ -292,10 +290,10 @@ export const Gallery = ({
   );
 
   return (
-    <section>
-      <div style={getContainerStyles()}>
+    <section style={{ width: '100%', height: '100%' }}>
+      <div style={getContainerStyles(gap)}>
         {columns.map((column, columnIndex) => (
-          <div key={columnIndex} style={getColumnStyles()}>
+          <div key={columnIndex} style={getColumnStyles(gap)}>
             {column.map((img, imgIndex) => {
               const imageId = img.id || img.src || `gallery-img-${columnIndex}-${imgIndex}`;
               return (

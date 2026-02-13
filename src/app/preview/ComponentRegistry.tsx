@@ -13,7 +13,7 @@ import {
   ConfirmationModal,
   Gallery,
 } from '@/app/components';
-import type { TableColumn } from '@/app/components/Table';
+import type { TableColumn } from '@/app/components';
 import { COMPONENT_CATEGORIES } from '@/app/constants';
 import { PREVIEW_COLOR_CONFIG } from './previewColors';
 
@@ -555,7 +555,6 @@ const SideBarDemo = () => {
     icon: <LogOut size={16} />,
   };
 
-  // Calculate colors dynamically like the real SideBar component
   const backgroundColor = PREVIEW_COLOR_CONFIG.secondary;
   const textColor = '#E5E7EB';
   const hoverBg = 'rgba(255, 255, 255, 0.1)';
@@ -752,8 +751,6 @@ const SideBarDemo = () => {
 
 const NavBarDemo = () => {
   const [activeItem, setActiveItem] = useState('home');
-
-  // Compute colors from BaseColorConfig (matching real NavBar)
   const backgroundColor = PREVIEW_COLOR_CONFIG.secondary;
   const textColor = getContrastColor(backgroundColor);
   const activeColor = PREVIEW_COLOR_CONFIG.accent;
@@ -919,31 +916,63 @@ const NavBarDemo = () => {
 };
 
 const GalleryDemo = () => {
-  const imageConfigs = [
-    { width: 420, height: 350 },
-    { width: 520, height: 420 },
-    { width: 530, height: 410 },
-    { width: 390, height: 510 },
-    { width: 610, height: 390 },
-    { width: 700, height: 500 },
-    { width: 650, height: 450 },
-    { width: 600, height: 400 },
+  const sampleImages = [
+    {
+      src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4',
+      alt: 'Mountain landscape',
+      width: 1200,
+      height: 800,
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e',
+      alt: 'Forest',
+      width: 1200,
+      height: 1600,
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470',
+      alt: 'Ocean sunset',
+      width: 1200,
+      height: 900,
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e',
+      alt: 'Mountain road',
+      width: 1200,
+      height: 700,
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1511593358241-7eea1f3c84e5',
+      alt: 'Desert landscape',
+      width: 1200,
+      height: 1400,
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1490730141103-6cac27aaab94',
+      alt: 'Beach sunset',
+      width: 1200,
+      height: 850,
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1426604966848-d7adac402bff',
+      alt: 'Northern lights',
+      width: 1200,
+      height: 1100,
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d',
+      alt: 'Waterfall',
+      width: 1200,
+      height: 1500,
+    },
   ];
 
-  const sampleImages = imageConfigs.map((config, i) => ({
-    id: `img-${i + 1}`,
-    src: `https://picsum.photos/seed/${i + 1}/${config.width}/${config.height}`,
-    alt: `Gallery image ${i + 1}`,
-    width: config.width,
-    height: config.height,
-  }));
-
   return (
-    <div className="w-full">
+    <div style={{ width: '100%', height: '100%', overflow: 'hidden' }}>
       <Gallery
         images={sampleImages}
-        batchSize={25}
-        enableAnimation={true}
+        gap="0.5rem"
+        enableAnimation={false}
         colors={PREVIEW_COLOR_CONFIG}
         forceColumnCount={3}
       />
