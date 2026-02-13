@@ -12,6 +12,7 @@ import {
   BaseModal,
   ConfirmationModal,
   Gallery,
+  Loader,
 } from '@/app/components';
 import type { TableColumn } from '@/app/components';
 import { COMPONENT_CATEGORIES } from '@/app/constants';
@@ -165,9 +166,7 @@ const LanguageSelectorDemo = () => {
   );
 };
 
-const LoadingVariantsDemo = () => {
-  const spinnerColor = PREVIEW_COLOR_CONFIG.primary;
-
+const LoaderVariantsDemo = () => {
   return (
     <div
       style={{
@@ -176,191 +175,55 @@ const LoadingVariantsDemo = () => {
         alignItems: 'center',
         justifyContent: 'center',
         flexWrap: 'wrap',
+        height: '100%',
       }}
     >
-      <style>{`
-        @keyframes spin-modern {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-        @keyframes pulse-ring {
-          0% { transform: scale(0.8); opacity: 0.8; }
-          50% { transform: scale(1); opacity: 0.4; }
-          100% { transform: scale(0.8); opacity: 0.8; }
-        }
-        @keyframes pulse-scale {
-          0%, 100% { transform: scale(0.8); opacity: 1; }
-          50% { transform: scale(1.2); opacity: 0.6; }
-        }
-        @keyframes pulse-outer {
-          0% { transform: scale(0.8); opacity: 0.8; }
-          100% { transform: scale(1.5); opacity: 0; }
-        }
-        @keyframes bounce-dot {
-          0%, 80%, 100% { transform: translateY(0) scale(1); }
-          40% { transform: translateY(-10px) scale(1.1); }
-        }
-        .preview-spinner {
-          width: 3rem;
-          height: 3rem;
-          border: 3px solid transparent;
-          border-top-color: ${spinnerColor};
-          border-right-color: ${spinnerColor};
-          border-radius: 50%;
-          animation: spin-modern 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-          position: relative;
-        }
-        .preview-spinner::before {
-          content: '';
-          position: absolute;
-          top: -3px;
-          left: -3px;
-          right: -3px;
-          bottom: -3px;
-          border: 3px solid ${spinnerColor}20;
-          border-radius: 50%;
-          animation: pulse-ring 1.5s ease-in-out infinite;
-        }
-        .preview-pulse-core {
-          width: 3rem;
-          height: 3rem;
-          border-radius: 50%;
-          background-color: ${spinnerColor};
-          animation: pulse-scale 1.5s ease-in-out infinite;
-        }
-        .preview-pulse-ring {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 3rem;
-          height: 3rem;
-          transform: translate(-50%, -50%);
-          border-radius: 50%;
-          border: 2px solid ${spinnerColor};
-          animation: pulse-outer 1.5s ease-out infinite;
-        }
-        .preview-dot {
-          width: 0.75rem;
-          height: 0.75rem;
-          border-radius: 50%;
-          background-color: ${spinnerColor};
-        }
-        .preview-dot-1 { animation: bounce-dot 1.4s infinite ease-in-out; }
-        .preview-dot-2 { animation: bounce-dot 1.4s infinite ease-in-out 0.2s; }
-        .preview-dot-3 { animation: bounce-dot 1.4s infinite ease-in-out 0.4s; }
-      `}</style>
-
-      {/* Spinner */}
-      <div
-        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}
-      >
-        <div className="preview-spinner" />
+      <div style={{ width: '4rem', height: '4rem' }}>
+        <Loader variant="spinner" size="md" overlay={false} colors={PREVIEW_COLOR_CONFIG} />
       </div>
 
-      {/* Pulse */}
-      <div
-        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}
-      >
-        <div style={{ position: 'relative', width: '4rem', height: '4rem' }}>
-          <div className="preview-pulse-core" />
-          <div className="preview-pulse-ring" />
-        </div>
+      <div style={{ width: '4rem', height: '4rem' }}>
+        <Loader variant="pulse" size="md" overlay={false} colors={PREVIEW_COLOR_CONFIG} />
       </div>
 
-      {/* Dots */}
-      <div
-        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}
-      >
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <div className="preview-dot preview-dot-1" />
-          <div className="preview-dot preview-dot-2" />
-          <div className="preview-dot preview-dot-3" />
-        </div>
+      <div style={{ width: '4rem', height: '4rem' }}>
+        <Loader variant="dots" size="md" overlay={false} colors={PREVIEW_COLOR_CONFIG} />
       </div>
     </div>
   );
 };
 
-const LoadingWithTextDemo = () => {
-  const spinnerColor = PREVIEW_COLOR_CONFIG.primary;
-
+const LoaderWithTextDemo = () => {
   return (
-    <>
-      <style>{`
-        @keyframes pulse-scale {
-          0%, 100% { transform: scale(0.8); opacity: 1; }
-          50% { transform: scale(1.2); opacity: 0.6; }
-        }
-        @keyframes pulse-outer {
-          0% { transform: scale(0.8); opacity: 0.8; }
-          100% { transform: scale(1.5); opacity: 0; }
-        }
-        @keyframes bounce-dot {
-          0%, 80%, 100% { transform: translateY(0) scale(1); }
-          40% { transform: translateY(-10px) scale(1.1); }
-        }
-        @keyframes text-pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.5; }
-        }
-        .preview-pulse-core {
-          width: 3rem;
-          height: 3rem;
-          border-radius: 50%;
-          background-color: ${spinnerColor};
-          animation: pulse-scale 1.5s ease-in-out infinite;
-        }
-        .preview-pulse-ring {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 3rem;
-          height: 3rem;
-          transform: translate(-50%, -50%);
-          border-radius: 50%;
-          border: 2px solid ${spinnerColor};
-          animation: pulse-outer 1.5s ease-out infinite;
-        }
-        .preview-dot {
-          width: 0.75rem;
-          height: 0.75rem;
-          border-radius: 50%;
-          background-color: ${spinnerColor};
-        }
-        .preview-dot-1 { animation: bounce-dot 1.4s infinite ease-in-out; }
-        .preview-dot-2 { animation: bounce-dot 1.4s infinite ease-in-out 0.2s; }
-        .preview-dot-3 { animation: bounce-dot 1.4s infinite ease-in-out 0.4s; }
-        .preview-loading-text {
-          color: white;
-          font-size: 1rem;
-          font-weight: 500;
-          animation: text-pulse 1.5s ease-in-out infinite;
-        }
-      `}</style>
-
-      {/* Pulse with text */}
-      <div
-        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem' }}
-      >
-        <div style={{ position: 'relative', width: '4rem', height: '4rem' }}>
-          <div className="preview-pulse-core" />
-          <div className="preview-pulse-ring" />
-        </div>
-        <p className="preview-loading-text">Processing...</p>
+    <div
+      style={{
+        display: 'flex',
+        gap: '2rem',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100%',
+      }}
+    >
+      <div style={{ width: '8rem', height: '6rem' }}>
+        <Loader
+          variant="pulse"
+          text="Processing..."
+          size="md"
+          overlay={false}
+          colors={PREVIEW_COLOR_CONFIG}
+        />
       </div>
 
-      {/* Dots with text */}
-      <div
-        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem' }}
-      >
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <div className="preview-dot preview-dot-1" />
-          <div className="preview-dot preview-dot-2" />
-          <div className="preview-dot preview-dot-3" />
-        </div>
-        <p className="preview-loading-text">Please wait...</p>
+      <div style={{ width: '8rem', height: '6rem' }}>
+        <Loader
+          variant="dots"
+          text="Please wait..."
+          size="md"
+          overlay={false}
+          colors={PREVIEW_COLOR_CONFIG}
+        />
       </div>
-    </>
+    </div>
   );
 };
 
@@ -1218,19 +1081,19 @@ export const componentRegistry: ComponentDemo[] = [
     props: {},
   },
   {
-    id: 'loading-variants',
-    name: 'Loading Variants',
-    description: 'Loading indicators: spinner, pulse, and dots',
+    id: 'loader-variants',
+    name: 'Loader Variants',
+    description: 'Loader indicators: spinner, pulse, and dots',
     category: COMPONENT_CATEGORIES.LOADERS,
-    component: LoadingVariantsDemo,
+    component: LoaderVariantsDemo,
     props: {},
   },
   {
-    id: 'loading-with-text',
-    name: 'Loading With Text',
-    description: 'Loading indicators with text labels',
+    id: 'loader-with-text',
+    name: 'Loader With Text',
+    description: 'Loader indicators with text labels',
     category: COMPONENT_CATEGORIES.LOADERS,
-    component: LoadingWithTextDemo,
+    component: LoaderWithTextDemo,
     props: {},
   },
   {

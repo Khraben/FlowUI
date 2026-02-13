@@ -2,15 +2,15 @@
 
 import React, { useState, useEffect, useMemo, CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
-import { LoadingProps } from './models/Loading.interface';
+import { LoaderProps } from './models/Loader.interface';
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
 import { adjustOpacity, darkenColor } from '@/app/utils/colorUtils';
 
-const LOADING_DISPLAY_NAME = 'Loading';
-const LOADING_DEFAULT_SIZE = 'md';
-const LOADING_DEFAULT_VARIANT = 'spinner';
+const LOADER_DISPLAY_NAME = 'Loader';
+const LOADER_DEFAULT_SIZE = 'md';
+const LOADER_DEFAULT_VARIANT = 'spinner';
 
-const getLoadingSizeStyles = (size: string): { width: string; height: string } => {
+const getLoaderSizeStyles = (size: string): { width: string; height: string } => {
   const sizeMap: Record<string, { width: string; height: string }> = {
     sm: { width: '2rem', height: '2rem' },
     md: { width: '3rem', height: '3rem' },
@@ -37,18 +37,19 @@ const getDotSizeStyles = (size: string): { width: string; height: string } => {
   return sizeMap[size] || sizeMap.md;
 };
 
-export const Loading: React.FC<LoadingProps> = ({
+export const Loader: React.FC<LoaderProps> = ({
   text,
-  size = LOADING_DEFAULT_SIZE,
-  variant = LOADING_DEFAULT_VARIANT,
+  size = LOADER_DEFAULT_SIZE,
+  variant = LOADER_DEFAULT_VARIANT,
+  fullScreen = false,
+  overlay = true,
   colors,
   customOverlayColor,
   customSpinnerColor,
-  showOverlay = true,
 }) => {
   const colorConfig = colors || DEFAULT_COLOR_CONFIG;
 
-  const loadingColors = useMemo(() => {
+  const loaderColors = useMemo(() => {
     const spinnerColor = customSpinnerColor || colorConfig.primary;
     const overlayColor =
       customOverlayColor || adjustOpacity(darkenColor(colorConfig.secondary, 80), 0.5);
@@ -62,32 +63,42 @@ export const Loading: React.FC<LoadingProps> = ({
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setMounted(true), 0);
+    const timer = setTimeout(() => setMounted(true), fullScreen ? 0 : 0);
     return () => {
       clearTimeout(timer);
       setMounted(false);
     };
-  }, []);
+  }, [fullScreen]);
 
-  if (!mounted) return null;
+  if (fullScreen && !mounted) return null;
 
-  const sizeStyles = getLoadingSizeStyles(size);
+  const sizeStyles = getLoaderSizeStyles(size);
   const textSizeStyles = getTextSizeStyles(size);
   const dotSizeStyles = getDotSizeStyles(size);
 
-  const overlayStyle: CSSProperties = {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100vw',
-    height: '100vh',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1005,
-    backdropFilter: 'blur(4px)',
-    backgroundColor: showOverlay ? loadingColors.overlay : undefined,
-  };
+  const containerStyle: CSSProperties = fullScreen
+    ? {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1005,
+        backdropFilter: overlay ? 'blur(4px)' : undefined,
+        backgroundColor: overlay ? loaderColors.overlay : undefined,
+      }
+    : {
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: overlay ? loaderColors.overlay : undefined,
+      };
 
   const contentContainerStyle: CSSProperties = {
     display: 'flex',
@@ -132,8 +143,8 @@ export const Loading: React.FC<LoadingProps> = ({
         }
         .modern-spinner {
           border: 3px solid transparent;
-          border-top-color: ${loadingColors.spinner};
-          border-right-color: ${loadingColors.spinner};
+          border-top-color: ${loaderColors.spinner};
+          border-right-color: ${loaderColors.spinner};
           border-radius: 50%;
           animation: spin-modern 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
           position: relative;
@@ -145,7 +156,7 @@ export const Loading: React.FC<LoadingProps> = ({
           left: -3px;
           right: -3px;
           bottom: -3px;
-          border: 3px solid ${loadingColors.spinner}20;
+          border: 3px solid ${loaderColors.spinner}20;
           border-radius: 50%;
           animation: pulse-ring 1.5s ease-in-out infinite;
         }
@@ -167,15 +178,15 @@ export const Loading: React.FC<LoadingProps> = ({
       `}</style>
       <div
         className="dot-1"
-        style={{ ...dotSizeStyles, borderRadius: '9999px', backgroundColor: loadingColors.spinner }}
+        style={{ ...dotSizeStyles, borderRadius: '9999px', backgroundColor: loaderColors.spinner }}
       />
       <div
         className="dot-2"
-        style={{ ...dotSizeStyles, borderRadius: '9999px', backgroundColor: loadingColors.spinner }}
+        style={{ ...dotSizeStyles, borderRadius: '9999px', backgroundColor: loaderColors.spinner }}
       />
       <div
         className="dot-3"
-        style={{ ...dotSizeStyles, borderRadius: '9999px', backgroundColor: loadingColors.spinner }}
+        style={{ ...dotSizeStyles, borderRadius: '9999px', backgroundColor: loaderColors.spinner }}
       />
     </div>
   );
@@ -201,7 +212,7 @@ export const Loading: React.FC<LoadingProps> = ({
           left: 50%;
           transform: translate(-50%, -50%);
           border-radius: 50%;
-          border: 2px solid ${loadingColors.spinner};
+          border: 2px solid ${loaderColors.spinner};
           animation: pulse-outer 1.5s ease-out infinite;
         }
         @keyframes pulse-text {
@@ -212,15 +223,15 @@ export const Loading: React.FC<LoadingProps> = ({
       <div style={{ position: 'relative', width: '4rem', height: '4rem' }}>
         <div
           className="pulse-core"
-          style={{ ...sizeStyles, backgroundColor: loadingColors.spinner }}
+          style={{ ...sizeStyles, backgroundColor: loaderColors.spinner }}
         />
         <div className="pulse-ring" style={{ ...sizeStyles, width: '100%', height: '100%' }} />
       </div>
     </div>
   );
 
-  const loadingContent = (
-    <div style={overlayStyle}>
+  const loaderContent = (
+    <div style={containerStyle}>
       <div style={contentContainerStyle}>
         {variant === 'spinner' && renderSpinner()}
         {variant === 'dots' && renderDots()}
@@ -230,9 +241,9 @@ export const Loading: React.FC<LoadingProps> = ({
     </div>
   );
 
-  return createPortal(loadingContent, document.body);
+  return fullScreen ? createPortal(loaderContent, document.body) : loaderContent;
 };
 
-Loading.displayName = LOADING_DISPLAY_NAME;
+Loader.displayName = LOADER_DISPLAY_NAME;
 
-export default Loading;
+export default Loader;
