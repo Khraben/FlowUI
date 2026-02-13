@@ -6,7 +6,6 @@ import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
 import type { ExtendedColorConfig } from '@/app/types/colors';
 import { getContrastColor, adjustOpacity } from '@/app/utils/colorUtils';
 
-// Helper functions for ConfirmationModal styles
 const getLoadingContainerStyles = (): CSSProperties => ({
   display: 'flex',
   justifyContent: 'center',
@@ -37,8 +36,6 @@ export interface ConfirmationModalProps {
   confirmText?: string;
   cancelText?: string;
   loadingContent?: ReactNode;
-
-  // New simplified color system
   colors?: ExtendedColorConfig;
 }
 

@@ -3,7 +3,6 @@ import { ButtonProps } from './models/Button.interface';
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
 import { getHoverColor, adjustOpacity, getContrastColor } from '@/app/utils/colorUtils';
 
-// Constants
 const BUTTON_DISPLAY_NAME = 'Button';
 const BUTTON_EMPTY_VALUE = '';
 
@@ -28,7 +27,6 @@ const BUTTON_ICON_POSITIONS = {
   RIGHT: 'right',
 } as const;
 
-// Helper functions for button styles
 const getButtonBaseStyles = (): CSSProperties => ({
   display: 'inline-flex',
   alignItems: 'center',
@@ -66,7 +64,6 @@ const getButtonSizeStyles = (size: string, variant: string): CSSProperties => {
     return clearSizes[size] || clearSizes.md;
   }
 
-  // Default button sizes
   const defaultSizes: Record<string, CSSProperties> = {
     sm: {
       paddingLeft: '1rem',
@@ -105,7 +102,6 @@ const getButtonRoundedStyles = (rounded?: string, variant?: string): CSSProperti
     return { borderRadius: roundedMap[rounded] || '0.5rem' };
   }
 
-  // Default rounded based on variant
   if (variant === BUTTON_VARIANTS.CLOSE || variant === BUTTON_VARIANTS.CLEAR) {
     return { borderRadius: '9999px' };
   }
@@ -162,10 +158,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
-    // Use default colors if not provided
     const colorConfig = colors || DEFAULT_COLOR_CONFIG;
 
-    // Calculate dynamic colors based on variant
     const variantColors = useMemo(() => {
       let baseColor: string;
       let textColor: string;

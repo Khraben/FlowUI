@@ -8,7 +8,6 @@ import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
 import { adjustOpacity, getContrastColor, lightenColor } from '@/app/utils/colorUtils';
 import 'react-datepicker/dist/react-datepicker.css';
 
-// Constants
 const DATEPICKER_DISPLAY_NAME = 'DatePicker';
 const DATEPICKER_EMPTY_VALUE = '';
 
@@ -35,7 +34,6 @@ const DATEPICKER_CALENDAR_SIZES = {
 
 const DATEPICKER_CALENDAR_Z_INDEX = '1000';
 
-// Helper functions for DatePicker styles
 const getDatePickerSizeStyles = (size: string, showClearButton: boolean): CSSProperties => {
   const basePadding = {
     sm: {

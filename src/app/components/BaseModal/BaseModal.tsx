@@ -6,7 +6,6 @@ import { MODAL_DEFAULT_TEXTS } from '@/app/constants/components/modal/styles.con
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
 import { darkenColor, getContrastColor, adjustOpacity } from '@/app/utils/colorUtils';
 
-// Helper functions for BaseModal styles
 const getOverlayStyles = (overlayBg: string): CSSProperties => ({
   position: 'fixed' as const,
   top: 0,
@@ -230,7 +229,6 @@ export const BaseModal: React.FC<BaseModalProps> = ({
 
   if (!isOpen) return null;
 
-  // Compute colors dynamically from the color config
   const overlayBg = customOverlayBg || adjustOpacity(darkenColor(colors.secondary, 80), 0.6);
   const modalBg = customModalBg || darkenColor(colors.secondary, 60);
   const headerBgFrom = colors.primary;

@@ -6,12 +6,10 @@ import { LoadingProps } from './models/Loading.interface';
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
 import { adjustOpacity, darkenColor } from '@/app/utils/colorUtils';
 
-// Constants
 const LOADING_DISPLAY_NAME = 'Loading';
 const LOADING_DEFAULT_SIZE = 'md';
 const LOADING_DEFAULT_VARIANT = 'spinner';
 
-// Helper functions for loading styles
 const getLoadingSizeStyles = (size: string): { width: string; height: string } => {
   const sizeMap: Record<string, { width: string; height: string }> = {
     sm: { width: '2rem', height: '2rem' },
@@ -48,10 +46,8 @@ export const Loading: React.FC<LoadingProps> = ({
   customSpinnerColor,
   showOverlay = true,
 }) => {
-  // Use default colors if not provided
   const colorConfig = colors || DEFAULT_COLOR_CONFIG;
 
-  // Calculate dynamic colors
   const loadingColors = useMemo(() => {
     const spinnerColor = customSpinnerColor || colorConfig.primary;
     const overlayColor =
@@ -66,7 +62,6 @@ export const Loading: React.FC<LoadingProps> = ({
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Use setTimeout to avoid synchronous state update
     const timer = setTimeout(() => setMounted(true), 0);
     return () => {
       clearTimeout(timer);
