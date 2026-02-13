@@ -11,7 +11,6 @@ import {
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
 import { darkenColor, lightenColor, getContrastColor, adjustOpacity } from '@/app/utils/colorUtils';
 
-// Helper functions for Table styles
 const getTableContainerStyles = (): CSSProperties => ({
   width: '100%',
   maxWidth: '75rem',
@@ -225,23 +224,17 @@ export const Table = <T extends Record<string, unknown>>({
   customHeaderBg,
   customRowBg,
 }: TableProps<T>) => {
-  // Compute colors dynamically from the color config
   const headerBgFrom = customHeaderBg || colors.primary;
   const headerBgTo = customHeaderBg || colors.secondary;
   const headerTextColor = getContrastColor(headerBgFrom);
   const headerBorderColor = adjustOpacity(headerTextColor, 0.1);
   const headerHoverBg = adjustOpacity(headerTextColor, 0.1);
-
-  // Row backgrounds calculated from secondary color
   const rowBg = customRowBg || darkenColor(colors.secondary, 60);
   const rowEvenBg = customRowBg || darkenColor(colors.secondary, 55);
   const rowHoverBg = lightenColor(rowBg, 8);
-
   const cellTextColor = getContrastColor(rowBg);
   const cellBorderColor = adjustOpacity(cellTextColor, 0.1);
-
   const actionDeleteHoverColor = colors.danger || darkenColor(colors.accent, 20);
-
   const noDataBg = rowBg;
   const noDataTextColor = adjustOpacity(cellTextColor, 0.6);
   const noDataBorderColor = adjustOpacity(cellTextColor, 0.1);

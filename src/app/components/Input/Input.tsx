@@ -10,7 +10,6 @@ import {
   lightenColor,
 } from '@/app/utils/colorUtils';
 
-// Constants
 const INPUT_DISPLAY_NAME = 'Input';
 const SELECT_INPUT_DISPLAY_NAME = 'SelectInput';
 const TIME_INPUT_DISPLAY_NAME = 'TimeInput';
@@ -80,7 +79,6 @@ const generateTimeOptions = (startHour: number, endHour: number, interval: numbe
   return times;
 };
 
-// Helper functions to get size-specific styles
 const getInputSizeStyles = (size: string): CSSProperties => {
   const baseStyles: CSSProperties = {
     width: '100%',
@@ -206,10 +204,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const [isFocused, setIsFocused] = useState(false);
     const [internalValue, setInternalValue] = useState('');
 
-    // Use default colors if not provided
     const colorConfig = colors || DEFAULT_COLOR_CONFIG;
 
-    // Calculate dynamic colors for input
     const inputColors = useMemo(() => {
       const accentColor = colorConfig.accent || colorConfig.primary;
       const defaultBg = lightenColor(colorConfig.secondary, 70);
@@ -270,9 +266,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      // Update internal value for uncontrolled inputs
       setInternalValue(e.target.value);
-      // Call parent onChange if provided
       onChange?.(e);
     };
 
@@ -325,7 +319,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       zIndex: 2,
     };
 
-    // Check if input has value - handle both controlled and uncontrolled inputs
     const currentValue = value !== undefined ? value : internalValue;
     const hasValue = Boolean(currentValue && String(currentValue).trim().length > 0);
 
@@ -429,10 +422,8 @@ export const SelectInput = forwardRef<HTMLSelectElement, SelectInputProps>(
   ) => {
     const [isFocused, setIsFocused] = useState(false);
 
-    // Use default colors if not provided
     const colorConfig = colors || DEFAULT_COLOR_CONFIG;
 
-    // Calculate dynamic colors for select
     const selectColors = useMemo(() => {
       const accentColor = colorConfig.accent || colorConfig.primary;
       const defaultBg = lightenColor(colorConfig.secondary, 70);
@@ -508,7 +499,6 @@ export const SelectInput = forwardRef<HTMLSelectElement, SelectInputProps>(
       pointerEvents: 'none',
     };
 
-    // SelectInput always has value because it has default option + children
     const hasValue = true;
 
     return (

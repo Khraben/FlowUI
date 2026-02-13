@@ -5,7 +5,8 @@ export interface SideBarMenuItem {
   id: string;
   label: string;
   icon: React.ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
+  href?: string;
   section?: 'top' | 'bottom';
   isActive?: boolean;
 }
@@ -24,17 +25,14 @@ export interface SideBarProps {
   openWidth?: string;
   closedWidth?: string;
 
-  // Language selector
   languageSelector?: {
     selectedLanguage?: string;
     onLanguageChange?: (languageKey: string) => void;
     availableLanguages?: string[];
   };
 
-  // New simplified color system
   colors?: BaseColorConfig;
 
-  // Optional overrides for specific customization
   customBg?: string;
   customTextColor?: string;
   customHoverBg?: string;

@@ -33,10 +33,8 @@ export interface TableProps<T = Record<string, unknown>> {
   editIcon?: ComponentType<SVGProps<SVGSVGElement>>;
   deleteIcon?: ComponentType<SVGProps<SVGSVGElement>>;
 
-  // New simplified color system
   colors?: ExtendedColorConfig;
 
-  // Optional overrides
   customHeaderBg?: string;
   customRowBg?: string;
 }

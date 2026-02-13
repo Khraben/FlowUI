@@ -11,10 +11,8 @@ export interface LanguageSelectorProps {
   activeItemClassName?: string;
   disableDefaultStyles?: boolean;
 
-  // New simplified color system
   colors?: BaseColorConfig;
 
-  // Optional overrides for specific customization
   customBorderColor?: string;
   customBgColor?: string;
   customTextColor?: string;

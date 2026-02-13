@@ -5,6 +5,7 @@ export { LanguageSelector } from './LanguageSelector/LanguageSelector';
 export { ActionIcon } from './ActionIcon/ActionIcon';
 export { Loading } from './Loading/Loading';
 export { Table } from './Table/Table';
+export type { TableColumn } from './Table/models/Table.interface';
 export { BaseModal } from './BaseModal/BaseModal';
 export type {
   BaseModalProps,

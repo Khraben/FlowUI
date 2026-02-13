@@ -6,22 +6,21 @@ import { ACTION_ICON_DISPLAY_NAME } from '@/app/constants/components/actionicon/
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
 import { getHoverColor, adjustOpacity } from '@/app/utils/colorUtils';
 
-// Size configurations
 const SIZE_CONFIG = {
   sm: {
-    padding: '0.25rem', // p-1
-    margin: '0.125rem', // mx-0.5
-    iconSize: '0.875rem', // w-3.5 h-3.5 (14px)
+    padding: '0.25rem',
+    margin: '0.125rem',
+    iconSize: '0.875rem',
   },
   md: {
-    padding: '0.375rem', // p-1.5
-    margin: '0.125rem', // mx-0.5
-    iconSize: '1rem', // w-4 h-4 (16px)
+    padding: '0.375rem',
+    margin: '0.125rem',
+    iconSize: '1rem',
   },
   lg: {
-    padding: '0.5rem', // p-2
-    margin: '0.25rem', // mx-1
-    iconSize: '1.25rem', // w-5 h-5 (20px)
+    padding: '0.5rem',
+    margin: '0.25rem',
+    iconSize: '1.25rem',
   },
 } as const;
 
@@ -39,11 +38,9 @@ export const ActionIcon: React.FC<ActionIconProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   const [isActive, setIsActive] = useState(false);
 
-  // Use default colors if not provided
   const colorConfig = colors || DEFAULT_COLOR_CONFIG;
   const sizeConfig = SIZE_CONFIG[size];
 
-  // Calculate dynamic colors
   const iconColors = useMemo(() => {
     const baseColor = customColor || colorConfig.primary;
     const hoverColor = getHoverColor(baseColor);
@@ -58,14 +55,13 @@ export const ActionIcon: React.FC<ActionIconProps> = ({
     };
   }, [colorConfig, customColor, customBg]);
 
-  // Button styles
   const getButtonStyles = (): CSSProperties => {
     const baseStyles: CSSProperties = {
       background: 'transparent',
       border: 'none',
       cursor: disabled ? 'not-allowed' : 'pointer',
       transition: 'all 200ms ease-in-out',
-      borderRadius: '0.375rem', // rounded-md
+      borderRadius: '0.375rem',
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -77,21 +73,20 @@ export const ActionIcon: React.FC<ActionIconProps> = ({
       backgroundColor: isHovered && !disabled ? iconColors.hoverBg : 'transparent',
       transform:
         isHovered && !disabled
-          ? 'translateY(-0.125rem)' // hover:-translate-y-0.5
+          ? 'translateY(-0.125rem)'
           : isActive && !disabled
-            ? 'translateY(0)' // active:translate-y-0
+            ? 'translateY(0)'
             : 'none',
     };
 
     return baseStyles;
   };
 
-  // Icon styles
   const getIconStyles = (): CSSProperties => ({
     width: sizeConfig.iconSize,
     height: sizeConfig.iconSize,
     transition: 'transform 200ms ease-in-out',
-    transform: isHovered && !disabled ? 'scale(1.1)' : 'scale(1)', // hover:scale-110
+    transform: isHovered && !disabled ? 'scale(1.1)' : 'scale(1)',
   });
 
   return (

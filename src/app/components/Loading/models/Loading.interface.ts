@@ -6,10 +6,8 @@ export interface LoadingProps {
   variant?: 'spinner' | 'dots' | 'pulse';
   showOverlay?: boolean;
 
-  // New simplified color system
   colors?: BaseColorConfig;
 
-  // Optional overrides
   customOverlayColor?: string;
   customSpinnerColor?: string;
 }
