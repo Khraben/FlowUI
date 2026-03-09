@@ -5,6 +5,107 @@ All notable changes to FlowUI will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2026-03-09
+
+### 🎉 First Stable Release
+
+**Production Ready** - FlowUI reaches its first major stable release with a complete set of components, consistent API, and comprehensive theming system.
+
+### 🌍 Now Open Source & Public
+
+**FlowUI is now publicly available!**
+
+- 📦 Published to **npm public registry** (npmjs.com)
+- ⚖️ Licensed under **MIT License**
+- 🌐 Open source and free to use in any project
+- 🚀 No authentication required for installation
+- ✨ Available globally: `npm install @khraben/flowui`
+
+### Added
+
+**ThemeSelector Component** - New component for switching between theme configurations:
+
+- 🎨 Interactive theme preview with live color swatches
+- 🔄 Smooth fade transitions between themes
+- 📱 Responsive grid layout (2-3 columns)
+- ✨ Hover effects with scale and elevation
+- 🎯 Active theme indicator
+- 💾 Callback support via `onThemeChange`
+- Props: `themes`, `activeThemeId`, `onThemeChange`, `colors`
+
+### Improved
+
+**BaseModal - Smart Change Detection**:
+
+- ✅ Only shows "Discard Changes?" confirmation when actual changes are detected
+- 🔍 Tracks field state via `hasUnsavedChanges` prop
+- 🎯 Better UX by avoiding unnecessary confirmations
+- 🧹 Automatic value reset on close
+
+**Input Component - Number Type Enhancements**:
+
+- ⌨️ Robust keyboard validation (blocks non-numeric chars in real-time)
+- ➕➖ Custom increment/decrement buttons styled with accent color
+- 🎨 Clean arrow buttons (▲▼) without background containers
+- 🚫 Hides native browser spinners
+- ✓ Allows negative numbers (minus only at start)
+- ✓ Allows decimals (single decimal point)
+- 🎯 Supports `min`, `max`, and `step` props
+- ⌨️ Proper keyboard navigation (arrows, backspace, cmd/ctrl shortcuts)
+
+**ActionIcon - Compact Sizing**:
+
+- 📏 Reduced padding for more compact icons
+- sm: `0.25rem → 0.1875rem` padding, `0.125rem → 0.0625rem` margin
+- md: `0.375rem → 0.25rem` padding, `0.125rem → 0.0625rem` margin
+- lg: `0.5rem → 0.375rem` padding, `0.25rem → 0.125rem` margin
+- 🎯 Better suited for table rows and dense UIs
+
+**Table Component - Consistent Row Heights**:
+
+- 📐 Fixed row height inconsistency between tables with/without ActionIcons
+- 🔧 ActionIcons now use `size="sm"` in tables
+- 📦 Icons wrapped in flex container for precise vertical alignment
+- 🎯 All cells use consistent `0.5rem` vertical padding
+- ✨ First row has extra `0.8125rem` top padding for header separation
+- 📏 `lineHeight: 1` and `verticalAlign: middle` for actions column
+
+### Fixed
+
+**Input Component**:
+
+- 🐛 Fixed double label issue in modal inputs (removed redundant placeholders)
+- ✓ Label now animates cleanly without text overlap
+- 🎯 Number inputs properly validate all edge cases
+
+**Component Registry**:
+
+- 🔧 Fixed React Hooks error by creating proper `NumberInputDemo` component
+- ✅ All hook usage now follows React naming conventions
+
+**Table Component**:
+
+- 🐛 Fixed header/body overlap issue
+- 📐 Consistent spacing between header and first row
+- 🎨 Better visual hierarchy and readability
+
+### Technical Improvements
+
+- 🎯 Enhanced number input validation with `onKeyDown` handler
+- 🧹 Cleaner modal input implementation without placeholder conflicts
+- 📦 Optimized ActionIcon for table usage scenarios
+- 🎨 Better color application across theme switching
+- ⚡ Improved render performance with `useId` for number inputs
+
+### Developer Experience
+
+- 📝 All components follow consistent naming patterns
+- ✅ Zero linting/compilation errors
+- 🎯 Better TypeScript type safety
+- 🔧 Improved prop documentation
+
+---
+
 ## [0.2.7] - 2026-02-10
 
 ### Removed

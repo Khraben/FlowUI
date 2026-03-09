@@ -3,8 +3,9 @@ export { default as Button } from '@/app/components/Button/Button';
 export { default as Input, SelectInput, TimeInput } from '@/app/components/Input/Input';
 export { DatePicker } from '@/app/components/DatePicker/DatePicker';
 export { LanguageSelector } from '@/app/components/LanguageSelector/LanguageSelector';
+export { ThemeSelector } from '@/app/components/ThemeSelector/ThemeSelector';
 export { ActionIcon } from '@/app/components/ActionIcon/ActionIcon';
-export { Loading } from '@/app/components/Loading/Loading';
+export { Loader } from '@/app/components/Loader/Loader';
 export { Table } from '@/app/components/Table/Table';
 export { BaseModal } from '@/app/components/BaseModal/BaseModal';
 export { default as ConfirmationModal } from '@/app/components/ConfirmationModal/ConfirmationModal';
@@ -13,16 +14,17 @@ export { NavBar } from '@/app/components/NavBar/NavBar';
 export { Gallery } from '@/app/components/Gallery/Gallery';
 
 // Flag components
-export * from '@/flags';
-export type { FlagProps } from '@/flags';
+export * from '@/app/components/LanguageSelector/flags';
+export type { FlagProps } from '@/app/components/LanguageSelector/flags';
 
 // Types
 export type { ButtonProps } from '@/app/components/Button/models/Button.interface';
 export type { InputProps } from '@/app/components/Input/models/Input.interface';
 export type { DatePickerProps } from '@/app/components/DatePicker/models/DatePicker.interface';
 export type { LanguageSelectorProps } from '@/app/components/LanguageSelector/models/LanguageSelector.interface';
+export type { ThemeSelectorProps } from '@/app/components/ThemeSelector/models/ThemeSelector.interface';
 export type { ActionIconProps } from '@/app/components/ActionIcon/models/ActionIcon.interface';
-export type { LoadingProps } from '@/app/components/Loading/models/Loading.interface';
+export type { LoaderProps } from '@/app/components/Loader/models/Loader.interface';
 export type { TableProps, TableColumn } from '@/app/components/Table/models/Table.interface';
 export type {
   BaseModalProps,

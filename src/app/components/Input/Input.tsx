@@ -1,4 +1,4 @@
-import { forwardRef, useState, useMemo, CSSProperties } from 'react';
+import { forwardRef, useState, useMemo, CSSProperties, useId } from 'react';
 import { InputProps } from './models/Input.interface';
 import { SelectInputProps } from './models/SelectInput.interface';
 import { TimeInputProps } from './models/TimeInput.interface';
@@ -266,8 +266,70 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setInternalValue(e.target.value);
-      onChange?.(e);
+      if (variant === INPUT_VARIANTS.NUMBER) {
+        const value = e.target.value;
+        // Allow empty string, minus sign at start, and valid numbers
+        if (value === '' || value === '-' || /^-?\d*\.?\d*$/.test(value)) {
+          setInternalValue(value);
+          onChange?.(e);
+        } else {
+          // Prevent the change by not updating state
+          e.preventDefault();
+        }
+      } else {
+        setInternalValue(e.target.value);
+        onChange?.(e);
+      }
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (variant === INPUT_VARIANTS.NUMBER) {
+        const key = e.key;
+        const currentVal = (e.target as HTMLInputElement).value;
+        const cursorPosition = (e.target as HTMLInputElement).selectionStart || 0;
+
+        // Allow: backspace, delete, tab, escape, enter, arrows
+        if (
+          [
+            'Backspace',
+            'Delete',
+            'Tab',
+            'Escape',
+            'Enter',
+            'ArrowLeft',
+            'ArrowRight',
+            'ArrowUp',
+            'ArrowDown',
+          ].includes(key) ||
+          // Allow: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+          (e.ctrlKey && ['a', 'c', 'v', 'x'].includes(key.toLowerCase())) ||
+          // Allow: Cmd+A, Cmd+C, Cmd+V, Cmd+X (Mac)
+          (e.metaKey && ['a', 'c', 'v', 'x'].includes(key.toLowerCase()))
+        ) {
+          return;
+        }
+
+        // Allow minus only at the beginning and if not already present
+        if (key === '-') {
+          if (cursorPosition !== 0 || currentVal.includes('-')) {
+            e.preventDefault();
+          }
+          return;
+        }
+
+        // Allow decimal point only once
+        if (key === '.') {
+          if (currentVal.includes('.')) {
+            e.preventDefault();
+          }
+          return;
+        }
+
+        // Allow only digits
+        if (!/^\d$/.test(key)) {
+          e.preventDefault();
+        }
+      }
     };
 
     const wrapperStyle: CSSProperties = disableDefaultStyles
@@ -322,72 +384,198 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const currentValue = value !== undefined ? value : internalValue;
     const hasValue = Boolean(currentValue && String(currentValue).trim().length > 0);
 
-    return (
-      <div className={wrapperClassName} style={{ ...wrapperStyle, ...style }}>
-        <input
-          ref={ref}
-          type={getInputType()}
-          placeholder={INPUT_PLACEHOLDER_CHAR}
-          value={value}
-          autoComplete={INPUT_AUTOCOMPLETE_VALUES.OFF}
-          className={disableDefaultStyles ? baseClassName : className}
-          style={inputStyle}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          onChange={handleChange}
-          {...props}
-        />
-        {label && (
-          <label className={labelClassName} style={getLabelStyles(hasValue, isFocused, labelStyle)}>
-            {label}
-          </label>
-        )}
+    const uniqueId = useId();
 
-        {variant === INPUT_VARIANTS.PASSWORD &&
-          showPasswordToggle &&
-          passwordIcon &&
-          passwordIconHidden && (
-            <button
-              type={INPUT_BUTTON_TYPE}
-              onClick={toggleShowPassword}
-              style={passwordButtonStyle}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = getHoverColor(inputColors.accentColor);
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = 'var(--input-accent, #00D4FF)';
-              }}
+    const handleIncrement = () => {
+      if (variant === INPUT_VARIANTS.NUMBER && onChange) {
+        const currentVal = Number(currentValue) || 0;
+        const step = props.step ? Number(props.step) : 1;
+        const max = props.max !== undefined ? Number(props.max) : Infinity;
+        const newValue = Math.min(currentVal + step, max);
+
+        const event = {
+          target: { value: String(newValue) },
+          currentTarget: { value: String(newValue) },
+        } as React.ChangeEvent<HTMLInputElement>;
+        onChange(event);
+      }
+    };
+
+    const handleDecrement = () => {
+      if (variant === INPUT_VARIANTS.NUMBER && onChange) {
+        const currentVal = Number(currentValue) || 0;
+        const step = props.step ? Number(props.step) : 1;
+        const min = props.min !== undefined ? Number(props.min) : -Infinity;
+        const newValue = Math.max(currentVal - step, min);
+
+        const event = {
+          target: { value: String(newValue) },
+          currentTarget: { value: String(newValue) },
+        } as React.ChangeEvent<HTMLInputElement>;
+        onChange(event);
+      }
+    };
+
+    return (
+      <>
+        {variant === INPUT_VARIANTS.NUMBER && (
+          <style>{`
+            #${uniqueId}::-webkit-inner-spin-button,
+            #${uniqueId}::-webkit-outer-spin-button {
+              -webkit-appearance: none;
+              margin: 0;
+            }
+            #${uniqueId}[type="number"] {
+              -moz-appearance: textfield;
+              appearance: textfield;
+            }
+          `}</style>
+        )}
+        <div className={wrapperClassName} style={{ ...wrapperStyle, ...style }}>
+          <input
+            id={uniqueId}
+            ref={ref}
+            type={getInputType()}
+            placeholder={INPUT_PLACEHOLDER_CHAR}
+            value={value}
+            autoComplete={INPUT_AUTOCOMPLETE_VALUES.OFF}
+            className={disableDefaultStyles ? baseClassName : className}
+            style={{
+              ...inputStyle,
+              paddingRight: variant === INPUT_VARIANTS.NUMBER ? '2.5rem' : inputStyle.paddingRight,
+            }}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            {...props}
+          />
+          {label && (
+            <label
+              className={labelClassName}
+              style={getLabelStyles(hasValue, isFocused, labelStyle)}
             >
-              {showPassword ? passwordIconHidden : passwordIcon}
-            </button>
+              {label}
+            </label>
           )}
 
-        {variant === INPUT_VARIANTS.SEARCH && (
-          <>
-            {value && onClear && clearIcon && (
+          {variant === INPUT_VARIANTS.NUMBER && (
+            <div
+              style={{
+                position: 'absolute',
+                right: '0.75rem',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.0625rem',
+              }}
+            >
               <button
-                onClick={onClear}
                 type={INPUT_BUTTON_TYPE}
-                style={clearButtonStyle}
+                onClick={handleIncrement}
+                tabIndex={-1}
+                style={{
+                  border: 'none',
+                  background: 'transparent',
+                  cursor: 'pointer',
+                  padding: '0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: inputColors.accentColor,
+                  fontSize: '0.875rem',
+                  lineHeight: 1,
+                  transition: 'all 200ms',
+                }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = adjustOpacity(
-                    inputColors.accentColor,
-                    0.1,
-                  );
+                  e.currentTarget.style.color = getHoverColor(inputColors.accentColor);
+                  e.currentTarget.style.transform = 'scale(1.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = inputColors.accentColor;
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
+              >
+                ▲
+              </button>
+              <button
+                type={INPUT_BUTTON_TYPE}
+                onClick={handleDecrement}
+                tabIndex={-1}
+                style={{
+                  border: 'none',
+                  background: 'transparent',
+                  cursor: 'pointer',
+                  padding: '0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: inputColors.accentColor,
+                  fontSize: '0.875rem',
+                  lineHeight: 1,
+                  transition: 'all 200ms',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = getHoverColor(inputColors.accentColor);
+                  e.currentTarget.style.transform = 'scale(1.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = inputColors.accentColor;
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
+              >
+                ▼
+              </button>
+            </div>
+          )}
+
+          {variant === INPUT_VARIANTS.PASSWORD &&
+            showPasswordToggle &&
+            passwordIcon &&
+            passwordIconHidden && (
+              <button
+                type={INPUT_BUTTON_TYPE}
+                onClick={toggleShowPassword}
+                style={passwordButtonStyle}
+                onMouseEnter={(e) => {
                   e.currentTarget.style.color = getHoverColor(inputColors.accentColor);
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
                   e.currentTarget.style.color = 'var(--input-accent, #00D4FF)';
                 }}
               >
-                {clearIcon}
+                {showPassword ? passwordIconHidden : passwordIcon}
               </button>
             )}
-            {searchIcon && <div style={searchIconStyle}>{searchIcon}</div>}
-          </>
-        )}
-      </div>
+
+          {variant === INPUT_VARIANTS.SEARCH && (
+            <>
+              {value && onClear && clearIcon && (
+                <button
+                  onClick={onClear}
+                  type={INPUT_BUTTON_TYPE}
+                  style={clearButtonStyle}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = adjustOpacity(
+                      inputColors.accentColor,
+                      0.1,
+                    );
+                    e.currentTarget.style.color = getHoverColor(inputColors.accentColor);
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.color = 'var(--input-accent, #00D4FF)';
+                  }}
+                >
+                  {clearIcon}
+                </button>
+              )}
+              {searchIcon && <div style={searchIconStyle}>{searchIcon}</div>}
+            </>
+          )}
+        </div>
+      </>
     );
   },
 );

@@ -76,7 +76,7 @@ const getSortIconStyles = (): CSSProperties => ({
 });
 
 const getBodyCellStyles = (): CSSProperties => ({
-  padding: '0.625rem 1.25rem',
+  padding: '0.5rem 1.25rem',
   textAlign: 'left' as const,
   fontSize: '0.875rem',
   fontWeight: 500,
@@ -86,6 +86,8 @@ const getBodyCellStyles = (): CSSProperties => ({
 const getActionsCellStyles = (): CSSProperties => ({
   textAlign: 'center' as const,
   whiteSpace: 'nowrap' as const,
+  lineHeight: 1,
+  verticalAlign: 'middle' as const,
 });
 
 const getRowStyles = (): CSSProperties => ({
@@ -359,6 +361,7 @@ export const Table = <T extends Record<string, unknown>>({
                   ...getBodyCellStyles(),
                   color: cellTextColor,
                   borderBottomColor: cellBorderColor,
+                  paddingTop: rowIndex === 0 ? '0.25rem' : undefined,
                 }}
               >
                 {column.render
@@ -375,20 +378,40 @@ export const Table = <T extends Record<string, unknown>>({
                   borderBottomColor: cellBorderColor,
                 }}
               >
-                {actionConfig.info && onInfo && (
-                  <ActionIcon icon={infoIcon} onClick={() => onInfo(item)} colors={colors} />
-                )}
-                {actionConfig.edit && onEdit && (
-                  <ActionIcon icon={editIcon} onClick={() => onEdit(item)} colors={colors} />
-                )}
-                {actionConfig.delete && onDelete && (
-                  <ActionIcon
-                    icon={deleteIcon}
-                    onClick={() => onDelete(item)}
-                    colors={colors}
-                    customColor={actionDeleteHoverColor}
-                  />
-                )}
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.125rem',
+                  }}
+                >
+                  {actionConfig.info && onInfo && (
+                    <ActionIcon
+                      icon={infoIcon}
+                      onClick={() => onInfo(item)}
+                      colors={colors}
+                      size="sm"
+                    />
+                  )}
+                  {actionConfig.edit && onEdit && (
+                    <ActionIcon
+                      icon={editIcon}
+                      onClick={() => onEdit(item)}
+                      colors={colors}
+                      size="sm"
+                    />
+                  )}
+                  {actionConfig.delete && onDelete && (
+                    <ActionIcon
+                      icon={deleteIcon}
+                      onClick={() => onDelete(item)}
+                      colors={colors}
+                      customColor={actionDeleteHoverColor}
+                      size="sm"
+                    />
+                  )}
+                </div>
               </td>
             )}
           </tr>
