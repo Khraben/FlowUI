@@ -1125,7 +1125,7 @@ export const componentRegistry: ComponentDemo[] = [
     name: 'Loading Variants',
     description: 'Loading indicators: spinner, pulse, and dots',
     category: COMPONENT_CATEGORIES.LOADERS,
-    component: LoaderVariantsDemo,
+    component: LoadingVariantsDemo,
     props: {},
   },
   {
