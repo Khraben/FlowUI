@@ -8,18 +8,18 @@ import { getHoverColor, adjustOpacity } from '@/app/utils/colorUtils';
 
 const SIZE_CONFIG = {
   sm: {
-    padding: '0.25rem',
-    margin: '0.125rem',
+    padding: '0.1875rem',
+    margin: '0.0625rem',
     iconSize: '0.875rem',
   },
   md: {
-    padding: '0.375rem',
-    margin: '0.125rem',
+    padding: '0.25rem',
+    margin: '0.0625rem',
     iconSize: '1rem',
   },
   lg: {
-    padding: '0.5rem',
-    margin: '0.25rem',
+    padding: '0.375rem',
+    margin: '0.125rem',
     iconSize: '1.25rem',
   },
 } as const;

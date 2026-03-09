@@ -98,6 +98,24 @@ const PasswordInputDemo = () => {
   );
 };
 
+const NumberInputDemo = () => {
+  const [quantity, setQuantity] = useState('0');
+  return (
+    <Input
+      variant="number"
+      label="Quantity"
+      value={quantity}
+      onChange={(e) => setQuantity(e.target.value)}
+      colors={PREVIEW_COLOR_CONFIG}
+      customBg={PREVIEW_DARK_SURFACE}
+      customTextColor={PREVIEW_LIGHT_TEXT}
+      min={-10}
+      max={100}
+      step={1}
+    />
+  );
+};
+
 const SelectInputDemo = () => {
   return (
     <SelectInput
@@ -1167,16 +1185,7 @@ export const componentRegistry: ComponentDemo[] = [
     name: 'Number Input',
     description: 'Numeric input field',
     category: COMPONENT_CATEGORIES.INPUTS,
-    component: () => (
-      <Input
-        variant="number"
-        label="Quantity"
-        placeholder=" "
-        colors={PREVIEW_COLOR_CONFIG}
-        customBg={PREVIEW_DARK_SURFACE}
-        customTextColor={PREVIEW_LIGHT_TEXT}
-      />
-    ),
+    component: NumberInputDemo,
     props: {},
   },
   {
