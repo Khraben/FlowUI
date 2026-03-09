@@ -7,6 +7,7 @@ import {
   TimeInput,
   DatePicker,
   LanguageSelector,
+  ThemeSelector,
   ActionIcon,
   Table,
   BaseModal,
@@ -163,6 +164,11 @@ const LanguageSelectorDemo = () => {
       colors={PREVIEW_COLOR_CONFIG}
     />
   );
+};
+
+const ThemeSelectorDemo = () => {
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  return <ThemeSelector theme={theme} onThemeChange={setTheme} colors={PREVIEW_COLOR_CONFIG} />;
 };
 
 const LoadingVariantsDemo = () => {
@@ -475,6 +481,19 @@ const TableWithActionsDemo = () => {
 
 const BaseModalDemo = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [initialName] = useState('');
+  const [initialEmail] = useState('');
+
+  const hasUnsavedChanges = name !== initialName || email !== initialEmail;
+
+  const handleClose = () => {
+    setIsOpen(false);
+    // Reset values when closing
+    setName(initialName);
+    setEmail(initialEmail);
+  };
 
   return (
     <>
@@ -483,15 +502,16 @@ const BaseModalDemo = () => {
       </Button>
       <BaseModal
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onClose={handleClose}
         title="Edit Profile"
         colors={PREVIEW_COLOR_CONFIG}
-        hasUnsavedChanges={true}
+        hasUnsavedChanges={hasUnsavedChanges}
       >
         <div style={{ padding: '1rem' }}>
           <Input
             label="Name"
-            placeholder="Enter name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             colors={PREVIEW_COLOR_CONFIG}
             customBg={PREVIEW_DARK_SURFACE}
             customTextColor={PREVIEW_LIGHT_TEXT}
@@ -500,7 +520,8 @@ const BaseModalDemo = () => {
             <Input
               label="Email"
               type="email"
-              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               colors={PREVIEW_COLOR_CONFIG}
               customBg={PREVIEW_DARK_SURFACE}
               customTextColor={PREVIEW_LIGHT_TEXT}
@@ -1215,6 +1236,14 @@ export const componentRegistry: ComponentDemo[] = [
     description: 'Dropdown language selector with flags',
     category: COMPONENT_CATEGORIES.NAVIGATION,
     component: LanguageSelectorDemo,
+    props: {},
+  },
+  {
+    id: 'theme-selector',
+    name: 'Theme Selector',
+    description: 'Toggle between light and dark theme',
+    category: COMPONENT_CATEGORIES.NAVIGATION,
+    component: ThemeSelectorDemo,
     props: {},
   },
   {

@@ -1,4 +1,14 @@
-import { FlagEN, FlagES, FlagPT, FlagFR, FlagIT, FlagRU, FlagJA, FlagDE, FlagZH } from '@/flags';
+import {
+  FlagEN,
+  FlagES,
+  FlagPT,
+  FlagFR,
+  FlagIT,
+  FlagRU,
+  FlagJA,
+  FlagDE,
+  FlagZH,
+} from '@/app/components/LanguageSelector/flags';
 
 export const ALL_LANGUAGES = {
   en: {
