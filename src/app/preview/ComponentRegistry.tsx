@@ -7,6 +7,7 @@ import {
   TimeInput,
   DatePicker,
   LanguageSelector,
+  ThemeSelector,
   ActionIcon,
   Table,
   BaseModal,
@@ -98,6 +99,24 @@ const PasswordInputDemo = () => {
   );
 };
 
+const NumberInputDemo = () => {
+  const [quantity, setQuantity] = useState('0');
+  return (
+    <Input
+      variant="number"
+      label="Quantity"
+      value={quantity}
+      onChange={(e) => setQuantity(e.target.value)}
+      colors={PREVIEW_COLOR_CONFIG}
+      customBg={PREVIEW_DARK_SURFACE}
+      customTextColor={PREVIEW_LIGHT_TEXT}
+      min={-10}
+      max={100}
+      step={1}
+    />
+  );
+};
+
 const SelectInputDemo = () => {
   return (
     <SelectInput
@@ -166,7 +185,14 @@ const LanguageSelectorDemo = () => {
   );
 };
 
-const LoaderVariantsDemo = () => {
+const ThemeSelectorDemo = () => {
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  return <ThemeSelector theme={theme} onThemeChange={setTheme} colors={PREVIEW_COLOR_CONFIG} />;
+};
+
+const LoadingVariantsDemo = () => {
+  const spinnerColor = PREVIEW_COLOR_CONFIG.primary;
+
   return (
     <div
       style={{
@@ -338,6 +364,19 @@ const TableWithActionsDemo = () => {
 
 const BaseModalDemo = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [initialName] = useState('');
+  const [initialEmail] = useState('');
+
+  const hasUnsavedChanges = name !== initialName || email !== initialEmail;
+
+  const handleClose = () => {
+    setIsOpen(false);
+    // Reset values when closing
+    setName(initialName);
+    setEmail(initialEmail);
+  };
 
   return (
     <>
@@ -346,15 +385,16 @@ const BaseModalDemo = () => {
       </Button>
       <BaseModal
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onClose={handleClose}
         title="Edit Profile"
         colors={PREVIEW_COLOR_CONFIG}
-        hasUnsavedChanges={true}
+        hasUnsavedChanges={hasUnsavedChanges}
       >
         <div style={{ padding: '1rem' }}>
           <Input
             label="Name"
-            placeholder="Enter name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             colors={PREVIEW_COLOR_CONFIG}
             customBg={PREVIEW_DARK_SURFACE}
             customTextColor={PREVIEW_LIGHT_TEXT}
@@ -363,7 +403,8 @@ const BaseModalDemo = () => {
             <Input
               label="Email"
               type="email"
-              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               colors={PREVIEW_COLOR_CONFIG}
               customBg={PREVIEW_DARK_SURFACE}
               customTextColor={PREVIEW_LIGHT_TEXT}
@@ -1009,16 +1050,7 @@ export const componentRegistry: ComponentDemo[] = [
     name: 'Number Input',
     description: 'Numeric input field',
     category: COMPONENT_CATEGORIES.INPUTS,
-    component: () => (
-      <Input
-        variant="number"
-        label="Quantity"
-        placeholder=" "
-        colors={PREVIEW_COLOR_CONFIG}
-        customBg={PREVIEW_DARK_SURFACE}
-        customTextColor={PREVIEW_LIGHT_TEXT}
-      />
-    ),
+    component: NumberInputDemo,
     props: {},
   },
   {
@@ -1081,9 +1113,17 @@ export const componentRegistry: ComponentDemo[] = [
     props: {},
   },
   {
-    id: 'loader-variants',
-    name: 'Loader Variants',
-    description: 'Loader indicators: spinner, pulse, and dots',
+    id: 'theme-selector',
+    name: 'Theme Selector',
+    description: 'Toggle between light and dark theme',
+    category: COMPONENT_CATEGORIES.NAVIGATION,
+    component: ThemeSelectorDemo,
+    props: {},
+  },
+  {
+    id: 'loading-variants',
+    name: 'Loading Variants',
+    description: 'Loading indicators: spinner, pulse, and dots',
     category: COMPONENT_CATEGORIES.LOADERS,
     component: LoaderVariantsDemo,
     props: {},

@@ -2,6 +2,7 @@ export { default as Button } from './Button/Button';
 export { default as Input, SelectInput, TimeInput } from './Input/Input';
 export { DatePicker } from './DatePicker/DatePicker';
 export { LanguageSelector } from './LanguageSelector/LanguageSelector';
+export { ThemeSelector } from './ThemeSelector/ThemeSelector';
 export { ActionIcon } from './ActionIcon/ActionIcon';
 export { Loader } from './Loader/Loader';
 export { Table } from './Table/Table';
