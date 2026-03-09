@@ -11,6 +11,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Production Ready** - FlowUI reaches its first major stable release with a complete set of components, consistent API, and comprehensive theming system.
 
+### 🌍 Now Open Source & Public
+
+**FlowUI is now publicly available!**
+
+- 📦 Published to **npm public registry** (npmjs.com)
+- ⚖️ Licensed under **MIT License**
+- 🌐 Open source and free to use in any project
+- 🚀 No authentication required for installation
+- ✨ Available globally: `npm install @khraben/flowui`
+
 ### Added
 
 **ThemeSelector Component** - New component for switching between theme configurations:

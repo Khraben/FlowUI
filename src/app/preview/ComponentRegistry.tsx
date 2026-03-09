@@ -191,8 +191,6 @@ const ThemeSelectorDemo = () => {
 };
 
 const LoadingVariantsDemo = () => {
-  const spinnerColor = PREVIEW_COLOR_CONFIG.primary;
-
   return (
     <div
       style={{
