@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo, CSSProperties } from 'react';
+import { useState, useCallback, useMemo, CSSProperties, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { NavBarProps } from './models/NavBar.interface';
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
@@ -198,7 +198,28 @@ export const NavBar = ({
   languageSelector,
 }: NavBarProps) => {
   const [internalMobileMenu, setInternalMobileMenu] = useState(false);
+  const [currentPathname, setCurrentPathname] = useState(() =>
+    typeof window !== 'undefined' ? window.location.pathname : '/',
+  );
   const isMobileMenuOpen = controlledMobileMenu ?? internalMobileMenu;
+
+  // Listen for route changes (works with Next.js router and browser navigation)
+  useEffect(() => {
+    const handleRouteChange = () => {
+      setCurrentPathname(window.location.pathname);
+    };
+
+    window.addEventListener('popstate', handleRouteChange);
+    // Also listen for Next.js route changes if available
+    window.addEventListener('pushstate', handleRouteChange);
+    window.addEventListener('replacestate', handleRouteChange);
+
+    return () => {
+      window.removeEventListener('popstate', handleRouteChange);
+      window.removeEventListener('pushstate', handleRouteChange);
+      window.removeEventListener('replacestate', handleRouteChange);
+    };
+  }, []);
 
   const backgroundColor = customBgColor || colors.secondary;
   const textColor = customTextColor || getContrastColor(backgroundColor);
@@ -241,18 +262,21 @@ export const NavBar = ({
     }
   }, []);
 
-  const isMenuItemActive = useCallback((item: (typeof menuItems)[0]) => {
-    if (item.isActive !== undefined) {
-      return item.isActive;
-    }
-    if (item.href && typeof window !== 'undefined') {
-      const currentPath = window.location.pathname;
-      return (
-        currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href + '/'))
-      );
-    }
-    return false;
-  }, []);
+  const isMenuItemActive = useCallback(
+    (item: (typeof menuItems)[0]) => {
+      if (item.isActive !== undefined) {
+        return item.isActive;
+      }
+      if (item.href) {
+        return (
+          currentPathname === item.href ||
+          (item.href !== '/' && currentPathname.startsWith(item.href + '/'))
+        );
+      }
+      return false;
+    },
+    [currentPathname],
+  );
 
   return (
     <>

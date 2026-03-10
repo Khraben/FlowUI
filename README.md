@@ -13,6 +13,21 @@ npm install @khraben/flowui
 
 **Note:** FlowUI v1.0.0+ uses **CSS-in-JS** and no longer requires Tailwind CSS. All styling is done through inline styles with dynamic color calculations.
 
+### Troubleshooting Installation
+
+If you encounter issues with npm installing dependencies (specifically `closure-net` errors), try one of these solutions:
+
+```bash
+# Option 1: Use pnpm (recommended)
+pnpm add @khraben/flowui
+
+# Option 2: Use yarn
+yarn add @khraben/flowui
+
+# Option 3: Use npm with legacy peer deps
+npm install @khraben/flowui --legacy-peer-deps
+```
+
 ## 🎨 Design Philosophy
 
 FlowUI uses a **simplified color system** that dramatically reduces the number of props needed while maintaining full customization flexibility.

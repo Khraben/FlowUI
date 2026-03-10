@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo, CSSProperties } from 'react';
+import { useState, useCallback, useMemo, CSSProperties, useEffect } from 'react';
 import { SideBarProps, SideBarMenuItem } from './models/SideBar.interface';
 import { DEFAULT_COLOR_CONFIG, hasExtendedColors } from '@/app/types/colors';
 import { adjustOpacity, getContrastColor, lightenColor } from '@/app/utils/colorUtils';
@@ -123,7 +123,28 @@ export const SideBar = ({
   languageSelector,
 }: SideBarProps) => {
   const [internalIsOpen, setInternalIsOpen] = useState(false);
+  const [currentPathname, setCurrentPathname] = useState(() =>
+    typeof window !== 'undefined' ? window.location.pathname : '/',
+  );
   const isOpen = controlledIsOpen ?? internalIsOpen;
+
+  // Listen for route changes (works with Next.js router and browser navigation)
+  useEffect(() => {
+    const handleRouteChange = () => {
+      setCurrentPathname(window.location.pathname);
+    };
+
+    window.addEventListener('popstate', handleRouteChange);
+    // Also listen for Next.js route changes if available
+    window.addEventListener('pushstate', handleRouteChange);
+    window.addEventListener('replacestate', handleRouteChange);
+
+    return () => {
+      window.removeEventListener('popstate', handleRouteChange);
+      window.removeEventListener('pushstate', handleRouteChange);
+      window.removeEventListener('replacestate', handleRouteChange);
+    };
+  }, []);
 
   const backgroundColor = customBg || colors.secondary;
   const textColor = customTextColor || getContrastColor(backgroundColor);
@@ -144,18 +165,21 @@ export const SideBar = ({
     onToggle?.(newState);
   }, [isOpen, controlledIsOpen, onToggle]);
 
-  const isMenuItemActive = useCallback((item: SideBarMenuItem) => {
-    if (item.isActive !== undefined) {
-      return item.isActive;
-    }
-    if (item.href && typeof window !== 'undefined') {
-      const currentPath = window.location.pathname;
-      return (
-        currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href + '/'))
-      );
-    }
-    return false;
-  }, []);
+  const isMenuItemActive = useCallback(
+    (item: SideBarMenuItem) => {
+      if (item.isActive !== undefined) {
+        return item.isActive;
+      }
+      if (item.href) {
+        return (
+          currentPathname === item.href ||
+          (item.href !== '/' && currentPathname.startsWith(item.href + '/'))
+        );
+      }
+      return false;
+    },
+    [currentPathname],
+  );
 
   const { topItems, bottomItems, logoutItem } = useMemo(() => {
     const top: SideBarMenuItem[] = [];
@@ -201,7 +225,7 @@ export const SideBar = ({
                     if (item.onClick) {
                       item.onClick();
                     }
-                    if (item.href) {
+                    if (item.href && typeof window !== 'undefined') {
                       window.location.href = item.href;
                     }
                   }
