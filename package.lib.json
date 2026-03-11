@@ -1,6 +1,6 @@
 {
   "name": "@khraben/flowui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "FlowUI - Modern React component library with TypeScript and CSS-in-JS",
   "main": "index.js",
   "module": "index.mjs",
@@ -23,6 +23,9 @@
     "framer-motion": "^12.34.0",
     "lucide-react": "^0.562.0",
     "react-datepicker": "^9.1.0"
+  },
+  "overrides": {
+    "closure-net": "npm:noop-package@^1.0.0"
   },
   "repository": {
     "type": "git",
