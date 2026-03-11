@@ -1,6 +1,6 @@
 {
   "name": "@khraben/flowui",
-  "version": "0.2.7",
+  "version": "1.0.0",
   "private": false,
   "description": "FlowUI - React component library with 100% customizable colors via props and CSS-in-JS",
   "main": "./dist/index.js",
@@ -23,7 +23,8 @@
     "url": "git+https://github.com/Khraben/FlowUI.git"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   },
   "keywords": [
     "react",
@@ -33,7 +34,7 @@
     "css-in-js"
   ],
   "author": "Khraben",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -51,6 +52,9 @@
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
     "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "overrides": {
+    "closure-net": "npm:noop-package@^1.0.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

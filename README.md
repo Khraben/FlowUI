@@ -2,37 +2,8 @@
 
 Modern React component library with TypeScript and CSS-in-JS styling.
 
-## ⚠️ Private Package - Authentication Required
-
-This is a **private GitHub Package**. You need a valid GitHub Personal Access Token to install it.
-
-### 1️⃣ Generate GitHub Token
-
-Go to: **GitHub → Settings → Developer settings → Personal access tokens (classic)**
-
-Required scopes:
-
-- ✅ `read:packages`
-- ✅ `repo` (because the repository is private)
-
-### 2️⃣ Configure Authentication
-
-Create/update `~/.npmrc` in your home directory:
-
-```
-@khraben:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN_HERE
-```
-
-**OR** login via npm:
-
-```bash
-npm login --scope=@khraben --registry=https://npm.pkg.github.com
-```
-
-- **Username:** Your GitHub username
-- **Password:** Your GitHub token (NOT your GitHub password)
-- **Email:** Any valid email
+[![npm version](https://img.shields.io/npm/v/@khraben/flowui.svg)](https://www.npmjs.com/package/@khraben/flowui)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ## 📦 Installation
 
@@ -40,20 +11,68 @@ npm login --scope=@khraben --registry=https://npm.pkg.github.com
 npm install @khraben/flowui
 ```
 
-**Note:** FlowUI v0.2.7+ uses **CSS-in-JS** and no longer requires Tailwind CSS. All styling is done through inline styles with dynamic color calculations.
+**Note:** FlowUI v1.0.0+ uses **CSS-in-JS** and no longer requires Tailwind CSS. All styling is done through inline styles with dynamic color calculations.
+
+### Troubleshooting Installation
+
+If you encounter issues with npm installing dependencies (specifically `closure-net` errors), try one of these solutions:
+
+```bash
+# Option 1: Use pnpm (recommended)
+pnpm add @khraben/flowui
+
+# Option 2: Use yarn
+yarn add @khraben/flowui
+
+# Option 3: Use npm with legacy peer deps
+npm install @khraben/flowui --legacy-peer-deps
+```
 
 ## 🎨 Design Philosophy
 
 FlowUI uses a **simplified color system** that dramatically reduces the number of props needed while maintaining full customization flexibility.
 
-### New Color System (v2.0+)
+### Color System (v1.0+)
 
-- **3 Base Colors** - `primary`, `secondary`, `accent` (required)
-- **3 Extended Colors** - `warning`, `success`, `danger` (when needed)
+- **3 Base Colors** - `primary`, `secondary`, `accent` (required for most components)
+- **3 Extended Colors** - `warning`, `success`, `danger` (for modals and alerts)
 - **Auto-calculated States** - Hover, focus, disabled states computed automatically
-- **Type-Safe** - Full TypeScript support
+- **Type-Safe** - Full TypeScript support with proper interfaces
+- **Flexible** - Use defaults or customize with individual color overrides
 
-See [Color System Documentation](docs/COLOR_SYSTEM.md) for complete details.
+### Color Format
+
+All colors accept **standard CSS color formats**:
+
+```tsx
+// ✅ Hexadecimal
+const colors = {
+  primary: '#3B82F6',
+  secondary: '#8B5CF6',
+  accent: '#EC4899',
+};
+
+// ✅ RGB/RGBA
+const colors = {
+  primary: 'rgb(59, 130, 246)',
+  secondary: 'rgba(139, 92, 246, 0.9)',
+  accent: '#EC4899',
+};
+
+// ✅ HSL/HSLA
+const colors = {
+  primary: 'hsl(217, 91%, 60%)',
+  secondary: 'hsl(258, 90%, 66%)',
+  accent: '#EC4899',
+};
+
+// ✅ CSS Variables
+const colors = {
+  primary: 'var(--color-primary)',
+  secondary: 'var(--color-secondary)',
+  accent: 'var(--color-accent)',
+};
+```
 
 ## 🚀 Features
 
@@ -67,24 +86,57 @@ See [Color System Documentation](docs/COLOR_SYSTEM.md) for complete details.
 - ✅ **Built with tsup** - Optimized ESM + CJS builds
 - ✅ **Framer Motion** - Smooth animations in Gallery and other components
 
-## 📚 Components
+## � Quick Start
 
-### Quick Start
+### 1. Define Your Color Palette
 
 ```tsx
-import { Button, Input, BaseColorConfig } from '@khraben/flowui';
+import { BaseColorConfig, ExtendedColorConfig } from '@khraben/flowui';
 
-// Define your color palette once
+// For most components (Button, Input, Table, etc.)
 const myColors: BaseColorConfig = {
-  primary: '#3B82F6',
-  secondary: '#8B5CF6',
-  accent: '#EC4899'
+  primary: '#3B82F6', // Main brand color
+  secondary: '#8B5CF6', // Background/secondary elements
+  accent: '#EC4899', // Highlights and focus states
 };
 
-// Use it across all components
+// For modals and components that need status colors
+const extendedColors: ExtendedColorConfig = {
+  primary: '#3B82F6',
+  secondary: '#8B5CF6',
+  accent: '#EC4899',
+  warning: '#F59E0B', // Warning states
+  success: '#10B981', // Success states
+  danger: '#EF4444', // Danger/delete actions
+};
+```
+
+### 2. Use Across All Components
+
+```tsx
+import { Button, Input, Table, BaseModal } from '@khraben/flowui';
+
+// Same color config works everywhere
 <Button colors={myColors} variant="primary">Click me</Button>
 <Input colors={myColors} label="Username" />
+<Table colors={myColors} columns={columns} data={data} />
+<BaseModal colors={extendedColors} title="Success" />
 ```
+
+### 3. Customize When Needed
+
+```tsx
+// Override specific colors while keeping the base theme
+<Button
+  colors={myColors}
+  customBg="#EF4444" // Custom red background
+  customTextColor="#FFFFFF"
+>
+  Delete
+</Button>
+```
+
+## 📚 Components
 
 ### Button
 
@@ -497,8 +549,14 @@ All colors are automatically managed through the BaseModal component.
 Collapsible navigation sidebar with top and bottom sections.
 
 ```tsx
-import { SideBar } from '@khraben/flowui';
+import { SideBar, BaseColorConfig } from '@khraben/flowui';
 import { Home, Users, Settings, LogOut } from 'lucide-react';
+
+const colors: BaseColorConfig = {
+  primary: '#3B82F6',
+  secondary: '#8B5CF6',
+  accent: '#EC4899',
+};
 
 const menuItems = [
   {
@@ -519,7 +577,7 @@ const menuItems = [
     label: 'Settings',
     icon: <Settings />,
     onClick: () => router.push('/settings'),
-    section: 'bottom', // Will be placed at bottom
+    section: 'bottom',
   },
 ];
 
@@ -534,12 +592,7 @@ const logoutButton = {
   logoutButton={logoutButton}
   isOpen={isOpen}
   onToggle={(open) => setIsOpen(open)}
-  backgroundColor="var(--color-primary)"
-  textColor="var(--color-text-light)"
-  hoverBackgroundColor="var(--color-hover-surface)"
-  logoutTextColor="var(--color-error-light)"
-  logoutHoverBackgroundColor="var(--color-hover-error)"
-  logoutHoverTextColor="var(--color-error)"
+  colors={colors}
 />;
 ```
 
@@ -547,15 +600,18 @@ const logoutButton = {
 
 Modern responsive navigation bar with logo, menu items, and action buttons.
 
-```tsx
-import { NavBar } from '@khraben/flowui';
-import { ShoppingCart, User } from 'lucide-react';
+````tsx
+import { NavBar, BaseColorConfig } from '@khraben/flowui';
+import { ShoppingCart } from 'lucide-react';
+
+const colors: BaseColorConfig = {
+  primary: '#3B82F6',
+  secondary: '#8B5CF6',
+  accent: '#EC4899',
+};
 
 const logo = {
   text: 'MyApp',
-  // Or use an image
-  // src: '/logo.png',
-  // alt: 'MyApp Logo',
   href: '/',
 };
 
@@ -572,11 +628,6 @@ const menuItems = [
     href: '/products',
     isActive: pathname === '/products',
   },
-  {
-    id: 'about',
-    label: 'About',
-    onClick: () => router.push('/about'),
-  },
 ];
 
 const actions = [
@@ -586,12 +637,6 @@ const actions = [
     icon: <ShoppingCart size={16} />,
     onClick: () => router.push('/cart'),
     variant: 'outline',
-  },
-  {
-    id: 'login',
-    label: 'Login',
-    onClick: () => router.push('/login'),
-    variant: 'secondary',
   },
   {
     id: 'signup',
@@ -605,26 +650,8 @@ const actions = [
   logo={logo}
   menuItems={menuItems}
   actions={actions}
-  backgroundColor="#FFFFFF"
-  textColor="#374151"
-  activeTextColor="#1E90FF"
-  hoverTextColor="#1E90FF"
-  height="4rem"
-/>;
-```
-
-**Props:**
-
-- `logo?` - Logo configuration (text, image, href, onClick)
-- `menuItems?` - Array of navigation links
-- `actions?` - Array of action buttons (login, signup, etc.)
-- `backgroundColor?` - NavBar background color
-- `textColor?` - Default text color
-- `activeTextColor?` - Active menu item color
-- `hoverTextColor?` - Hover state text color
-- `height?` - NavBar height (default: 4rem)
-- `showMobileMenu?` - Controlled mobile menu state
-- `onMobileMenuToggle?` - Mobile menu toggle handler
+  colors={colors}
+/>
 
 ### Gallery
 
@@ -661,7 +688,7 @@ const images = [
     accent: '#00D4FF',
   }}
 />;
-```
+````
 
 **Props:**
 
@@ -689,82 +716,43 @@ const images = [
 Calendar date picker with range selection.
 
 ```tsx
-import { DatePicker } from '@khraben/flowui';
+import { DatePicker, BaseColorConfig } from '@khraben/flowui';
 
-<DatePicker
-  selected={date}
-  onChange={(date) => setDate(date)}
-  bg="#313335"
-  textColor="#A9B7C6"
-  borderColor="#4A5A6A"
-  calendarHeaderBg="#1E90FF"
-  calendarSelectedBg="#00D4FF"
-/>;
+const colors: BaseColorConfig = {
+  primary: '#3B82F6',
+  secondary: '#8B5CF6',
+  accent: '#EC4899',
+};
+
+<DatePicker selected={date} onChange={(date) => setDate(date)} colors={colors} />;
 ```
 
-## 🎨 Static Colors
+## � Default Color System
 
-System-level colors for consistent UI states:
+All components use sensible defaults if no colors are provided:
 
 ```tsx
-import { STATIC_COLORS } from '@khraben/flowui';
+import { DEFAULT_COLOR_CONFIG } from '@khraben/flowui';
 
-STATIC_COLORS.DISABLED_BG; // #9CA3AF
-STATIC_COLORS.DISABLED_TEXT; // #D1D5DB
-STATIC_COLORS.OVERLAY_DARK; // rgba(0, 0, 0, 0.5)
-STATIC_COLORS.LIGHT_TEXT; // #E5E7EB
-STATIC_COLORS.BORDER_GRAY; // #4B5563
-// ... 27 total colors
-```
+// Default theme (professional blue/purple)
+DEFAULT_COLOR_CONFIG = {
+  primary: '#1E90FF',
+  secondary: '#2C3135',
+  accent: '#00D4FF'
+};
 
-## 🏗️ Project Structure
+// Components use defaults automatically
+<Button variant="primary">Uses default colors</Button>
 
-```
-@khraben/flowui/
-├── Button
-├── Input (+ SelectInput, TimeInput)
-├── ActionIcon
-├── Loading
-├── Table
-├── DatePicker
-├── LanguageSelector
-├── BaseModal
-├── ConfirmationModal
-├── SideBar
-├── NavBar
-├── Gallery
-└── Color System (BaseColorConfig, ExtendedColorConfig)
-```
-
-## 🎯 Usage
-
-1. Import the component
-2. Pass ALL colors as individual props
-3. No defaults = 100% control
-
-```tsx
-import { Button, STATIC_COLORS } from '@khraben/flowui';
-
-// ✅ Full control
-<Button
-  bg="#1E90FF"
-  textColor="#FFFFFF"
-  hoverBg="#187BCD"
-  disabledBg={STATIC_COLORS.DISABLED_BG}
-  disabledTextColor={STATIC_COLORS.DISABLED_TEXT}
->
-  Action
-</Button>
-
-// ❌ Without colors = no color styles
-<Button>Won't have colors</Button>
+// Or provide your own
+<Button colors={myColors} variant="primary">Uses custom colors</Button>
 ```
 
 ## 📖 Documentation
 
 - [Constants System](docs/CONSTANTS.md) - Exported constants and TypeScript types
-- [Publishing Guide](PUBLISHING.md) - How to publish to GitHub Packages
+- [Color Utilities](src/app/utils/colorUtils.ts) - Helper functions for color manipulation
 
 ## 🔒 License
 
-UNLICENSED - Private proprietary software. All rights reserved.
+MIT - See [LICENSE](LICENSE) for details.

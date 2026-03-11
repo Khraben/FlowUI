@@ -1,6 +1,6 @@
 {
   "name": "@khraben/flowui",
-  "version": "0.2.7",
+  "version": "1.0.0",
   "description": "FlowUI - Modern React component library with TypeScript and CSS-in-JS",
   "main": "index.js",
   "module": "index.mjs",
@@ -24,6 +24,9 @@
     "lucide-react": "^0.562.0",
     "react-datepicker": "^9.1.0"
   },
+  "overrides": {
+    "closure-net": "npm:noop-package@^1.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/khraben/FlowUI.git"
@@ -32,6 +35,7 @@
   "author": "khraben",
   "license": "MIT",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   }
 }
