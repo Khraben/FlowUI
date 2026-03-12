@@ -203,23 +203,6 @@ export const NavBar = ({
   const router = useRouter();
   const isMobileMenuOpen = controlledMobileMenu ?? internalMobileMenu;
 
-  useEffect(() => {
-    const handleRouteChange = () => {
-      setCurrentPathname(window.location.pathname);
-    };
-
-    window.addEventListener('popstate', handleRouteChange);
-    // Also listen for Next.js route changes if available
-    window.addEventListener('pushstate', handleRouteChange);
-    window.addEventListener('replacestate', handleRouteChange);
-
-    return () => {
-      window.removeEventListener('popstate', handleRouteChange);
-      window.removeEventListener('pushstate', handleRouteChange);
-      window.removeEventListener('replacestate', handleRouteChange);
-    };
-  }, []);
-
   const backgroundColor = customBgColor || colors.secondary;
   const textColor = customTextColor || getContrastColor(backgroundColor);
   const activeColor = customActiveColor || colors.accent;
