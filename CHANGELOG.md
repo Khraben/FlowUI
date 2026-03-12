@@ -5,6 +5,57 @@ All notable changes to FlowUI will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - 2026-03-12
+
+### 🐛 Bug Fixes
+
+**Critical Fixes**:
+- ✅ Removed obsolete `useEffect` event listeners from NavBar and SideBar
+- 🧹 Cleaned up duplicate pathname tracking code
+- 🎯 Fixed TypeScript compilation errors
+- 🔧 Ensured proper Next.js hooks usage (`usePathname` and `useRouter`)
+
+### 🧪 Quality Assurance
+
+- ✅ All TypeScript type checks passing
+- ✅ ESLint validation clean (no warnings or errors)
+- ✅ Library build successful
+- 📦 Production-ready bundle verified
+
+## [1.0.2] - 2026-03-11
+
+### 🐛 Bug Fixes
+
+**NavBar Component**:
+- ✅ Fixed React hydration errors caused by SSR/client mismatch
+- 🔄 Replaced `window.location.pathname` with Next.js `usePathname()` hook
+- 🚀 Improved navigation using `router.push()` for client-side routing
+- 🎯 Fixed hover states persisting after click events
+- 💫 Added proper hover state reset on all interactive elements
+
+**SideBar Component**:
+- ✅ Fixed React hydration errors caused by SSR/client mismatch  
+- 🔄 Replaced manual pathname tracking with Next.js `usePathname()` hook
+- 🚀 Improved navigation using `router.push()` for client-side routing
+- 🎯 Fixed hover states persisting after click events
+- 💫 Added proper hover state reset on menu items and toggle button
+- 🔧 Fixed dependency array in `renderMenuItem` useCallback
+
+### 🎨 Improved
+
+**Preview Demos**:
+- 📊 SideBar demo now simulates active page state (like NavBar demo)
+- 🔄 SideBar demo auto-closes when navigating to a route
+- ✨ Better visual feedback for active menu items in previews
+- 🎭 Consistent behavior between NavBar and SideBar demos
+
+### 🧹 Code Quality
+
+- 🗑️ Removed unused `useEffect` imports
+- ✅ Fixed ESLint warnings
+- 🎯 Fixed React Compiler memoization warnings
+- 📝 Improved type safety in callbacks
+
 ## [1.0.0] - 2026-03-09
 
 ### 🎉 First Stable Release
