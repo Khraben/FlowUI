@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useCallback, useMemo, CSSProperties, useEffect } from 'react';
+import { useState, useCallback, useMemo, CSSProperties } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { SideBarProps, SideBarMenuItem } from './models/SideBar.interface';
 import { DEFAULT_COLOR_CONFIG, hasExtendedColors } from '@/app/types/colors';
 import { adjustOpacity, getContrastColor, lightenColor } from '@/app/utils/colorUtils';
@@ -123,19 +124,16 @@ export const SideBar = ({
   languageSelector,
 }: SideBarProps) => {
   const [internalIsOpen, setInternalIsOpen] = useState(false);
-  const [currentPathname, setCurrentPathname] = useState(() =>
-    typeof window !== 'undefined' ? window.location.pathname : '/',
-  );
+  const currentPathname = usePathname();
+  const router = useRouter();
   const isOpen = controlledIsOpen ?? internalIsOpen;
 
-  // Listen for route changes (works with Next.js router and browser navigation)
   useEffect(() => {
     const handleRouteChange = () => {
       setCurrentPathname(window.location.pathname);
     };
 
     window.addEventListener('popstate', handleRouteChange);
-    // Also listen for Next.js route changes if available
     window.addEventListener('pushstate', handleRouteChange);
     window.addEventListener('replacestate', handleRouteChange);
 
@@ -221,12 +219,13 @@ export const SideBar = ({
             onClick={
               isActive
                 ? undefined
-                : () => {
+                : (e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.color = itemTextColor;
                     if (item.onClick) {
                       item.onClick();
-                    }
-                    if (item.href && typeof window !== 'undefined') {
-                      window.location.href = item.href;
+                    } else if (item.href) {
+                      router.push(item.href);
                     }
                   }
             }
@@ -265,6 +264,7 @@ export const SideBar = ({
       logoutHoverBg,
       logoutHoverTextColor,
       isMenuItemActive,
+      router,
     ],
   );
 
@@ -317,7 +317,10 @@ export const SideBar = ({
       >
         {/* Toggle Button */}
         <button
-          onClick={handleToggle}
+          onClick={(e) => {
+            e.currentTarget.style.backgroundColor = toggleBtnBg;
+            handleToggle();
+          }}
           className="sidebar-toggle-btn"
           style={getToggleButtonStyles(toggleBtnBg, textColor)}
           onMouseEnter={(e) => {
