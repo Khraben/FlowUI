@@ -128,6 +128,22 @@ export const SideBar = ({
   const router = useRouter();
   const isOpen = controlledIsOpen ?? internalIsOpen;
 
+  useEffect(() => {
+    const handleRouteChange = () => {
+      setCurrentPathname(window.location.pathname);
+    };
+
+    window.addEventListener('popstate', handleRouteChange);
+    window.addEventListener('pushstate', handleRouteChange);
+    window.addEventListener('replacestate', handleRouteChange);
+
+    return () => {
+      window.removeEventListener('popstate', handleRouteChange);
+      window.removeEventListener('pushstate', handleRouteChange);
+      window.removeEventListener('replacestate', handleRouteChange);
+    };
+  }, []);
+
   const backgroundColor = customBg || colors.secondary;
   const textColor = customTextColor || getContrastColor(backgroundColor);
   const hoverBackgroundColor = customHoverBg || adjustOpacity(colors.primary, 0.8);
