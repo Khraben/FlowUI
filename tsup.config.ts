@@ -6,6 +6,8 @@ export default defineConfig({
   dts: true,
   sourcemap: true,
   clean: true,
+  platform: 'browser',
+  target: 'es2020',
   external: [
     'react',
     'react-dom',
@@ -14,9 +16,16 @@ export default defineConfig({
     'framer-motion',
     'lucide-react',
     'react-datepicker',
+    'next',
+    'next/navigation',
   ],
   treeshake: true,
   splitting: false,
   minify: false,
   outDir: 'dist',
+  shims: true,
+  esbuildOptions(options) {
+    options.mainFields = ['module', 'main'];
+    options.conditions = ['module'];
+  },
 });
