@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useCallback, useMemo, CSSProperties, useEffect } from 'react';
+import { useState, useCallback, useMemo, CSSProperties } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { NavBarProps } from './models/NavBar.interface';
 import { DEFAULT_COLOR_CONFIG } from '@/app/types/colors';
@@ -198,28 +199,9 @@ export const NavBar = ({
   languageSelector,
 }: NavBarProps) => {
   const [internalMobileMenu, setInternalMobileMenu] = useState(false);
-  const [currentPathname, setCurrentPathname] = useState(() =>
-    typeof window !== 'undefined' ? window.location.pathname : '/',
-  );
+  const currentPathname = usePathname();
+  const router = useRouter();
   const isMobileMenuOpen = controlledMobileMenu ?? internalMobileMenu;
-
-  // Listen for route changes (works with Next.js router and browser navigation)
-  useEffect(() => {
-    const handleRouteChange = () => {
-      setCurrentPathname(window.location.pathname);
-    };
-
-    window.addEventListener('popstate', handleRouteChange);
-    // Also listen for Next.js route changes if available
-    window.addEventListener('pushstate', handleRouteChange);
-    window.addEventListener('replacestate', handleRouteChange);
-
-    return () => {
-      window.removeEventListener('popstate', handleRouteChange);
-      window.removeEventListener('pushstate', handleRouteChange);
-      window.removeEventListener('replacestate', handleRouteChange);
-    };
-  }, []);
 
   const backgroundColor = customBgColor || colors.secondary;
   const textColor = customTextColor || getContrastColor(backgroundColor);
@@ -249,18 +231,20 @@ export const NavBar = ({
     if (logo?.onClick) {
       logo.onClick();
     } else if (logo?.href) {
-      window.location.href = logo.href;
+      router.push(logo.href);
     }
-  }, [logo]);
+  }, [logo, router]);
 
-  const handleMenuItemClick = useCallback((item: (typeof menuItems)[0]) => {
-    if (item.onClick) {
-      item.onClick();
-    }
-    if (item.href) {
-      window.location.href = item.href;
-    }
-  }, []);
+  const handleMenuItemClick = useCallback(
+    (item: (typeof menuItems)[0]) => {
+      if (item.onClick) {
+        item.onClick();
+      } else if (item.href) {
+        router.push(item.href);
+      }
+    },
+    [router],
+  );
 
   const isMenuItemActive = useCallback(
     (item: (typeof menuItems)[0]) => {
@@ -340,7 +324,10 @@ export const NavBar = ({
             <div style={getLogoContainerStyles()}>
               <div
                 style={getLogoLinkStyles()}
-                onClick={handleLogoClick}
+                onClick={(e) => {
+                  e.currentTarget.style.opacity = '1';
+                  handleLogoClick();
+                }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.opacity = '0.8';
                 }}
@@ -373,7 +360,12 @@ export const NavBar = ({
               return (
                 <div
                   key={itemId}
-                  onClick={() => handleMenuItemClick(item)}
+                  onClick={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.color = textColor;
+                    }
+                    handleMenuItemClick(item);
+                  }}
                   style={getMenuItemStyles(textColor, isActive, activeColor)}
                   onMouseEnter={(e) => {
                     if (!isActive) {
@@ -433,7 +425,10 @@ export const NavBar = ({
           <div
             className="navbar-mobile-toggle"
             style={getMobileToggleStyles(textColor)}
-            onClick={handleMobileMenuToggle}
+            onClick={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              handleMobileMenuToggle();
+            }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = dynamicColors.hoverBg;
             }}
@@ -461,7 +456,10 @@ export const NavBar = ({
               )}
               <div
                 style={getMobileCloseStyles(textColor)}
-                onClick={handleMobileMenuToggle}
+                onClick={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  handleMobileMenuToggle();
+                }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = dynamicColors.hoverBg;
                 }}
@@ -486,7 +484,10 @@ export const NavBar = ({
                       dynamicColors.activeItemBg,
                       activeColor,
                     )}
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.currentTarget.style.backgroundColor = isActive
+                        ? dynamicColors.activeItemBg
+                        : 'transparent';
                       handleMenuItemClick(item);
                       handleMobileMenuToggle();
                     }}

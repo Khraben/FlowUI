@@ -438,17 +438,38 @@ const ConfirmationModalDemo = () => {
 
 const SideBarDemo = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeItem, setActiveItem] = useState('home');
+
+  const backgroundColor = PREVIEW_COLOR_CONFIG.secondary;
+  const textColor = '#E5E7EB';
+  const activeColor = PREVIEW_COLOR_CONFIG.accent;
+  const hoverBg = 'rgba(255, 255, 255, 0.1)';
+  const activeBg = adjustOpacity(activeColor, 0.1);
+  const toggleBtnBg = 'rgba(255, 255, 255, 0.2)';
+  const toggleBtnHoverBg = 'rgba(255, 255, 255, 0.3)';
+  const logoutTextColor = '#ff6b6b';
+  const logoutHoverBg = 'rgba(255, 107, 107, 0.2)';
 
   const menuItems = [
     {
       id: 'home',
       label: 'Home',
       icon: <Home size={16} />,
+      onClick: () => {
+        setActiveItem('home');
+        setIsOpen(false);
+      },
+      isActive: activeItem === 'home',
     },
     {
       id: 'settings',
       label: 'Settings',
       icon: <Settings size={16} />,
+      onClick: () => {
+        setActiveItem('settings');
+        setIsOpen(false);
+      },
+      isActive: activeItem === 'settings',
     },
   ];
 
@@ -456,14 +477,6 @@ const SideBarDemo = () => {
     label: 'Logout',
     icon: <LogOut size={16} />,
   };
-
-  const backgroundColor = PREVIEW_COLOR_CONFIG.secondary;
-  const textColor = '#E5E7EB';
-  const hoverBg = 'rgba(255, 255, 255, 0.1)';
-  const toggleBtnBg = 'rgba(255, 255, 255, 0.2)';
-  const toggleBtnHoverBg = 'rgba(255, 255, 255, 0.3)';
-  const logoutTextColor = '#ff6b6b';
-  const logoutHoverBg = 'rgba(255, 107, 107, 0.2)';
 
   return (
     <div
@@ -501,7 +514,10 @@ const SideBarDemo = () => {
           }}
         >
           <button
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={(e) => {
+              e.currentTarget.style.backgroundColor = toggleBtnBg;
+              setIsOpen(!isOpen);
+            }}
             style={{
               position: 'absolute',
               top: '0.5rem',
@@ -574,42 +590,53 @@ const SideBarDemo = () => {
             overflowY: 'auto',
           }}
         >
-          {menuItems.map((item) => (
-            <li key={item.id} style={{ width: '100%', marginBottom: '0.125rem' }}>
-              <button
-                style={{
-                  backgroundColor: 'transparent',
-                  border: 'none',
-                  fontWeight: 'bold',
-                  display: 'flex',
-                  alignItems: 'center',
-                  width: '100%',
-                  transition: 'all 300ms',
-                  cursor: 'pointer',
-                  fontSize: '0.75rem',
-                  padding: isOpen ? '0.375rem 0.625rem' : '0.375rem',
-                  justifyContent: isOpen ? 'flex-start' : 'center',
-                  color: textColor,
-                  borderRadius: '0.25rem',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = hoverBg;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                }}
-              >
-                <span style={{ flexShrink: 0, marginRight: isOpen ? '0.5rem' : 0 }}>
-                  {item.icon}
-                </span>
-                {isOpen && (
-                  <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', fontSize: '0.75rem' }}>
-                    {item.label}
+          {menuItems.map((item) => {
+            const isActive = item.isActive || false;
+            return (
+              <li key={item.id} style={{ width: '100%', marginBottom: '0.125rem' }}>
+                <button
+                  onClick={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    if (item.onClick) {
+                      item.onClick();
+                    }
+                  }}
+                  style={{
+                    backgroundColor: isActive ? activeBg : 'transparent',
+                    border: 'none',
+                    fontWeight: 'bold',
+                    display: 'flex',
+                    alignItems: 'center',
+                    width: '100%',
+                    transition: 'all 300ms',
+                    cursor: isActive ? 'default' : 'pointer',
+                    fontSize: '0.75rem',
+                    padding: isOpen ? '0.375rem 0.625rem' : '0.375rem',
+                    justifyContent: isOpen ? 'flex-start' : 'center',
+                    color: isActive ? activeColor : textColor,
+                    borderRadius: '0.25rem',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.backgroundColor = hoverBg;
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = isActive ? activeBg : 'transparent';
+                  }}
+                >
+                  <span style={{ flexShrink: 0, marginRight: isOpen ? '0.5rem' : 0 }}>
+                    {item.icon}
                   </span>
-                )}
-              </button>
-            </li>
-          ))}
+                  {isOpen && (
+                    <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', fontSize: '0.75rem' }}>
+                      {item.label}
+                    </span>
+                  )}
+                </button>
+              </li>
+            );
+          })}
 
           <li style={{ width: '100%', marginTop: 'auto', marginBottom: '0.375rem' }}>
             <button
@@ -755,7 +782,14 @@ const NavBarDemo = () => {
             {menuItems.map((item) => (
               <div
                 key={item.id}
-                onClick={item.onClick}
+                onClick={(e) => {
+                  if (!item.isActive) {
+                    e.currentTarget.style.color = textColor;
+                  }
+                  if (item.onClick) {
+                    item.onClick();
+                  }
+                }}
                 style={{
                   fontWeight: 500,
                   transition: 'all 300ms',
